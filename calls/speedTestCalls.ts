@@ -1,14 +1,14 @@
 import { APP_HOST, APP_PORT } from "./../constants";
 import NetworkSpeed from "network-speed"; // ES6
 import { APP_URL } from "../constants";
-import { start } from "repl";
 
 const testNetworkSpeed = new NetworkSpeed();
 
 const getNetworkDownloadSpeed = async () => {
   try {
-    const baseUrl = "/speed-test-download/map.jpg";
-    const fileSizeInBytes = 1093957;
+    const baseUrl = "/speed-test-download/map10.jpg";
+    // const fileSizeInBytes = 1093957;
+    const fileSizeInBytes = 10174706;
     const speed = await testNetworkSpeed.checkDownloadSpeed(
       baseUrl,
       fileSizeInBytes
