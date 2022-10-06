@@ -55,7 +55,7 @@ export const WifiSpeedTest: React.FC<Props> = (props) => {
         (testCntDownRef.current + 1)
     );
     setResultSpeedDown(newAverage);
-    testCntDownRef.current == 1;
+    testCntDownRef.current += 1;
     resultSpeedDownRef.current = testCntDownRef.current += 1;
   };
 
@@ -65,7 +65,7 @@ export const WifiSpeedTest: React.FC<Props> = (props) => {
         (testCntUpRef.current + 1)
     );
     setResultSpeedUp(newAverage);
-    testCntUpRef.current == 1;
+    testCntUpRef.current += 1;
     resultSpeedUpRef.current = testCntUpRef.current += 1;
   };
 
