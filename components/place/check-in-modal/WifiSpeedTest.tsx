@@ -50,16 +50,15 @@ export const WifiSpeedTest: React.FC<Props> = (props) => {
   const onProgressDownload = (mbps: number) => {
     const newAverage =
       resultSpeedDown * testCntDownRef.current +
-      mbps / testCntDownRef.current +
-      1;
-    setResultSpeedDown(newAverage);
+      mbps / (testCntDownRef.current + 1);
+    setResultSpeedDown(Math.round(newAverage));
     testCntDownRef.current += 1;
   };
 
   const onProgressUpload = (mbps: number) => {
     const newAverage =
-      resultSpeedUp * testCntUpRef.current + mbps / testCntUpRef.current + 1;
-    setResultSpeedUp(newAverage);
+      resultSpeedUp * testCntUpRef.current + mbps / (testCntUpRef.current + 1);
+    setResultSpeedUp(Math.round(newAverage));
     testCntUpRef.current += 1;
   };
 
