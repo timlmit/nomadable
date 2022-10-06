@@ -7,9 +7,8 @@ const testNetworkSpeed = new NetworkSpeed();
 
 const getNetworkDownloadSpeed = async () => {
   try {
-    const baseUrl =
-      "https://upload.wikimedia.org/wikipedia/commons/f/ff/Pizigani_1367_Chart_10MB.jpg";
-    const fileSizeInBytes = 10174706;
+    const baseUrl = "/speed-test-download/map.jpg";
+    const fileSizeInBytes = 1093957;
     const speed = await testNetworkSpeed.checkDownloadSpeed(
       baseUrl,
       fileSizeInBytes
