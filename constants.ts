@@ -177,6 +177,6 @@ export const AVL_LIST_HOTEL = [AVL_WORKSPACE];
 
 export const AVL_TEXT_LIST: any = {
   [AVL_POWER_SOCKET]: { text: "Has Power Socket", icon: "🔌" },
-  [AVL_DROP_IN]: { text: "Drop In Available", icon: "🚪" },
+  [AVL_DROP_IN]: { text: "Drop-In Available", icon: "🚪" },
   [AVL_WORKSPACE]: { text: "Has Coworking Space", icon: "💻" },
 };

@@ -32,6 +32,8 @@ export const WifiSpeedTest: React.FC<Props> = (props) => {
   const [resultSpeedDown, setResultSpeedDown] = useState(0);
   const testCntDownRef = useRef(0);
   const testCntUpRef = useRef(0);
+  const resultSpeedDownRef = useRef(0);
+  const resultSpeedUpRef = useRef(0);
 
   /**
    * Modules
@@ -48,19 +50,23 @@ export const WifiSpeedTest: React.FC<Props> = (props) => {
   };
 
   const onProgressDownload = (mbps: number) => {
-    const newAverage =
-      (resultSpeedDown * testCntDownRef.current + mbps) /
-      (testCntDownRef.current + 1);
-    setResultSpeedDown(Math.round(newAverage));
-    testCntDownRef.current += 1;
+    const newAverage = Math.round(
+      (resultSpeedDownRef.current * testCntDownRef.current + mbps) /
+        (testCntDownRef.current + 1)
+    );
+    setResultSpeedDown(newAverage);
+    testCntDownRef.current == 1;
+    resultSpeedDownRef.current = testCntDownRef.current += 1;
   };
 
   const onProgressUpload = (mbps: number) => {
-    const newAverage =
-      (resultSpeedUp * testCntUpRef.current + mbps) /
-      (testCntUpRef.current + 1);
-    setResultSpeedUp(Math.round(newAverage));
-    testCntUpRef.current += 1;
+    const newAverage = Math.round(
+      (resultSpeedUpRef.current * testCntUpRef.current + mbps) /
+        (testCntUpRef.current + 1)
+    );
+    setResultSpeedUp(newAverage);
+    testCntUpRef.current == 1;
+    resultSpeedUpRef.current = testCntUpRef.current += 1;
   };
 
   const onError = () => {
