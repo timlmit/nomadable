@@ -3,13 +3,6 @@ import styled from "styled-components";
 
 import * as cons from "../../../constants";
 import * as fs from "../../../styles/styled-components/FontSize";
-import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
-// import {
-//   apiGetSpeed,
-//   initApiGetSpeedState,
-//   selectApiGetSpeedStatus,
-//   selectSpeedResult,
-// } from "../../../redux/slices/api/apiSpeedTestSlice";
 import {
   ButtonPrimarySmall,
   ButtonText,
@@ -104,40 +97,6 @@ export const WifiSpeedTest: React.FC<Props> = (props) => {
     props.onFinishTest(resultSpeedDown, resultSpeedUp);
     initializeState();
   };
-
-  /**
-   *  Effect
-   */
-
-  const updateTestResult = (
-    _speedDown: number,
-    _speedUp: number,
-    _finishedTestCnt: number
-  ) => {
-    const newSpeedDown =
-      (resultSpeedDown * _finishedTestCnt + _speedDown) /
-      (testCntRef.current + 1);
-    const newSpeedUp =
-      (resultSpeedUp * _finishedTestCnt + _speedUp) / (testCntRef.current + 1);
-
-    setResultSpeedDown(Math.round(newSpeedDown));
-    setResultSpeedUp(Math.round(newSpeedUp));
-  };
-
-  // useEffect(() => {
-  //   if (apiStatus.status === cons.API_SUCCEEDED && testStarted) {
-  //     if (testCntRef.current < TEST_COUNT) {
-  //       updateTestResult(speedDown, speedUp, testCntRef.current);
-  //       testCntRef.current += 1;
-  //       setTimeout(() => {
-  //         dispatch(apiGetSpeed({}));
-  //       }, 100);
-  //     } else {
-  //       setTestFinished(true);
-  //       setTestStarted(false);
-  //     }
-  //   }
-  // }, [apiStatus.status, testStarted]);
 
   /**
    * Render

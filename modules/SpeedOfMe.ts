@@ -27,9 +27,9 @@ export const doNetSpeedTest = (props: {
 
   SomApi.onProgress = (progress: any) => {
     if (progress.type === "download") {
-      props.onProgressDownload(progress.currentSpeed);
+      props.onProgressDownload(Math.round(progress.currentSpeed));
     } else {
-      props.onProgressUpload(progress.currentSpeed);
+      props.onProgressUpload(Math.round(progress.currentSpeed));
     }
   };
 
@@ -38,6 +38,6 @@ export const doNetSpeedTest = (props: {
   };
 
   SomApi.onTestCompleted = (result: any) => {
-    props.onCompleted(result.download, result.upload);
+    props.onCompleted(Math.round(result.download), Math.round(result.upload));
   };
 };
