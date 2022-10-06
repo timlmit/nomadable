@@ -13,6 +13,8 @@ declare global {
       LANG: "JP" | "EN";
       KPN_CLIENT_ID: string;
       KPN_CLIENT_SECRET: string;
+      SOM_API_ACCOUNT: string;
+      SOM_API_DOMAIN: string;
     }
   }
 }

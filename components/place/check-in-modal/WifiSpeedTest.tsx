@@ -25,7 +25,7 @@ interface Props {
   onFinishTest: (speedDown: number, speedUp: number) => void;
 }
 
-const TEST_COUNT = 3;
+const TEST_COUNT = 0;
 
 export const WifiSpeedTest: React.FC<Props> = (props) => {
   const dispatch = useAppDispatch();

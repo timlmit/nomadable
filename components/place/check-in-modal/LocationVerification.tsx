@@ -34,9 +34,7 @@ export const LocationVerification: React.FC<Props> = (props) => {
     setRequestingLocation(false);
 
     if (!location) {
-      window.alert(
-        "Location request failed. If you are using VPN, please disable it."
-      );
+      window.alert("Something went wrong. Please try again.");
       return;
     }
 
