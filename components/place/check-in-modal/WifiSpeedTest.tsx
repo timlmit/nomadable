@@ -37,7 +37,8 @@ export const WifiSpeedTest: React.FC<Props> = (props) => {
   const [testStarted, setTestStarted] = useState(false);
   const [resultSpeedUp, setResultSpeedUp] = useState(0);
   const [resultSpeedDown, setResultSpeedDown] = useState(0);
-  const testCntRef = useRef(0);
+  const testCntDownRef = useRef(0);
+  const testCntUpRef = useRef(0);
 
   /**
    * Modules
@@ -49,18 +50,30 @@ export const WifiSpeedTest: React.FC<Props> = (props) => {
     setTestStarted(false);
     setResultSpeedDown(0);
     setResultSpeedUp(0);
-    testCntRef.current = 0;
+    testCntDownRef.current = 0;
+    testCntUpRef.current = 0;
   };
 
   const onProgressDownload = (mbps: number) => {
-    setResultSpeedDown(mbps);
+    const newAverage =
+      resultSpeedDown * testCntDownRef.current +
+      mbps / testCntDownRef.current +
+      1;
+    setResultSpeedDown(newAverage);
+    testCntDownRef.current += 1;
   };
+
   const onProgressUpload = (mbps: number) => {
-    setResultSpeedUp(mbps);
+    const newAverage =
+      resultSpeedUp * testCntUpRef.current + mbps / testCntUpRef.current + 1;
+    setResultSpeedUp(newAverage);
+    testCntUpRef.current += 1;
   };
+
   const onError = () => {
     window.alert("Something went wrong. Please contact support.");
   };
+
   const onCompleted = (download: number, upload: number) => {
     setResultSpeedDown(download);
     setResultSpeedUp(upload);

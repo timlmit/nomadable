@@ -2,30 +2,6 @@ import { addScript } from "./AddScript";
 
 declare const SomApi: any;
 
-// console.log("🚀 ~ file: SpeedOfMe.ts ~ line 6 ~ document", document);
-// if (document) {
-//   addScript({
-//     src: `https://speedof.me/api/api.js`,
-//     id: "som-api-script",
-//     onLoad: () => {
-//       SomApi.account = "SOM633e746791aae";
-//       SomApi.domainName = "nomadable.net";
-
-//       SomApi.config = {
-//         sustainTime: 4,
-//         testServerEnabled: false,
-//         userInfoEnabled: false,
-//         latencyTestEnabled: false,
-//         uploadTestEnabled: true,
-//         progress: {
-//           enabled: true,
-//           verbose: true,
-//         },
-//       };
-//     },
-//   });
-// }
-
 export const doNetSpeedTest = (props: {
   onProgressDownload: (mbps: number) => void;
   onProgressUpload: (mbps: number) => void;
