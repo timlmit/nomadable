@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: "tripnote",
+      name: "nomadable",
       script: "npm start",
       watch: false,
       env: {
