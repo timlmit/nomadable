@@ -20,6 +20,7 @@ import {
   AnimationBlink,
   AnimationSlideLeft,
 } from "../../../styles/styled-components/Animations";
+import { doNetSpeedTest } from "../../../modules/SpeedOfMe";
 
 interface Props {
   onFinishTest: (speedDown: number, speedUp: number) => void;
@@ -51,13 +52,35 @@ export const WifiSpeedTest: React.FC<Props> = (props) => {
     testCntRef.current = 0;
   };
 
+  const onProgressDownload = (mbps: number) => {
+    setResultSpeedDown(mbps);
+  };
+  const onProgressUpload = (mbps: number) => {
+    setResultSpeedUp(mbps);
+  };
+  const onError = () => {
+    window.alert("Something went wrong. Please contact support.");
+  };
+  const onCompleted = (download: number, upload: number) => {
+    setResultSpeedDown(download);
+    setResultSpeedUp(upload);
+    setTestFinished(true);
+    setTestStarted(false);
+  };
+
   /**
    * User Interface
    */
 
   const onClickStart = () => {
-    dispatch(apiGetSpeed({}));
+    // dispatch(apiGetSpeed({}));
     setTestStarted(true);
+    doNetSpeedTest({
+      onProgressDownload,
+      onProgressUpload,
+      onError,
+      onCompleted,
+    });
   };
 
   const onClickAgain = () => {
