@@ -49,37 +49,6 @@ export const WifiSpeedTest: React.FC<Props> = (props) => {
     testCntUpRef.current = 0;
   };
 
-  const onProgressDownload = (mbps: number) => {
-    // const newAverage = Math.round(
-    //   (resultSpeedDownRef.current * testCntDownRef.current + mbps) /
-    //     (testCntDownRef.current + 1)
-    // );
-    setResultSpeedDown(Math.round(mbps));
-    // resultSpeedDownRef.current = newAverage;
-    // testCntDownRef.current += 1;
-  };
-
-  const onProgressUpload = (mbps: number) => {
-    // const newAverage = Math.round(
-    //   (resultSpeedUpRef.current * testCntUpRef.current + mbps) /
-    //     (testCntUpRef.current + 1)
-    // );
-    setResultSpeedUp(Math.round(mbps));
-    // resultSpeedUpRef.current = newAverage;
-    // testCntUpRef.current += 1;
-  };
-
-  const onError = () => {
-    window.alert("Something went wrong. Please contact support.");
-  };
-
-  const onCompleted = (download: number, upload: number) => {
-    setResultSpeedDown(download);
-    setResultSpeedUp(upload);
-    setTestFinished(true);
-    setTestStarted(false);
-  };
-
   /**
    * User Interface
    */
@@ -87,11 +56,23 @@ export const WifiSpeedTest: React.FC<Props> = (props) => {
   const onClickStart = () => {
     // dispatch(apiGetSpeed({}));
     setTestStarted(true);
+
     doNetSpeedTest({
-      onProgressDownload,
-      onProgressUpload,
-      onError,
-      onCompleted,
+      onProgressDownload: (mbps: number) => {
+        setResultSpeedDown(Math.round(mbps));
+      },
+      onProgressUpload: (mbps: number) => {
+        setResultSpeedUp(Math.round(mbps));
+      },
+      onError: () => {
+        window.alert("Something went wrong. Please contact support.");
+      },
+      onCompleted: (download: number, upload: number) => {
+        setResultSpeedDown(download);
+        setResultSpeedUp(upload);
+        setTestFinished(true);
+        setTestStarted(false);
+      },
     });
   };
 
