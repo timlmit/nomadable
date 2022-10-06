@@ -50,40 +50,23 @@ export const WifiSpeedTest: React.FC<Props> = (props) => {
   };
 
   const onProgressDownload = (mbps: number) => {
-    console.log(
-      "🚀 ~ file: WifiSpeedTest.tsx ~ line 55 ~ onProgressDownload ~ resultSpeedDownRef.current",
-      resultSpeedDownRef.current
-    );
-    console.log(
-      "🚀 ~ file: WifiSpeedTest.tsx ~ line 58 ~ onProgressDownload ~ testCntDownRef.current",
-      testCntDownRef.current
-    );
-    console.log(
-      "🚀 ~ file: WifiSpeedTest.tsx ~ line 59 ~ onProgressDownload ~ mbps",
-      mbps
-    );
-
-    const newAverage = Math.round(
-      (resultSpeedDownRef.current * testCntDownRef.current + mbps) /
-        (testCntDownRef.current + 1)
-    );
-    console.log(
-      "🚀 ~ file: WifiSpeedTest.tsx ~ line 62 ~ onProgressDownload ~ newAverage",
-      newAverage
-    );
-    setResultSpeedDown(newAverage);
-    resultSpeedDownRef.current = newAverage;
-    testCntDownRef.current += 1;
+    // const newAverage = Math.round(
+    //   (resultSpeedDownRef.current * testCntDownRef.current + mbps) /
+    //     (testCntDownRef.current + 1)
+    // );
+    setResultSpeedDown(Math.round(mbps));
+    // resultSpeedDownRef.current = newAverage;
+    // testCntDownRef.current += 1;
   };
 
   const onProgressUpload = (mbps: number) => {
-    const newAverage = Math.round(
-      (resultSpeedUpRef.current * testCntUpRef.current + mbps) /
-        (testCntUpRef.current + 1)
-    );
-    setResultSpeedUp(newAverage);
-    resultSpeedUpRef.current = newAverage;
-    testCntUpRef.current += 1;
+    // const newAverage = Math.round(
+    //   (resultSpeedUpRef.current * testCntUpRef.current + mbps) /
+    //     (testCntUpRef.current + 1)
+    // );
+    setResultSpeedUp(Math.round(mbps));
+    // resultSpeedUpRef.current = newAverage;
+    // testCntUpRef.current += 1;
   };
 
   const onError = () => {
