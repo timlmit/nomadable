@@ -7,7 +7,7 @@ import newPlaceReducer from "./slices/newPlaceSlice";
 import apiUserReducer from "./slices/api/apiUserSlice";
 import apiSpotReducer from "./slices/api/apiSpotSlice";
 import apiPlaceReducer from "./slices/api/apiPlaceSlice";
-import apiSpeedTestReducer from "./slices/api/apiSpeedTestSlice";
+// import apiSpeedTestReducer from "./slices/api/apiSpeedTestSlice";
 
 export const store = configureStore({
   reducer: {
@@ -18,7 +18,7 @@ export const store = configureStore({
     apiUser: apiUserReducer,
     apiSpot: apiSpotReducer,
     apiPlace: apiPlaceReducer,
-    apiSpeedTest: apiSpeedTestReducer,
+    // apiSpeedTest: apiSpeedTestReducer,
   },
 });
 

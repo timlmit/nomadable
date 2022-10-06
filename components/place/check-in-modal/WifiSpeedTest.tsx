@@ -4,12 +4,12 @@ import styled from "styled-components";
 import * as cons from "../../../constants";
 import * as fs from "../../../styles/styled-components/FontSize";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
-import {
-  apiGetSpeed,
-  initApiGetSpeedState,
-  selectApiGetSpeedStatus,
-  selectSpeedResult,
-} from "../../../redux/slices/api/apiSpeedTestSlice";
+// import {
+//   apiGetSpeed,
+//   initApiGetSpeedState,
+//   selectApiGetSpeedStatus,
+//   selectSpeedResult,
+// } from "../../../redux/slices/api/apiSpeedTestSlice";
 import {
   ButtonPrimarySmall,
   ButtonText,
@@ -26,12 +26,12 @@ interface Props {
   onFinishTest: (speedDown: number, speedUp: number) => void;
 }
 
-const TEST_COUNT = 0;
+// const TEST_COUNT = 0;
 
 export const WifiSpeedTest: React.FC<Props> = (props) => {
-  const dispatch = useAppDispatch();
-  const apiStatus = useAppSelector(selectApiGetSpeedStatus);
-  const { speedDown, speedUp } = useAppSelector(selectSpeedResult);
+  // const dispatch = useAppDispatch();
+  // const apiStatus = useAppSelector(selectApiGetSpeedStatus);
+  // const { speedDown, speedUp } = useAppSelector(selectSpeedResult);
 
   const [testFinished, setTestFinished] = useState(false);
   const [testStarted, setTestStarted] = useState(false);
@@ -44,7 +44,7 @@ export const WifiSpeedTest: React.FC<Props> = (props) => {
    */
 
   const initializeState = () => {
-    dispatch(initApiGetSpeedState());
+    // dispatch(initApiGetSpeedState());
     setTestFinished(false);
     setTestStarted(false);
     setResultSpeedDown(0);
@@ -88,7 +88,7 @@ export const WifiSpeedTest: React.FC<Props> = (props) => {
   };
 
   const onClickSubmit = () => {
-    props.onFinishTest(speedDown, speedUp);
+    props.onFinishTest(resultSpeedDown, resultSpeedUp);
     initializeState();
   };
 
@@ -111,20 +111,20 @@ export const WifiSpeedTest: React.FC<Props> = (props) => {
     setResultSpeedUp(Math.round(newSpeedUp));
   };
 
-  useEffect(() => {
-    if (apiStatus.status === cons.API_SUCCEEDED && testStarted) {
-      if (testCntRef.current < TEST_COUNT) {
-        updateTestResult(speedDown, speedUp, testCntRef.current);
-        testCntRef.current += 1;
-        setTimeout(() => {
-          dispatch(apiGetSpeed({}));
-        }, 100);
-      } else {
-        setTestFinished(true);
-        setTestStarted(false);
-      }
-    }
-  }, [apiStatus.status, testStarted]);
+  // useEffect(() => {
+  //   if (apiStatus.status === cons.API_SUCCEEDED && testStarted) {
+  //     if (testCntRef.current < TEST_COUNT) {
+  //       updateTestResult(speedDown, speedUp, testCntRef.current);
+  //       testCntRef.current += 1;
+  //       setTimeout(() => {
+  //         dispatch(apiGetSpeed({}));
+  //       }, 100);
+  //     } else {
+  //       setTestFinished(true);
+  //       setTestStarted(false);
+  //     }
+  //   }
+  // }, [apiStatus.status, testStarted]);
 
   /**
    * Render
