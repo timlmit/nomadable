@@ -1,3 +1,4 @@
+import { callFetchPlaces } from "./../../../calls/placeCalls";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { CallError } from "../../../calls/Types";
@@ -25,6 +26,7 @@ interface ApiState {
   apiCreatePlaceStatus: ApiStatus;
   apiFetchPlaceForPageStatus: ApiStatus;
   apiCheckInStatus: ApiStatus;
+  apiFetchPlacesStatus: ApiStatus;
 }
 
 /**
@@ -40,6 +42,7 @@ const initialState: ApiState = {
   apiCreatePlaceStatus: initialApiState,
   apiFetchPlaceForPageStatus: initialApiState,
   apiCheckInStatus: initialApiState,
+  apiFetchPlacesStatus: initialApiState,
 };
 
 const apiSlice = createSlice({
@@ -101,6 +104,22 @@ const apiSlice = createSlice({
         state.apiCheckInStatus.error = action.payload.message;
       } else {
         state.apiCheckInStatus.error = action.error.message || "";
+      }
+    });
+
+    // FetchPlaces
+    builder.addCase(apiFetchPlaces.pending, (state, action) => {
+      state.apiFetchPlacesStatus.status = cons.API_LOADING;
+    });
+    builder.addCase(apiFetchPlaces.fulfilled, (state, action) => {
+      state.apiFetchPlacesStatus.status = cons.API_SUCCEEDED;
+    });
+    builder.addCase(apiFetchPlaces.rejected, (state, action) => {
+      state.apiFetchPlacesStatus.status = cons.API_FALIED;
+      if (action.payload) {
+        state.apiFetchPlacesStatus.error = action.payload.message;
+      } else {
+        state.apiFetchPlacesStatus.error = action.error.message || "";
       }
     });
   },
@@ -171,6 +190,23 @@ export const apiCheckIn = createAsyncThunk<
   }
 });
 
+// callFetchPlaces
+
+export const apiFetchPlaces = createAsyncThunk<
+  { places: Place[] }, // Return type of the payload creator
+  { latStart: number; lngStart: number; latEnd: number; lngEnd: number }, // First argument to the payload creator
+  {
+    rejectValue: CallError;
+  } // Types for ThunkAPI
+>("place/FetchPlaces", async (params, thunkApi) => {
+  try {
+    const { places } = await callFetchPlaces(params);
+    return { places };
+  } catch (error: any) {
+    return thunkApi.rejectWithValue(error as CallError);
+  }
+});
+
 /**
  * Actions: call ajax & mutate store (only from here)
  */
@@ -190,6 +226,9 @@ export const selectApiFetchPlaceForPageStatus = (state: RootState): ApiStatus =>
 
 export const selectApiCheckInStatus = (state: RootState): ApiStatus =>
   state.apiPlace.apiCheckInStatus;
+
+export const selectApiFetchPlacesStatus = (state: RootState): ApiStatus =>
+  state.apiPlace.apiFetchPlacesStatus;
 
 /**
  * Export actions & reducer

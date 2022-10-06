@@ -75,3 +75,27 @@ export const callCheckIn = async (
     };
   }
 };
+
+// fetch places
+
+export const callFetchPlaces = async (params: {
+  latStart: number;
+  lngStart: number;
+  latEnd: number;
+  lngEnd: number;
+}): Promise<{ places: Place[] }> => {
+  try {
+    const response = await axios({
+      method: "get",
+      url: `${APP_URL}/api/places`,
+      params,
+    });
+
+    return response.data;
+  } catch (error: any) {
+    throw {
+      code: "",
+      message: error.response.data.message,
+    };
+  }
+};

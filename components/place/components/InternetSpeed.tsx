@@ -4,7 +4,7 @@ import styled from "styled-components";
 import * as cons from "../../../constants";
 import * as fs from "../../../styles/styled-components/FontSize";
 import { ButtonPrimaryLarge } from "../../../styles/styled-components/Buttons";
-import { NetSpeedIndicator } from "../../app-commons/NetSpeedIndicator";
+import { NetSpeedIndicator } from "../../commons/NetSpeedIndicator";
 import { SectionLoader } from "../../commons/SectionLoader";
 
 interface Props {

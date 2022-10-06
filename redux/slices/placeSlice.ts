@@ -2,7 +2,11 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { RootState } from "../store";
 import * as cons from "../../constants";
-import { apiCheckIn, apiFetchPlaceForPage } from "./api/apiPlaceSlice";
+import {
+  apiCheckIn,
+  apiFetchPlaceForPage,
+  apiFetchPlaces,
+} from "./api/apiPlaceSlice";
 
 /**
  * Types
@@ -11,8 +15,8 @@ import { apiCheckIn, apiFetchPlaceForPage } from "./api/apiPlaceSlice";
 export interface Spot {
   googlePlaceId: string;
   spotName: string;
-  spotLat: number | null;
-  spotLng: number | null;
+  spotLat: number;
+  spotLng: number;
   spotAddress: string;
 }
 
@@ -42,6 +46,7 @@ export interface PlaceWithData extends Place, PlaceUserData {
 }
 
 interface PlaceState {
+  searchResult: Place[];
   placeForPage: PlaceWithData;
 }
 
@@ -63,8 +68,8 @@ export const initialPlace: Place = {
 
   googlePlaceId: "",
   spotName: "",
-  spotLat: null,
-  spotLng: null,
+  spotLat: 0,
+  spotLng: 0,
   spotAddress: "",
 };
 
@@ -79,6 +84,7 @@ export const initialPlaceWithData: PlaceWithData = {
 };
 
 const initialState: PlaceState = {
+  searchResult: [],
   placeForPage: initialPlaceWithData,
 };
 
@@ -99,6 +105,9 @@ const placeSlice = createSlice({
       state.placeForPage.speedUp = speedUp;
       state.placeForPage.recentCheckInCnt = recentCheckInCnt;
     });
+    builder.addCase(apiFetchPlaces.fulfilled, (state, action) => {
+      state.searchResult = action.payload.places;
+    });
   },
 });
 
@@ -110,6 +119,9 @@ export const {} = placeSlice.actions;
 
 export const selectPlaceForPage = (state: RootState): PlaceWithData =>
   state.place.placeForPage;
+
+export const selectPlaceSearchResult = (state: RootState): Place[] =>
+  state.place.searchResult;
 
 /**
  * Export actions & reducer

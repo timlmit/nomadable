@@ -7,6 +7,7 @@ const openUrls = [
   "/api/verify-user",
   "/api/login-user",
   "/api/place-with-data",
+  "/api/places",
 ];
 
 const withoutAuth = (url: string): boolean => {

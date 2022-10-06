@@ -14,7 +14,7 @@ import {
   ButtonPrimarySmall,
   ButtonText,
 } from "../../../styles/styled-components/Buttons";
-import { NetSpeedIndicator } from "../../app-commons/NetSpeedIndicator";
+import { NetSpeedIndicator } from "../../commons/NetSpeedIndicator";
 import { Title, Description, Footer } from "./CheckInModalStyles";
 import {
   AnimationBlink,

@@ -28,7 +28,7 @@ const getNetworkUploadSpeed = async () => {
     const options = {
       hostname: APP_HOST,
       port: APP_PORT,
-      path: "/api/speed-checker-upload",
+      path: "/api/speed-test-upload",
       method: "POST",
       headers: {
         "Content-Type": "application/json",

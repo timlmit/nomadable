@@ -42,8 +42,8 @@ const initialApiState = {
 export const initialSpot: Spot = {
   googlePlaceId: "",
   spotName: "",
-  spotLat: null,
-  spotLng: null,
+  spotLat: 0,
+  spotLng: 0,
   spotAddress: "",
 };
 
