@@ -56,7 +56,11 @@ export const callCheckIn = async (
   placeId: string,
   speedDown: number,
   speedUp: number
-): Promise<{ placeWithData: PlaceWithData }> => {
+): Promise<{
+  placeWithData: PlaceWithData;
+  addingPoint: number;
+  totalPoint: number;
+}> => {
   try {
     const response = await axios({
       method: "post",

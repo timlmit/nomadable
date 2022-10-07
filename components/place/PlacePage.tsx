@@ -70,7 +70,7 @@ export const PlacePage: React.FC<Props> = ({ placeWithData }) => {
   return (
     <PlacePageWrapper>
       <SpotName>{pd.spotName}</SpotName>
-      <ReviewInfo>Review Info here</ReviewInfo>
+      <ReviewInfo></ReviewInfo>
       <ImageWrapper>
         <SpotImages images={pd.images} />
       </ImageWrapper>

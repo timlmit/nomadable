@@ -32,8 +32,6 @@ export const WifiSpeedTest: React.FC<Props> = (props) => {
   const [resultSpeedDown, setResultSpeedDown] = useState(0);
   const testCntDownRef = useRef(0);
   const testCntUpRef = useRef(0);
-  const resultSpeedDownRef = useRef(0);
-  const resultSpeedUpRef = useRef(0);
 
   /**
    * Modules
@@ -56,6 +54,13 @@ export const WifiSpeedTest: React.FC<Props> = (props) => {
   const onClickStart = () => {
     // dispatch(apiGetSpeed({}));
     setTestStarted(true);
+
+    // for test
+    setResultSpeedDown(10);
+    setResultSpeedUp(10);
+    setTestFinished(true);
+    setTestStarted(false);
+    return;
 
     doNetSpeedTest({
       onProgressDownload: (mbps: number) => {

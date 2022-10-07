@@ -11,6 +11,7 @@ import {
 } from "../../../calls/placeCalls";
 import { ERR_SOMETHING } from "../../../modules/ErrorCode";
 import { MapArea, Place, PlaceWithData } from "../placeSlice";
+import { showPointEarned } from "../uiSlice";
 
 /**
  * Types
@@ -183,7 +184,14 @@ export const apiCheckIn = createAsyncThunk<
   } // Types for ThunkAPI
 >("place/CheckIn", async ({ placeId, speedDown, speedUp }, thunkApi) => {
   try {
-    const { placeWithData } = await callCheckIn(placeId, speedDown, speedUp);
+    const { placeWithData, addingPoint, totalPoint } = await callCheckIn(
+      placeId,
+      speedDown,
+      speedUp
+    );
+
+    thunkApi.dispatch(showPointEarned({ addingPoint, totalPoint }));
+
     return { placeWithData };
   } catch (error: any) {
     return thunkApi.rejectWithValue(error as CallError);

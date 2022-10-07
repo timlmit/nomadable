@@ -11,13 +11,13 @@ export const APP_URL = prod ? "https://nomadable.net" : "http://localhost:3000";
 export const APP_HOST = prod ? "nomadable.net" : "localhost";
 export const APP_PORT = prod ? 80 : 3000;
 
-export const APP_NAME = "TripNote";
+export const APP_NAME = "Nomadable";
 export const APP_OBP_IMAGE = "/img/brand/brandogp2.png";
 export const PATH_COUNTRY_IMGS = "/img/country/";
 
-export const APP_SHORT_DESCRIPTION = "旅行記共有サービス";
+export const APP_SHORT_DESCRIPTION = "WiFi Cafes Search Engine";
 export const APP_LONG_DESCRIPTION =
-  "TripNoteは旅行記共有サービスです。自分のアカウントを作成して好みのユーザーをフォローしたりあなたの旅行記を公開しましょう。";
+  "Find good cafes, co-working spaces, hotels with a fast WiFi access.";
 
 /**
  * Colors
@@ -191,3 +191,30 @@ export const AVL_TEXT_LIST: any = {
 export const STATUS_OPEN = "Open";
 export const STATUS_TEMP_CLOSE = "Temporary Closed";
 export const STATUS_PERM_CLOSE = "Parmanently Closed";
+
+/**
+ * Point Rules
+ */
+
+export const POINT_TYPE_CHECK_IN = "Check In";
+export const POINT_TYPE_BE_CHECKED_IN = "Checked In";
+export const POINT_TYPE_REVIEW = "Review";
+
+// export const POINT_TYPES = {
+//   [POINT_TYPE_CHECK_IN]: { point: 5 },
+//   [POINT_TYPE_BE_CHECKED_IN]: { point: 1 },
+//   [POINT_TYPE_REVIEW]: { point: 30 },
+// };
+
+export const getPointPlan = (pointType: string) => {
+  switch (pointType) {
+    case POINT_TYPE_CHECK_IN:
+      return 5;
+    case POINT_TYPE_BE_CHECKED_IN:
+      return 1;
+    case POINT_TYPE_REVIEW:
+      return 30;
+    default:
+      return 1;
+  }
+};

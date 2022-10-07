@@ -45,16 +45,18 @@ export const KeyFrames = css`
   }
 `;
 
+export const CubicBezier = "cubic-bezier(0, 0.93, 0.59, 0.87)";
+
 export const AnimationFadeIn = css`
-  animation: fadein 0.4s cubic-bezier(0, 0.93, 0.59, 0.87);
+  animation: fadein 0.4s ${CubicBezier};
 `;
 
 export const AnimationSlideUp = css`
-  animation: slideup 0.4s cubic-bezier(0, 0.93, 0.59, 0.87);
+  animation: slideup 0.4s ${CubicBezier};
 `;
 
 export const AnimationSlideLeft = css`
-  animation: slideleft 0.4s cubic-bezier(0, 0.93, 0.59, 0.87);
+  animation: slideleft 0.4s ${CubicBezier};
 `;
 
 export const AnimationBlink = css`

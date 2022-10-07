@@ -57,7 +57,9 @@ export const InternetSpeed: React.FC<Props> = ({
             ) : (
               <Fragment>
                 <ButtonText>Check In & Test WiFi</ButtonText>
-                <ButtonSubtext>(earn 10pt)</ButtonSubtext>
+                <ButtonSubtext>
+                  (earn {cons.getPointPlan(cons.POINT_TYPE_CHECK_IN)}pt)
+                </ButtonSubtext>
               </Fragment>
             )}
           </CheckInButton>

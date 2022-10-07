@@ -18,6 +18,11 @@ interface NotificationState {
 interface UiState {
   notification: NotificationState;
   visibleModal: string;
+  pointEarned: {
+    updated: number;
+    addingPoint: number;
+    totalPoint: number;
+  };
 }
 
 /**
@@ -34,6 +39,11 @@ const initialNotification: NotificationState = {
 const initialState: UiState = {
   notification: initialNotification,
   visibleModal: "",
+  pointEarned: {
+    updated: 0,
+    addingPoint: 0,
+    totalPoint: 0,
+  },
 };
 
 const uiSlice = createSlice({
@@ -54,10 +64,22 @@ const uiSlice = createSlice({
     updateVisibleModal: (state, action: PayloadAction<{ id: string }>) => {
       state.visibleModal = action.payload.id;
     },
+    showPointEarned: (
+      state,
+      action: PayloadAction<{
+        addingPoint: number;
+        totalPoint: number;
+      }>
+    ) => {
+      state.pointEarned.updated = Date.now();
+      state.pointEarned.addingPoint = action.payload.addingPoint;
+      state.pointEarned.totalPoint = action.payload.totalPoint;
+    },
   },
 });
 
-export const { showNotification, updateVisibleModal } = uiSlice.actions;
+export const { showNotification, updateVisibleModal, showPointEarned } =
+  uiSlice.actions;
 
 /**
  * Selectors
@@ -68,6 +90,11 @@ export const selectNotificationState = (state: RootState): NotificationState =>
 
 export const selectVisibleModal = (state: RootState): string =>
   state.ui.visibleModal;
+
+export const selectPointEarned = (
+  state: RootState
+): { updated: number; addingPoint: number; totalPoint: number } =>
+  state.ui.pointEarned;
 
 /**
  * Export actions & reducer
