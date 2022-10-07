@@ -55,13 +55,6 @@ export const WifiSpeedTest: React.FC<Props> = (props) => {
     // dispatch(apiGetSpeed({}));
     setTestStarted(true);
 
-    // for test
-    setResultSpeedDown(10);
-    setResultSpeedUp(10);
-    setTestFinished(true);
-    setTestStarted(false);
-    return;
-
     doNetSpeedTest({
       onProgressDownload: (mbps: number) => {
         setResultSpeedDown(Math.round(mbps));
