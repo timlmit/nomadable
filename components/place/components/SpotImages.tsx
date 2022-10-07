@@ -81,4 +81,5 @@ const SmallImageSection = styled.div`
 const SmallImage = styled.img`
   width: calc(50% - ${FLEX_GAP / 2}rem);
   object-fit: cover;
+  height: 50%;
 `;

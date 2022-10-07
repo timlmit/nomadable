@@ -10,11 +10,17 @@ import { MenuDropdown } from "./MenuDropdown";
 
 interface Props {
   user: User;
-  width: number;
+  width: string;
   authenticated: boolean;
+  fixed?: boolean;
 }
 
-export const Header: React.FC<Props> = ({ user, width, authenticated }) => {
+export const Header: React.FC<Props> = ({
+  user,
+  width,
+  authenticated,
+  fixed,
+}) => {
   const wrapperRef = useRef(null);
   const [dropdownVisible, setDropdownVisible] = useState(false);
 
@@ -25,7 +31,7 @@ export const Header: React.FC<Props> = ({ user, width, authenticated }) => {
   useClickOutsideEffect(wrapperRef, hideDropdown);
 
   return (
-    <HeaderWrapper>
+    <HeaderWrapper fixed={fixed}>
       <PageContainer width={width}>
         <Link href="/">
           <Brandlogo src="/img/brand/brandlogo.svg" />
@@ -46,13 +52,23 @@ export const Header: React.FC<Props> = ({ user, width, authenticated }) => {
   );
 };
 
-const HeaderWrapper = styled.div`
+const HeaderWrapper = styled.div<{ fixed?: boolean }>`
   display: flex;
   position: relative;
   border-bottom: 1px solid ${FONT_COLOR_LIGHTEST};
   height: 5rem;
   box-sizing: border-box;
   background-color: white;
+
+  ${(props) =>
+    props.fixed &&
+    `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+  `};
 `;
 
 const PageContainer = styled.div`

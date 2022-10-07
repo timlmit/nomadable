@@ -2,6 +2,9 @@
  * getCurrentLocation
  */
 
+import { rejects } from "assert";
+import error from "next/error";
+
 const options = {
   enableHighAccuracy: true,
   timeout: 5000,
@@ -11,14 +14,14 @@ const options = {
 export const getCurrentLocation = async (): Promise<
   { lat: number; lng: number } | false
 > => {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         const crd = pos.coords;
         resolve({ lat: crd.latitude, lng: crd.longitude });
       },
       (error) => {
-        resolve(false);
+        reject(error);
       },
       options
     );

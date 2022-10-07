@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { ContainerStyle } from "../../styles/styled-components/Layouts";
 
 interface Props {
-  width: number;
+  width: string;
 }
 
 export const Footer: React.FC<Props> = ({ width }) => {

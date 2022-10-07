@@ -5,6 +5,7 @@ import mapboxgl from "mapbox-gl";
 import * as cons from "../../constants";
 import { Place } from "../../redux/slices/placeSlice";
 import { features } from "process";
+import { getColorOfSpeed } from "./NetSpeedIndicator";
 
 interface Props {
   mapId: string;
@@ -18,12 +19,14 @@ interface Props {
     latEnd: number,
     lngEnd: number
   ) => void;
+  onClickMarker: (placeId: string) => void;
+  selectedPlace: string;
 }
 
 export const MapSearch: React.FC<Props> = (props) => {
   const mapId = `mapbox-${props.mapId}`;
   const mapRef = useRef<mapboxgl.Map>();
-  const markersRef = useRef<any[]>([]);
+  const markersRef = useRef<{ id: string; marker: any }[]>([]);
 
   /**
    * Modules
@@ -75,21 +78,36 @@ export const MapSearch: React.FC<Props> = (props) => {
    */
 
   const makePins = (places: Place[]) => {
-    return places.map((p) => ({ lat: p.spotLat, lng: p.spotLng }));
+    return places.map((p) => ({
+      id: p.id,
+      lat: p.spotLat,
+      lng: p.spotLng,
+      color: getColorOfSpeed(p.speedDown),
+    }));
   };
 
-  const updatePins = (pins: { lat: number; lng: number }[]) => {
+  const updatePins = (
+    pins: { id: string; lat: number; lng: number; color: string }[]
+  ) => {
     // Create a default Marker and add it to the mapbox.
     markersRef.current.map((m) => {
-      m.remove();
+      m.marker.remove();
     });
 
     pins.forEach((pin) => {
       if (!mapRef.current) return;
-      const marker = new mapboxgl.Marker({ color: "black" })
+      const marker = new mapboxgl.Marker({ color: pin.color })
         .setLngLat([pin.lng, pin.lat])
         .addTo(mapRef.current);
-      markersRef.current.push(marker);
+      markersRef.current.push({ id: pin.id, marker });
+
+      marker.getElement().addEventListener("click", () => {
+        props.onClickMarker(pin.id);
+      });
+
+      marker.getElement().style.cursor = "pointer";
+      marker.getElement().style.opacity =
+        pin.id === props.selectedPlace ? "0.5" : "1";
     });
   };
 
@@ -106,6 +124,21 @@ export const MapSearch: React.FC<Props> = (props) => {
     const pins = makePins(props.places);
     updatePins(pins);
   }, [props.places]);
+
+  useEffect(() => {
+    onViewportUpdate();
+  }, [null]);
+
+  useEffect(() => {
+    markersRef.current.forEach((marker) => {
+      marker.marker.getElement().style.opacity =
+        marker.id === props.selectedPlace ? 0.5 : 1;
+    });
+  }, [props.selectedPlace]);
+
+  /**
+   * Render
+   */
 
   return <Map id={mapId}></Map>;
 };

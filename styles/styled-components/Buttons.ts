@@ -25,10 +25,18 @@ const SizeLarge = css`
 
 const SizeSmall = css`
   ${FontSizeSemiSmall}
-  height: 3rem;
+  height: 2.9rem;
   border-radius: 0.2rem;
-  padding: 0 1.4rem;
+  padding: 0 1.2rem;
   min-width: 7.5rem;
+`;
+
+const SizeSmallest = css`
+  ${FontSizeSemiSmall}
+  height: 2.6rem;
+  border-radius: 0.3rem;
+  padding: 0 1.6rem;
+  min-width: 5rem;
 `;
 
 /**
@@ -128,6 +136,12 @@ export const ButtonBlackLarge = css`
 export const ButtonSecondarySmall = css`
   ${ButtonBase}
   ${SizeSmall}
+  ${ColorWhite}
+`;
+
+export const ButtonSecondarySmallest = css`
+  ${ButtonBase}
+  ${SizeSmallest}
   ${ColorWhite}
 `;
 

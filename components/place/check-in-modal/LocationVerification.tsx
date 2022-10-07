@@ -29,33 +29,41 @@ export const LocationVerification: React.FC<Props> = (props) => {
    */
 
   const onClickVerify = async () => {
-    setRequestingLocation(true);
-    const location = await getCurrentLocation();
-    setRequestingLocation(false);
+    try {
+      setRequestingLocation(true);
+      const location = await getCurrentLocation();
 
-    if (!location) {
-      window.alert("Something went wrong. Please try again.");
-      return;
-    }
+      if (!location) {
+        throw Error;
+      }
 
-    setLatLng([location.lat, location.lng]);
+      setLatLng([location.lat, location.lng]);
 
-    const distanceKm = getDistanceFromLatLngInKm(
-      props.spotLat,
-      props.spotLng,
-      location.lat,
-      location.lng
-    );
-
-    if (distanceKm > 0.5) {
-      window.alert(
-        "The location is not correct. Please check if you are actually inside the place."
+      const distanceKm = getDistanceFromLatLngInKm(
+        props.spotLat,
+        props.spotLng,
+        location.lat,
+        location.lng
       );
-      return;
-    }
 
-    // location verified
-    props.onVerified();
+      if (distanceKm > 0.5) {
+        window.alert(
+          "The location is not correct. Please check if you are actually inside the place."
+        );
+        return;
+      }
+
+      // location verified
+      props.onVerified();
+      setRequestingLocation(false);
+    } catch (error: any) {
+      if (error.code === 3) {
+        onClickVerify();
+      } else {
+        setRequestingLocation(false);
+        window.alert("Something went wrong. Please contact support.");
+      }
+    }
   };
 
   /**

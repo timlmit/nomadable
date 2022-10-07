@@ -3,7 +3,7 @@ import nextConnect from "next-connect";
 import { ERR_SOMETHING } from "../../modules/ErrorCode";
 import databaseMiddleware from "../../middleware/database";
 import authenticationMiddleware from "../../middleware/authentication";
-import { PlaceWithData } from "../../redux/slices/placeSlice";
+import { MapArea, PlaceWithData } from "../../redux/slices/placeSlice";
 import { makePlaceWithData } from "../../modules/api/makePlaceWithData";
 import placeWithData from "./place-with-data";
 
@@ -14,7 +14,7 @@ handler.use(authenticationMiddleware);
 
 handler.get(async (req: any, res: any) => {
   //   const { userId } = req;
-  const { latStart, lngStart, latEnd, lngEnd } = req.query;
+  const { latStart, lngStart, latEnd, lngEnd, pageIndex } = req.query;
 
   try {
     const Place = req.mongoose.model("Place");

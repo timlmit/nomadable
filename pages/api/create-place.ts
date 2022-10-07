@@ -83,6 +83,7 @@ handler.post(async (req: any, res: any) => {
       id: placeId,
       discoveredBy: userId,
       images: imageUrls,
+      thumbnail: imageUrls[0],
     });
 
     if (!newPlace) throw Error;

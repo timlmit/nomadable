@@ -1,3 +1,4 @@
+import { STATUS_OPEN } from "./../../constants";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { RootState } from "../store";
@@ -30,6 +31,7 @@ export interface Place extends Spot {
   speedUp: number;
   testCnt: number;
   availability: string[];
+  status: string;
   created: Date | undefined;
 }
 
@@ -43,6 +45,13 @@ export interface PlaceWithData extends Place, PlaceUserData {
   // user
   recentCheckInCnt: number;
   checkedInByUser: boolean;
+}
+
+export interface MapArea {
+  latStart: number;
+  lngStart: number;
+  latEnd: number;
+  lngEnd: number;
 }
 
 interface PlaceState {
@@ -64,6 +73,7 @@ export const initialPlace: Place = {
   speedUp: 0,
   testCnt: 0,
   availability: [],
+  status: STATUS_OPEN,
   created: undefined,
 
   googlePlaceId: "",
@@ -91,7 +101,11 @@ const initialState: PlaceState = {
 const placeSlice = createSlice({
   name: "place",
   initialState,
-  reducers: {},
+  reducers: {
+    initPlaceForPage: (state) => {
+      state.placeForPage = initialPlaceWithData;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(apiFetchPlaceForPage.fulfilled, (state, action) => {
       state.placeForPage = action.payload.placeWithData;
@@ -111,7 +125,7 @@ const placeSlice = createSlice({
   },
 });
 
-export const {} = placeSlice.actions;
+export const { initPlaceForPage } = placeSlice.actions;
 
 /**
  * Selectors

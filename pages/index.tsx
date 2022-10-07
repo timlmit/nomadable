@@ -26,7 +26,7 @@ export default function TopPageContainer(props: TopPageProps) {
   const apiStatus = useAppSelector(selectApiFetchPlacesStatus);
 
   return (
-    <Layout width={CONTAINER_WIDTH_WIDE}>
+    <Layout width={"100%"} fixed>
       <HeadSetter
         pageTitle={`${APP_NAME} | ${APP_SHORT_DESCRIPTION}`}
         pageDescription={APP_LONG_DESCRIPTION}

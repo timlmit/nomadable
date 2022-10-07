@@ -7,7 +7,10 @@ import {
   initApiCreatePlaceState,
   selectApiCreatePlaceStatus,
 } from "../../redux/slices/api/apiPlaceSlice";
-import { selectNewPlace } from "../../redux/slices/newPlaceSlice";
+import {
+  clearPlaceInfoOfNewPlace,
+  selectNewPlace,
+} from "../../redux/slices/newPlaceSlice";
 import { DetailForm } from "./detail-form/DetailForm";
 import { PlaceForm } from "./place-form/PlaceForm";
 import * as cons from "../../constants";
@@ -65,6 +68,7 @@ export const NewPlace: React.FC<Props> = ({}) => {
     return () => {
       setTimeout(() => {
         dispatch(initApiCreatePlaceState());
+        dispatch(clearPlaceInfoOfNewPlace());
       }, 1000);
     };
   }, [null]);

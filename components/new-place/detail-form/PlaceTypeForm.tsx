@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import * as cons from "../../../constants";
+import * as fs from "../../../styles/styled-components/FontSize";
 import { ClickableStyle } from "../../../styles/styled-components/Interactions";
 
 interface Props {
@@ -43,6 +44,7 @@ const PlaceTypeItem = styled.div<{ active: boolean }>`
   margin-right: 0.8rem;
   display: flex;
   align-items: center;
+  ${fs.FontSizeSemiSmall}
 
   ${(props) =>
     props.active &&

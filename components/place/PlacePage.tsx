@@ -143,14 +143,17 @@ const InfoWrapper = styled.div`
   justify-content: space-between;
 `;
 
+const LEFT_WIDTH = 42;
+
 const RightSection = styled.div`
   flex-grow: 1;
   margin-left: 3rem;
   margin-top: 2.2rem;
+  width: calc(100% - ${LEFT_WIDTH}rem);
 `;
 
 const LeftSection = styled.div`
-  width: 48rem;
+  width: ${LEFT_WIDTH}rem;
 `;
 
 const DiscoveredByWrapper = styled.div`

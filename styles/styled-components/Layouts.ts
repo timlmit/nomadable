@@ -2,9 +2,9 @@ import { WIDTH_TABLET } from "./../../constants";
 import { css } from "styled-components";
 import { forMobile } from "../Responsive";
 
-export const ContainerStyle = css<{ width: number }>`
+export const ContainerStyle = css<{ width: string }>`
   width: 100%;
-  max-width: ${(props) => props.width}px;
+  max-width: ${(props) => props.width};
   margin: auto;
   padding: 0 2rem;
   box-sizing: border-box;

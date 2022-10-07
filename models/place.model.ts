@@ -1,3 +1,5 @@
+import { STATUS_OPEN } from "./../constants";
+
 export const PlaceSchema = (mongoose: any) => {
   const { Schema } = mongoose;
 
@@ -16,6 +18,7 @@ export const PlaceSchema = (mongoose: any) => {
     speedUp: { type: Number, default: 0 },
     testCnt: { type: Number, default: 0 },
     availability: { type: [String], default: [] },
+    status: { type: String, default: STATUS_OPEN },
     created: {
       type: Date,
       default: Date.now,

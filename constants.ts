@@ -33,6 +33,9 @@ export const WIDTH_TABLET = 780;
 export const WIDTH_DESKTOP = 1100;
 export const WIDTH_WIDEST = 1550;
 
+export const HEADER_HEIGHT = 5;
+export const HEADER_HEIGHT_MOBILE = 5;
+
 /**
  * Font colors
  */
@@ -117,8 +120,8 @@ export const API_FALIED = "failed";
  * Layout
  */
 
-export const CONTAINER_WIDTH_WIDE = 1459;
-export const CONTAINER_WIDTH_NARROW = 1120;
+export const CONTAINER_WIDTH_WIDE = "1459px";
+export const CONTAINER_WIDTH_NARROW = "1120px";
 
 /**
  * Modals
@@ -144,10 +147,10 @@ export const LOCATION_LINK_LATLNG = "https://www.google.com/maps/?q=";
  * Type of place
  */
 
-export const PLACE_TYPE_CAFE = "cafe";
-export const PLACE_TYPE_WORKSPACE = "workspace";
-export const PLACE_TYPE_HOTEL = "hotel";
-export const PLACE_TYPE_OTHER = "other";
+export const PLACE_TYPE_CAFE = "Cafe";
+export const PLACE_TYPE_WORKSPACE = "Work Space";
+export const PLACE_TYPE_HOTEL = "Hotel";
+export const PLACE_TYPE_OTHER = "Other";
 export const PLACE_TYPE_LIST = [
   PLACE_TYPE_CAFE,
   PLACE_TYPE_WORKSPACE,
@@ -180,3 +183,11 @@ export const AVL_TEXT_LIST: any = {
   [AVL_DROP_IN]: { text: "Drop-In Available", icon: "🚪" },
   [AVL_WORKSPACE]: { text: "Has Coworking Space", icon: "💻" },
 };
+
+/**
+ * Place Status
+ */
+
+export const STATUS_OPEN = "Open";
+export const STATUS_TEMP_CLOSE = "Temporary Closed";
+export const STATUS_PERM_CLOSE = "Parmanently Closed";

@@ -8,18 +8,29 @@ import { Footer } from "../global/Footer";
 import { Header } from "../header/Header";
 
 interface Props {
-  width: number;
+  width: string;
   children: ReactNode;
   bgColor?: string;
+  fixed?: boolean;
 }
 
-export const Layout: React.FC<Props> = ({ width, children, bgColor }) => {
+export const Layout: React.FC<Props> = ({
+  width,
+  children,
+  bgColor,
+  fixed,
+}) => {
   const authenticated = useAppSelector(selectAuthenticated);
   const user = useAppSelector(selectUser);
 
   return (
     <PageWrapper bgColor={bgColor}>
-      <Header user={user} width={width} authenticated={authenticated} />
+      <Header
+        user={user}
+        width={width}
+        authenticated={authenticated}
+        fixed={fixed}
+      />
       <PageContainer width={width}>{children}</PageContainer>
       <Footer width={width} />
     </PageWrapper>
