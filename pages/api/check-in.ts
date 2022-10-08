@@ -59,7 +59,8 @@ const distributePoints = async (
   Point: any,
   checkInUser: string,
   discoveredBy: string,
-  referenceId: string
+  actionId: string,
+  placeId: string
 ) => {
   const addingPoint = getPointPlan(POINT_TYPE_CHECK_IN);
 
@@ -69,7 +70,8 @@ const distributePoints = async (
     timestamp: Date.now(),
     point: addingPoint,
     type: POINT_TYPE_CHECK_IN,
-    referenceId,
+    actionId,
+    placeId,
   });
 
   // send points to discoverer user
@@ -78,7 +80,8 @@ const distributePoints = async (
     timestamp: Date.now(),
     point: getPointPlan(POINT_TYPE_BE_CHECKED_IN),
     type: POINT_TYPE_BE_CHECKED_IN,
-    referenceId,
+    actionId,
+    placeId,
   });
 
   // get totalt point of user
@@ -138,15 +141,12 @@ handler.post(async (req: any, res: any) => {
       Point,
       userId,
       updatedPlace.discoveredBy,
-      checkin._id
+      checkin._id,
+      placeId
     );
 
     return res.status(200).json({ placeWithData, addingPoint, totalPoint });
   } catch (error: any) {
-    console.log(
-      "🚀 ~ file: check-in.ts ~ line 146 ~ handler.post ~ error",
-      error
-    );
     return res.status(500).json({ message: ERR_SOMETHING, placeId: "" });
   }
 });

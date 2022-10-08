@@ -170,7 +170,8 @@ export const EMOJIS_PLACE_TYPE: any = {
  */
 
 export const AVL_POWER_SOCKET = "power_socket";
-export const AVL_LIST_CAFE = [AVL_POWER_SOCKET];
+export const AVL_SINGLE_ORIGIN = "single_origin";
+export const AVL_LIST_CAFE = [AVL_POWER_SOCKET, AVL_SINGLE_ORIGIN];
 
 export const AVL_DROP_IN = "drop_in";
 export const AVL_LIST_WORKSPACE = [AVL_POWER_SOCKET];
@@ -179,7 +180,8 @@ export const AVL_WORKSPACE = "work_space";
 export const AVL_LIST_HOTEL = [AVL_WORKSPACE];
 
 export const AVL_TEXT_LIST: any = {
-  [AVL_POWER_SOCKET]: { text: "Has Power Socket", icon: "🔌" },
+  [AVL_POWER_SOCKET]: { text: "Power Socket", icon: "🔌" },
+  [AVL_SINGLE_ORIGIN]: { text: "Single Origin", icon: "☕️" },
   [AVL_DROP_IN]: { text: "Drop-In Available", icon: "🚪" },
   [AVL_WORKSPACE]: { text: "Has Coworking Space", icon: "💻" },
 };

@@ -47,6 +47,10 @@ export const DetailForm: React.FC<Props> = ({
     dispatch(toggleAvailabilityOfPlace({ item: cons.AVL_POWER_SOCKET }));
   };
 
+  const onClickSingleOrigin = () => {
+    dispatch(toggleAvailabilityOfPlace({ item: cons.AVL_SINGLE_ORIGIN }));
+  };
+
   const onClickDropIn = () => {
     dispatch(toggleAvailabilityOfPlace({ item: cons.AVL_DROP_IN }));
   };
@@ -85,6 +89,15 @@ export const DetailForm: React.FC<Props> = ({
             <SwitchForm
               onClick={onClickPowerSocket}
               active={newPlace.availability.includes(cons.AVL_POWER_SOCKET)}
+              activeText="Yes"
+              inactiveText="No"
+            />
+          </FormWrapper>
+          <Label>Have single origin coffee?</Label>
+          <FormWrapper>
+            <SwitchForm
+              onClick={onClickSingleOrigin}
+              active={newPlace.availability.includes(cons.AVL_SINGLE_ORIGIN)}
               activeText="Yes"
               inactiveText="No"
             />
@@ -135,9 +148,10 @@ const Label = styled.div`
 `;
 
 const FormWrapper = styled.div`
-  margin: 1rem 0 2rem 0;
+  margin: 1rem 0 1.5rem 0;
 `;
 
 const SpecificForms = styled.div`
-  ${AnimationSlideLeft}
+  ${AnimationSlideLeft};
+  margin-top: 2.5rem;
 `;

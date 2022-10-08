@@ -1,10 +1,12 @@
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
 import * as cons from "../../constants";
-import { useAppDispatch } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { apiFetchPlaces } from "../../redux/slices/api/apiPlaceSlice";
+import { apiFetchContributersArea } from "../../redux/slices/api/apiUserSlice";
+import { selectContributersArea } from "../../redux/slices/contributerSlice";
 import { MapArea, Place } from "../../redux/slices/placeSlice";
 import { ClickableStyle } from "../../styles/styled-components/Interactions";
 import { MapSearch } from "../commons/MapSearch";
@@ -20,6 +22,8 @@ export const TopPage: React.FC<Props> = ({ places }) => {
   const [mapArea, setMapArea] = useState<null | MapArea>(null);
   const [pageIndex, setPageIndex] = useState(0);
   const [selectedPlace, setSelectedPlace] = useState("");
+  const fetchTimeoutRef = useRef<any>(0);
+  const contributers = useAppSelector(selectContributersArea);
 
   /**
    * Modules
@@ -32,6 +36,13 @@ export const TopPage: React.FC<Props> = ({ places }) => {
         pageIndex,
       })
     );
+  };
+
+  const fetchContributersArea = (placeIds: string[]) => {
+    clearTimeout(fetchTimeoutRef.current);
+    fetchTimeoutRef.current = setTimeout(() => {
+      dispatch(apiFetchContributersArea({ placeIds }));
+    }, 1000);
   };
 
   /**
@@ -69,6 +80,13 @@ export const TopPage: React.FC<Props> = ({ places }) => {
     searchPlaces(mapArea, pageIndex);
   }, [mapArea, pageIndex]);
 
+  useEffect(() => {
+    // if (places.length > 0) {
+    const placeIds = places.map((place) => place.id);
+    fetchContributersArea(placeIds);
+    // }
+  }, [places]);
+
   /**
    * Render
    */
@@ -81,6 +99,7 @@ export const TopPage: React.FC<Props> = ({ places }) => {
           onChangePageIndex={onChangePageIndex}
           width={RESULT_WIDTH}
           selectedPlace={selectedPlace}
+          contributers={contributers}
         />
       </SearchResultSection>
       <MapSection>

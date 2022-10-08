@@ -5,6 +5,7 @@ import { RootState } from "../../store";
 import * as cons from "../../../constants";
 import { User } from "../userSlice";
 import {
+  callFetchContributersArea,
   callFetchUser,
   callLoginUser,
   callSignupWithEmail,
@@ -12,6 +13,7 @@ import {
 } from "../../../calls/userCalls";
 import { ERR_SOMETHING } from "../../../modules/ErrorCode";
 import { saveTokenToCookie } from "../../../modules/AuthUtils";
+import { Contributer } from "../contributerSlice";
 
 /**
  * Types
@@ -28,6 +30,8 @@ interface ApiState {
   apiSignupWithEmailStatus: ApiStatus;
   apiVerifyUserStatus: ApiStatus;
   apiLoginUserStatus: ApiStatus;
+  // contributers
+  apiFetchContributersAreaStatus: ApiStatus;
 }
 
 /**
@@ -40,10 +44,13 @@ const initialApiState = {
 };
 
 const initialState: ApiState = {
+  // user auth
   apiFetchUserStatus: initialApiState,
   apiSignupWithEmailStatus: initialApiState,
   apiVerifyUserStatus: initialApiState,
   apiLoginUserStatus: initialApiState,
+  // others
+  apiFetchContributersAreaStatus: initialApiState,
 };
 
 const apiSlice = createSlice({
@@ -66,6 +73,10 @@ const apiSlice = createSlice({
     initApiVerifyUserState: (state) => {
       state.apiVerifyUserStatus.status = cons.API_IDLE;
       state.apiVerifyUserStatus.error = "";
+    },
+    initApiFetchContributersAreaState: (state) => {
+      state.apiFetchContributersAreaStatus.status = cons.API_IDLE;
+      state.apiFetchContributersAreaStatus.error = "";
     },
   },
   extraReducers: (builder) => {
@@ -130,6 +141,22 @@ const apiSlice = createSlice({
         state.apiLoginUserStatus.error = action.payload.message;
       } else {
         state.apiLoginUserStatus.error = action.error.message || "";
+      }
+    });
+
+    // FetchContributersArea
+    builder.addCase(apiFetchContributersArea.pending, (state, action) => {
+      state.apiFetchContributersAreaStatus.status = cons.API_LOADING;
+    });
+    builder.addCase(apiFetchContributersArea.fulfilled, (state, action) => {
+      state.apiFetchContributersAreaStatus.status = cons.API_SUCCEEDED;
+    });
+    builder.addCase(apiFetchContributersArea.rejected, (state, action) => {
+      state.apiFetchContributersAreaStatus.status = cons.API_FALIED;
+      if (action.payload) {
+        state.apiFetchContributersAreaStatus.error = action.payload.message;
+      } else {
+        state.apiFetchContributersAreaStatus.error = action.error.message || "";
       }
     });
   },
@@ -229,6 +256,24 @@ export const apiLoginUser = createAsyncThunk<
   }
 });
 
+// FetchContributersArea
+
+export const apiFetchContributersArea = createAsyncThunk<
+  { contributers: Contributer[] }, // Return type of the payload creator
+  { placeIds: string[] }, // First argument to the payload creator
+  {
+    rejectValue: CallError;
+  } // Types for ThunkAPI
+>("users/FetchContributersArea", async ({ placeIds }, thunkApi) => {
+  try {
+    const { data } = await callFetchContributersArea(placeIds);
+    if (!data) throw unknownError;
+    return data;
+  } catch (error: any) {
+    return thunkApi.rejectWithValue(error as CallError);
+  }
+});
+
 /**
  * Actions: call ajax & mutate store (only from here)
  */
@@ -238,6 +283,7 @@ export const {
   initLoginUserState,
   initApiSignupWithEmailState,
   initApiVerifyUserState,
+  initApiFetchContributersAreaState,
 } = apiSlice.actions;
 
 /**
@@ -255,6 +301,10 @@ export const selectApiVerifyUserStatus = (state: RootState): ApiStatus =>
 
 export const selectApiLoginUserStatus = (state: RootState): ApiStatus =>
   state.apiUser.apiLoginUserStatus;
+
+export const selectApiFetchContributersAreaStatus = (
+  state: RootState
+): ApiStatus => state.apiUser.apiFetchContributersAreaStatus;
 
 /**
  * Export actions & reducer

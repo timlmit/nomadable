@@ -6,7 +6,8 @@ export const PointSchema = (mongoose: any) => {
     timestamp: { type: Number },
     point: { type: Number },
     type: { type: String },
-    referenceId: { type: String },
+    actionId: { type: String },
+    placeId: { type: String },
     created: {
       type: Date,
       default: Date.now,

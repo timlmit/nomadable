@@ -31,7 +31,7 @@ export const PointEarnedNotification: React.FC<Props> = ({}) => {
   return (
     <Card visible={visible}>
       <Icon>
-        <IconImg src="/img/img/rocket.svg" />
+        <IconImg src="/icon-color/coin.svg" />
       </Icon>
       <Message>
         <Earned>

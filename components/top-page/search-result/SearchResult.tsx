@@ -14,6 +14,7 @@ import { AnimationSlideUp } from "../../../styles/styled-components/Animations";
 import { SectionLoader } from "../../commons/SectionLoader";
 import { useAppSelector } from "../../../redux/hooks";
 import { selectApiFetchPlacesStatus } from "../../../redux/slices/api/apiPlaceSlice";
+import { Contributer } from "../../../redux/slices/contributerSlice";
 
 const HEADER_HEIGHT = 5;
 
@@ -22,6 +23,7 @@ interface Props {
   onChangePageIndex: (pageIndex: number) => void;
   width: number;
   selectedPlace: string;
+  contributers: Contributer[];
 }
 
 export const SearchResult: React.FC<Props> = ({
@@ -29,6 +31,7 @@ export const SearchResult: React.FC<Props> = ({
   onChangePageIndex,
   width,
   selectedPlace,
+  contributers,
 }) => {
   const apiStatus = useAppSelector(selectApiFetchPlacesStatus);
 
@@ -79,7 +82,7 @@ export const SearchResult: React.FC<Props> = ({
         </PaginationSection>
 
         <ContributersSection>
-          <Contributers />
+          <Contributers contributers={contributers} />
         </ContributersSection>
       </NotFixed>
     </Wrapper>

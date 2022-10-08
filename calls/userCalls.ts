@@ -5,6 +5,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { readCookie } from "../modules/CookieHandler";
 import { User } from "../redux/slices/userSlice";
 import { CallError } from "./Types";
+import { Contributer } from "../redux/slices/contributerSlice";
 
 export const callFetchUser = async (): Promise<{
   data: { user: User };
@@ -79,6 +80,29 @@ export const callLoginUser = async (
       method: "post",
       url: `${APP_URL}/api/login-user`,
       data: { email, password },
+    });
+
+    return { data: response.data };
+  } catch (error: any) {
+    throw {
+      code: "",
+      message: error.response.data,
+    };
+  }
+};
+
+// callFetchContributersArea
+
+export const callFetchContributersArea = async (
+  placeIds: string[]
+): Promise<{
+  data: { contributers: Contributer[] };
+}> => {
+  try {
+    const response = await axios({
+      method: "get",
+      url: `${APP_URL}/api/contributers-area`,
+      params: { placeIds },
     });
 
     return { data: response.data };
