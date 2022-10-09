@@ -62,13 +62,14 @@ const distributePoints = async (
   actionId: string,
   placeId: string
 ) => {
-  const addingPoint = getPointPlan(POINT_TYPE_CHECK_IN);
+  const checkInPoint = getPointPlan(POINT_TYPE_CHECK_IN);
+  const checkedInPoint = getPointPlan(POINT_TYPE_BE_CHECKED_IN);
 
   // send points to check in user
   await Point.create({
     userId: checkInUser,
     timestamp: Date.now(),
-    point: addingPoint,
+    point: checkInPoint,
     type: POINT_TYPE_CHECK_IN,
     actionId,
     placeId,
@@ -78,7 +79,7 @@ const distributePoints = async (
   await Point.create({
     userId: discoveredBy,
     timestamp: Date.now(),
-    point: getPointPlan(POINT_TYPE_BE_CHECKED_IN),
+    point: checkedInPoint,
     type: POINT_TYPE_BE_CHECKED_IN,
     actionId,
     placeId,
@@ -101,7 +102,13 @@ const distributePoints = async (
     },
   ]);
 
-  return { addingPoint, totalPoint: totalPoint[0].total };
+  return {
+    addingPoint:
+      checkInUser === discoveredBy
+        ? checkInPoint + checkedInPoint
+        : checkInPoint,
+    totalPoint: totalPoint[0].total,
+  };
 };
 
 /**

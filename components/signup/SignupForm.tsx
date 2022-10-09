@@ -64,7 +64,7 @@ export const SignupForm: React.FC<Props> = ({}) => {
     if (isEmail(input) || input === "") {
       setEmailError("");
     } else {
-      setEmailError("メールアドレスが不正です。");
+      setEmailError("Email address is not correct.");
     }
   };
 
@@ -76,7 +76,7 @@ export const SignupForm: React.FC<Props> = ({}) => {
       setPasswordError("");
     } else {
       setPasswordError(
-        "パスワードは数字を含んだ8文字以上の英数字を設定ください。"
+        "Passwords must be at least 8 characters long, including numbers."
       );
     }
   };
@@ -101,7 +101,7 @@ export const SignupForm: React.FC<Props> = ({}) => {
     <FormContainer autoComplete="off">
       <FormSet>
         <FormLabelStyle>
-          メールアドレス <RedSpanStyle>*</RedSpanStyle>
+          Email <RedSpanStyle>*</RedSpanStyle>
         </FormLabelStyle>
         <InputFormStyle
           placeholder="example@mail.com"
@@ -116,9 +116,9 @@ export const SignupForm: React.FC<Props> = ({}) => {
       </FormSet>
       <FormSet>
         <FormLabelStyle>
-          パスワード <RedSpanStyle>*</RedSpanStyle>
+          Password <RedSpanStyle>*</RedSpanStyle>
         </FormLabelStyle>
-        <InfotipStyle>8文字以上の半角英数字</InfotipStyle>
+        <InfotipStyle>8+ characters, including number</InfotipStyle>
         <InputFormStyle
           type="password"
           placeholder=""
@@ -132,9 +132,9 @@ export const SignupForm: React.FC<Props> = ({}) => {
         <ErrorMsgStyle>{passwordError}</ErrorMsgStyle>
       </FormSet>
       <FormSet>
-        <FormLabelStyle>TripNoteで表示される名前</FormLabelStyle>
+        <FormLabelStyle>Name</FormLabelStyle>
         <InputFormStyle
-          placeholder="ユーザー名"
+          placeholder="User Name"
           value={userName}
           onChange={onChangeUserName}
           autoCorrect="off"
@@ -152,7 +152,7 @@ export const SignupForm: React.FC<Props> = ({}) => {
         }
         onClick={onClickSubmit}
       >
-        登録する
+        Sign Up
       </SubmitButton>
       <TermsAndPrivacyStyle></TermsAndPrivacyStyle>
       <DividerStyle />
@@ -166,7 +166,7 @@ export const SignupForm: React.FC<Props> = ({}) => {
           shallow
           replace
         >
-          <GoToLoginButton>ログインはこちら</GoToLoginButton>
+          <GoToLoginButton>Login</GoToLoginButton>
         </Link>
       </FooterWrapperStyle>
     </FormContainer>

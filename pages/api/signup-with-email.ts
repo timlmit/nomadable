@@ -1,3 +1,4 @@
+import { convertStringToId } from "./../../modules/StringConverter";
 import nextConnect from "next-connect";
 
 import { getNextSequence } from "./../../modules/getNextSequence";
@@ -6,11 +7,31 @@ import authenticationMiddleware from "../../middleware/authentication";
 import { ERR_SOMETHING, ERR_USER_EXISTS } from "../../modules/ErrorCode";
 import { createPassword } from "../../modules/AuthUtils";
 import { sendMailUserVerify } from "../../modules/Email";
+import { create } from "domain";
 
 const handler = nextConnect();
 
 handler.use(databaseMiddleware);
 handler.use(authenticationMiddleware);
+
+const generateUserId = async (userName: string, User: any): Promise<string> => {
+  const candidateName = convertStringToId(userName);
+  let number = 0;
+  let finalName = "";
+
+  while (!finalName) {
+    const tryName = `${candidateName}${number === 0 ? "" : number}`;
+
+    const existingUser = await User.findOne({ id: tryName }).lean();
+    if (!existingUser) {
+      finalName = tryName;
+      break;
+    }
+    number += 1;
+  }
+
+  return finalName;
+};
 
 handler.post(async (req: any, res: any) => {
   const { email, password, userName } = req.body;
@@ -35,8 +56,7 @@ handler.post(async (req: any, res: any) => {
       }
       await user.save();
     } else {
-      const sequence = await getNextSequence(req.mongoose, "USER_ID");
-      const id = `user${sequence}`;
+      const id = await generateUserId(userName, User);
 
       await User.create({
         id,

@@ -107,3 +107,26 @@ export const callFetchPlaces = async (params: {
     };
   }
 };
+
+// fetch recent checkins
+
+export const callRecentCheckIns = async (): Promise<{
+  recentCheckIns: Place[];
+}> => {
+  try {
+    const response = await axios({
+      method: "get",
+      url: `${APP_URL}/api/recent-checkins`,
+      headers: {
+        Authorization: readCookie(COOKIE_ACCESS_TOKEN) || "",
+      },
+    });
+
+    return response.data;
+  } catch (error: any) {
+    throw {
+      code: "",
+      message: error.response.data.message,
+    };
+  }
+};

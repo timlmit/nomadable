@@ -1,4 +1,7 @@
-import { callFetchPlaces } from "./../../../calls/placeCalls";
+import {
+  callFetchPlaces,
+  callRecentCheckIns,
+} from "./../../../calls/placeCalls";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { CallError } from "../../../calls/Types";
@@ -28,6 +31,7 @@ interface ApiState {
   apiFetchPlaceForPageStatus: ApiStatus;
   apiCheckInStatus: ApiStatus;
   apiFetchPlacesStatus: ApiStatus;
+  apiFetchRecentCheckInsStatus: ApiStatus;
 }
 
 /**
@@ -44,6 +48,7 @@ const initialState: ApiState = {
   apiFetchPlaceForPageStatus: initialApiState,
   apiCheckInStatus: initialApiState,
   apiFetchPlacesStatus: initialApiState,
+  apiFetchRecentCheckInsStatus: initialApiState,
 };
 
 const apiSlice = createSlice({
@@ -121,6 +126,22 @@ const apiSlice = createSlice({
         state.apiFetchPlacesStatus.error = action.payload.message;
       } else {
         state.apiFetchPlacesStatus.error = action.error.message || "";
+      }
+    });
+
+    // Fetch Recent CheckIns
+    builder.addCase(apiFetchRecentCheckIns.pending, (state, action) => {
+      state.apiFetchRecentCheckInsStatus.status = cons.API_LOADING;
+    });
+    builder.addCase(apiFetchRecentCheckIns.fulfilled, (state, action) => {
+      state.apiFetchRecentCheckInsStatus.status = cons.API_SUCCEEDED;
+    });
+    builder.addCase(apiFetchRecentCheckIns.rejected, (state, action) => {
+      state.apiFetchRecentCheckInsStatus.status = cons.API_FALIED;
+      if (action.payload) {
+        state.apiFetchRecentCheckInsStatus.error = action.payload.message;
+      } else {
+        state.apiFetchRecentCheckInsStatus.error = action.error.message || "";
       }
     });
   },
@@ -215,6 +236,23 @@ export const apiFetchPlaces = createAsyncThunk<
   }
 });
 
+// callFetchPlaces
+
+export const apiFetchRecentCheckIns = createAsyncThunk<
+  { recentCheckIns: Place[] }, // Return type of the payload creator
+  {}, // First argument to the payload creator
+  {
+    rejectValue: CallError;
+  } // Types for ThunkAPI
+>("place/FetchRecentCheckIns", async (_, thunkApi) => {
+  try {
+    const { recentCheckIns } = await callRecentCheckIns();
+    return { recentCheckIns };
+  } catch (error: any) {
+    return thunkApi.rejectWithValue(error as CallError);
+  }
+});
+
 /**
  * Actions: call ajax & mutate store (only from here)
  */
@@ -237,6 +275,10 @@ export const selectApiCheckInStatus = (state: RootState): ApiStatus =>
 
 export const selectApiFetchPlacesStatus = (state: RootState): ApiStatus =>
   state.apiPlace.apiFetchPlacesStatus;
+
+export const selectApiFetchRecentCheckInsStatus = (
+  state: RootState
+): ApiStatus => state.apiPlace.apiFetchRecentCheckInsStatus;
 
 /**
  * Export actions & reducer

@@ -7,6 +7,7 @@ import {
   apiCheckIn,
   apiFetchPlaceForPage,
   apiFetchPlaces,
+  apiFetchRecentCheckIns,
 } from "./api/apiPlaceSlice";
 
 /**
@@ -56,6 +57,7 @@ export interface MapArea {
 
 interface PlaceState {
   searchResult: Place[];
+  recentCheckIns: Place[];
   placeForPage: PlaceWithData;
 }
 
@@ -95,6 +97,7 @@ export const initialPlaceWithData: PlaceWithData = {
 
 const initialState: PlaceState = {
   searchResult: [],
+  recentCheckIns: [],
   placeForPage: initialPlaceWithData,
 };
 
@@ -122,6 +125,9 @@ const placeSlice = createSlice({
     builder.addCase(apiFetchPlaces.fulfilled, (state, action) => {
       state.searchResult = action.payload.places;
     });
+    builder.addCase(apiFetchRecentCheckIns.fulfilled, (state, action) => {
+      state.recentCheckIns = action.payload.recentCheckIns;
+    });
   },
 });
 
@@ -136,6 +142,9 @@ export const selectPlaceForPage = (state: RootState): PlaceWithData =>
 
 export const selectPlaceSearchResult = (state: RootState): Place[] =>
   state.place.searchResult;
+
+export const selectRecentCheckIns = (state: RootState): Place[] =>
+  state.place.recentCheckIns;
 
 /**
  * Export actions & reducer

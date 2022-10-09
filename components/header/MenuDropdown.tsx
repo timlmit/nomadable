@@ -38,7 +38,7 @@ export const MenuDropdown: React.FC<Props> = ({
 
   const onClickMyPosts = () => {
     hideDropdown();
-    router.push("/posts");
+    router.push("/account");
   };
 
   const onClickLogin = () => {
@@ -68,15 +68,15 @@ export const MenuDropdown: React.FC<Props> = ({
     if (authenticated) {
       return (
         <Fragment>
-          <DropdownItem onClick={onClickNew}>新しく投稿</DropdownItem>
-          <DropdownItem onClick={onClickMyPosts}>記事一覧</DropdownItem>
-          <DropdownItem onClick={onClickLogout}>ログアウト</DropdownItem>
+          <DropdownItem onClick={onClickNew}>Add New Place</DropdownItem>
+          <DropdownItem onClick={onClickMyPosts}>My Page</DropdownItem>
+          <DropdownItem onClick={onClickLogout}>Log Out</DropdownItem>
         </Fragment>
       );
     }
     return (
       <Fragment>
-        <DropdownItemBold onClick={onClickLogin}>ログイン</DropdownItemBold>
+        <DropdownItemBold onClick={onClickLogin}>Log In</DropdownItemBold>
         {/* <DropdownItem onClick={onClickSignup}>登録する</DropdownItem> */}
       </Fragment>
     );

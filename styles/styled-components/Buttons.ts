@@ -23,6 +23,14 @@ const SizeLarge = css`
   padding: 1.2rem 2rem;
 `;
 
+const SizeMedium = css`
+  ${FontSizeSemiSmall}
+  height: 3.2rem;
+  border-radius: 0.2rem;
+  padding: 0 1.2rem;
+  min-width: 7.5rem;
+`;
+
 const SizeSmall = css`
   ${FontSizeSemiSmall}
   height: 2.9rem;
@@ -113,6 +121,18 @@ export const ButtonSecondaryLarge = css`
   ${ButtonBase}
   ${SizeLarge}
   ${ColorWhite}
+`;
+
+export const ButtonSecondaryMedium = css`
+  ${ButtonBase}
+  ${SizeMedium}
+  ${ColorWhite}
+`;
+
+export const ButtonPrimaryMedium = css`
+  ${ButtonBase}
+  ${SizeMedium}
+  ${ColorPrimary}
 `;
 
 export const ButtonPrimarySmall = css`

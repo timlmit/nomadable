@@ -1,6 +1,7 @@
 import { SHADOW_3, SHADOW_4 } from "./../../constants";
 import { css } from "styled-components";
 import * as cons from "../../constants";
+import * as fs from "../../styles/styled-components/FontSize";
 import { FontSizeSemiSmall } from "./FontSize";
 import { NoSelect } from "./StyleUtils";
 
@@ -37,6 +38,9 @@ export const DropDownItemStyle = css`
   cursor: pointer;
   color: ${cons.FONT_COLOR_NORMAL};
   -webkit-font-smoothing: antialiased;
+  ${fs.FontSizeNormal}
+  font-weight: 500;
+  line-height: 1.4em;
 
   &:hover {
     background-color: ${cons.FONT_COLOR_SUPER_LIGHT};

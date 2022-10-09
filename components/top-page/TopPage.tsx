@@ -10,6 +10,7 @@ import { selectContributersArea } from "../../redux/slices/contributerSlice";
 import { MapArea, Place } from "../../redux/slices/placeSlice";
 import { ClickableStyle } from "../../styles/styled-components/Interactions";
 import { MapSearch } from "../commons/MapSearch";
+import { RecentCheckIns } from "./recent-checkins/RecentCheckIns";
 import { SearchResult } from "./search-result/SearchResult";
 
 interface Props {
@@ -103,6 +104,7 @@ export const TopPage: React.FC<Props> = ({ places }) => {
         />
       </SearchResultSection>
       <MapSection>
+        <RecentCheckIns />
         <MapSearch
           mapId="search-places"
           places={places}

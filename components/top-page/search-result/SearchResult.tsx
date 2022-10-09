@@ -41,11 +41,7 @@ export const SearchResult: React.FC<Props> = ({
   useEffect(() => {
     const element = document.getElementById(`element_${selectedPlace}`);
     if (element) {
-      const y = element.getBoundingClientRect().top + window.scrollY;
-      window.scroll({
-        top: y,
-        behavior: "smooth",
-      });
+      element.scrollIntoView({ behavior: "smooth", block: "center" });
     }
   }, [selectedPlace]);
 

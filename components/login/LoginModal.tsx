@@ -13,6 +13,8 @@ import {
 } from "../../redux/slices/api/apiUserSlice";
 import {
   ButtonPrimaryLarge,
+  ButtonPrimaryMedium,
+  ButtonPrimarySmall,
   ButtonText,
 } from "../../styles/styled-components/Buttons";
 import {
@@ -155,7 +157,7 @@ const FormContainer = styled.div`
 const FormSet = styled.div``;
 
 const SubmitButton = styled.button`
-  ${ButtonPrimaryLarge}
+  ${ButtonPrimaryMedium}
   width: 100%;
   margin-top: 2rem;
 `;
