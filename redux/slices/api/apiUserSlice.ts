@@ -3,9 +3,10 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { CallError } from "../../../calls/Types";
 import { RootState } from "../../store";
 import * as cons from "../../../constants";
-import { User } from "../userSlice";
+import { User, UserWithStats } from "../userSlice";
 import {
   callFetchContributersArea,
+  callFetchMyAccountWithStats,
   callFetchUser,
   callLoginUser,
   callSignupWithEmail,
@@ -32,6 +33,7 @@ interface ApiState {
   apiLoginUserStatus: ApiStatus;
   // contributers
   apiFetchContributersAreaStatus: ApiStatus;
+  apiFetchMyAccountWithStatsStatus: ApiStatus;
 }
 
 /**
@@ -51,6 +53,7 @@ const initialState: ApiState = {
   apiLoginUserStatus: initialApiState,
   // others
   apiFetchContributersAreaStatus: initialApiState,
+  apiFetchMyAccountWithStatsStatus: initialApiState,
 };
 
 const apiSlice = createSlice({
@@ -157,6 +160,23 @@ const apiSlice = createSlice({
         state.apiFetchContributersAreaStatus.error = action.payload.message;
       } else {
         state.apiFetchContributersAreaStatus.error = action.error.message || "";
+      }
+    });
+
+    // FetchContributersArea
+    builder.addCase(apiFetchMyAccountWithStats.pending, (state, action) => {
+      state.apiFetchMyAccountWithStatsStatus.status = cons.API_LOADING;
+    });
+    builder.addCase(apiFetchMyAccountWithStats.fulfilled, (state, action) => {
+      state.apiFetchMyAccountWithStatsStatus.status = cons.API_SUCCEEDED;
+    });
+    builder.addCase(apiFetchMyAccountWithStats.rejected, (state, action) => {
+      state.apiFetchMyAccountWithStatsStatus.status = cons.API_FALIED;
+      if (action.payload) {
+        state.apiFetchMyAccountWithStatsStatus.error = action.payload.message;
+      } else {
+        state.apiFetchMyAccountWithStatsStatus.error =
+          action.error.message || "";
       }
     });
   },
@@ -274,6 +294,24 @@ export const apiFetchContributersArea = createAsyncThunk<
   }
 });
 
+// FetchMyAccountWithStats
+
+export const apiFetchMyAccountWithStats = createAsyncThunk<
+  { userWithStats: UserWithStats }, // Return type of the payload creator
+  {}, // First argument to the payload creator
+  {
+    rejectValue: CallError;
+  } // Types for ThunkAPI
+>("users/FetchMyAccountWithStats", async (_, thunkApi) => {
+  try {
+    const { data } = await callFetchMyAccountWithStats();
+    if (!data) throw unknownError;
+    return data;
+  } catch (error: any) {
+    return thunkApi.rejectWithValue(error as CallError);
+  }
+});
+
 /**
  * Actions: call ajax & mutate store (only from here)
  */
@@ -305,6 +343,10 @@ export const selectApiLoginUserStatus = (state: RootState): ApiStatus =>
 export const selectApiFetchContributersAreaStatus = (
   state: RootState
 ): ApiStatus => state.apiUser.apiFetchContributersAreaStatus;
+
+export const selectApiFetchMyAccountWithStatsStatus = (
+  state: RootState
+): ApiStatus => state.apiUser.apiFetchMyAccountWithStatsStatus;
 
 /**
  * Export actions & reducer

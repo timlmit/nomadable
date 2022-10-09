@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { AppDispatch, RootState } from "../store";
-import { apiFetchUser } from "./api/apiUserSlice";
+import { apiFetchMyAccountWithStats, apiFetchUser } from "./api/apiUserSlice";
 
 /**
  * Types
@@ -13,6 +13,7 @@ export interface User {
   email: string;
   name: string;
   picture: string;
+  title: string;
   description: string;
   link: string;
   password: string;
@@ -23,8 +24,25 @@ export interface User {
   created: Date | undefined;
 }
 
+export interface UserWithStats {
+  _id: string;
+  id: string;
+  name: string;
+  picture: string;
+  title: string;
+  description: string;
+  link: string;
+  created: Date | undefined;
+  // outer data
+  points: number;
+  ranking: number;
+  discovered: number;
+  checkIns: number;
+}
+
 interface UserState {
   user: User;
+  userWithStats: UserWithStats;
 }
 
 /**
@@ -37,6 +55,7 @@ export const initialUser: User = {
   email: "",
   name: "test user",
   picture: "",
+  title: "",
   description: "",
   link: "",
   password: "",
@@ -47,8 +66,25 @@ export const initialUser: User = {
   created: undefined,
 };
 
+export const initialUserWithStats: UserWithStats = {
+  _id: "",
+  id: "",
+  name: "",
+  picture: "",
+  title: "",
+  description: "",
+  link: "",
+  created: undefined,
+  // outer data
+  points: 0,
+  ranking: 0,
+  discovered: 0,
+  checkIns: 0,
+};
+
 const initialState: UserState = {
   user: initialUser,
+  userWithStats: initialUserWithStats,
 };
 
 const userSlice = createSlice({
@@ -64,6 +100,9 @@ const userSlice = createSlice({
     builder.addCase(apiFetchUser.fulfilled, (state, action) => {
       state.user = action.payload.user;
     });
+    builder.addCase(apiFetchMyAccountWithStats.fulfilled, (state, action) => {
+      state.userWithStats = action.payload.userWithStats;
+    });
   },
 });
 
@@ -77,6 +116,9 @@ export const selectUser = (state: RootState): User => state.user.user;
 
 export const selectAuthenticated = (state: RootState): boolean =>
   state.user.user._id !== "";
+
+export const selectUserWithStats = (state: RootState): UserWithStats =>
+  state.user.userWithStats;
 
 /**
  * Export actions & reducer

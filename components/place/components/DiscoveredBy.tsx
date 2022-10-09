@@ -6,13 +6,13 @@ import * as fs from "../../../styles/styled-components/FontSize";
 
 interface Props {
   userName: string;
-  userDescription: string;
+  userTitle: string;
   userPicture: string;
 }
 
 export const DiscoveredBy: React.FC<Props> = ({
   userName,
-  userDescription,
+  userTitle,
   userPicture,
 }) => {
   return (
@@ -22,7 +22,7 @@ export const DiscoveredBy: React.FC<Props> = ({
         <UserPicture src={userPicture} />
         <NameAndDescription>
           <Name>{userName}</Name>
-          <Description>{userDescription}</Description>
+          <Description>{userTitle}</Description>
         </NameAndDescription>
       </UserInfo>
     </DiscoveredByWrapper>

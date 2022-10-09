@@ -3,7 +3,7 @@ import { COOKIE_ACCESS_TOKEN } from "./../constants";
 import { APP_URL } from "../constants";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { readCookie } from "../modules/CookieHandler";
-import { User } from "../redux/slices/userSlice";
+import { User, UserWithStats } from "../redux/slices/userSlice";
 import { CallError } from "./Types";
 import { Contributer } from "../redux/slices/contributerSlice";
 
@@ -103,6 +103,29 @@ export const callFetchContributersArea = async (
       method: "get",
       url: `${APP_URL}/api/contributers-area`,
       params: { placeIds },
+    });
+
+    return { data: response.data };
+  } catch (error: any) {
+    throw {
+      code: "",
+      message: error.response.data,
+    };
+  }
+};
+
+// callFetchMyAccountWithStats
+
+export const callFetchMyAccountWithStats = async (): Promise<{
+  data: { userWithStats: UserWithStats };
+}> => {
+  try {
+    const response = await axios({
+      method: "get",
+      url: `${APP_URL}/api/my-account`,
+      headers: {
+        Authorization: readCookie(COOKIE_ACCESS_TOKEN) || "",
+      },
     });
 
     return { data: response.data };

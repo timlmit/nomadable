@@ -23,7 +23,7 @@ export const PointSchema = (mongoose: any) => {
 
     PointSchema.index(
       {
-        date: -1,
+        timestamp: -1,
       },
       { unique: false }
     );

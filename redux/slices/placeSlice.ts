@@ -40,6 +40,7 @@ export interface PlaceUserData {
   userName: string;
   userPicture: string;
   userDescription: string;
+  userTitle: string;
 }
 
 export interface PlaceWithData extends Place, PlaceUserData {
@@ -90,6 +91,7 @@ export const initialPlaceWithData: PlaceWithData = {
   userName: "",
   userPicture: "",
   userDescription: "",
+  userTitle: "",
 
   recentCheckInCnt: 0,
   checkedInByUser: false,

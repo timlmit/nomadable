@@ -37,6 +37,7 @@ export const makePlaceWithData = async (
       userName: discoverUser ? discoverUser.name : "",
       userPicture: discoverUser ? discoverUser.picture : "",
       userDescription: discoverUser ? discoverUser.description : "",
+      userTitle: discoverUser ? discoverUser.title : "",
       recentCheckInCnt: recentCheckIns.length,
       checkedInByUser: recentCheckInByUser ? true : false,
     };

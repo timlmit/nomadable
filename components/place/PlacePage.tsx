@@ -101,7 +101,7 @@ export const PlacePage: React.FC<Props> = ({ placeWithData }) => {
           <DiscoveredByWrapper>
             <DiscoveredBy
               userName={pd.userName}
-              userDescription={pd.userDescription}
+              userTitle={pd.userTitle}
               userPicture={pd.userPicture}
             />
           </DiscoveredByWrapper>

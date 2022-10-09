@@ -19,6 +19,10 @@ export const UserSchema = (mongoose: any) => {
       type: String,
       default: "",
     },
+    title: {
+      type: String,
+      default: "",
+    },
     description: {
       type: String,
       default: "",

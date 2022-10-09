@@ -122,6 +122,7 @@ export const API_FALIED = "failed";
 
 export const CONTAINER_WIDTH_WIDE = "1459px";
 export const CONTAINER_WIDTH_NARROW = "1120px";
+export const CONTAINER_WIDTH_SO_NARROW = "880px";
 
 /**
  * Modals

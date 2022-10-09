@@ -4,3 +4,7 @@ export const convertStringToId = (str: string): string => {
     .replace(/_+/g, "_")
     .toLowerCase();
 };
+
+export const removeHttps = (linkStr: string): string => {
+  return linkStr.replace(/^https?:\/\//, "");
+};
