@@ -9,9 +9,9 @@ import { ClickableStyle } from "../../styles/styled-components/Interactions";
 
 interface Props {
   multiple: boolean;
-  onDragEnter: () => void;
-  onDragLeave: () => void;
-  onUploadStart: () => void;
+  onDragEnter?: () => void;
+  onDragLeave?: () => void;
+  onUploadStart?: () => void;
   onUpload: (imgElms: HTMLImageElement[]) => void;
   children: ReactNode;
 }
@@ -39,7 +39,7 @@ export const PhotoUploader: React.FC<Props> = ({
     e.stopPropagation();
     e.preventDefault();
 
-    onUploadStart();
+    if (onUploadStart) onUploadStart();
     const files = getFilesFromDropEvent(e);
     returnImageElements(files);
   };
@@ -47,7 +47,7 @@ export const PhotoUploader: React.FC<Props> = ({
   const onChangeFileInput = (e: any) => {
     console.log("up");
     e.preventDefault();
-    onUploadStart();
+    if (onUploadStart) onUploadStart();
     const files = e.target.files;
     returnImageElements(files);
   };

@@ -33,7 +33,7 @@ export const FormStyle = css<{
 
   &::placeholder {
     font-style: italic;
-    color: ${cons.FONT_COLOR_LIGHT};
+    color: ${cons.FONT_COLOR_LIGHTEST};
   }
 
   ${(props) =>

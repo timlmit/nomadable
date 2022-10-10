@@ -19,7 +19,7 @@ handler.get(async (req: any, res: any) => {
   const { userId } = req;
 
   try {
-    const userWithStats = await getUserWithStats(userId, mongoose);
+    const userWithStats = await getUserWithStats(userId, mongoose, true);
 
     // get recent checkins
     return res.status(200).json({ userWithStats });

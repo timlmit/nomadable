@@ -45,6 +45,7 @@ const UserInfo = styled.div`
 
 const UserPicture = styled.img`
   width: 2.6rem;
+  border-radius: 100%;
 `;
 
 const NameAndDescription = styled.div`

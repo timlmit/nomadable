@@ -1,3 +1,4 @@
+import { addNewEvent } from "./../../modules/api/addNewEvent";
 import { APP_URL } from "./../../constants";
 import nextConnect from "next-connect";
 
@@ -20,6 +21,10 @@ handler.post(async (req: any, res: any) => {
 
     // get verification code object
     const code = await OneTimeCode.findOne({ value: verificationCode });
+    console.log(
+      "🚀 ~ file: verify-user.ts ~ line 24 ~ handler.post ~ code",
+      code
+    );
 
     if (!code || code.expireAt < new Date()) throw Error;
 
@@ -27,6 +32,10 @@ handler.post(async (req: any, res: any) => {
     const user = await User.findOne({
       email: code.key,
     });
+    console.log(
+      "🚀 ~ file: verify-user.ts ~ line 32 ~ handler.post ~ user",
+      user
+    );
     if (!user) throw Error;
 
     // modify user
@@ -36,8 +45,21 @@ handler.post(async (req: any, res: any) => {
 
     const token = generateToken(user._id);
 
+    await addNewEvent(req.mongoose, {
+      userId: user._id.toString(),
+      title: "has just joined the community 🎉",
+      timestamp: Date.now(),
+      body: "",
+      isOfficial: false,
+      placeId: "",
+    });
+
     return res.status(200).json({ token });
   } catch (error: any) {
+    console.log(
+      "🚀 ~ file: verify-user.ts ~ line 51 ~ handler.post ~ error",
+      error
+    );
     return res.status(500).json(ERR_VERIFICATION_EXPIRED);
   }
 });

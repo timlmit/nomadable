@@ -1,14 +1,17 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { AppDispatch, RootState } from "../store";
-import { apiFetchMyAccountWithStats, apiFetchUser } from "./api/apiUserSlice";
+import {
+  apiFetchMyAccountWithStats,
+  apiFetchUser,
+  apiUpdateUser,
+} from "./api/apiUserSlice";
 
 /**
  * Types
  */
 
-export interface User {
-  _id: string;
+export interface EditableUser {
   id: string;
   email: string;
   name: string;
@@ -16,6 +19,10 @@ export interface User {
   title: string;
   description: string;
   link: string;
+}
+
+export interface User extends EditableUser {
+  _id: string;
   password: string;
   salt: string;
   subscriber: string;
@@ -27,6 +34,7 @@ export interface User {
 export interface UserWithStats {
   _id: string;
   id: string;
+  email: string;
   name: string;
   picture: string;
   title: string;
@@ -69,6 +77,7 @@ export const initialUser: User = {
 export const initialUserWithStats: UserWithStats = {
   _id: "",
   id: "",
+  email: "",
   name: "",
   picture: "",
   title: "",
@@ -102,6 +111,12 @@ const userSlice = createSlice({
     });
     builder.addCase(apiFetchMyAccountWithStats.fulfilled, (state, action) => {
       state.userWithStats = action.payload.userWithStats;
+    });
+    builder.addCase(apiUpdateUser.fulfilled, (state, action) => {
+      state.userWithStats = {
+        ...state.userWithStats,
+        ...action.payload.editableUser,
+      };
     });
   },
 });

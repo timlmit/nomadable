@@ -1,8 +1,6 @@
 import { ERR_PLACE_EXISTS } from "./../../modules/ErrorCode";
-import { generateImageUrl, saveImages } from "./../../modules/ImageStorage";
 import nextConnect from "next-connect";
 
-import { getNextSequence } from "../../modules/getNextSequence";
 import { ERR_SOMETHING } from "../../modules/ErrorCode";
 import databaseMiddleware from "../../middleware/database";
 import authenticationMiddleware from "../../middleware/authentication";
@@ -10,6 +8,7 @@ import axios from "axios";
 import { getPlacePhotos } from "../../modules/api/getPlacePhotos";
 import { Place } from "../../redux/slices/placeSlice";
 import { getUniqueSlug } from "../../modules/api/getUniqueSlug";
+import { addNewEvent } from "../../modules/api/addNewEvent";
 
 const PLACE_ID = "place_id";
 
@@ -87,6 +86,15 @@ handler.post(async (req: any, res: any) => {
     });
 
     if (!newPlace) throw Error;
+
+    await addNewEvent(req.mongoose, {
+      userId,
+      title: "has discovered a new place 🆕",
+      timestamp: Date.now(),
+      placeId: newPlace.id,
+      body: "",
+      isOfficial: false,
+    });
 
     return res.status(200).json({ placeId: newPlace.id });
   } catch (error: any) {

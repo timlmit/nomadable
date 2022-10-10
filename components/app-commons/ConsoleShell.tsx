@@ -21,10 +21,16 @@ export const ConsoleShell: React.FC<Props> = ({ pathname, children }) => {
             Event
           </NavItem>
         </Link>
-        <Link href="/account">
-          <NavItem active={pathname === "/account"}>
+        <Link href="/point">
+          <NavItem active={pathname === "/point"}>
+            <NavIcon src="/icon/coin-black.svg" />
+            Point
+          </NavItem>
+        </Link>
+        <Link href="/profile">
+          <NavItem active={pathname === "/profile"}>
             <NavIcon src="/icon/user-black.svg" />
-            Account
+            Profile
           </NavItem>
         </Link>
         <Link href="/setting">
@@ -42,6 +48,7 @@ export const ConsoleShell: React.FC<Props> = ({ pathname, children }) => {
 const Wrapper = styled.div`
   width: 100%;
   display: flex;
+  align-items: flex-start;
   margin-top: 4rem;
 `;
 
@@ -88,7 +95,7 @@ const NavIcon = styled.img`
 
 const Card = styled.div`
   width: 50rem;
-  min-height: 20rem;
+  /* min-height: 20rem; */
   background-color: white;
   border-radius: 1rem;
 `;

@@ -7,6 +7,7 @@ import { OneTimeCodeSchema } from "../models/onetimecode.model";
 import { PlaceSchema } from "../models/place.model";
 import { CheckInSchema } from "../models/checkin.model";
 import { PointSchema } from "../models/point.model";
+import { EventSchema } from "../models/event.model";
 
 mongoose.connect(process.env.DB_URL);
 
@@ -17,6 +18,7 @@ async function database(req: any, res: any, next: any) {
   PlaceSchema(mongoose);
   CheckInSchema(mongoose);
   PointSchema(mongoose);
+  EventSchema(mongoose);
   req.mongoose = mongoose;
   next();
 }

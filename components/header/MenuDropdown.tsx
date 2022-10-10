@@ -36,9 +36,9 @@ export const MenuDropdown: React.FC<Props> = ({
     router.push("/new-place");
   };
 
-  const onClickMyPosts = () => {
+  const onClickProfile = () => {
     hideDropdown();
-    router.push("/account");
+    router.push("/profile");
   };
 
   const onClickLogin = () => {
@@ -61,7 +61,7 @@ export const MenuDropdown: React.FC<Props> = ({
     dispatch(updateUser({ user: initialUser }));
     dispatch(initApiFetchUserState());
     dispatch(initLoginUserState());
-    window.alert("ログアウトしました");
+    window.alert("Logged Out");
   };
 
   const renderDropdownContent = () => {
@@ -69,7 +69,7 @@ export const MenuDropdown: React.FC<Props> = ({
       return (
         <Fragment>
           <DropdownItem onClick={onClickNew}>Add New Place</DropdownItem>
-          <DropdownItem onClick={onClickMyPosts}>My Page</DropdownItem>
+          <DropdownItem onClick={onClickProfile}>Profile</DropdownItem>
           <DropdownItem onClick={onClickLogout}>Log Out</DropdownItem>
         </Fragment>
       );

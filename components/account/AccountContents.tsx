@@ -1,16 +1,30 @@
-import React from "react";
+import link from "next/link";
+import { title } from "process";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import * as cons from "../../constants";
 import { removeHttps } from "../../modules/StringConverter";
-import { UserWithStats } from "../../redux/slices/userSlice";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
+  apiUpdateUser,
+  selectApiUpdateUserStatus,
+} from "../../redux/slices/api/apiUserSlice";
+import { EditableUser, UserWithStats } from "../../redux/slices/userSlice";
+import {
+  ButtonSecondarySmall,
+  ButtonSecondarySmallest,
+} from "../../styles/styled-components/Buttons";
+import {
+  FontSizeLarge,
   FontSizeNormal,
   FontSizeSemiLarge,
   FontSizeSemiSmall,
 } from "../../styles/styled-components/FontSize";
+import { PageLoader } from "../commons/PageLoader";
 import { SectionLoader } from "../commons/SectionLoader";
 import { AccountDetail } from "./AccountDetail";
+import { EditProfileModal } from "./EditProfileModal";
 import { StatsItems } from "./StatsItems";
 
 interface Props {
@@ -19,43 +33,99 @@ interface Props {
 }
 
 export const AccountContents: React.FC<Props> = ({
-  userWithStats,
+  userWithStats: {
+    _id,
+    id,
+    picture,
+    email,
+    name,
+    description,
+    title,
+    link,
+    points,
+    ranking,
+    discovered,
+    checkIns,
+  },
   isMyAccount,
 }) => {
-  if (!userWithStats._id)
+  const dispatch = useAppDispatch();
+  const apiStatus = useAppSelector(selectApiUpdateUserStatus);
+  const [editModalVisible, setEditModalVisible] = useState(false);
+
+  const onClickEdit = () => {
+    setEditModalVisible(true);
+  };
+
+  const onSubmitProfileChange = (
+    editableUser: EditableUser,
+    base64: string
+  ) => {
+    dispatch(apiUpdateUser({ editableUser, base64 }));
+  };
+
+  const onCloseEditProfileModal = () => {
+    setEditModalVisible(false);
+  };
+
+  /**
+   * Render
+   */
+
+  if (!_id)
     return (
       <Wrapper>
-        <SectionLoader visible />;
+        <Header>Profile</Header>
+        <LoadingBody>
+          <SectionLoader visible />
+        </LoadingBody>
       </Wrapper>
     );
 
   return (
     <Wrapper>
-      <Header>Account Page</Header>
+      <Header>Profile</Header>
       <BasicSecion>
+        <SectionLoader visible={apiStatus.status === cons.API_LOADING} />
         <NameAndDescription>
-          <Picture src={userWithStats.picture} />
-          <Name>{userWithStats.name}</Name>
-          <Id>@{userWithStats.id}</Id>
-          <Title>{userWithStats.title}</Title>
-          <Description>{userWithStats.description}</Description>
-          <LinkBio href={userWithStats.link} target="_blank" rel="noopener">
-            <LinkIcon src="/icon/link-red.svg" />
-            {removeHttps(userWithStats.link)}
-          </LinkBio>
+          {isMyAccount && (
+            <EditButton onClick={onClickEdit}>
+              <EditIcon src="/icon/gear-black.svg" />
+              Edit profile
+            </EditButton>
+          )}
+
+          <Picture src={picture} />
+          <Name>{name}</Name>
+          <Id>@{id}</Id>
+          {title && <Title>{title}</Title>}
+          {description && <Description>{description}</Description>}
+          {link && (
+            <LinkBio href={link} target="_blank" rel="noopener">
+              <LinkIcon src="/icon/link-red.svg" />
+              {removeHttps(link)}
+            </LinkBio>
+          )}
         </NameAndDescription>
         <StatsInfo>
           <StatsItems
-            points={userWithStats.points}
-            ranking={userWithStats.ranking}
-            discovered={userWithStats.discovered}
-            checkIns={userWithStats.checkIns}
+            points={points}
+            ranking={ranking}
+            discovered={discovered}
+            checkIns={checkIns}
           />
         </StatsInfo>
       </BasicSecion>
       <DetailSection>
         {/* <AccountDetail discoveredPlaces={} myReviews={} /> */}
       </DetailSection>
+
+      <EditProfileModal
+        visible={editModalVisible}
+        onSubmit={onSubmitProfileChange}
+        closeModal={onCloseEditProfileModal}
+        editableUser={{ id, picture, name, description, title, link, email }}
+      />
     </Wrapper>
   );
 };
@@ -64,6 +134,28 @@ const Wrapper = styled.div`
   color: ${cons.FONT_COLOR_NORMAL};
   position: relative;
   min-height: 100%;
+`;
+
+const EditButton = styled.button`
+  ${ButtonSecondarySmall};
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  color: ${cons.FONT_COLOR_LIGHT};
+  border: 1px solid #ddd;
+
+  padding-left: 1rem;
+  padding-right: 1rem;
+  height: 2.8rem;
+`;
+
+const EditIcon = styled.img`
+  width: 1rem;
+  margin-right: 0.5rem;
+  opacity: 0.5;
 `;
 
 const Header = styled.div`
@@ -76,19 +168,24 @@ const Header = styled.div`
 
 const BasicSecion = styled.div`
   margin-bottom: 3rem;
+  position: relative;
 `;
 
 const NameAndDescription = styled.div`
   padding: 2rem 2rem;
+  position: relative;
 `;
 
 const Picture = styled.img`
-  width: 4rem;
+  width: 7rem;
+  border-radius: 100%;
+  border: 1px solid ${cons.FONT_COLOR_SUPER_LIGHT};
 `;
+
 const Name = styled.div`
   font-weight: bold;
   margin-top: 1rem;
-  ${FontSizeSemiLarge};
+  ${FontSizeLarge};
 `;
 
 const Id = styled.div`
@@ -115,6 +212,7 @@ const Description = styled.div`
   font-weight: 400;
   color: ${cons.FONT_COLOR_SECONDARY};
   margin-bottom: 0.6rem;
+  line-height: 1.6em;
 `;
 
 const LinkBio = styled.a`
@@ -129,4 +227,10 @@ const LinkIcon = styled.img`
 const StatsInfo = styled.div``;
 
 const DetailSection = styled.div``;
-const Detail = styled.div``;
+
+const LoadingBody = styled.div`
+  margin-top: 1rem;
+  min-height: 15rem;
+  margin-bottom: 1rem;
+  position: relative;
+`;

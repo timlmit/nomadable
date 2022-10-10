@@ -3,7 +3,7 @@ import { COOKIE_ACCESS_TOKEN } from "./../constants";
 import { APP_URL } from "../constants";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { readCookie } from "../modules/CookieHandler";
-import { User, UserWithStats } from "../redux/slices/userSlice";
+import { EditableUser, User, UserWithStats } from "../redux/slices/userSlice";
 import { CallError } from "./Types";
 import { Contributer } from "../redux/slices/contributerSlice";
 
@@ -123,6 +123,35 @@ export const callFetchMyAccountWithStats = async (): Promise<{
     const response = await axios({
       method: "get",
       url: `${APP_URL}/api/my-account`,
+      headers: {
+        Authorization: readCookie(COOKIE_ACCESS_TOKEN) || "",
+      },
+    });
+
+    return { data: response.data };
+  } catch (error: any) {
+    throw {
+      code: "",
+      message: error.response.data,
+    };
+  }
+};
+
+// updateUser
+
+export const callUpdateUser = async (
+  editableUser: EditableUser,
+  base64: string
+): Promise<{
+  data: {
+    editableUser: EditableUser;
+  };
+}> => {
+  try {
+    const response = await axios({
+      method: "post",
+      url: `${APP_URL}/api/update-user`,
+      data: { editableUser, base64 },
       headers: {
         Authorization: readCookie(COOKIE_ACCESS_TOKEN) || "",
       },

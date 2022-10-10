@@ -3,13 +3,14 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { CallError } from "../../../calls/Types";
 import { RootState } from "../../store";
 import * as cons from "../../../constants";
-import { User, UserWithStats } from "../userSlice";
+import { EditableUser, User, UserWithStats } from "../userSlice";
 import {
   callFetchContributersArea,
   callFetchMyAccountWithStats,
   callFetchUser,
   callLoginUser,
   callSignupWithEmail,
+  callUpdateUser,
   callVerifyUser,
 } from "../../../calls/userCalls";
 import { ERR_SOMETHING } from "../../../modules/ErrorCode";
@@ -34,6 +35,7 @@ interface ApiState {
   // contributers
   apiFetchContributersAreaStatus: ApiStatus;
   apiFetchMyAccountWithStatsStatus: ApiStatus;
+  apiUpdateUserStatus: ApiStatus;
 }
 
 /**
@@ -54,6 +56,7 @@ const initialState: ApiState = {
   // others
   apiFetchContributersAreaStatus: initialApiState,
   apiFetchMyAccountWithStatsStatus: initialApiState,
+  apiUpdateUserStatus: initialApiState,
 };
 
 const apiSlice = createSlice({
@@ -177,6 +180,22 @@ const apiSlice = createSlice({
       } else {
         state.apiFetchMyAccountWithStatsStatus.error =
           action.error.message || "";
+      }
+    });
+
+    // UpdateUser
+    builder.addCase(apiUpdateUser.pending, (state, action) => {
+      state.apiUpdateUserStatus.status = cons.API_LOADING;
+    });
+    builder.addCase(apiUpdateUser.fulfilled, (state, action) => {
+      state.apiUpdateUserStatus.status = cons.API_SUCCEEDED;
+    });
+    builder.addCase(apiUpdateUser.rejected, (state, action) => {
+      state.apiUpdateUserStatus.status = cons.API_FALIED;
+      if (action.payload) {
+        state.apiUpdateUserStatus.error = action.payload.message;
+      } else {
+        state.apiUpdateUserStatus.error = action.error.message || "";
       }
     });
   },
@@ -312,6 +331,29 @@ export const apiFetchMyAccountWithStats = createAsyncThunk<
   }
 });
 
+// UpdateUser
+
+export const apiUpdateUser = createAsyncThunk<
+  {
+    editableUser: EditableUser;
+  }, // Return type of the payload creator
+  {
+    editableUser: EditableUser;
+    base64: string;
+  }, // First argument to the payload creator
+  {
+    rejectValue: CallError;
+  } // Types for ThunkAPI
+>("users/UpdateUser", async ({ editableUser, base64 }, thunkApi) => {
+  try {
+    const { data } = await callUpdateUser(editableUser, base64);
+    if (!data) throw unknownError;
+    return data;
+  } catch (error: any) {
+    return thunkApi.rejectWithValue(error as CallError);
+  }
+});
+
 /**
  * Actions: call ajax & mutate store (only from here)
  */
@@ -347,6 +389,9 @@ export const selectApiFetchContributersAreaStatus = (
 export const selectApiFetchMyAccountWithStatsStatus = (
   state: RootState
 ): ApiStatus => state.apiUser.apiFetchMyAccountWithStatsStatus;
+
+export const selectApiUpdateUserStatus = (state: RootState): ApiStatus =>
+  state.apiUser.apiUpdateUserStatus;
 
 /**
  * Export actions & reducer

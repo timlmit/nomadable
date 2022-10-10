@@ -1,7 +1,12 @@
 import { Point } from "mapbox-gl";
 import { UserWithStats } from "../../redux/slices/userSlice";
 
-export const getUserWithStats = async (userId: string, mongoose: any) => {
+export const getUserWithStats = async (
+  userId: string,
+  mongoose: any,
+  myAccount: boolean
+) => {
+  console.log("🚀 ~ file: getUserWithStats.ts ~ line 9 ~ userId", userId);
   const User = mongoose.model("User");
   const Point = mongoose.model("Point");
   const Place = mongoose.model("Place");
@@ -23,7 +28,7 @@ export const getUserWithStats = async (userId: string, mongoose: any) => {
     );
 
     // discovered places
-    const discoveredPlaceCnt = await Place.count({ discovedBy: userId });
+    const discoveredPlaceCnt = await Place.count({ discoveredBy: userId });
 
     // check ins
     const checkInCnt = await CheckIn.count({ userId });
@@ -31,6 +36,7 @@ export const getUserWithStats = async (userId: string, mongoose: any) => {
     const userWithStats: UserWithStats = {
       _id: user._id,
       id: user.id,
+      email: myAccount ? user.email : "",
       name: user.name,
       picture: user.picture,
       title: user.title,
@@ -38,8 +44,8 @@ export const getUserWithStats = async (userId: string, mongoose: any) => {
       link: user.link,
       created: user.created,
       // outer data
-      points: ranking[indexOfUser].total,
-      ranking: indexOfUser + 1,
+      points: ranking[indexOfUser] ? ranking[indexOfUser].total : 0,
+      ranking: indexOfUser < 0 ? ranking.length + 1 : indexOfUser + 1,
       discovered: discoveredPlaceCnt,
       checkIns: checkInCnt,
     };
