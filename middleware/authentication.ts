@@ -9,6 +9,7 @@ const openUrls = [
   "/api/place-with-data",
   "/api/places",
   "/api/contributers-area",
+  "/api/user-with-stats",
 ];
 
 const withoutAuth = (url: string): boolean => {

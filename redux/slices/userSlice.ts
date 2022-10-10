@@ -4,6 +4,7 @@ import { AppDispatch, RootState } from "../store";
 import {
   apiFetchMyAccountWithStats,
   apiFetchUser,
+  apiFetchUserWithStats,
   apiUpdateUser,
 } from "./api/apiUserSlice";
 
@@ -50,6 +51,7 @@ export interface UserWithStats {
 
 interface UserState {
   user: User;
+  userWithStatsMine: UserWithStats;
   userWithStats: UserWithStats;
 }
 
@@ -93,6 +95,7 @@ export const initialUserWithStats: UserWithStats = {
 
 const initialState: UserState = {
   user: initialUser,
+  userWithStatsMine: initialUserWithStats,
   userWithStats: initialUserWithStats,
 };
 
@@ -104,24 +107,30 @@ const userSlice = createSlice({
     updateUser: (state, action: PayloadAction<{ user: User }>) => {
       state.user = action.payload.user;
     },
+    initUserWithStats: (state) => {
+      state.userWithStats = initialUserWithStats;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(apiFetchUser.fulfilled, (state, action) => {
       state.user = action.payload.user;
     });
     builder.addCase(apiFetchMyAccountWithStats.fulfilled, (state, action) => {
+      state.userWithStatsMine = action.payload.userWithStats;
+    });
+    builder.addCase(apiFetchUserWithStats.fulfilled, (state, action) => {
       state.userWithStats = action.payload.userWithStats;
     });
     builder.addCase(apiUpdateUser.fulfilled, (state, action) => {
-      state.userWithStats = {
-        ...state.userWithStats,
+      state.userWithStatsMine = {
+        ...state.userWithStatsMine,
         ...action.payload.editableUser,
       };
     });
   },
 });
 
-export const { updateUser } = userSlice.actions;
+export const { updateUser, initUserWithStats } = userSlice.actions;
 
 /**
  * Selectors
@@ -131,6 +140,9 @@ export const selectUser = (state: RootState): User => state.user.user;
 
 export const selectAuthenticated = (state: RootState): boolean =>
   state.user.user._id !== "";
+
+export const selectMyAccountWithStats = (state: RootState): UserWithStats =>
+  state.user.userWithStatsMine;
 
 export const selectUserWithStats = (state: RootState): UserWithStats =>
   state.user.userWithStats;

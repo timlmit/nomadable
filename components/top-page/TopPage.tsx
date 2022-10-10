@@ -7,7 +7,12 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { apiFetchPlaces } from "../../redux/slices/api/apiPlaceSlice";
 import { apiFetchContributersArea } from "../../redux/slices/api/apiUserSlice";
 import { selectContributersArea } from "../../redux/slices/contributerSlice";
-import { MapArea, Place } from "../../redux/slices/placeSlice";
+import {
+  FilterObj,
+  initialFilterObj,
+  MapArea,
+  Place,
+} from "../../redux/slices/placeSlice";
 import { ClickableStyle } from "../../styles/styled-components/Interactions";
 import { MapSearch } from "../commons/MapSearch";
 import { RecentCheckIns } from "./recent-checkins/RecentCheckIns";
@@ -23,6 +28,7 @@ export const TopPage: React.FC<Props> = ({ places }) => {
   const [mapArea, setMapArea] = useState<null | MapArea>(null);
   const [pageIndex, setPageIndex] = useState(0);
   const [selectedPlace, setSelectedPlace] = useState("");
+  const [filterObj, setFilterObj] = useState<FilterObj>(initialFilterObj);
   const fetchTimeoutRef = useRef<any>(0);
   const contributers = useAppSelector(selectContributersArea);
 
@@ -30,11 +36,16 @@ export const TopPage: React.FC<Props> = ({ places }) => {
    * Modules
    */
 
-  const searchPlaces = (mapArea: MapArea, pageIndex: number) => {
+  const searchPlaces = (
+    mapArea: MapArea,
+    pageIndex: number,
+    _filterObj: FilterObj
+  ) => {
     dispatch(
       apiFetchPlaces({
         mapArea,
         pageIndex,
+        filterObj: _filterObj,
       })
     );
   };
@@ -72,14 +83,18 @@ export const TopPage: React.FC<Props> = ({ places }) => {
     setPageIndex(pageIndex);
   };
 
+  const onChangeFilterObj = (_filterObj: FilterObj) => {
+    setFilterObj(_filterObj);
+  };
+
   /**
    * Effect
    */
 
   useEffect(() => {
     if (!mapArea) return;
-    searchPlaces(mapArea, pageIndex);
-  }, [mapArea, pageIndex]);
+    searchPlaces(mapArea, pageIndex, filterObj);
+  }, [mapArea, pageIndex, filterObj]);
 
   useEffect(() => {
     // if (places.length > 0) {
@@ -101,6 +116,8 @@ export const TopPage: React.FC<Props> = ({ places }) => {
           width={RESULT_WIDTH}
           selectedPlace={selectedPlace}
           contributers={contributers}
+          onChangeFilterObj={onChangeFilterObj}
+          filterObj={filterObj}
         />
       </SearchResultSection>
       <MapSection>

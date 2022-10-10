@@ -56,6 +56,10 @@ export interface MapArea {
   lngEnd: number;
 }
 
+export interface FilterObj {
+  placeTypes: string[];
+}
+
 interface PlaceState {
   searchResult: Place[];
   recentCheckIns: Place[];
@@ -65,6 +69,10 @@ interface PlaceState {
 /**
  * Reducer
  */
+
+export const initialFilterObj: FilterObj = {
+  placeTypes: [],
+};
 
 export const initialPlace: Place = {
   id: "",

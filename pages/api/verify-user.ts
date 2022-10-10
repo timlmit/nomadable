@@ -21,10 +21,6 @@ handler.post(async (req: any, res: any) => {
 
     // get verification code object
     const code = await OneTimeCode.findOne({ value: verificationCode });
-    console.log(
-      "🚀 ~ file: verify-user.ts ~ line 24 ~ handler.post ~ code",
-      code
-    );
 
     if (!code || code.expireAt < new Date()) throw Error;
 
@@ -32,15 +28,13 @@ handler.post(async (req: any, res: any) => {
     const user = await User.findOne({
       email: code.key,
     });
-    console.log(
-      "🚀 ~ file: verify-user.ts ~ line 32 ~ handler.post ~ user",
-      user
-    );
+
     if (!user) throw Error;
 
     // modify user
     user.verified = true;
-    user.picture = `/icon/user-pink.png`;
+    const iconNum = Math.floor(Math.random() * 8);
+    user.picture = `/img/profile-icons/profile-icon${iconNum}.png`;
     await user.save();
 
     const token = generateToken(user._id);
@@ -56,10 +50,6 @@ handler.post(async (req: any, res: any) => {
 
     return res.status(200).json({ token });
   } catch (error: any) {
-    console.log(
-      "🚀 ~ file: verify-user.ts ~ line 51 ~ handler.post ~ error",
-      error
-    );
     return res.status(500).json(ERR_VERIFICATION_EXPIRED);
   }
 });

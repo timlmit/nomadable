@@ -21,7 +21,7 @@ export const LoginModalContainer: React.FC<Props> = ({}) => {
 
   return (
     <LoginModal
-      visible={visibleModal === MODAL_LOGIN}
+      visible={visibleModal.modalId === MODAL_LOGIN}
       closeModal={closeModal}
     />
   );

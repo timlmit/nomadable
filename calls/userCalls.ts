@@ -137,6 +137,29 @@ export const callFetchMyAccountWithStats = async (): Promise<{
   }
 };
 
+// callFetchUserWithStats
+
+export const callFetchUserWithStats = async (
+  userId: string
+): Promise<{
+  data: { userWithStats: UserWithStats };
+}> => {
+  try {
+    const response = await axios({
+      method: "get",
+      url: `${APP_URL}/api/user-with-stats`,
+      params: { userId },
+    });
+
+    return { data: response.data };
+  } catch (error: any) {
+    throw {
+      code: "",
+      message: error.response.data,
+    };
+  }
+};
+
 // updateUser
 
 export const callUpdateUser = async (

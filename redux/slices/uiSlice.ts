@@ -17,7 +17,10 @@ interface NotificationState {
 
 interface UiState {
   notification: NotificationState;
-  visibleModal: string;
+  visibleModal: {
+    modalId: string;
+    referenceId: string;
+  };
   pointEarned: {
     updated: number;
     addingPoint: number;
@@ -38,7 +41,10 @@ const initialNotification: NotificationState = {
 
 const initialState: UiState = {
   notification: initialNotification,
-  visibleModal: "",
+  visibleModal: {
+    modalId: "",
+    referenceId: "",
+  },
   pointEarned: {
     updated: 0,
     addingPoint: 0,
@@ -61,8 +67,16 @@ const uiSlice = createSlice({
       state.notification.seconds = action.payload.seconds;
     },
     // Update Visible Modal
-    updateVisibleModal: (state, action: PayloadAction<{ id: string }>) => {
-      state.visibleModal = action.payload.id;
+    updateVisibleModal: (
+      state,
+      action: PayloadAction<{ id: string; referenceId?: string }>
+    ) => {
+      state.visibleModal.modalId = action.payload.id;
+      state.visibleModal.referenceId = action.payload.referenceId || "";
+    },
+    closeModalGlobal: (state) => {
+      state.visibleModal.modalId = "";
+      state.visibleModal.referenceId = "";
     },
     showPointEarned: (
       state,
@@ -78,8 +92,12 @@ const uiSlice = createSlice({
   },
 });
 
-export const { showNotification, updateVisibleModal, showPointEarned } =
-  uiSlice.actions;
+export const {
+  showNotification,
+  updateVisibleModal,
+  showPointEarned,
+  closeModalGlobal,
+} = uiSlice.actions;
 
 /**
  * Selectors
@@ -88,8 +106,9 @@ export const { showNotification, updateVisibleModal, showPointEarned } =
 export const selectNotificationState = (state: RootState): NotificationState =>
   state.ui.notification;
 
-export const selectVisibleModal = (state: RootState): string =>
-  state.ui.visibleModal;
+export const selectVisibleModal = (
+  state: RootState
+): { modalId: string; referenceId: string } => state.ui.visibleModal;
 
 export const selectPointEarned = (
   state: RootState

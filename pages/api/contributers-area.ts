@@ -23,7 +23,7 @@ const makeContributers = (pointSums: any[], users: any): Contributer[] => {
       userId: user ? user._id : "",
       name: user ? user.name : "",
       picture: user ? user.picture : "",
-      description: user ? user.description : "",
+      title: user ? user.title : "",
       point: pointSum.total,
     };
   });

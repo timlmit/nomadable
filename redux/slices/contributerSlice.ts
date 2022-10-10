@@ -10,7 +10,7 @@ export interface Contributer {
   userId: string;
   name: string;
   picture: string;
-  description: string;
+  title: string;
   point: number;
 }
 

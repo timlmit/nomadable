@@ -8,6 +8,7 @@ import {
   callFetchContributersArea,
   callFetchMyAccountWithStats,
   callFetchUser,
+  callFetchUserWithStats,
   callLoginUser,
   callSignupWithEmail,
   callUpdateUser,
@@ -35,6 +36,7 @@ interface ApiState {
   // contributers
   apiFetchContributersAreaStatus: ApiStatus;
   apiFetchMyAccountWithStatsStatus: ApiStatus;
+  apiFetchUserWithStatsStatus: ApiStatus;
   apiUpdateUserStatus: ApiStatus;
 }
 
@@ -56,6 +58,7 @@ const initialState: ApiState = {
   // others
   apiFetchContributersAreaStatus: initialApiState,
   apiFetchMyAccountWithStatsStatus: initialApiState,
+  apiFetchUserWithStatsStatus: initialApiState,
   apiUpdateUserStatus: initialApiState,
 };
 
@@ -180,6 +183,22 @@ const apiSlice = createSlice({
       } else {
         state.apiFetchMyAccountWithStatsStatus.error =
           action.error.message || "";
+      }
+    });
+
+    // FetchUserWithStats
+    builder.addCase(apiFetchUserWithStats.pending, (state, action) => {
+      state.apiFetchUserWithStatsStatus.status = cons.API_LOADING;
+    });
+    builder.addCase(apiFetchUserWithStats.fulfilled, (state, action) => {
+      state.apiFetchUserWithStatsStatus.status = cons.API_SUCCEEDED;
+    });
+    builder.addCase(apiFetchUserWithStats.rejected, (state, action) => {
+      state.apiFetchUserWithStatsStatus.status = cons.API_FALIED;
+      if (action.payload) {
+        state.apiFetchUserWithStatsStatus.error = action.payload.message;
+      } else {
+        state.apiFetchUserWithStatsStatus.error = action.error.message || "";
       }
     });
 
@@ -324,6 +343,22 @@ export const apiFetchMyAccountWithStats = createAsyncThunk<
 >("users/FetchMyAccountWithStats", async (_, thunkApi) => {
   try {
     const { data } = await callFetchMyAccountWithStats();
+    if (!data) throw unknownError;
+    return data;
+  } catch (error: any) {
+    return thunkApi.rejectWithValue(error as CallError);
+  }
+});
+
+export const apiFetchUserWithStats = createAsyncThunk<
+  { userWithStats: UserWithStats }, // Return type of the payload creator
+  { userId: string }, // First argument to the payload creator
+  {
+    rejectValue: CallError;
+  } // Types for ThunkAPI
+>("users/FetchUserWithStats", async ({ userId }, thunkApi) => {
+  try {
+    const { data } = await callFetchUserWithStats(userId);
     if (!data) throw unknownError;
     return data;
   } catch (error: any) {

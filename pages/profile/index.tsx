@@ -11,7 +11,7 @@ import {
   apiFetchMyAccountWithStats,
   selectApiFetchMyAccountWithStatsStatus,
 } from "../../redux/slices/api/apiUserSlice";
-import { selectUserWithStats } from "../../redux/slices/userSlice";
+import { selectMyAccountWithStats } from "../../redux/slices/userSlice";
 
 interface Props {}
 
@@ -19,7 +19,7 @@ const AccountContainer: React.FC<Props> = ({}) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const apiStatus = useAppSelector(selectApiFetchMyAccountWithStatsStatus);
-  const userWithStats = useAppSelector(selectUserWithStats);
+  const userWithStats = useAppSelector(selectMyAccountWithStats);
 
   useEffect(() => {
     if (apiStatus.status === cons.API_IDLE) {

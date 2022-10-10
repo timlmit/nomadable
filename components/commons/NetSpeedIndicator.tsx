@@ -10,9 +10,9 @@ interface Props {
 
 export const getColorOfSpeed = (_speed: number) => {
   if (_speed === 0) return cons.FONT_COLOR_LIGHTEST;
-  if (_speed >= 100) return cons.FONT_COLOR_NORMAL;
-  if (_speed >= 30) return cons.COLOR_BLUE_2;
-  if (_speed >= 8) return cons.COLOR_ORANGE_0;
+  if (_speed >= 100) return cons.COLOR_BLUE_1;
+  if (_speed >= 30) return "#1abb7d";
+  if (_speed >= 8) return "#eebb11";
   return cons.COLOR_RED_1;
 };
 

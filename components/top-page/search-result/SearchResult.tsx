@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import * as cons from "../../../constants";
 import * as fs from "../../../styles/styled-components/FontSize";
-import { Place } from "../../../redux/slices/placeSlice";
+import { FilterObj, Place } from "../../../redux/slices/placeSlice";
 import { ButtonSecondarySmallest } from "../../../styles/styled-components/Buttons";
 import { ContainerStyleInside } from "../../../styles/styled-components/Layouts";
 import { Contributers } from "./Contributers";
@@ -15,6 +15,7 @@ import { SectionLoader } from "../../commons/SectionLoader";
 import { useAppSelector } from "../../../redux/hooks";
 import { selectApiFetchPlacesStatus } from "../../../redux/slices/api/apiPlaceSlice";
 import { Contributer } from "../../../redux/slices/contributerSlice";
+import { FilterModal } from "./FilterModal";
 
 const HEADER_HEIGHT = 5;
 
@@ -24,6 +25,8 @@ interface Props {
   width: number;
   selectedPlace: string;
   contributers: Contributer[];
+  onChangeFilterObj: (filterObj: FilterObj) => void;
+  filterObj: FilterObj;
 }
 
 export const SearchResult: React.FC<Props> = ({
@@ -32,8 +35,24 @@ export const SearchResult: React.FC<Props> = ({
   width,
   selectedPlace,
   contributers,
+  onChangeFilterObj,
+  filterObj,
 }) => {
   const apiStatus = useAppSelector(selectApiFetchPlacesStatus);
+  const [filterVisible, setFilterVisible] = useState(false);
+
+  const onClickFilterButton = () => {
+    setFilterVisible(true);
+  };
+
+  const onClickFilterSave = (filterObj: FilterObj) => {
+    setFilterVisible(false);
+    onChangeFilterObj(filterObj);
+  };
+
+  const closeFilterModal = () => {
+    setFilterVisible(false);
+  };
 
   /**
    * Effect
@@ -49,12 +68,25 @@ export const SearchResult: React.FC<Props> = ({
    * Render
    */
 
+  const renderFilterCount = () => {
+    let filterCnt = 0;
+
+    if (filterObj.placeTypes.length > 0) filterCnt += 1;
+
+    if (filterCnt < 1) return null;
+    return <FilterCnt>{filterCnt}</FilterCnt>;
+  };
+
   return (
     <Wrapper>
       <SectionLoader visible={apiStatus.status === cons.API_LOADING} />
       <Header width={width}>
         <PageTitle>{places.length} Cafes with WiFi</PageTitle>
-        <FilterButton>Filter</FilterButton>
+        <FilterButton onClick={onClickFilterButton}>
+          <FilterIcon src="/icon/filter-black3.svg" />
+          Filter
+          {renderFilterCount()}
+        </FilterButton>
       </Header>
       <NotFixed>
         <ItemContainer>
@@ -81,6 +113,13 @@ export const SearchResult: React.FC<Props> = ({
           <Contributers contributers={contributers} />
         </ContributersSection>
       </NotFixed>
+
+      <FilterModal
+        visible={filterVisible}
+        filterObj={filterObj}
+        onClickFilterSave={onClickFilterSave}
+        closeModal={closeFilterModal}
+      />
     </Wrapper>
   );
 };
@@ -124,6 +163,34 @@ const PageTitle = styled.div`
 const FilterButton = styled.button`
   ${ButtonSecondarySmallest};
   margin-left: 2rem;
+  display: flex;
+  align-items: center;
+  position: relative;
+`;
+
+const FilterCnt = styled.div`
+  position: absolute;
+  top: -0.4rem;
+  right: -0.4rem;
+  margin-left: 0.4rem;
+  background-color: ${cons.COLOR_RED_3};
+  background-color: ${cons.FONT_COLOR_SECONDARY};
+  color: white;
+  width: 1.5rem;
+  height: 1.5rem;
+  ${fs.FontSizeSemiSmall}
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+  /* box-shadow: ${cons.SHADOW_0}; */
+  font-weight: bold;
+`;
+
+const FilterIcon = styled.img`
+  opacity: 0.5;
+  width: 1.1rem;
+  margin-right: 0.6rem;
 `;
 
 const ItemContainer = styled.div`

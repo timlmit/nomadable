@@ -5,15 +5,24 @@ import * as fs from "../../../styles/styled-components/FontSize";
 import { Contributer } from "../../../redux/slices/contributerSlice";
 import { HeaderSmall } from "../../../styles/styled-components/Texts";
 import { SectionLoader } from "../../commons/SectionLoader";
-import { useAppSelector } from "../../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { selectApiFetchContributersAreaStatus } from "../../../redux/slices/api/apiUserSlice";
+import { updateVisibleModal } from "../../../redux/slices/uiSlice";
+import { ClickableStyle } from "../../../styles/styled-components/Interactions";
 
 interface Props {
   contributers: Contributer[];
 }
 
 export const Contributers: React.FC<Props> = ({ contributers }) => {
+  const dispatch = useAppDispatch();
   const apiStatus = useAppSelector(selectApiFetchContributersAreaStatus);
+
+  const onClickUser = (userId: string) => {
+    dispatch(
+      updateVisibleModal({ id: cons.MODAL_USER_INFO, referenceId: userId })
+    );
+  };
 
   /**
    * Render
@@ -25,15 +34,15 @@ export const Contributers: React.FC<Props> = ({ contributers }) => {
       <Label>Top Contributers in the Area</Label>
       <Card>
         <SectionLoader visible={apiStatus.status === cons.API_LOADING} />
-        {contributers.map(({ userId, name, picture, description, point }) => {
+        {contributers.map(({ userId, name, picture, title, point }) => {
           return (
-            <ItemWrapper key={userId}>
+            <ItemWrapper key={userId} onClick={() => onClickUser(userId)}>
               <Picture>
                 <PictureImg src={picture} />
               </Picture>
               <Info>
                 <Name>{name}</Name>
-                <Description>{description}</Description>
+                <Description>{title}</Description>
               </Info>
               <Point>
                 <PointNumber>{point}</PointNumber>pts
@@ -66,18 +75,19 @@ const Card = styled.div`
 `;
 
 const ItemWrapper = styled.div`
+  ${ClickableStyle}
   display: flex;
   align-items: center;
   padding: 0.8rem 0;
   box-sizing: border-box;
 `;
 
-const Picture = styled.div`
-  width: 3.2rem;
-`;
+const Picture = styled.div``;
 
 const PictureImg = styled.img`
-  width: 100%;
+  width: 3.2rem;
+  height: 3.2rem;
+  border-radius: 100%;
 `;
 
 const Info = styled.div`

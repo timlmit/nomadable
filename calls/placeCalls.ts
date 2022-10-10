@@ -1,6 +1,11 @@
 import { APP_URL, COOKIE_ACCESS_TOKEN } from "../constants";
 import axios from "axios";
-import { MapArea, Place, PlaceWithData } from "../redux/slices/placeSlice";
+import {
+  FilterObj,
+  MapArea,
+  Place,
+  PlaceWithData,
+} from "../redux/slices/placeSlice";
 import { readCookie } from "../modules/CookieHandler";
 
 export const callCreatePlace = async (
@@ -85,17 +90,23 @@ export const callCheckIn = async (
 export const callFetchPlaces = async (params: {
   mapArea: MapArea;
   pageIndex: number;
+  filterObj: FilterObj;
 }): Promise<{ places: Place[] }> => {
+  console.log(
+    "🚀 ~ file: placeCalls.ts ~ line 95 ~ filterObj",
+    params.filterObj
+  );
   try {
     const response = await axios({
-      method: "get",
+      method: "post",
       url: `${APP_URL}/api/places`,
-      params: {
+      data: {
         latStart: params.mapArea.latStart,
         lngStart: params.mapArea.lngStart,
         latEnd: params.mapArea.latEnd,
         lngEnd: params.mapArea.lngEnd,
         pageIndex: params.pageIndex,
+        filterObj: params.filterObj,
       },
     });
 

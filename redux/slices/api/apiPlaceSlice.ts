@@ -13,7 +13,7 @@ import {
   callFetchPlace,
 } from "../../../calls/placeCalls";
 import { ERR_SOMETHING } from "../../../modules/ErrorCode";
-import { MapArea, Place, PlaceWithData } from "../placeSlice";
+import { FilterObj, MapArea, Place, PlaceWithData } from "../placeSlice";
 import { showPointEarned } from "../uiSlice";
 
 /**
@@ -223,13 +223,13 @@ export const apiCheckIn = createAsyncThunk<
 
 export const apiFetchPlaces = createAsyncThunk<
   { places: Place[] }, // Return type of the payload creator
-  { mapArea: MapArea; pageIndex: number }, // First argument to the payload creator
+  { mapArea: MapArea; pageIndex: number; filterObj: FilterObj }, // First argument to the payload creator
   {
     rejectValue: CallError;
   } // Types for ThunkAPI
->("place/FetchPlaces", async ({ mapArea, pageIndex }, thunkApi) => {
+>("place/FetchPlaces", async ({ mapArea, pageIndex, filterObj }, thunkApi) => {
   try {
-    const { places } = await callFetchPlaces({ mapArea, pageIndex });
+    const { places } = await callFetchPlaces({ mapArea, pageIndex, filterObj });
     return { places };
   } catch (error: any) {
     return thunkApi.rejectWithValue(error as CallError);

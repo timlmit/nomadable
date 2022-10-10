@@ -128,6 +128,7 @@ export const CONTAINER_WIDTH_SO_NARROW = "880px";
  * Modals
  */
 export const MODAL_LOGIN = "login";
+export const MODAL_USER_INFO = "user";
 
 /**
  * Notificatoin Type

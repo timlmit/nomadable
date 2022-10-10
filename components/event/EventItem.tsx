@@ -3,11 +3,14 @@ import styled from "styled-components";
 
 import * as cons from "../../constants";
 import { convertTimestampToTimeAgo } from "../../modules/DateUtils";
+import { useAppDispatch } from "../../redux/hooks";
 import { EventWithData } from "../../redux/slices/eventSlice";
+import { updateVisibleModal } from "../../redux/slices/uiSlice";
 import {
   FontSizeNormal,
   FontSizeSemiSmall,
 } from "../../styles/styled-components/FontSize";
+import { ClickableStyle } from "../../styles/styled-components/Interactions";
 import { ContainerStyleInside } from "../../styles/styled-components/Layouts";
 import { PlaceCard } from "./PlaceCard";
 
@@ -34,14 +37,22 @@ export const EventItem: React.FC<Props> = ({
     placeAddress,
   },
 }) => {
+  const dispatch = useAppDispatch();
+
+  const onClickUser = () => {
+    dispatch(
+      updateVisibleModal({ id: cons.MODAL_USER_INFO, referenceId: userId })
+    );
+  };
+
   return (
     <Wrapper>
       <ItemContainer>
-        <ProfilePic src={userPicture} />
+        <ProfilePic src={userPicture} onClick={onClickUser} />
         <MainSection>
           <MainSectionInner>
             <TitleRow>
-              <UserSubId>@{userSubId}</UserSubId>
+              <UserSubId onClick={onClickUser}>@{userSubId}</UserSubId>
               {`${title}`}
               <DateTime>{convertTimestampToTimeAgo(timestamp)}</DateTime>
             </TitleRow>
@@ -75,6 +86,7 @@ const ItemContainer = styled.div`
 `;
 
 const ProfilePic = styled.img`
+  ${ClickableStyle}
   border-radius: 100%;
   width: 3rem;
   height: 3rem;
@@ -100,6 +112,7 @@ const TitleRow = styled.div`
 `;
 
 const UserSubId = styled.div`
+  ${ClickableStyle}
   font-weight: bold;
   margin-right: 0.4em;
   color: ${cons.FONT_COLOR_NORMAL};
