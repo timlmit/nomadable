@@ -13,6 +13,7 @@ import {
   MapArea,
   Place,
 } from "../../redux/slices/placeSlice";
+import { forMobile } from "../../styles/Responsive";
 import { ClickableStyle } from "../../styles/styled-components/Interactions";
 import { MapSearch } from "../commons/MapSearch";
 import { RecentCheckIns } from "./recent-checkins/RecentCheckIns";
