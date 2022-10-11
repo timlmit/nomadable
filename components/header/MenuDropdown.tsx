@@ -34,7 +34,7 @@ export const MenuDropdown: React.FC<Props> = ({
 
   const goToPage = (pathname: string) => {
     hideDropdown();
-    router.push(pathname);
+    router.replace(pathname);
   };
 
   const onClickLogin = () => {
@@ -52,24 +52,24 @@ export const MenuDropdown: React.FC<Props> = ({
     dispatch(updateUser({ user: initialUser }));
     dispatch(initApiFetchUserState());
     dispatch(initLoginUserState());
-    window.alert("Logged Out");
+    window.alert("Logged out");
   };
 
   const renderDropdownContent = () => {
     if (authenticated) {
       return (
         <Fragment>
-          <DropdownItem onClick={() => goToPage("new-place")}>
+          <DropdownItem onClick={() => goToPage("/new-place")}>
             <ItemIcon src="/icon/plus-black2.svg" />
             New Place
           </DropdownItem>
-          <DropdownItem onClick={() => goToPage("community")}>
+          <DropdownItem onClick={() => goToPage("/community")}>
             <ItemIcon src="/icon/group-black.svg" /> Community
           </DropdownItem>
-          <DropdownItem onClick={() => goToPage("profile")}>
+          <DropdownItem onClick={() => goToPage("/profile")}>
             <ItemIcon src="/icon/user-black.svg" /> Profile
           </DropdownItem>
-          <DropdownItem onClick={() => goToPage("setting")}>
+          <DropdownItem onClick={() => goToPage("/setting")}>
             <ItemIcon src="/icon/gear-black.svg" /> Setting
           </DropdownItem>
           <DropdownItem onClick={onClickLogout}>
@@ -82,7 +82,7 @@ export const MenuDropdown: React.FC<Props> = ({
     return (
       <Fragment>
         <DropdownItem onClick={onClickLogin}>Log In</DropdownItem>
-        <DropdownItem onClick={() => goToPage("signup")}>Sign Up</DropdownItem>
+        <DropdownItem onClick={() => goToPage("/signup")}>Sign Up</DropdownItem>
       </Fragment>
     );
   };

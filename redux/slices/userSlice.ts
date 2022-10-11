@@ -1,4 +1,4 @@
-import { API_SUCCEEDED } from "./../../constants";
+import { API_FALIED, API_SUCCEEDED } from "./../../constants";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { AppDispatch, RootState } from "../store";
@@ -140,6 +140,8 @@ export const { updateUser, initUserWithStats } = userSlice.actions;
 export const selectUser = (state: RootState): User => state.user.user;
 
 export const selectAuthenticated = (state: RootState): boolean | undefined => {
+  if (state.apiUser.apiFetchUserStatus.status === API_FALIED) return false;
+
   if (state.apiUser.apiFetchUserStatus.status !== API_SUCCEEDED)
     return undefined;
   return state.user.user._id !== "";
