@@ -5,18 +5,25 @@ import {
   CONTAINER_WIDTH_NARROW,
   FONT_COLOR_NORMAL,
   FONT_COLOR_LIGHTEST,
+  APP_LONG_DESCRIPTION,
+  APP_NAME,
+  APP_URL,
 } from "../../constants";
+import placeWithData from "../../pages/api/place-with-data";
 import { DottedBackground } from "../../styles/styled-components/Background";
 import {
   ButtonPrimaryLarge,
   ButtonText,
 } from "../../styles/styled-components/Buttons";
 import {
-  FontSizeExLarge,
   FontSizeSemiLarge,
   FontSizeNormal,
+  FontSizeHeroLarge,
+  FontSizeLarge,
+  FontSizeExLarge,
 } from "../../styles/styled-components/FontSize";
 import { ContainerStyle } from "../../styles/styled-components/Layouts";
+import HeadSetter from "../commons/HeadSetter";
 import { LayoutPlain } from "../commons/LayoutPlain";
 import { SignupForm } from "./SignupForm";
 
@@ -28,14 +35,16 @@ export const SignupPage: React.FC<Props> = ({}) => {
       <ContentsWrapper imageUrl="/img/img/background.jpg">
         <HeroSection width={CONTAINER_WIDTH_NARROW}>
           <CatchCopy>
-            <Title>旅行のストーリーを共有しましょう</Title>
+            <Title>Join the Nomadable Community</Title>
             <Subtitle>
-              TripNoteは旅行記共有サービスです。自分のアカウントを作成して好みのユーザーをフォローしたりあなたの旅行記を公開しましょう。
+              Nomadable is maintained by digital nomads around the world. Please
+              contribute by adding your favorite cafes, coworking spaces, and
+              hotels.
             </Subtitle>
           </CatchCopy>
 
           <Contents>
-            <Label>アカウントを作成</Label>
+            <Label>Create Your Account</Label>
             <FormBox>
               <SignupForm />
             </FormBox>
@@ -43,14 +52,7 @@ export const SignupPage: React.FC<Props> = ({}) => {
         </HeroSection>
 
         <Mention>
-          <a
-            href="https://unsplash.com/ja?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Unsplash
-          </a>
-          の
+          Image by{` `}
           <a
             href="https://unsplash.com/@ploywanasiri?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
             target="_blank"
@@ -58,7 +60,14 @@ export const SignupPage: React.FC<Props> = ({}) => {
           >
             Wanaporn Yangsiri
           </a>
-          が撮影した写真
+          {` `}
+          <a
+            href="https://unsplash.com/ja?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+            target="_blank"
+            rel="noreferrer"
+          >
+            [Unsplash]
+          </a>
         </Mention>
       </ContentsWrapper>
     </LayoutPlain>
@@ -92,15 +101,16 @@ const CatchCopy = styled.div`
 `;
 
 const Title = styled.div`
-  ${FontSizeExLarge}
+  ${FontSizeHeroLarge}
   font-weight: bold;
 `;
 
 const Subtitle = styled.div`
-  ${FontSizeSemiLarge}
-  font-weight: bold;
-  opacity: 0.9;
-  margin-top: 1em;
+  font-size: 1.6rem;
+  font-weight: 400;
+  opacity: 1;
+  margin-top: 1.5em;
+  line-height: 1.5em;
 `;
 
 const Contents = styled.div``;

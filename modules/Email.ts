@@ -15,11 +15,11 @@ export const sendMailUserVerify = async (
 
     const msg = {
       to: email,
-      from: "TripNote <noreply@tripnote.xyz>",
-      subject: "【TripNote】 アカウントの認証をお願いします",
+      from: "Nomadable <noreply@nomadable.net>",
+      subject: `Please Verify Your Account`,
       text: `${
-        userName.length > 0 && `${userName}様\n\n`
-      }TripNoteのログイン用認証リンクを発行いたしました。下記のURLをクリックしてTripNoteにログイン下さい。 \n\n ${APP_URL}/verify-account/${verificationCode} \n\nThanks,\nTripNote Team `,
+        userName.length > 0 && `Hi ${userName},\n\n`
+      }Thank you for joining Nomadable community! \nHere is the verification link to sign you up completely: \n\n ${APP_URL}/verify-account/${verificationCode} \n\nThanks,\nYuya Uzu from Nomadable`,
     };
     await sgMail.send(msg);
   } catch (err) {

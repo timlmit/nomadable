@@ -6,7 +6,6 @@ export const getUserWithStats = async (
   mongoose: any,
   myAccount: boolean
 ) => {
-  console.log("🚀 ~ file: getUserWithStats.ts ~ line 9 ~ userId", userId);
   const User = mongoose.model("User");
   const Point = mongoose.model("Point");
   const Place = mongoose.model("Place");

@@ -41,7 +41,7 @@ handler.get(async (req: any, res: any) => {
       },
       {
         $sort: {
-          checkInTime: -1,
+          lastCheckIn: -1,
         },
       },
       {

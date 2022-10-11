@@ -11,7 +11,7 @@ import { MenuDropdown } from "./MenuDropdown";
 interface Props {
   user: User;
   width: string;
-  authenticated: boolean;
+  authenticated: boolean | undefined;
   fixed?: boolean;
 }
 

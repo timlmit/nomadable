@@ -4,6 +4,7 @@ import nextConnect from "next-connect";
 import databaseMiddleware from "../../middleware/database";
 import authenticationMiddleware from "../../middleware/authentication";
 import { ERR_SOMETHING } from "../../modules/ErrorCode";
+import { generateUserId } from "./signup-with-email";
 
 const handler = nextConnect();
 
@@ -16,6 +17,7 @@ handler.post(async (req: any, res: any) => {
   const base64 = req.body.base64;
 
   const { picture, name, id, title, description, link } = editableUser;
+
   let imageUrl = "";
 
   if (base64.length > 0) {
@@ -25,12 +27,14 @@ handler.post(async (req: any, res: any) => {
   try {
     const User = req.mongoose.model("User");
 
+    const newId = await generateUserId(id, User, userId);
+
     const user: any = await User.findOneAndUpdate(
       { _id: userId },
       {
         picture: imageUrl || picture,
         name,
-        id,
+        id: newId,
         title,
         description,
         link,

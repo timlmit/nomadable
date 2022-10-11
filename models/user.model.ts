@@ -5,11 +5,7 @@ export const UserSchema = (mongoose: any) => {
     id: { type: String, index: { unique: true } },
     email: {
       type: String,
-      match: [/.+@.+\..+/, "Please type a valid email address"],
-      required: "email is required",
-      index: {
-        unique: true,
-      },
+      default: "",
     },
     name: {
       type: String,
@@ -59,7 +55,7 @@ export const UserSchema = (mongoose: any) => {
       {
         email: 1,
       },
-      { unique: true }
+      { unique: false }
     );
     mongoose.model("User", UserSchema);
   } catch (error: any) {}

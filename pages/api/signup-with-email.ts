@@ -14,7 +14,11 @@ const handler = nextConnect();
 handler.use(databaseMiddleware);
 handler.use(authenticationMiddleware);
 
-const generateUserId = async (userName: string, User: any): Promise<string> => {
+export const generateUserId = async (
+  userName: string,
+  User: any,
+  myUserId?: string
+): Promise<string> => {
   const candidateName = convertStringToId(userName);
   let number = 0;
   let finalName = "";
@@ -22,7 +26,10 @@ const generateUserId = async (userName: string, User: any): Promise<string> => {
   while (!finalName) {
     const tryName = `${candidateName}${number === 0 ? "" : number}`;
 
-    const existingUser = await User.findOne({ id: tryName }).lean();
+    const existingUser = await User.findOne({
+      id: tryName,
+      _id: { $ne: myUserId },
+    }).lean();
     if (!existingUser) {
       finalName = tryName;
       break;

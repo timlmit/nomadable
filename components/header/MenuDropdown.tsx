@@ -4,6 +4,7 @@ import styled from "styled-components";
 // import { doLogoutUser } from "../../redux/actions/userAction";
 import { useAppDispatch } from "../../redux/hooks";
 import {
+  DropDownIconStyle,
   DropDownItemStyle,
   DropdownWindowStyle,
 } from "../../styles/styled-components/Dropdown";
@@ -19,7 +20,7 @@ import { updateVisibleModal } from "../../redux/slices/uiSlice";
 
 interface Props {
   visible: boolean;
-  authenticated: boolean;
+  authenticated: boolean | undefined;
   hideDropdown: () => void;
 }
 
@@ -31,14 +32,9 @@ export const MenuDropdown: React.FC<Props> = ({
   const router = useRouter();
   const dispatch = useAppDispatch();
 
-  const onClickNew = () => {
+  const goToPage = (pathname: string) => {
     hideDropdown();
-    router.push("/new-place");
-  };
-
-  const onClickProfile = () => {
-    hideDropdown();
-    router.push("/profile");
+    router.push(pathname);
   };
 
   const onClickLogin = () => {
@@ -48,11 +44,6 @@ export const MenuDropdown: React.FC<Props> = ({
     //   pathname: router.pathname,
     //   query: { ...router.query, modal: cons.MODAL_LOGIN },
     // });
-  };
-
-  const onClickSignup = () => {
-    hideDropdown();
-    router.push("/signup");
   };
 
   const onClickLogout = () => {
@@ -68,22 +59,36 @@ export const MenuDropdown: React.FC<Props> = ({
     if (authenticated) {
       return (
         <Fragment>
-          <DropdownItem onClick={onClickNew}>Add New Place</DropdownItem>
-          <DropdownItem onClick={onClickProfile}>Profile</DropdownItem>
-          <DropdownItem onClick={onClickLogout}>Log Out</DropdownItem>
+          <DropdownItem onClick={() => goToPage("new-place")}>
+            <ItemIcon src="/icon/plus-black2.svg" />
+            New Place
+          </DropdownItem>
+          <DropdownItem onClick={() => goToPage("community")}>
+            <ItemIcon src="/icon/group-black.svg" /> Community
+          </DropdownItem>
+          <DropdownItem onClick={() => goToPage("profile")}>
+            <ItemIcon src="/icon/user-black.svg" /> Profile
+          </DropdownItem>
+          <DropdownItem onClick={() => goToPage("setting")}>
+            <ItemIcon src="/icon/gear-black.svg" /> Setting
+          </DropdownItem>
+          <DropdownItem onClick={onClickLogout}>
+            <ItemIcon src="/icon/logout-black3.svg" />
+            Log Out
+          </DropdownItem>
         </Fragment>
       );
     }
     return (
       <Fragment>
-        <DropdownItemBold onClick={onClickLogin}>Log In</DropdownItemBold>
-        {/* <DropdownItem onClick={onClickSignup}>登録する</DropdownItem> */}
+        <DropdownItem onClick={onClickLogin}>Log In</DropdownItem>
+        <DropdownItem onClick={() => goToPage("signup")}>Sign Up</DropdownItem>
       </Fragment>
     );
   };
 
   return (
-    <MenuDropdownWrapper visible={visible} width={"14rem"}>
+    <MenuDropdownWrapper visible={visible} width={"13rem"}>
       {renderDropdownContent()}
     </MenuDropdownWrapper>
   );
@@ -101,4 +106,14 @@ const DropdownItem = styled.div`
 const DropdownItemBold = styled.div`
   ${DropDownItemStyle}
   font-weight: bold;
+`;
+
+const ItemIcon = styled.img`
+  ${DropDownIconStyle}
+`;
+
+const Hr = styled.div`
+  height: 1px;
+  width: 100%;
+  background-color: ${cons.FONT_COLOR_SUPER_LIGHT};
 `;

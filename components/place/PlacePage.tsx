@@ -17,6 +17,7 @@ import {
   apiCheckIn,
   selectApiCheckInStatus,
 } from "../../redux/slices/api/apiPlaceSlice";
+import { selectAuthenticated } from "../../redux/slices/userSlice";
 
 interface Props {
   placeWithData: PlaceWithData;
@@ -27,6 +28,7 @@ export const PlacePage: React.FC<Props> = ({ placeWithData }) => {
   const dispatch = useAppDispatch();
 
   const apiStatusCheckIn = useAppSelector(selectApiCheckInStatus);
+  const isAuthenticated = useAppSelector(selectAuthenticated);
 
   const [checkInModalVisible, setCheckInModalVisible] = useState(false);
 
@@ -35,6 +37,11 @@ export const PlacePage: React.FC<Props> = ({ placeWithData }) => {
    */
 
   const onClickSpeedTest = () => {
+    if (!isAuthenticated) {
+      window.alert("Please login to use the check-in feature.");
+      return;
+    }
+
     setCheckInModalVisible(true);
   };
 
@@ -100,6 +107,7 @@ export const PlacePage: React.FC<Props> = ({ placeWithData }) => {
           </InfoItemWrapper>
           <DiscoveredByWrapper>
             <DiscoveredBy
+              userId={pd.discoveredBy}
               userName={pd.userName}
               userTitle={pd.userTitle}
               userPicture={pd.userPicture}

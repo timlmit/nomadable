@@ -1,3 +1,4 @@
+import { apiFetchRecentCheckIns } from "./apiPlaceSlice";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { CallError } from "../../../calls/Types";
@@ -5,6 +6,7 @@ import { RootState } from "../../store";
 import * as cons from "../../../constants";
 import { EditableUser, User, UserWithStats } from "../userSlice";
 import {
+  callDeleteUser,
   callFetchContributersArea,
   callFetchMyAccountWithStats,
   callFetchUser,
@@ -17,6 +19,7 @@ import {
 import { ERR_SOMETHING } from "../../../modules/ErrorCode";
 import { saveTokenToCookie } from "../../../modules/AuthUtils";
 import { Contributer } from "../contributerSlice";
+import { removeCookie } from "../../../modules/CookieHandler";
 
 /**
  * Types
@@ -38,6 +41,7 @@ interface ApiState {
   apiFetchMyAccountWithStatsStatus: ApiStatus;
   apiFetchUserWithStatsStatus: ApiStatus;
   apiUpdateUserStatus: ApiStatus;
+  apiDeleteUserStatus: ApiStatus;
 }
 
 /**
@@ -60,6 +64,7 @@ const initialState: ApiState = {
   apiFetchMyAccountWithStatsStatus: initialApiState,
   apiFetchUserWithStatsStatus: initialApiState,
   apiUpdateUserStatus: initialApiState,
+  apiDeleteUserStatus: initialApiState,
 };
 
 const apiSlice = createSlice({
@@ -217,6 +222,22 @@ const apiSlice = createSlice({
         state.apiUpdateUserStatus.error = action.error.message || "";
       }
     });
+
+    // UpdateUser
+    builder.addCase(apiDeleteUser.pending, (state, action) => {
+      state.apiDeleteUserStatus.status = cons.API_LOADING;
+    });
+    builder.addCase(apiDeleteUser.fulfilled, (state, action) => {
+      state.apiDeleteUserStatus.status = cons.API_SUCCEEDED;
+    });
+    builder.addCase(apiDeleteUser.rejected, (state, action) => {
+      state.apiDeleteUserStatus.status = cons.API_FALIED;
+      if (action.payload) {
+        state.apiDeleteUserStatus.error = action.payload.message;
+      } else {
+        state.apiDeleteUserStatus.error = action.error.message || "";
+      }
+    });
   },
 });
 
@@ -306,6 +327,7 @@ export const apiLoginUser = createAsyncThunk<
 
     setTimeout(() => {
       thunkApi.dispatch(apiFetchUser({}));
+      thunkApi.dispatch(apiFetchRecentCheckIns({}));
     }, 500);
 
     return data;
@@ -389,6 +411,27 @@ export const apiUpdateUser = createAsyncThunk<
   }
 });
 
+// DeleteUser
+
+export const apiDeleteUser = createAsyncThunk<
+  {}, // Return type of the payload creator
+  {}, // First argument to the payload creator
+  {
+    rejectValue: CallError;
+  } // Types for ThunkAPI
+>("users/DeleteUser", async (_, thunkApi) => {
+  try {
+    const { data } = await callDeleteUser();
+    removeCookie(cons.COOKIE_ACCESS_TOKEN, "/");
+    window.location.href = "/";
+
+    if (!data) throw unknownError;
+    return data;
+  } catch (error: any) {
+    return thunkApi.rejectWithValue(error as CallError);
+  }
+});
+
 /**
  * Actions: call ajax & mutate store (only from here)
  */
@@ -427,6 +470,9 @@ export const selectApiFetchMyAccountWithStatsStatus = (
 
 export const selectApiUpdateUserStatus = (state: RootState): ApiStatus =>
   state.apiUser.apiUpdateUserStatus;
+
+export const selectApiDeleteUserStatus = (state: RootState): ApiStatus =>
+  state.apiUser.apiDeleteUserStatus;
 
 /**
  * Export actions & reducer

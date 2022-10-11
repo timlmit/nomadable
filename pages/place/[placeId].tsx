@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
+import HeadSetter from "../../components/commons/HeadSetter";
 import { Layout } from "../../components/commons/Layout";
 import { SectionLoader } from "../../components/commons/SectionLoader";
 import { PlacePage } from "../../components/place/PlacePage";
@@ -48,6 +49,11 @@ const PlaceContainer: React.FC<Props> = ({}) => {
 
   return (
     <Layout width={cons.CONTAINER_WIDTH_NARROW}>
+      <HeadSetter
+        pageTitle={`${placeWithData.spotName} | ${cons.APP_NAME}`}
+        pageDescription={cons.APP_LONG_DESCRIPTION}
+        pagePath={`${cons.APP_URL}/place/${placeWithData.id}`}
+      />
       <SectionLoader
         visible={apiStatusFetchPlace.status === cons.API_LOADING}
       />

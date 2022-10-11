@@ -39,7 +39,7 @@ export const EventContents: React.FC<Props> = ({}) => {
 
   return (
     <EventContentsWrapper>
-      <Header>Event</Header>
+      <Header>Community</Header>
       <BodyWrapper>
         <EventsWrapper>
           {latestEvents.map((evt) => {

@@ -3,7 +3,12 @@ import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import * as cons from "../../constants";
-import { isEmail, isPassword } from "../../modules/StringValidator";
+import {
+  PASSWORD_MIN_LENGTH,
+  validateEmail,
+  validateName,
+  validatePassword,
+} from "../../modules/StringValidator";
 
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
@@ -11,6 +16,7 @@ import {
   initApiSignupWithEmailState,
   selectApiSignupWithEmailStatus,
 } from "../../redux/slices/api/apiUserSlice";
+import { updateVisibleModal } from "../../redux/slices/uiSlice";
 
 import {
   ButtonPrimaryLarge,
@@ -42,10 +48,12 @@ export const SignupForm: React.FC<Props> = ({}) => {
 
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [userNameError, setUserNameError] = useState("");
 
   const canSubmit = () => {
-    if (!isEmail(email)) return false;
-    if (!isPassword(password, 8)) return false;
+    if (validateEmail(email)) return false;
+    if (validatePassword(password)) return false;
+    if (validateName(userName)) return false;
     return true;
   };
 
@@ -60,29 +68,29 @@ export const SignupForm: React.FC<Props> = ({}) => {
     const input = e.target.value;
 
     setEmail(input);
+    if (input === "") return;
 
-    if (isEmail(input) || input === "") {
-      setEmailError("");
-    } else {
-      setEmailError("Email address is not correct.");
-    }
+    setEmailError(validateEmail(input));
   };
 
   const onChangePassword = (e: any) => {
     const input = e.target.value;
     setPassword(input);
 
-    if (isPassword(input, 8) || input === "") {
-      setPasswordError("");
-    } else {
-      setPasswordError(
-        "Passwords must be at least 8 characters long, including numbers."
-      );
-    }
+    if (input === "") return;
+    setPasswordError(validatePassword(input));
   };
 
   const onChangeUserName = (e: any) => {
-    setUserName(e.target.value);
+    const input = e.target.value;
+    setUserName(input);
+
+    if (input === "") return;
+    setUserNameError(validateName(input));
+  };
+
+  const onClickLogin = () => {
+    dispatch(updateVisibleModal({ id: cons.MODAL_LOGIN }));
   };
 
   useEffect(() => {
@@ -101,7 +109,8 @@ export const SignupForm: React.FC<Props> = ({}) => {
     <FormContainer autoComplete="off">
       <FormSet>
         <FormLabelStyle>
-          Email <RedSpanStyle>*</RedSpanStyle>
+          Email
+          {/* <RedSpanStyle>*</RedSpanStyle> */}
         </FormLabelStyle>
         <InputFormStyle
           placeholder="example@mail.com"
@@ -116,9 +125,12 @@ export const SignupForm: React.FC<Props> = ({}) => {
       </FormSet>
       <FormSet>
         <FormLabelStyle>
-          Password <RedSpanStyle>*</RedSpanStyle>
+          Password
+          {/* <RedSpanStyle>*</RedSpanStyle> */}
         </FormLabelStyle>
-        <InfotipStyle>8+ characters, including number</InfotipStyle>
+        <InfotipStyle>
+          {PASSWORD_MIN_LENGTH}+ characters, including number
+        </InfotipStyle>
         <InputFormStyle
           type="password"
           placeholder=""
@@ -137,9 +149,11 @@ export const SignupForm: React.FC<Props> = ({}) => {
           placeholder="User Name"
           value={userName}
           onChange={onChangeUserName}
+          error={userNameError.length > 0}
           autoCorrect="off"
           autoCapitalize="off"
         />
+        <ErrorMsgStyle>{userNameError}</ErrorMsgStyle>
       </FormSet>
       {apiSignupStatus.error.length > 0 && (
         <SignupErrorStyle>{apiSignupStatus.error}</SignupErrorStyle>
@@ -166,7 +180,7 @@ export const SignupForm: React.FC<Props> = ({}) => {
           shallow
           replace
         >
-          <GoToLoginButton>Login</GoToLoginButton>
+          <GoToLoginButton onClick={onClickLogin}>Login</GoToLoginButton>
         </Link>
       </FooterWrapperStyle>
     </FormContainer>

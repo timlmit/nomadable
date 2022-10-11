@@ -45,11 +45,15 @@ handler.get(async (req: any, res: any) => {
       return res.status(200).json({ contributers: [] });
     }
 
+    const deletedUsers = await User.find({ deletedDate: { $ne: null } }).lean();
+    const deletedUserIds = deletedUsers.map((u: any) => u._id.toString());
+
     // make contributers
     const pointSums = await Point.aggregate([
       {
         $match: {
           placeId: { $in: placeIds },
+          userId: { $nin: deletedUserIds },
         },
       },
       {
@@ -71,7 +75,7 @@ handler.get(async (req: any, res: any) => {
     ]);
 
     const userIds = pointSums.map((pointSum: any) => pointSum._id);
-    const users = await User.find({ _id: userIds }).lean();
+    const users = await User.find({ _id: userIds, deletedDate: null }).lean();
 
     const contributers = makeContributers(pointSums, users);
 

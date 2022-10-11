@@ -80,6 +80,7 @@ export const LoginModal: React.FC<Props> = ({ visible, closeModal }) => {
       setPassword("");
       if (router.pathname === "/signup") {
         router.push("/");
+        closeModal();
       } else {
         closeModal();
       }
@@ -88,10 +89,10 @@ export const LoginModal: React.FC<Props> = ({ visible, closeModal }) => {
 
   return (
     <Modal visible={visible} closeModal={closeModal} width="26rem">
-      <ModalHeader title="ログイン" onClickClose={closeModal} />
+      <ModalHeader title="Login" onClickClose={closeModal} />
       <FormContainer>
         <FormSet>
-          <FormLabelStyle>メールアドレス</FormLabelStyle>
+          <FormLabelStyle>Email</FormLabelStyle>
           <InputFormStyle
             placeholder="example@mail.com"
             value={email}
@@ -102,7 +103,7 @@ export const LoginModal: React.FC<Props> = ({ visible, closeModal }) => {
           />
         </FormSet>
         <FormSet>
-          <FormLabelStyle>パスワード</FormLabelStyle>
+          <FormLabelStyle>Password</FormLabelStyle>
 
           <InputFormStyle
             type="password"
@@ -126,12 +127,12 @@ export const LoginModal: React.FC<Props> = ({ visible, closeModal }) => {
           }
           onClick={onClickSubmit}
         >
-          ログイン
+          Login
         </SubmitButton>
         <TermsAndPrivacyStyle></TermsAndPrivacyStyle>
-        <DividerStyle />
+        {/* <DividerStyle /> */}
         <FooterWrapperStyle>
-          <Link
+          {/* <Link
             href={{
               pathname: router.pathname,
               query: { ...router.query, modal: cons.MODAL_LOGIN },
@@ -141,7 +142,7 @@ export const LoginModal: React.FC<Props> = ({ visible, closeModal }) => {
             replace
           >
             <GoToLoginButton>パスワードをお忘れの場合</GoToLoginButton>
-          </Link>
+          </Link> */}
         </FooterWrapperStyle>
       </FormContainer>
     </Modal>
@@ -152,6 +153,7 @@ const FormContainer = styled.div`
   padding: 1.5rem 1.5rem;
   box-sizing: border-box;
   margin-top: -0.5rem;
+  margin-bottom: 0.5rem;
 `;
 
 const FormSet = styled.div``;

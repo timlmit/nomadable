@@ -188,3 +188,26 @@ export const callUpdateUser = async (
     };
   }
 };
+
+// deleteUser
+
+export const callDeleteUser = async (): Promise<{
+  data: {};
+}> => {
+  try {
+    const response = await axios({
+      method: "post",
+      url: `${APP_URL}/api/delete-user`,
+      headers: {
+        Authorization: readCookie(COOKIE_ACCESS_TOKEN) || "",
+      },
+    });
+
+    return { data: response.data };
+  } catch (error: any) {
+    throw {
+      code: "",
+      message: error.response.data,
+    };
+  }
+};

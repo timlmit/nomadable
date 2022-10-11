@@ -16,21 +16,23 @@ interface Props {
 
 export const PlaceItem: React.FC<Props> = ({ place, selected }) => {
   return (
-    <Link href={`/place/${place.id}`}>
-      <PlaceItemWrapper selected={selected}>
-        <ImageWrapper>
-          <Image src={place.thumbnail} alt="place image" />
-          <SpeedWrapper>
-            <NetSpeedIndicator speed={place.speedDown} bgWhite />
-          </SpeedWrapper>
-          <PlaceType>
-            {cons.EMOJIS_PLACE_TYPE[place.placeType]}
-            {`  `}
-            {place.placeType}
-          </PlaceType>
-        </ImageWrapper>
-        <Name>{place.spotName}</Name>
-      </PlaceItemWrapper>
+    <Link href={`/place/${place.id}`} passHref>
+      <a target="_blank" rel="noopener">
+        <PlaceItemWrapper selected={selected}>
+          <ImageWrapper>
+            <Image src={place.thumbnail} alt="place image" />
+            <SpeedWrapper>
+              <NetSpeedIndicator speed={place.speedDown} bgWhite />
+            </SpeedWrapper>
+            <PlaceType>
+              {cons.EMOJIS_PLACE_TYPE[place.placeType]}
+              {`  `}
+              {place.placeType}
+            </PlaceType>
+          </ImageWrapper>
+          <Name>{place.spotName}</Name>
+        </PlaceItemWrapper>
+      </a>
     </Link>
   );
 };

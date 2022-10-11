@@ -3,7 +3,12 @@ import styled from "styled-components";
 
 import * as cons from "../../constants";
 import { convertImgElmsToBase64s } from "../../modules/ImageUtils";
-import { isUrl } from "../../modules/StringValidator";
+import {
+  validateName,
+  validateUrl,
+  validateUserId,
+} from "../../modules/StringValidator";
+
 import { useAppSelector } from "../../redux/hooks";
 import { selectApiUpdateUserStatus } from "../../redux/slices/api/apiUserSlice";
 import { EditableUser } from "../../redux/slices/userSlice";
@@ -35,48 +40,69 @@ export const EditProfileModal: React.FC<Props> = ({
   editableUser,
 }) => {
   const apiStatus = useAppSelector(selectApiUpdateUserStatus);
+
   const [newEditableUser, setEditableUser] = useState(editableUser);
-  const [errorMessage, setErrorMessage] = useState("");
   const { id, email, picture, name, title, description, link } =
     newEditableUser;
   const [base64, setBase64] = useState("");
 
+  const [errorMsgName, setErrorMsgName] = useState("");
+  const [errorMsgId, setErrorMsgId] = useState("");
+  const [errorMsgLink, setErrorMsgLink] = useState("");
+
   /**
    * Functions
    */
+
+  const canSubmit = () => {
+    if (validateName(name)) return false;
+    if (validateUserId(id)) return false;
+    if (validateUrl(link, false)) return false;
+    return true;
+  };
 
   /**
    * User Interface
    */
 
   const onChangeName = (e: any) => {
+    setErrorMsgName(validateName(e.target.value));
     setEditableUser({ ...newEditableUser, name: e.target.value });
   };
 
+  const onChangeUserId = (e: any) => {
+    setErrorMsgId(validateUserId(e.target.value));
+    setEditableUser({ ...newEditableUser, id: e.target.value });
+  };
+
   const onChangeTitle = (e: any) => {
-    setEditableUser({ ...newEditableUser, title: e.target.value });
+    const newValue = e.target.value.slice(0, 30);
+    setEditableUser({ ...newEditableUser, title: newValue });
   };
 
   const onChangeDescription = (e: any) => {
-    setEditableUser({ ...newEditableUser, description: e.target.value });
+    const newDescription = e.target.value.slice(0, 300);
+    setEditableUser({ ...newEditableUser, description: newDescription });
   };
 
   const onChangeLink = (e: any) => {
+    setErrorMsgLink(validateUrl(e.target.value, false));
     setEditableUser({ ...newEditableUser, link: e.target.value });
   };
 
-  const checkInputErrors = () => {
-    if (name.trim() === "") return "Please input the name.";
-    if (link.length > 0 && !isUrl(link)) return "Link is not valid.";
-    return false;
-  };
+  // const checkInputErrors = () => {
+  //   if (name.trim() === "") return "Please input the name.";
+  //   if (name.trim() === "") return "Please input the name.";
+  //   if (link.length > 0 && !isUrl(link)) return "Link is not valid.";
+  //   return false;
+  // };
 
   const onClickSubmit = () => {
-    const errorMessage = checkInputErrors();
-    if (errorMessage) {
-      setErrorMessage(errorMessage);
-      return;
-    }
+    // const errorMessage = checkInputErrors();
+    // if (errorMessage) {
+    //   setErrorMessage(errorMessage);
+    //   return;
+    // }
     onSubmit({ id, email, picture, name, title, description, link }, base64);
   };
 
@@ -93,19 +119,16 @@ export const EditProfileModal: React.FC<Props> = ({
   useEffect(() => {
     if (apiStatus.status === cons.API_SUCCEEDED) {
       closeModal();
+      setEditableUser(editableUser);
     }
   }, [apiStatus.status]);
-
-  useEffect(() => {
-    setErrorMessage("");
-  }, [newEditableUser]);
 
   /**
    * Render
    */
 
   return (
-    <Modal visible={visible} closeModal={closeModal} width="32rem">
+    <Modal visible={visible} closeModal={closeModal} width="32rem" alignTop>
       <SectionLoader visible={apiStatus.status === cons.API_LOADING} />
       <ModalHeader title="Edit Profile" onClickClose={closeModal} />
       <ModalBody>
@@ -121,6 +144,18 @@ export const EditProfileModal: React.FC<Props> = ({
           placeholder="User Name"
           onChange={onChangeName}
           width="14rem"
+          error={errorMsgName.length > 0}
+          errorMessage={errorMsgName}
+        />
+
+        <FormSet
+          label="User ID*"
+          value={id}
+          placeholder="user_id"
+          onChange={onChangeUserId}
+          width="14rem"
+          error={errorMsgId.length > 0}
+          errorMessage={errorMsgId}
         />
 
         <FormSet
@@ -134,22 +169,27 @@ export const EditProfileModal: React.FC<Props> = ({
         <FormSet
           label="About"
           value={description}
-          placeholder="Web Designer"
+          placeholder="Tell us about yourself"
           onChange={onChangeDescription}
           textArea
+          height="8rem"
         />
 
         <FormSet
           label="Link"
           value={link}
-          placeholder="https://twitter.com/account"
+          placeholder="https://twitter.com/user"
           onChange={onChangeLink}
+          error={errorMsgLink.length > 0}
+          errorMessage={errorMsgLink}
         />
-        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+        {/* {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>} */}
       </ModalBody>
       <Footer>
         <CancelButton>Cancel</CancelButton>
-        <SubmitButton onClick={onClickSubmit}>Save</SubmitButton>
+        <SubmitButton onClick={onClickSubmit} disabled={!canSubmit()}>
+          Save
+        </SubmitButton>
       </Footer>
     </Modal>
   );
@@ -190,7 +230,7 @@ const ErrorMessage = styled.div`
   color: ${cons.COLOR_RED_0};
   font-weight: 400;
   ${FontSizeNormal};
-  margin-top: 2rem;
+  margin-top: 1.5rem;
 `;
 
 const Footer = styled.div`

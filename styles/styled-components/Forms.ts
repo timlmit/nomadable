@@ -94,8 +94,9 @@ export const FooterWrapperStyle = styled.div`
 
 export const ErrorMsgStyle = styled.div`
   color: ${cons.COLOR_ERROR_0};
-  ${FontSizeSmall};
+  ${FontSizeSemiSmall};
   margin-top: 0.6em;
+  font-weight: 400;
 `;
 
 export const RedSpanStyle = styled.span`

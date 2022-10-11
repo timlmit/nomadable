@@ -1,8 +1,11 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { ReactNode, useEffect } from "react";
 import styled from "styled-components";
 
 import * as cons from "../../constants";
+import { useAppSelector } from "../../redux/hooks";
+import { selectAuthenticated } from "../../redux/slices/userSlice";
 import { FontSizeSemiLarge } from "../../styles/styled-components/FontSize";
 import { ClickableStyle } from "../../styles/styled-components/Interactions";
 
@@ -12,13 +15,22 @@ interface Props {
 }
 
 export const ConsoleShell: React.FC<Props> = ({ pathname, children }) => {
+  const router = useRouter();
+  const isAuthenticated = useAppSelector(selectAuthenticated);
+
+  useEffect(() => {
+    if (isAuthenticated === false) {
+      router.push("/");
+    }
+  }, [isAuthenticated]);
+
   return (
     <Wrapper>
       <Navigation>
-        <Link href="/event">
-          <NavItem active={pathname === "/event"}>
-            <NavIcon src="/icon/home-black.svg" />
-            Event
+        <Link href="/community">
+          <NavItem active={pathname === "/community"}>
+            <NavIcon src="/icon/group-black.svg" />
+            Community
           </NavItem>
         </Link>
         <Link href="/point">

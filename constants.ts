@@ -12,12 +12,12 @@ export const APP_HOST = prod ? "nomadable.net" : "localhost";
 export const APP_PORT = prod ? 80 : 3000;
 
 export const APP_NAME = "Nomadable";
-export const APP_OBP_IMAGE = "/img/brand/brandogp2.png";
+export const APP_OBP_IMAGE = "/img/brand/brandogp.png";
 export const PATH_COUNTRY_IMGS = "/img/country/";
 
-export const APP_SHORT_DESCRIPTION = "WiFi Cafes Search Engine";
+export const APP_SHORT_DESCRIPTION = "Search Nomad Cafes around the World";
 export const APP_LONG_DESCRIPTION =
-  "Find good cafes, co-working spaces, hotels with a fast WiFi access.";
+  "Find cafes, co-working spaces, hotels with high-speed WiFi access.";
 
 /**
  * Colors
@@ -173,10 +173,16 @@ export const EMOJIS_PLACE_TYPE: any = {
 
 export const AVL_POWER_SOCKET = "power_socket";
 export const AVL_SINGLE_ORIGIN = "single_origin";
-export const AVL_LIST_CAFE = [AVL_POWER_SOCKET, AVL_SINGLE_ORIGIN];
+export const AVL_FOOD_MENU = "food";
+export const AVL_LIST_CAFE = [
+  AVL_POWER_SOCKET,
+  AVL_SINGLE_ORIGIN,
+  AVL_FOOD_MENU,
+];
 
 export const AVL_DROP_IN = "drop_in";
-export const AVL_LIST_WORKSPACE = [AVL_POWER_SOCKET];
+export const AVL_RENTAL_MONITOR = "monitor";
+export const AVL_LIST_WORKSPACE = [AVL_POWER_SOCKET, AVL_RENTAL_MONITOR];
 
 export const AVL_WORKSPACE = "work_space";
 export const AVL_LIST_HOTEL = [AVL_WORKSPACE];
@@ -184,7 +190,9 @@ export const AVL_LIST_HOTEL = [AVL_WORKSPACE];
 export const AVL_TEXT_LIST: any = {
   [AVL_POWER_SOCKET]: { text: "Power Socket", icon: "🔌" },
   [AVL_SINGLE_ORIGIN]: { text: "Single Origin", icon: "☕️" },
+  [AVL_FOOD_MENU]: { text: "Food Menu", icon: "🍝" },
   [AVL_DROP_IN]: { text: "Drop-In Available", icon: "🚪" },
+  [AVL_RENTAL_MONITOR]: { text: "Rental Monitor", icon: "🖥" },
   [AVL_WORKSPACE]: { text: "Has Coworking Space", icon: "💻" },
 };
 

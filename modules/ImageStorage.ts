@@ -26,9 +26,10 @@ export const generateImageUrl = (fileName: string) => {
  */
 
 export const removeImage = async (url: string) => {
+  console.log("🚀 ~ file: ImageStorage.ts ~ line 29 ~ removeImage ~ url", url);
   if (!url) return;
   try {
-    const fileName = url.replace(STORAGE_URI, "");
+    const fileName = url.replace(STORAGE_URI, "").replace("/", "");
     const params = {
       Bucket: BUCKET_NAME,
       Key: fileName,

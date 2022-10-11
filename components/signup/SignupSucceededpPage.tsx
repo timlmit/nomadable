@@ -18,9 +18,10 @@ export const SignupSucceededPage: React.FC<Props> = ({}) => {
       <ContentsWrapper imageUrl="/img/img/background.webp">
         <MessageModal>
           <MailIcon src="/icon/mail-send-green.svg" />
-          <Title>認証メールを送信しました</Title>
+          <Title>The verification email has been sent.</Title>
           <Subtitle>
-            メールに記載されている認証ボタンを押してアカウント作成を完了しましょう
+            Please click on the link in the email to complete the sign-up
+            process.
           </Subtitle>
         </MessageModal>
       </ContentsWrapper>

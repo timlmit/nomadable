@@ -16,6 +16,7 @@ import {
   selectApiFetchUserStatus,
   selectApiVerifyUserStatus,
 } from "../../redux/slices/api/apiUserSlice";
+import { AnimationBlink } from "../../styles/styled-components/Animations";
 import { ButtonSecondaryLarge } from "../../styles/styled-components/Buttons";
 import { FontSizeNormal } from "../../styles/styled-components/FontSize";
 import { ContainerStyle } from "../../styles/styled-components/Layouts";
@@ -32,16 +33,16 @@ const VerifyAccount: React.FC<Props> = ({}) => {
     if (_status === API_FALIED) {
       return (
         <MessageWrapper>
-          <Message>認証リンクの期限が切れています。</Message>
-          <Message>もう一度アカウント登録をお願いいたします。</Message>
+          <Message>The verification link has expired.</Message>
+          <Message>Please go through the sign-up process again.</Message>
           <Link href="/signup">
-            <GoToSignupButton>アカウント登録に進む</GoToSignupButton>
+            <GoToSignupButton>Sign-up Page</GoToSignupButton>
           </Link>
         </MessageWrapper>
       );
     }
 
-    return <Message blink>認証中です。少々お待ちください。</Message>;
+    return <Message blink>Signning up...</Message>;
   };
 
   useEffect(() => {
@@ -100,7 +101,7 @@ const Message = styled.div<{ blink?: boolean }>`
   ${(props) =>
     props.blink &&
     `
-  animation: opacity-blink 1s ease-in-out infinite;
+    ${AnimationBlink}
   `}
 `;
 

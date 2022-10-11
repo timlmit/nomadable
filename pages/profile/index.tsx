@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { AccountContents } from "../../components/account/AccountContents";
 import { ConsoleShell } from "../../components/app-commons/ConsoleShell";
+import HeadSetter from "../../components/commons/HeadSetter";
 import { Layout } from "../../components/commons/Layout";
 
 import * as cons from "../../constants";
@@ -32,6 +33,11 @@ const AccountContainer: React.FC<Props> = ({}) => {
       width={cons.CONTAINER_WIDTH_SO_NARROW}
       bgColor={cons.FONT_COLOR_SUPER_LIGHT}
     >
+      <HeadSetter
+        pageTitle={`Profile | ${cons.APP_NAME}`}
+        pageDescription={cons.APP_LONG_DESCRIPTION}
+        pagePath={`${cons.APP_URL}/profile`}
+      />
       <ConsoleShell pathname={router.pathname}>
         <AccountContents userWithStats={userWithStats} isMyAccount />
       </ConsoleShell>

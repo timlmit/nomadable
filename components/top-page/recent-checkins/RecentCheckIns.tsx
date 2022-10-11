@@ -53,11 +53,13 @@ export const RecentCheckIns: React.FC<Props> = ({}) => {
           </CloseButton>
           {recentCheckIns.map((place) => {
             return (
-              <Link href={`/place/${place.id}`} key={place.id}>
-                <PlaceItem>
-                  <Name>{place.spotName}</Name>
-                  <Address>{place.spotAddress}</Address>
-                </PlaceItem>
+              <Link href={`/place/${place.id}`} key={place.id} passHref>
+                <a target="_blacnk" rel="noopener">
+                  <PlaceItem>
+                    <Name>{place.spotName}</Name>
+                    <Address>{place.spotAddress}</Address>
+                  </PlaceItem>
+                </a>
               </Link>
             );
           })}

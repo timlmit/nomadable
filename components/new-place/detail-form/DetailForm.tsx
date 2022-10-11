@@ -16,6 +16,7 @@ import { AnimationSlideLeft } from "../../../styles/styled-components/Animations
 import { selectApiCreatePlaceStatus } from "../../../redux/slices/api/apiPlaceSlice";
 import { SectionLoader } from "../../commons/SectionLoader";
 import { PageLoader } from "../../commons/PageLoader";
+import { ToggleForm } from "./ToggleForm";
 
 interface Props {
   pageIndex: number;
@@ -43,20 +44,8 @@ export const DetailForm: React.FC<Props> = ({
     onClickNext();
   };
 
-  const onClickPowerSocket = () => {
-    dispatch(toggleAvailabilityOfPlace({ item: cons.AVL_POWER_SOCKET }));
-  };
-
-  const onClickSingleOrigin = () => {
-    dispatch(toggleAvailabilityOfPlace({ item: cons.AVL_SINGLE_ORIGIN }));
-  };
-
-  const onClickDropIn = () => {
-    dispatch(toggleAvailabilityOfPlace({ item: cons.AVL_DROP_IN }));
-  };
-
-  const onClickCoworkingSpace = () => {
-    dispatch(toggleAvailabilityOfPlace({ item: cons.AVL_WORKSPACE }));
+  const onClickSwitch = (item: string) => {
+    dispatch(toggleAvailabilityOfPlace({ item }));
   };
 
   /**
@@ -84,52 +73,55 @@ export const DetailForm: React.FC<Props> = ({
 
       {newPlace.placeType === cons.PLACE_TYPE_CAFE && (
         <SpecificForms>
-          <Label>Is power socket available?</Label>
-          <FormWrapper>
-            <SwitchForm
-              onClick={onClickPowerSocket}
-              active={newPlace.availability.includes(cons.AVL_POWER_SOCKET)}
-              activeText="Yes"
-              inactiveText="No"
-            />
-          </FormWrapper>
-          <Label>Have single origin coffee?</Label>
-          <FormWrapper>
-            <SwitchForm
-              onClick={onClickSingleOrigin}
-              active={newPlace.availability.includes(cons.AVL_SINGLE_ORIGIN)}
-              activeText="Yes"
-              inactiveText="No"
-            />
-          </FormWrapper>
+          <ToggleForm
+            title="Is power socket available?"
+            item={cons.AVL_POWER_SOCKET}
+            onClickSwitch={onClickSwitch}
+            active={newPlace.availability.includes(cons.AVL_POWER_SOCKET)}
+          />
+
+          {/* <ToggleForm
+            title="Have single origin coffee?"
+            item={cons.AVL_SINGLE_ORIGIN}
+            onClickSwitch={onClickSwitch}
+            active={newPlace.availability.includes(cons.AVL_SINGLE_ORIGIN)}
+          /> */}
+
+          <ToggleForm
+            title="Are there food menus?"
+            item={cons.AVL_FOOD_MENU}
+            onClickSwitch={onClickSwitch}
+            active={newPlace.availability.includes(cons.AVL_FOOD_MENU)}
+          />
         </SpecificForms>
       )}
 
       {newPlace.placeType === cons.PLACE_TYPE_WORKSPACE && (
         <SpecificForms>
-          <Label>Is Drop-in available?</Label>
-          <FormWrapper>
-            <SwitchForm
-              onClick={onClickDropIn}
-              active={newPlace.availability.includes(cons.AVL_DROP_IN)}
-              activeText="Yes"
-              inactiveText="No"
-            />
-          </FormWrapper>
+          <ToggleForm
+            title="Is Drop-in available?"
+            item={cons.AVL_DROP_IN}
+            onClickSwitch={onClickSwitch}
+            active={newPlace.availability.includes(cons.AVL_DROP_IN)}
+          />
+
+          <ToggleForm
+            title="Can you rent monitors?"
+            item={cons.AVL_RENTAL_MONITOR}
+            onClickSwitch={onClickSwitch}
+            active={newPlace.availability.includes(cons.AVL_RENTAL_MONITOR)}
+          />
         </SpecificForms>
       )}
 
       {newPlace.placeType === cons.PLACE_TYPE_HOTEL && (
         <SpecificForms>
-          <Label>Is coworking space available?</Label>
-          <FormWrapper>
-            <SwitchForm
-              onClick={onClickCoworkingSpace}
-              active={newPlace.availability.includes(cons.AVL_WORKSPACE)}
-              activeText="Yes"
-              inactiveText="No"
-            />
-          </FormWrapper>
+          <ToggleForm
+            title="Is co-working space available?"
+            item={cons.AVL_WORKSPACE}
+            onClickSwitch={onClickSwitch}
+            active={newPlace.availability.includes(cons.AVL_WORKSPACE)}
+          />
         </SpecificForms>
       )}
 
@@ -145,6 +137,10 @@ const Label = styled.div`
   font-weight: bold;
   ${fs.FontSizeSemiLarge}
   color: ${cons.FONT_COLOR_NORMAL};
+`;
+
+const LabelIcon = styled.span`
+  margin-right: 0.8rem;
 `;
 
 const FormWrapper = styled.div`

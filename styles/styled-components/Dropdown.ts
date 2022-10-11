@@ -41,10 +41,18 @@ export const DropDownItemStyle = css`
   ${fs.FontSizeNormal}
   font-weight: 500;
   line-height: 1.4em;
+  /* display: flex;
+  align-items: center; */
 
   &:hover {
     background-color: ${cons.FONT_COLOR_SUPER_LIGHT};
   }
 
   ${NoSelect}
+`;
+
+export const DropDownIconStyle = css`
+  width: 0.8rem;
+  margin-right: 0.6rem;
+  opacity: 0.9;
 `;
