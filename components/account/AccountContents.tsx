@@ -213,6 +213,7 @@ const Description = styled.div`
   color: ${cons.FONT_COLOR_SECONDARY};
   margin-bottom: 0.6rem;
   line-height: 1.6em;
+  white-space: pre-wrap;
 `;
 
 const LinkBio = styled.a`
