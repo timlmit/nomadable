@@ -20,6 +20,7 @@ export const generateUserId = async (
   myUserId?: string
 ): Promise<string> => {
   const candidateName = convertStringToId(userName);
+
   let number = 0;
   let finalName = "";
 

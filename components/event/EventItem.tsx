@@ -116,6 +116,8 @@ const UserSubId = styled.div`
   font-weight: bold;
   margin-right: 0.4em;
   color: ${cons.FONT_COLOR_NORMAL};
+  max-width: 10rem;
+  word-break: break-all;
 `;
 
 const DateTime = styled.div`

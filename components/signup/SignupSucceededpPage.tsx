@@ -15,7 +15,7 @@ interface Props {}
 export const SignupSucceededPage: React.FC<Props> = ({}) => {
   return (
     <LayoutPlain>
-      <ContentsWrapper imageUrl="/img/img/background.webp">
+      <ContentsWrapper imageUrl="/img/img/background.jpg">
         <MessageModal>
           <MailIcon src="/icon/mail-send-green.svg" />
           <Title>The verification email has been sent.</Title>
