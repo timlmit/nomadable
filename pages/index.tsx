@@ -12,6 +12,7 @@ import { Layout } from "../components/commons/Layout";
 import HeadSetter from "../components/commons/HeadSetter";
 import { useAppSelector } from "../redux/hooks";
 import { selectPlaceSearchResult } from "../redux/slices/placeSlice";
+import { GetStaticProps } from "next";
 
 interface TopPageProps {}
 
@@ -29,3 +30,22 @@ export default function TopPageContainer(props: TopPageProps) {
     </Layout>
   );
 }
+
+// export const getStaticProps: GetStaticProps = async ({ params }) => {
+//   try {
+//     if (!params || typeof params.postId !== "string") throw Error;
+
+//     return {
+//       props: {
+//         places: [],
+//       },
+//       revalidate: 1, // regenerate the static page on the access after 1 second later from the previous access
+//     };
+//   } catch (err: any) {
+//     return {
+//       props: {
+//         places: [],
+//       },
+//     };
+//   }
+// };

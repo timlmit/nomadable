@@ -81,7 +81,7 @@ export const SearchResult: React.FC<Props> = ({
     <Wrapper>
       <SectionLoader visible={apiStatus.status === cons.API_LOADING} />
       <Header width={width}>
-        <PageTitle>{places.length} Cafes with WiFi</PageTitle>
+        <PageTitle>{places.length} Places with WiFi</PageTitle>
         <FilterButton onClick={onClickFilterButton}>
           <FilterIcon src="/icon/filter-black3.svg" />
           Filter
