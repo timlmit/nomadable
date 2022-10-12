@@ -26,9 +26,9 @@ interface Props {
   width: number;
   selectedPlace: string;
   contributers: Contributer[];
-  onChangeFilterObj: (filterObj: FilterObj) => void;
+  // onChangeFilterObj: (filterObj: FilterObj) => void;
   filterObj: FilterObj;
-  filterVisible: boolean;
+  // filterVisible: boolean;
   onChangeFilterVisible: (visible: boolean) => void;
 }
 
@@ -38,9 +38,9 @@ export const SearchResult: React.FC<Props> = ({
   width,
   selectedPlace,
   contributers,
-  onChangeFilterObj,
+  // onChangeFilterObj,
   filterObj,
-  filterVisible,
+  // filterVisible,
   onChangeFilterVisible,
 }) => {
   const apiStatus = useAppSelector(selectApiFetchPlacesStatus);
@@ -48,15 +48,6 @@ export const SearchResult: React.FC<Props> = ({
 
   const onClickFilterButton = () => {
     onChangeFilterVisible(true);
-  };
-
-  const onClickFilterSave = (filterObj: FilterObj) => {
-    onChangeFilterVisible(false);
-    onChangeFilterObj(filterObj);
-  };
-
-  const closeFilterModal = () => {
-    onChangeFilterVisible(false);
   };
 
   /**
@@ -119,13 +110,6 @@ export const SearchResult: React.FC<Props> = ({
           <Contributers contributers={contributers} />
         </ContributersSection>
       </NotFixed>
-
-      <FilterModal
-        visible={filterVisible}
-        filterObj={filterObj}
-        onClickFilterSave={onClickFilterSave}
-        closeModal={closeFilterModal}
-      />
     </Wrapper>
   );
 };

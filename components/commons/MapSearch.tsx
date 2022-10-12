@@ -129,7 +129,7 @@ export const MapSearch: React.FC<Props> = (props) => {
 
   useEffect(() => {
     onViewportUpdate();
-  }, [null]);
+  }, [mapRef.current]);
 
   useEffect(() => {
     markersRef.current.forEach((marker) => {

@@ -19,6 +19,7 @@ import { FontSizeSemiSmall } from "../../styles/styled-components/FontSize";
 import { ClickableStyle } from "../../styles/styled-components/Interactions";
 import { MapSearch } from "../commons/MapSearch";
 import { RecentCheckIns } from "./recent-checkins/RecentCheckIns";
+import { FilterModal } from "./search-result/FilterModal";
 import { SearchResult } from "./search-result/SearchResult";
 
 interface Props {
@@ -108,6 +109,15 @@ export const TopPage: React.FC<Props> = ({ places }) => {
     setFilterVisible(visible);
   };
 
+  const onClickFilterSave = (filterObj: FilterObj) => {
+    onChangeFilterVisible(false);
+    onChangeFilterObj(filterObj);
+  };
+
+  const closeFilterModal = () => {
+    onChangeFilterVisible(false);
+  };
+
   /**
    * Effect
    */
@@ -148,9 +158,9 @@ export const TopPage: React.FC<Props> = ({ places }) => {
           width={RESULT_WIDTH}
           selectedPlace={selectedPlace}
           contributers={contributers}
-          onChangeFilterObj={onChangeFilterObj}
+          // onChangeFilterObj={onChangeFilterObj}
           filterObj={filterObj}
-          filterVisible={filterVisible}
+          // filterVisible={filterVisible}
           onChangeFilterVisible={onChangeFilterVisible}
         />
       </SearchResultSection>
@@ -173,6 +183,13 @@ export const TopPage: React.FC<Props> = ({ places }) => {
       <ScrollUpButton onClick={scrollToTop}>
         <ScrollUpIcon src="/icon/up-arrow-white.svg" />
       </ScrollUpButton>
+
+      <FilterModal
+        visible={filterVisible}
+        filterObj={filterObj}
+        onClickFilterSave={onClickFilterSave}
+        closeModal={closeFilterModal}
+      />
     </TopPageWrapper>
   );
 };
