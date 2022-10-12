@@ -43,10 +43,15 @@ const PageWrapper = styled.div<{ bgColor?: string }>`
   min-height: 100vh;
 
   ${forMobile(`
-    width: calc(100% - 2rem);
+    // width: calc(100% - 2rem);
+
   `)}
 `;
 
 const PageContainer = styled.div`
   ${ContainerStyle}
+  ${forMobile(`
+
+
+  `)}
 `;

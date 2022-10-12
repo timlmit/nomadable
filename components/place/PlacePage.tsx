@@ -18,6 +18,7 @@ import {
   selectApiCheckInStatus,
 } from "../../redux/slices/api/apiPlaceSlice";
 import { selectAuthenticated } from "../../redux/slices/userSlice";
+import { forMobile } from "../../styles/Responsive";
 
 interface Props {
   placeWithData: PlaceWithData;
@@ -149,6 +150,10 @@ const InfoWrapper = styled.div`
   display: flex;
   flex-direction: row-reverse;
   justify-content: space-between;
+
+  ${forMobile(`
+    flex-direction: column;
+ `)}
 `;
 
 const LEFT_WIDTH = 42;
@@ -158,10 +163,19 @@ const RightSection = styled.div`
   margin-left: 3rem;
   margin-top: 2.2rem;
   width: calc(100% - ${LEFT_WIDTH}rem);
+
+  ${forMobile(`
+    width: 100%;
+    margin-left: 0;
+ `)}
 `;
 
 const LeftSection = styled.div`
   width: ${LEFT_WIDTH}rem;
+
+  ${forMobile(`
+    width: 100%;
+ `)}
 `;
 
 const DiscoveredByWrapper = styled.div`

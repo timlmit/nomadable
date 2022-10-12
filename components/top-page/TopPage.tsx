@@ -5,7 +5,10 @@ import styled from "styled-components";
 import * as cons from "../../constants";
 import { useViewHeight } from "../../modules/hooks/useViewHeight";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { apiFetchPlaces } from "../../redux/slices/api/apiPlaceSlice";
+import {
+  apiFetchPlaces,
+  selectApiFetchPlacesStatus,
+} from "../../redux/slices/api/apiPlaceSlice";
 import { apiFetchContributersArea } from "../../redux/slices/api/apiUserSlice";
 import { selectContributersArea } from "../../redux/slices/contributerSlice";
 import {
@@ -18,6 +21,7 @@ import { forMobile } from "../../styles/Responsive";
 import { FontSizeSemiSmall } from "../../styles/styled-components/FontSize";
 import { ClickableStyle } from "../../styles/styled-components/Interactions";
 import { MapSearch } from "../commons/MapSearch";
+import { SectionLoader } from "../commons/SectionLoader";
 import { RecentCheckIns } from "./recent-checkins/RecentCheckIns";
 import { FilterModal } from "./search-result/FilterModal";
 import { SearchResult } from "./search-result/SearchResult";
@@ -37,6 +41,7 @@ export const TopPage: React.FC<Props> = ({ places }) => {
   const contributers = useAppSelector(selectContributersArea);
   const [viewHeight] = useViewHeight();
   const [filterVisible, setFilterVisible] = useState(false);
+  const apiFetchPlacesStatus = useAppSelector(selectApiFetchPlacesStatus);
 
   /**
    * Modules
@@ -150,8 +155,14 @@ export const TopPage: React.FC<Props> = ({ places }) => {
 
   return (
     <TopPageWrapper>
-      <SearchResultSection>
-        <PullTabForMobile>{places.length} Places with WiFi</PullTabForMobile>
+      <SearchResultSection viewHeight={viewHeight}>
+        <PullTabForMobile>
+          <SectionLoader
+            visible={apiFetchPlacesStatus.status === cons.API_LOADING}
+          />
+          {apiFetchPlacesStatus.status !== cons.API_LOADING &&
+            `${places.length} Places with WiFi`}
+        </PullTabForMobile>
         <SearchResult
           places={places}
           onChangePageIndex={onChangePageIndex}
@@ -206,26 +217,31 @@ const TopPageWrapper = styled.div`
 
   ${forMobile(`
     position: relative;
+    background-color: #c9d2d3;
+    margin-left: -2rem;
+    width: calc(100% + 3rem);
   `)}
 `;
 
-const SearchResultSection = styled.div`
+const SearchResultSection = styled.div<{ viewHeight: number }>`
   width: ${RESULT_WIDTH}rem;
 
-  ${forMobile(`
+  @media only screen and (max-width: ${cons.WIDTH_TABLET}px) {
     z-index: 2;
     background-color: white;
-    position: absolute;;
-    
+    position: absolute;
+
     left: 1rem;
-    width: calc(100%);
-    top: calc(100% - 10rem);
+    width: calc(100% - 1rem);
+    top: calc(${(props) => props.viewHeight}px - 10rem);
     border-top-right-radius: 0.8rem;
     border-top-left-radius: 0.8rem;
- `)}
+    min-height: 10rem;
+  }
 `;
 
 const PullTabForMobile = styled.div`
+  height: 1rem;
   padding: 1rem;
   justify-content: center;
   align-items: center;
@@ -233,7 +249,7 @@ const PullTabForMobile = styled.div`
   ${FontSizeSemiSmall};
   font-weight: bold;
   color: ${cons.FONT_COLOR_NORMAL};
-
+  position: relative;
   display: none;
   ${forMobile(`
     display:flex;;

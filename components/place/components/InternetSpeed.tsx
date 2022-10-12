@@ -6,6 +6,7 @@ import * as fs from "../../../styles/styled-components/FontSize";
 import { ButtonPrimaryLarge } from "../../../styles/styled-components/Buttons";
 import { NetSpeedIndicator } from "../../commons/NetSpeedIndicator";
 import { SectionLoader } from "../../commons/SectionLoader";
+import { forMobile } from "../../../styles/Responsive";
 
 interface Props {
   speedUp: number;
@@ -73,11 +74,20 @@ const InternetSpeedWrapper = styled.div`
   display: flex;
   align-items: center;
   position: relative;
+
+  ${forMobile(`
+    flex-direction: column;
+    align-items: flex-start;
+ `)}
 `;
 
 const SpeedSection = styled.div`
   flex-grow: 1;
   display: flex;
+  ${forMobile(`
+    justify-content: flex-start;
+    width: 100%;
+ `)}
 `;
 
 const TestSection = styled.div`
@@ -88,14 +98,25 @@ const TestSection = styled.div`
   justify-content: center;
 `;
 
-const TestButtonWrapper = styled.div``;
+const TestButtonWrapper = styled.div`
+  ${forMobile(`
+  margin-top: 2rem;
+ `)}
+`;
 
 const Download = styled.div`
   flex-grow: 1;
+  ${forMobile(`
+  flex-grow: 0;
+ `)}
 `;
 
 const Upload = styled.div`
   flex-grow: 1;
+  ${forMobile(`
+  flex-grow: 0;
+  margin-left: 2rem;
+ `)}
 `;
 
 const Label = styled.div`
@@ -113,6 +134,10 @@ const Devider = styled.div`
   height: 4rem;
   width: 1px;
   background-color: ${cons.FONT_COLOR_SUPER_LIGHT};
+
+  ${forMobile(`
+  display:none;
+ `)}
 `;
 
 const CheckInInfo = styled.div`

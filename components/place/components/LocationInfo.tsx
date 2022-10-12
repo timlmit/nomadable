@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import * as cons from "../../../constants";
+import { forMobile } from "../../../styles/Responsive";
 import { ButtonText } from "../../../styles/styled-components/Buttons";
 import * as fs from "../../../styles/styled-components/FontSize";
 
@@ -44,6 +45,10 @@ const Label = styled.div`
   font-weight: 700;
   color: ${cons.FONT_COLOR_NORMAL};
   margin-bottom: 1.2rem;
+
+  ${forMobile(`
+    display:none;
+ `)}
 `;
 
 const Card = styled.div`
@@ -51,6 +56,10 @@ const Card = styled.div`
   border-radius: 0.4rem;
   padding: 1.5rem;
   box-sizing: border-box;
+
+  ${forMobile(`
+    padding: 1rem;
+ `)}
 `;
 
 const Address = styled.div`
