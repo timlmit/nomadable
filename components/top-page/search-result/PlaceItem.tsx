@@ -8,11 +8,21 @@ import { Place } from "../../../redux/slices/placeSlice";
 import { ClickableStyle } from "../../../styles/styled-components/Interactions";
 import { NetSpeedIndicator } from "../../commons/NetSpeedIndicator";
 import { AnimationSlideUp } from "../../../styles/styled-components/Animations";
+import { Bold } from "../../../styles/styled-components/Texts";
 
 interface Props {
   place: Place;
   selected: boolean | undefined;
 }
+
+const getCity = (address: string) => {
+  const addressArr = address.split(",");
+  const countryCityArr = addressArr.slice(
+    addressArr.length - 2,
+    addressArr.length
+  );
+  return countryCityArr.join(",");
+};
 
 export const PlaceItem: React.FC<Props> = ({ place, selected }) => {
   return (
@@ -25,12 +35,16 @@ export const PlaceItem: React.FC<Props> = ({ place, selected }) => {
               <NetSpeedIndicator speed={place.speedDown} bgWhite />
             </SpeedWrapper>
             <PlaceType>
-              {cons.EMOJIS_PLACE_TYPE[place.placeType]}
+              {cons.PLACE_TYPE_LIST[place.placeType].icon}
               {`  `}
               {place.placeType}
             </PlaceType>
           </ImageWrapper>
           <Name>{place.spotName}</Name>
+          <Address>{getCity(place.spotAddress)}</Address>
+          <CheckInCnt>
+            <CheckInNum>{place.testCnt}</CheckInNum> checked in
+          </CheckInCnt>
         </PlaceItemWrapper>
       </a>
     </Link>
@@ -91,6 +105,26 @@ const PlaceType = styled.div`
 
 const Name = styled.div`
   font-weight: 700;
-  margin: 0.5rem 0 1.5rem 0;
+  margin: 0.5rem 0 0.3rem 0;
   color: ${cons.FONT_COLOR_NORMAL};
+`;
+
+const Address = styled.div`
+  color: ${cons.FONT_COLOR_LIGHT};
+  ${fs.FontSizeSemiSmall};
+  font-weight: 400;
+  margin-bottom: 0.3rem;
+  /* font-weight: 600; */
+`;
+
+const CheckInCnt = styled.div`
+  color: ${cons.FONT_COLOR_LIGHT};
+  ${fs.FontSizeSemiSmall};
+  font-weight: 400;
+  margin-bottom: 1.2rem;
+`;
+
+const CheckInNum = styled.span`
+  /* color: ${cons.FONT_COLOR_NORMAL}; */
+  font-weight: 700;
 `;

@@ -23,12 +23,12 @@ export const makePlaceWithData = async (
     }).lean();
 
     // get monthly check-in count
-    const monthAgo = new Date();
-    monthAgo.setDate(monthAgo.getDate() - 30);
+    // const yearAgo = new Date();
+    // yearAgo.setDate(yearAgo.getDate() - 365);
 
     const recentCheckIns = await CheckIn.find({
       placeId: place.id,
-      checkInTime: { $gt: monthAgo },
+      // checkInTime: { $gt: yearAgo },
     }).lean();
 
     // make

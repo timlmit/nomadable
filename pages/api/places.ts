@@ -1,3 +1,4 @@
+import { PLACE_TYPE_CAFE } from "./../../constants";
 import nextConnect from "next-connect";
 
 import { ERR_SOMETHING } from "../../modules/ErrorCode";
@@ -21,11 +22,17 @@ handler.post(async (req: any, res: any) => {
         ? { $in: filterObj.placeTypes }
         : { $exists: true };
 
+    const availabilityFilter =
+      filterObj.availability.length > 0
+        ? { $all: filterObj.availability }
+        : { $exists: true };
+
     // get place
     const places = await Place.find({
       spotLat: { $gte: latStart, $lte: latEnd },
       spotLng: { $gte: lngStart, $lte: lngEnd },
       placeType: placeTypeFilter,
+      availability: availabilityFilter,
     })
       .sort({ testCnt: -1 })
       .limit(50)

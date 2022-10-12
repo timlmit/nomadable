@@ -13,8 +13,8 @@ export const Availability: React.FC<Props> = ({ availability }) => {
     <AvailabilityWrapper>
       {availability.map((a) => (
         <AvailabilityItem key={a}>
-          <ItemIcon>{cons.AVL_TEXT_LIST[a].icon}</ItemIcon>
-          {cons.AVL_TEXT_LIST[a].text}
+          <ItemIcon>{cons.AVL_ALL_LIST[a].icon}</ItemIcon>
+          {cons.AVL_ALL_LIST[a].text}
         </AvailabilityItem>
       ))}
     </AvailabilityWrapper>

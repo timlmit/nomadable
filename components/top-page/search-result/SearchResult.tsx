@@ -16,6 +16,7 @@ import { useAppSelector } from "../../../redux/hooks";
 import { selectApiFetchPlacesStatus } from "../../../redux/slices/api/apiPlaceSlice";
 import { Contributer } from "../../../redux/slices/contributerSlice";
 import { FilterModal } from "./FilterModal";
+import { forMobile } from "../../../styles/Responsive";
 
 const HEADER_HEIGHT = 5;
 
@@ -27,6 +28,8 @@ interface Props {
   contributers: Contributer[];
   onChangeFilterObj: (filterObj: FilterObj) => void;
   filterObj: FilterObj;
+  filterVisible: boolean;
+  onChangeFilterVisible: (visible: boolean) => void;
 }
 
 export const SearchResult: React.FC<Props> = ({
@@ -37,21 +40,23 @@ export const SearchResult: React.FC<Props> = ({
   contributers,
   onChangeFilterObj,
   filterObj,
+  filterVisible,
+  onChangeFilterVisible,
 }) => {
   const apiStatus = useAppSelector(selectApiFetchPlacesStatus);
-  const [filterVisible, setFilterVisible] = useState(false);
+  // const [filterVisible, setFilterVisible] = useState(false);
 
   const onClickFilterButton = () => {
-    setFilterVisible(true);
+    onChangeFilterVisible(true);
   };
 
   const onClickFilterSave = (filterObj: FilterObj) => {
-    setFilterVisible(false);
+    onChangeFilterVisible(false);
     onChangeFilterObj(filterObj);
   };
 
   const closeFilterModal = () => {
-    setFilterVisible(false);
+    onChangeFilterVisible(false);
   };
 
   /**
@@ -72,6 +77,7 @@ export const SearchResult: React.FC<Props> = ({
     let filterCnt = 0;
 
     if (filterObj.placeTypes.length > 0) filterCnt += 1;
+    if (filterObj.availability.length > 0) filterCnt += 1;
 
     if (filterCnt < 1) return null;
     return <FilterCnt>{filterCnt}</FilterCnt>;
@@ -145,6 +151,10 @@ const Header = styled.div<{ width: number }>`
   margin-left: -1.5rem;
   padding: 1.5rem 1.5rem;
   border-bottom: 1px solid ${cons.FONT_COLOR_SUPER_LIGHT};
+
+  ${forMobile(`
+  display:none;
+  `)}
 `;
 
 // const Scroller = styled.div`
@@ -153,6 +163,9 @@ const Header = styled.div<{ width: number }>`
 
 const NotFixed = styled.div`
   padding-top: 6rem;
+  ${forMobile(`
+      padding-top: 2rem;
+  `)}
 `;
 
 const PageTitle = styled.div`
@@ -211,6 +224,10 @@ const NoResult = styled.div`
 
 const PlaceWrapper = styled.div`
   width: calc(50% - 0.7rem);
+
+  ${forMobile(`
+    width: 100%;
+  `)}
 `;
 
 const PaginationSection = styled.div``;

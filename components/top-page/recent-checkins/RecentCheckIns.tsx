@@ -18,6 +18,7 @@ import {
 } from "../../../styles/styled-components/Dropdown";
 import { ClickableStyle } from "../../../styles/styled-components/Interactions";
 import { AnimationFadeIn } from "../../../styles/styled-components/Animations";
+import { forMobile } from "../../../styles/Responsive";
 
 interface Props {}
 
@@ -73,7 +74,7 @@ const RecentCheckInsWrapper = styled.div`
   position: absolute;
   top: 1.3rem;
   left: 1.3rem;
-  z-index: 2;
+  z-index: 11;
 `;
 
 const ToggleButton = styled.button`
@@ -89,6 +90,10 @@ const RecentCheckInWindow = styled.div`
   ${DropdownWindowStyle};
   margin-top: -1rem;
   ${AnimationFadeIn}
+
+  ${forMobile(`
+    width: 18rem;
+ `)}
 `;
 
 const PlaceItem = styled.div`
@@ -109,7 +114,7 @@ const CloseButton = styled.div`
   ${ClickableStyle}
   position: absolute;
   top: -0.5rem;
-  right: -0.5rem;
+  left: -0.5rem;
   background-color: white;
   border-radius: 100%;
   /* border: 1px solid ${cons.FONT_COLOR_LIGHTEST}; */

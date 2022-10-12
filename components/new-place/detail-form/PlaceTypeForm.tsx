@@ -1,3 +1,4 @@
+import { type } from "os";
 import React from "react";
 import styled from "styled-components";
 
@@ -13,16 +14,18 @@ interface Props {
 export const PlaceTypeForm: React.FC<Props> = ({ onChange, placeType }) => {
   return (
     <PlaceTypeFormWrapper>
-      {cons.PLACE_TYPE_LIST.map((type) => {
+      {Object.keys(cons.PLACE_TYPE_LIST).map((placeId: string) => {
+        const text = cons.PLACE_TYPE_LIST[placeId].text;
+        const icon = cons.PLACE_TYPE_LIST[placeId].icon;
+
         return (
           <PlaceTypeItem
-            key={type}
-            onClick={() => onChange(type)}
-            active={type === placeType}
+            key={placeId}
+            onClick={() => onChange(placeId)}
+            active={placeId === placeType}
           >
-            <PlaceTypeEmoji>{cons.EMOJIS_PLACE_TYPE[type]}</PlaceTypeEmoji>
-
-            {type}
+            <PlaceTypeEmoji>{icon}</PlaceTypeEmoji>
+            {text}
           </PlaceTypeItem>
         );
       })}

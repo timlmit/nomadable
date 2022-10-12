@@ -16,7 +16,7 @@ export const ToggleForm: React.FC<Props> = (props) => {
   return (
     <Fragment>
       <Label>
-        <LabelIcon>{cons.AVL_TEXT_LIST[props.item].icon}</LabelIcon>
+        <LabelIcon>{cons.AVL_ALL_LIST[props.item].icon}</LabelIcon>
         {props.title}
       </Label>
       <FormWrapper>

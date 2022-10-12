@@ -72,5 +72,5 @@ const Overlay = styled.div`
 `;
 
 const ModalWindow = styled.div`
-  ${ModalWindowCss}
+  ${ModalWindowCss};
 `;

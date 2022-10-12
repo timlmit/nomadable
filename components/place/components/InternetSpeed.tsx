@@ -45,7 +45,7 @@ export const InternetSpeed: React.FC<Props> = ({
       <TestSection>
         <TestButtonWrapper>
           <CheckInInfo>
-            <CheckInNumber>{testCnt}</CheckInNumber> checked in this month
+            <CheckInNumber>{testCnt}</CheckInNumber> checked in
           </CheckInInfo>
 
           <CheckInButton onClick={onClickSpeedTest} disabled={checkedInByUser}>

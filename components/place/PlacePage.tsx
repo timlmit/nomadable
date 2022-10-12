@@ -99,12 +99,12 @@ export const PlacePage: React.FC<Props> = ({ placeWithData }) => {
               loading={apiStatusCheckIn.status === cons.API_LOADING}
             />
           </InfoItemWrapper>
-          <InfoItemWrapper label="Availability">
+          <InfoItemWrapper label="Basic Info">
             <Availability availability={pd.availability} />
           </InfoItemWrapper>
-          <InfoItemWrapper label="Reviews">
+          {/* <InfoItemWrapper label="Reviews">
             <Reviews />
-          </InfoItemWrapper>
+          </InfoItemWrapper> */}
           <DiscoveredByWrapper>
             <DiscoveredBy
               userId={pd.discoveredBy}

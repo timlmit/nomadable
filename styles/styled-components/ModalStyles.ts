@@ -2,6 +2,7 @@ import { css } from "styled-components";
 
 import { HideScrollBarCss } from "./StyleUtils";
 import * as cons from "../../constants";
+import { forMobile } from "../Responsive";
 
 export const ModalOverlayCss = css<{
   visible: boolean;

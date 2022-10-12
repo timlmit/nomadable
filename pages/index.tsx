@@ -31,10 +31,10 @@ export default function TopPageContainer(props: TopPageProps) {
           pagePath={APP_URL}
         />
         <TopPage places={places} />
-      </Layout>{" "}
-      <ForMobile>
+      </Layout>
+      {/* <ForMobile>
         Sorry, the mobile version is not ready yet. Please access via PC.
-      </ForMobile>
+      </ForMobile> */}
     </Fragment>
   );
 }

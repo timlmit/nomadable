@@ -21,6 +21,7 @@ interface Props {
   ) => void;
   onClickMarker: (placeId: string) => void;
   selectedPlace: string;
+  viewHeight: number;
 }
 
 export const MapSearch: React.FC<Props> = (props) => {
@@ -116,9 +117,10 @@ export const MapSearch: React.FC<Props> = (props) => {
    */
 
   useEffect(() => {
+    if (props.viewHeight < 1) return;
     const { lat, lng, zoom } = props;
     loadMapBox(lat, lng, zoom);
-  }, [props.lat, props.lng, props.zoom]);
+  }, [props.lat, props.lng, props.zoom, props.viewHeight]);
 
   useEffect(() => {
     const pins = makePins(props.places);
@@ -140,10 +142,14 @@ export const MapSearch: React.FC<Props> = (props) => {
    * Render
    */
 
-  return <Map id={mapId}></Map>;
+  return <Map id={mapId} viewHeight={props.viewHeight}></Map>;
 };
 
-const Map = styled.div`
+const Map = styled.div<{ viewHeight: number }>`
   width: 100%;
   height: 100%;
+
+  @media only screen and (max-width: ${cons.WIDTH_TABLET}px) {
+    height: calc(${(props) => props.viewHeight}px - 15rem);
+  }
 `;

@@ -58,6 +58,7 @@ export interface MapArea {
 
 export interface FilterObj {
   placeTypes: string[];
+  availability: string[];
 }
 
 interface PlaceState {
@@ -72,6 +73,7 @@ interface PlaceState {
 
 export const initialFilterObj: FilterObj = {
   placeTypes: [],
+  availability: [],
 };
 
 export const initialPlace: Place = {

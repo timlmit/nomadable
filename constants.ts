@@ -153,18 +153,11 @@ export const PLACE_TYPE_CAFE = "Cafe";
 export const PLACE_TYPE_WORKSPACE = "Work Space";
 export const PLACE_TYPE_HOTEL = "Hotel";
 export const PLACE_TYPE_OTHER = "Other";
-export const PLACE_TYPE_LIST = [
-  PLACE_TYPE_CAFE,
-  PLACE_TYPE_WORKSPACE,
-  PLACE_TYPE_HOTEL,
-  PLACE_TYPE_OTHER,
-];
-
-export const EMOJIS_PLACE_TYPE: any = {
-  [PLACE_TYPE_CAFE]: "☕",
-  [PLACE_TYPE_WORKSPACE]: "🖥️",
-  [PLACE_TYPE_HOTEL]: "🛏️",
-  [PLACE_TYPE_OTHER]: "🌐",
+export const PLACE_TYPE_LIST: any = {
+  [PLACE_TYPE_CAFE]: { text: "Cafe", icon: "☕" },
+  [PLACE_TYPE_WORKSPACE]: { text: "Work Space", icon: "🖥️" },
+  [PLACE_TYPE_HOTEL]: { text: "Hotel", icon: "🛏️" },
+  [PLACE_TYPE_OTHER]: { text: "Other", icon: "🌐" },
 };
 
 /**
@@ -187,14 +180,27 @@ export const AVL_LIST_WORKSPACE = [AVL_POWER_SOCKET, AVL_RENTAL_MONITOR];
 export const AVL_WORKSPACE = "work_space";
 export const AVL_LIST_HOTEL = [AVL_WORKSPACE];
 
-export const AVL_TEXT_LIST: any = {
+export const AVL_CAFE_LIST: any = {
   [AVL_POWER_SOCKET]: { text: "Power Socket", icon: "🔌" },
-  [AVL_SINGLE_ORIGIN]: { text: "Single Origin", icon: "☕️" },
   [AVL_FOOD_MENU]: { text: "Food Menu", icon: "🍝" },
+};
+
+export const AVL_WORKSPACE_LIST: any = {
   [AVL_DROP_IN]: { text: "Drop-In Available", icon: "🚪" },
   [AVL_RENTAL_MONITOR]: { text: "Rental Monitor", icon: "🖥" },
+};
+
+export const AVL_HOTEL_LIST: any = {
   [AVL_WORKSPACE]: { text: "Has Coworking Space", icon: "💻" },
 };
+
+export const AVL_ALL_LIST: any = {
+  ...AVL_CAFE_LIST,
+  ...AVL_WORKSPACE_LIST,
+  ...AVL_HOTEL_LIST,
+};
+
+export const AVL_OTHER_LIST: any = {};
 
 /**
  * Place Status

@@ -34,8 +34,8 @@ const makeContributers = (pointSums: any[], users: any): Contributer[] => {
  * Main
  */
 
-handler.get(async (req: any, res: any) => {
-  const placeIds = req.query["placeIds[]"];
+handler.post(async (req: any, res: any) => {
+  const placeIds = req.body.placeIds;
 
   try {
     const User = req.mongoose.model("User");
@@ -81,6 +81,10 @@ handler.get(async (req: any, res: any) => {
 
     return res.status(200).json({ contributers });
   } catch (error: any) {
+    console.log(
+      "🚀 ~ file: contributers-area.ts ~ line 84 ~ handler.get ~ error",
+      error
+    );
     return res.status(500).json(ERR_LOGIN_FAIL);
   }
 });

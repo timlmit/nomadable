@@ -100,9 +100,9 @@ export const callFetchContributersArea = async (
 }> => {
   try {
     const response = await axios({
-      method: "get",
+      method: "post",
       url: `${APP_URL}/api/contributers-area`,
-      params: { placeIds },
+      data: { placeIds },
     });
 
     return { data: response.data };

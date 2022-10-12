@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { FONT_COLOR_LIGHT, FONT_COLOR_LIGHTEST } from "../../constants";
 import { useClickOutsideEffect } from "../../modules/hooks/useClickOutsideEffect";
 import { User } from "../../redux/slices/userSlice";
+import { forMobile } from "../../styles/Responsive";
 import { ClickableStyle } from "../../styles/styled-components/Interactions";
 import { ContainerStyle } from "../../styles/styled-components/Layouts";
 import { MenuDropdown } from "./MenuDropdown";
@@ -68,6 +69,12 @@ const HeaderWrapper = styled.div<{ fixed?: boolean }>`
     left: 0;
     width: 100%;
     z-index: 1;
+
+    ${forMobile(`
+      z-index: 10;
+      width: calc(100%);
+    `)}
+
   `};
 `;
 

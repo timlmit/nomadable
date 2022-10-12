@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useAppSelector } from "../../redux/hooks";
 
 import { selectAuthenticated, selectUser } from "../../redux/slices/userSlice";
+import { forMobile } from "../../styles/Responsive";
 import { ContainerStyle } from "../../styles/styled-components/Layouts";
 import { Footer } from "../global/Footer";
 import { Header } from "../header/Header";
@@ -40,6 +41,10 @@ export const Layout: React.FC<Props> = ({
 const PageWrapper = styled.div<{ bgColor?: string }>`
   background-color: ${(props) => props.bgColor};
   min-height: 100vh;
+
+  ${forMobile(`
+    width: calc(100% - 2rem);
+  `)}
 `;
 
 const PageContainer = styled.div`

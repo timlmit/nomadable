@@ -2,46 +2,55 @@ import React from "react";
 import styled from "styled-components";
 
 import * as cons from "../../../../constants";
+import { forMobile } from "../../../../styles/Responsive";
 import * as fs from "../../../../styles/styled-components/FontSize";
 import { ClickableStyle } from "../../../../styles/styled-components/Interactions";
 
 interface Props {
-  onChangePlaceTypes: (placeTypes: string[]) => void;
-  placeTypes: string[];
+  onChangeFilterItems: (filterItems: string[]) => void;
+  filterItems: string[];
+  typeDict: any;
+  allowAllSelect?: boolean;
 }
 
-export const PlaceTypeFilter: React.FC<Props> = ({
-  onChangePlaceTypes,
-  placeTypes,
+export const FilterComponent: React.FC<Props> = ({
+  onChangeFilterItems,
+  filterItems,
+  typeDict,
+  allowAllSelect,
 }) => {
-  const onClickPlaceType = (placeType: string) => {
-    let newPlaceTypes: string[] = [];
+  const onClickItem = (placeType: string) => {
+    let newFilterItems: string[] = [];
 
-    if (placeTypes.includes(placeType)) {
-      newPlaceTypes = placeTypes.filter((pt) => pt !== placeType);
+    if (filterItems.includes(placeType)) {
+      newFilterItems = filterItems.filter((pt) => pt !== placeType);
     } else {
-      newPlaceTypes = [...placeTypes, placeType];
+      newFilterItems = [...filterItems, placeType];
     }
 
-    if (newPlaceTypes.length >= cons.PLACE_TYPE_LIST.length) {
-      newPlaceTypes = [];
+    if (!allowAllSelect) {
+      if (newFilterItems.length >= Object.keys(typeDict).length) {
+        newFilterItems = [];
+      }
     }
 
-    onChangePlaceTypes(newPlaceTypes);
+    onChangeFilterItems(newFilterItems);
   };
 
   return (
     <PlaceTypeFormWrapper>
-      {cons.PLACE_TYPE_LIST.map((type: any) => {
+      {Object.keys(typeDict).map((typeId: any) => {
+        const typeText = typeDict[typeId].text;
+        const typeIcon = typeDict[typeId].icon;
+
         return (
           <PlaceTypeItem
-            key={type}
-            onClick={() => onClickPlaceType(type)}
-            active={placeTypes.includes(type)}
+            key={typeText}
+            onClick={() => onClickItem(typeId)}
+            active={filterItems.includes(typeId)}
           >
-            <PlaceTypeEmoji>{cons.EMOJIS_PLACE_TYPE[type]}</PlaceTypeEmoji>
-
-            {type}
+            <PlaceTypeEmoji>{typeIcon}</PlaceTypeEmoji>
+            {typeText}
           </PlaceTypeItem>
         );
       })}
@@ -51,6 +60,7 @@ export const PlaceTypeFilter: React.FC<Props> = ({
 
 const PlaceTypeFormWrapper = styled.div`
   display: flex;
+  flex-wrap: wrap;
 `;
 
 const PlaceTypeItem = styled.div<{ active: boolean }>`
@@ -61,6 +71,7 @@ const PlaceTypeItem = styled.div<{ active: boolean }>`
   font-weight: 500;
   color: ${cons.FONT_COLOR_LIGHT};
   margin-right: 0.8rem;
+  margin-bottom: 0.8rem;
   display: flex;
   align-items: center;
   ${fs.FontSizeSemiSmall}
