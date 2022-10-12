@@ -8,6 +8,7 @@ import { useAppSelector } from "../../redux/hooks";
 import { selectAuthenticated } from "../../redux/slices/userSlice";
 import { FontSizeSemiLarge } from "../../styles/styled-components/FontSize";
 import { ClickableStyle } from "../../styles/styled-components/Interactions";
+import { Layout } from "../commons/Layout";
 
 interface Props {
   pathname: string;
@@ -25,35 +26,41 @@ export const ConsoleShell: React.FC<Props> = ({ pathname, children }) => {
   }, [isAuthenticated]);
 
   return (
-    <Wrapper>
-      <Navigation>
-        <Link href="/community">
-          <NavItem active={pathname === "/community"}>
-            <NavIcon src="/icon/group-black.svg" />
-            Community
-          </NavItem>
-        </Link>
-        <Link href="/point">
-          <NavItem active={pathname === "/point"}>
-            <NavIcon src="/icon/coin-black.svg" />
-            Point
-          </NavItem>
-        </Link>
-        <Link href="/profile">
-          <NavItem active={pathname === "/profile"}>
-            <NavIcon src="/icon/user-black.svg" />
-            Profile
-          </NavItem>
-        </Link>
-        <Link href="/setting">
-          <NavItem active={pathname === "/setting"}>
-            <NavIcon src="/icon/gear-black.svg" />
-            Setting
-          </NavItem>
-        </Link>
-      </Navigation>
-      <Card>{children}</Card>
-    </Wrapper>
+    <Layout
+      width={cons.CONTAINER_WIDTH_SO_NARROW}
+      bgColor={cons.FONT_COLOR_SUPER_LIGHT}
+      fixed
+    >
+      <Wrapper>
+        <Navigation>
+          <Link href="/community">
+            <NavItem active={pathname === "/community"}>
+              <NavIcon src="/icon/group-black.svg" />
+              Community
+            </NavItem>
+          </Link>
+          <Link href="/point">
+            <NavItem active={pathname === "/point"}>
+              <NavIcon src="/icon/coin-black.svg" />
+              Point
+            </NavItem>
+          </Link>
+          <Link href="/profile">
+            <NavItem active={pathname === "/profile"}>
+              <NavIcon src="/icon/user-black.svg" />
+              Profile
+            </NavItem>
+          </Link>
+          <Link href="/setting">
+            <NavItem active={pathname === "/setting"}>
+              <NavIcon src="/icon/gear-black.svg" />
+              Setting
+            </NavItem>
+          </Link>
+        </Navigation>
+        <Card>{children}</Card>
+      </Wrapper>
+    </Layout>
   );
 };
 
@@ -61,11 +68,13 @@ const Wrapper = styled.div`
   width: 100%;
   display: flex;
   align-items: flex-start;
-  margin-top: 4rem;
+  padding-top: 9rem;
+  padding-bottom: 4rem;
 `;
 
 const Navigation = styled.div`
   width: 20rem;
+  position: fixed;
 `;
 
 const NavItem = styled.button<{ active: boolean }>`
@@ -110,4 +119,5 @@ const Card = styled.div`
   /* min-height: 20rem; */
   background-color: white;
   border-radius: 1rem;
+  margin-left: 15rem;
 `;

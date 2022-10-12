@@ -9,6 +9,7 @@ import { getPlacePhotos } from "../../modules/api/getPlacePhotos";
 import { Place } from "../../redux/slices/placeSlice";
 import { getUniqueSlug } from "../../modules/api/getUniqueSlug";
 import { addNewEvent } from "../../modules/api/addNewEvent";
+import { distributePointsAddPlace } from "../../modules/api/addPoint";
 
 const PLACE_ID = "place_id";
 
@@ -96,7 +97,16 @@ handler.post(async (req: any, res: any) => {
       isOfficial: false,
     });
 
-    return res.status(200).json({ placeId: newPlace.id });
+    const { addingPoint, totalPoint } = await distributePointsAddPlace(
+      req.mongoose,
+      userId,
+      placeId,
+      placeId
+    );
+
+    return res
+      .status(200)
+      .json({ placeId: newPlace.id, addingPoint, totalPoint });
   } catch (error: any) {
     return res.status(500).json({ message: ERR_SOMETHING, placeId: "" });
   }

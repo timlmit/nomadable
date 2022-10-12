@@ -14,20 +14,14 @@ const EventContainer: React.FC<Props> = ({}) => {
   const router = useRouter();
 
   return (
-    <Layout
-      width={cons.CONTAINER_WIDTH_SO_NARROW}
-      bgColor={cons.FONT_COLOR_SUPER_LIGHT}
-    >
-      {" "}
+    <ConsoleShell pathname={router.pathname}>
       <HeadSetter
         pageTitle={`Community | ${cons.APP_NAME}`}
         pageDescription={cons.APP_LONG_DESCRIPTION}
         pagePath={`${cons.APP_URL}/community`}
       />
-      <ConsoleShell pathname={router.pathname}>
-        <EventContents />
-      </ConsoleShell>
-    </Layout>
+      <EventContents />
+    </ConsoleShell>
   );
 };
 

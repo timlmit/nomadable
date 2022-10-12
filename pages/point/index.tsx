@@ -15,19 +15,14 @@ const PointContainer: React.FC<Props> = ({}) => {
   const router = useRouter();
 
   return (
-    <Layout
-      width={cons.CONTAINER_WIDTH_SO_NARROW}
-      bgColor={cons.FONT_COLOR_SUPER_LIGHT}
-    >
+    <ConsoleShell pathname={router.pathname}>
       <HeadSetter
         pageTitle={`Point | ${cons.APP_NAME}`}
         pageDescription={cons.APP_LONG_DESCRIPTION}
         pagePath={`${cons.APP_URL}/point`}
       />
-      <ConsoleShell pathname={router.pathname}>
-        <Wrapper>Comming soon...</Wrapper>
-      </ConsoleShell>
-    </Layout>
+      <Wrapper>Comming soon...</Wrapper>
+    </ConsoleShell>
   );
 };
 

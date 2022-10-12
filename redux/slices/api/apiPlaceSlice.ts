@@ -167,7 +167,8 @@ export const apiCreatePlace = createAsyncThunk<
   } // Types for ThunkAPI
 >("place/CreatePlace", async ({ place, errorCallback }, thunkApi) => {
   try {
-    const { placeId } = await callCreatePlace(place);
+    const { placeId, addingPoint, totalPoint } = await callCreatePlace(place);
+    thunkApi.dispatch(showPointEarned({ addingPoint, totalPoint }));
     return { placeId };
   } catch (error: any) {
     window.alert(error.message);

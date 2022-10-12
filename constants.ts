@@ -210,6 +210,7 @@ export const STATUS_PERM_CLOSE = "Parmanently Closed";
 
 export const POINT_TYPE_CHECK_IN = "Check In";
 export const POINT_TYPE_BE_CHECKED_IN = "Checked In";
+export const POINT_TYPE_ADD_PLACE = "Add Place";
 export const POINT_TYPE_REVIEW = "Review";
 
 // export const POINT_TYPES = {
@@ -220,6 +221,8 @@ export const POINT_TYPE_REVIEW = "Review";
 
 export const getPointPlan = (pointType: string) => {
   switch (pointType) {
+    case POINT_TYPE_ADD_PLACE:
+      return 5;
     case POINT_TYPE_CHECK_IN:
       return 5;
     case POINT_TYPE_BE_CHECKED_IN:

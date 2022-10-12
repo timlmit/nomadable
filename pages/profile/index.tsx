@@ -29,19 +29,14 @@ const AccountContainer: React.FC<Props> = ({}) => {
   }, [apiStatus]);
 
   return (
-    <Layout
-      width={cons.CONTAINER_WIDTH_SO_NARROW}
-      bgColor={cons.FONT_COLOR_SUPER_LIGHT}
-    >
+    <ConsoleShell pathname={router.pathname}>
       <HeadSetter
         pageTitle={`Profile | ${cons.APP_NAME}`}
         pageDescription={cons.APP_LONG_DESCRIPTION}
         pagePath={`${cons.APP_URL}/profile`}
       />
-      <ConsoleShell pathname={router.pathname}>
-        <AccountContents userWithStats={userWithStats} isMyAccount />
-      </ConsoleShell>
-    </Layout>
+      <AccountContents userWithStats={userWithStats} isMyAccount />
+    </ConsoleShell>
   );
 };
 

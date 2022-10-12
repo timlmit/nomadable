@@ -10,7 +10,7 @@ import { readCookie } from "../modules/CookieHandler";
 
 export const callCreatePlace = async (
   place: Place
-): Promise<{ placeId: string }> => {
+): Promise<{ placeId: string; addingPoint: number; totalPoint: number }> => {
   try {
     const response = await axios({
       method: "post",
@@ -92,10 +92,6 @@ export const callFetchPlaces = async (params: {
   pageIndex: number;
   filterObj: FilterObj;
 }): Promise<{ places: Place[] }> => {
-  console.log(
-    "🚀 ~ file: placeCalls.ts ~ line 95 ~ filterObj",
-    params.filterObj
-  );
   try {
     const response = await axios({
       method: "post",
