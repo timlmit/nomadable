@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Router, { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
@@ -32,6 +33,7 @@ interface Props {
 
 export const TopPage: React.FC<Props> = ({ places }) => {
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const [mapArea, setMapArea] = useState<null | MapArea>(null);
   const [pageIndex, setPageIndex] = useState(0);
@@ -88,6 +90,15 @@ export const TopPage: React.FC<Props> = ({ places }) => {
       latEnd,
       lngEnd,
     });
+
+    router.push(
+      {
+        pathname: "/",
+        query: { latStart, lngStart, latEnd, lngEnd },
+      },
+      undefined,
+      { shallow: true }
+    );
   };
 
   const onClickMarker = (placeId: string) => {
@@ -102,12 +113,19 @@ export const TopPage: React.FC<Props> = ({ places }) => {
     setFilterObj(_filterObj);
   };
 
-  const scrollToTop = () => {
-    const top = viewHeight - 240;
-    window.scrollTo({
-      top,
-      behavior: "smooth",
-    });
+  const onClickToggle = () => {
+    if (window.scrollY < 5) {
+      const top = viewHeight - 240;
+      window.scrollTo({
+        top,
+        // behavior: "smooth",
+      });
+    } else {
+      window.scrollTo({
+        top: 0,
+        // behavior: "smooth",
+      });
+    }
   };
 
   const onChangeFilterVisible = (visible: boolean) => {
@@ -156,7 +174,7 @@ export const TopPage: React.FC<Props> = ({ places }) => {
   return (
     <TopPageWrapper>
       <SearchResultSection viewHeight={viewHeight}>
-        <PullTabForMobile>
+        <PullTabForMobile onClick={onClickToggle}>
           <SectionLoader
             visible={apiFetchPlacesStatus.status === cons.API_LOADING}
           />
@@ -191,7 +209,7 @@ export const TopPage: React.FC<Props> = ({ places }) => {
         />
       </MapSection>
 
-      <ScrollUpButton onClick={scrollToTop}>
+      <ScrollUpButton onClick={onClickToggle}>
         <ScrollUpIcon src="/icon/up-arrow-white.svg" />
       </ScrollUpButton>
 
@@ -241,6 +259,7 @@ const SearchResultSection = styled.div<{ viewHeight: number }>`
 `;
 
 const PullTabForMobile = styled.div`
+  ${ClickableStyle}
   height: 1rem;
   padding: 1rem;
   justify-content: center;
@@ -290,7 +309,6 @@ const ScrollUpButton = styled.button`
 
   ${forMobile(`
     display:block;
-      
   `)}
 `;
 

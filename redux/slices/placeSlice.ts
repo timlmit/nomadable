@@ -9,6 +9,7 @@ import {
   apiFetchPlaces,
   apiFetchRecentCheckIns,
 } from "./api/apiPlaceSlice";
+import { apiDeleteReview, apiPostReview } from "./api/apiReviewSlice";
 
 /**
  * Types
@@ -32,6 +33,7 @@ export interface Place extends Spot {
   speedUp: number;
   testCnt: number;
   availability: string[];
+  reviewStars: number;
   status: string;
   created: Date | undefined;
 }
@@ -47,6 +49,8 @@ export interface PlaceWithData extends Place, PlaceUserData {
   // user
   recentCheckInCnt: number;
   checkedInByUser: boolean;
+  // reviews
+  reviewsWithData: ReviewWithData[];
 }
 
 export interface MapArea {
@@ -59,6 +63,23 @@ export interface MapArea {
 export interface FilterObj {
   placeTypes: string[];
   availability: string[];
+}
+
+export interface Review {
+  _id?: string;
+  placeId: string;
+  userId: string;
+  stars: number;
+  comment: string;
+  votedValue: number;
+  voters: string[];
+  created: string;
+}
+
+export interface ReviewWithData extends Review {
+  userPicture: string;
+  userName: string;
+  myReview: boolean;
 }
 
 interface PlaceState {
@@ -86,6 +107,7 @@ export const initialPlace: Place = {
   speedUp: 0,
   testCnt: 0,
   availability: [],
+  reviewStars: 0,
   status: STATUS_OPEN,
   created: undefined,
 
@@ -105,6 +127,7 @@ export const initialPlaceWithData: PlaceWithData = {
 
   recentCheckInCnt: 0,
   checkedInByUser: false,
+  reviewsWithData: [],
 };
 
 const initialState: PlaceState = {
@@ -139,6 +162,29 @@ const placeSlice = createSlice({
     });
     builder.addCase(apiFetchRecentCheckIns.fulfilled, (state, action) => {
       state.recentCheckIns = action.payload.recentCheckIns;
+    });
+    builder.addCase(apiPostReview.fulfilled, (state, action) => {
+      state.placeForPage.reviewStars = action.payload.reviewStars;
+      if (action.payload.isNew) {
+        state.placeForPage.reviewsWithData.unshift(
+          action.payload.reviewWithData
+        );
+      } else {
+        state.placeForPage.reviewsWithData =
+          state.placeForPage.reviewsWithData.map((review) => {
+            if (!review.myReview) return review;
+            return action.payload.reviewWithData;
+          });
+      }
+    });
+    builder.addCase(apiDeleteReview.fulfilled, (state, action) => {
+      if (state.placeForPage.id === action.payload.placeId) {
+        state.placeForPage.reviewStars = action.payload.reviewStars;
+        state.placeForPage.reviewsWithData =
+          state.placeForPage.reviewsWithData.filter(
+            (r) => r._id !== action.payload.reviewId
+          );
+      }
     });
   },
 });

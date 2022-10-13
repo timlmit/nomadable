@@ -1,4 +1,5 @@
 import { Place, PlaceWithData } from "../../redux/slices/placeSlice";
+import { makeReviewsWithData } from "./makeReviewsWithData";
 
 export const makePlaceWithData = async (
   place: Place,
@@ -8,6 +9,7 @@ export const makePlaceWithData = async (
   try {
     const User = mongoose.model("User");
     const CheckIn = mongoose.model("CheckIn");
+    const Review = mongoose.model("Review");
 
     // get user
     const discoverUser = await User.findOne({ _id: place.discoveredBy });
@@ -31,6 +33,19 @@ export const makePlaceWithData = async (
       // checkInTime: { $gt: yearAgo },
     }).lean();
 
+    // get reviews
+    const reviews = await Review.find({ placeId: place.id })
+      .sort({
+        votedValue: -1,
+      })
+      .lean();
+
+    const reviewsWithData = await makeReviewsWithData(
+      mongoose,
+      reviews,
+      userId
+    );
+
     // make
     const placeWithData: PlaceWithData = {
       ...place,
@@ -40,6 +55,7 @@ export const makePlaceWithData = async (
       userTitle: discoverUser ? discoverUser.title : "",
       recentCheckInCnt: recentCheckIns.length,
       checkedInByUser: recentCheckInByUser ? true : false,
+      reviewsWithData,
     };
 
     return placeWithData;

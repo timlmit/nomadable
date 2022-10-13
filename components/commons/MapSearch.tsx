@@ -6,6 +6,7 @@ import * as cons from "../../constants";
 import { Place } from "../../redux/slices/placeSlice";
 import { features } from "process";
 import { getColorOfSpeed } from "./NetSpeedIndicator";
+import { useRouter } from "next/router";
 
 interface Props {
   mapId: string;
@@ -25,6 +26,7 @@ interface Props {
 }
 
 export const MapSearch: React.FC<Props> = (props) => {
+  const router = useRouter();
   const mapId = `mapbox-${props.mapId}`;
   const mapRef = useRef<mapboxgl.Map>();
   const markersRef = useRef<{ id: string; marker: any }[]>([]);
@@ -112,6 +114,23 @@ export const MapSearch: React.FC<Props> = (props) => {
     });
   };
 
+  const updateMapArea = (query: any) => {
+    try {
+      const latStart = parseFloat(query.latStart);
+      const lngStart = parseFloat(query.lngStart);
+      const latEnd = parseFloat(query.latEnd);
+      const lngEnd = parseFloat(query.lngEnd);
+
+      const map = mapRef.current;
+      map?.fitBounds([
+        [lngEnd, latEnd],
+        [lngStart, latStart],
+      ]);
+    } catch (err) {
+      return;
+    }
+  };
+
   /**
    * Effect
    */
@@ -128,7 +147,11 @@ export const MapSearch: React.FC<Props> = (props) => {
   }, [props.places]);
 
   useEffect(() => {
-    onViewportUpdate();
+    if (router.query.latStart) {
+      updateMapArea(router.query);
+    } else {
+      onViewportUpdate();
+    }
   }, [mapRef.current]);
 
   useEffect(() => {

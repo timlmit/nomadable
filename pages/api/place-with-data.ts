@@ -17,7 +17,6 @@ handler.get(async (req: any, res: any) => {
 
   try {
     const Place = req.mongoose.model("Place");
-    const User = req.mongoose.model("User");
 
     // get place
     const place = await Place.findOne({

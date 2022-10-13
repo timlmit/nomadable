@@ -18,6 +18,7 @@ export const PlaceSchema = (mongoose: any) => {
     speedUp: { type: Number, default: 0 },
     testCnt: { type: Number, default: 0 },
     availability: { type: [String], default: [] },
+    reviewStars: { type: Number, default: 0 },
     status: { type: String, default: STATUS_OPEN },
     created: {
       type: Date,

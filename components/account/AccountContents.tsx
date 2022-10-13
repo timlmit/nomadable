@@ -11,10 +11,7 @@ import {
   selectApiUpdateUserStatus,
 } from "../../redux/slices/api/apiUserSlice";
 import { EditableUser, UserWithStats } from "../../redux/slices/userSlice";
-import {
-  ButtonSecondarySmall,
-  ButtonSecondarySmallest,
-} from "../../styles/styled-components/Buttons";
+import { ButtonSecondarySmall } from "../../styles/styled-components/Buttons";
 import {
   FontSizeLarge,
   FontSizeNormal,

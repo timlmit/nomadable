@@ -19,6 +19,7 @@ import {
 } from "../../redux/slices/api/apiPlaceSlice";
 import { selectAuthenticated } from "../../redux/slices/userSlice";
 import { forMobile } from "../../styles/Responsive";
+import { apiPostReview } from "../../redux/slices/api/apiReviewSlice";
 
 interface Props {
   placeWithData: PlaceWithData;
@@ -103,9 +104,13 @@ export const PlacePage: React.FC<Props> = ({ placeWithData }) => {
           <InfoItemWrapper label="Basic Info">
             <Availability availability={pd.availability} />
           </InfoItemWrapper>
-          {/* <InfoItemWrapper label="Reviews">
-            <Reviews />
-          </InfoItemWrapper> */}
+          <InfoItemWrapper label="Reviews">
+            <Reviews
+              reviewsWithData={pd.reviewsWithData}
+              reviewStars={pd.reviewStars}
+              placeId={pd.id}
+            />
+          </InfoItemWrapper>
           <DiscoveredByWrapper>
             <DiscoveredBy
               userId={pd.discoveredBy}

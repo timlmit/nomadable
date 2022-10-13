@@ -4,7 +4,10 @@ import styled from "styled-components";
 import * as cons from "../../../constants";
 import * as fs from "../../../styles/styled-components/FontSize";
 import { FilterObj, Place } from "../../../redux/slices/placeSlice";
-import { ButtonSecondarySmallest } from "../../../styles/styled-components/Buttons";
+import {
+  ButtonSecondarySmall,
+  ButtonSecondarySmallest,
+} from "../../../styles/styled-components/Buttons";
 import { ContainerStyleInside } from "../../../styles/styled-components/Layouts";
 import { Contributers } from "./Contributers";
 import { Pagination } from "./Pagination";

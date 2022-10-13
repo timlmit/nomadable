@@ -25,7 +25,7 @@ export const FontSizeSemiSmall = css`
 `;
 
 export const FontSizeSmall = css`
-  font-size: 0.75rem;
+  font-size: 0.8rem;
 `;
 
 export const DEFAULT_LINE_HEIGHT = "1.6em";

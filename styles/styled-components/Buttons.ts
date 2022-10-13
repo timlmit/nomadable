@@ -41,10 +41,12 @@ const SizeSmall = css`
 
 const SizeSmallest = css`
   ${FontSizeSemiSmall}
-  height: 2.6rem;
+
   border-radius: 0.3rem;
-  padding: 0 1.2rem;
   min-width: 5rem;
+  font-size: 0.9rem;
+  height: 2.3rem;
+  padding: 0rem 1rem;
 `;
 
 /**
