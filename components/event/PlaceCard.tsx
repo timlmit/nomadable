@@ -3,6 +3,7 @@ import React from "react";
 import styled from "styled-components";
 
 import * as cons from "../../constants";
+import { forMobile } from "../../styles/Responsive";
 import { FontSizeSemiSmall } from "../../styles/styled-components/FontSize";
 import { ClickableStyle } from "../../styles/styled-components/Interactions";
 
@@ -45,6 +46,10 @@ const PlaceCardWrapper = styled.div`
   overflow: hidden;
   width: 26rem;
   /* padding: 0.2rem; */
+
+  ${forMobile(`
+    width: 100%;
+  `)}
 `;
 
 const ImageSection = styled.div`
@@ -56,6 +61,11 @@ const Picture = styled.img`
   width: 100%;
   height: 6rem;
   object-fit: cover;
+
+  ${forMobile(`
+      width: 33.4%;
+      height: 4.5rem;
+  `)}
 `;
 
 const InfoSection = styled.div`

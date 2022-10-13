@@ -6,6 +6,7 @@ import styled from "styled-components";
 import * as cons from "../../constants";
 import { useAppSelector } from "../../redux/hooks";
 import { selectAuthenticated } from "../../redux/slices/userSlice";
+import { forMobile } from "../../styles/Responsive";
 import { FontSizeSemiLarge } from "../../styles/styled-components/FontSize";
 import { ClickableStyle } from "../../styles/styled-components/Interactions";
 import { Layout } from "../commons/Layout";
@@ -75,6 +76,10 @@ const Wrapper = styled.div`
 const Navigation = styled.div`
   width: 20rem;
   position: fixed;
+
+  ${forMobile(`
+    display:none;
+  `)}
 `;
 
 const NavItem = styled.button<{ active: boolean }>`
@@ -120,4 +125,9 @@ const Card = styled.div`
   background-color: white;
   border-radius: 1rem;
   margin-left: 15rem;
+
+  ${forMobile(`
+    margin-left: 0;
+    width: 100%;
+  `)}
 `;

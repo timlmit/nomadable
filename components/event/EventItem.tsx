@@ -6,6 +6,7 @@ import { convertTimestampToTimeAgo } from "../../modules/DateUtils";
 import { useAppDispatch } from "../../redux/hooks";
 import { EventWithData } from "../../redux/slices/eventSlice";
 import { updateVisibleModal } from "../../redux/slices/uiSlice";
+import { forMobile } from "../../styles/Responsive";
 import {
   FontSizeNormal,
   FontSizeSemiSmall,
@@ -79,10 +80,11 @@ const Wrapper = styled.div`
 
 const ItemContainer = styled.div`
   ${ContainerStyleInside};
-  padding-top: 1rem;
-  padding-bottom: 1rem;
   display: flex;
   align-items: flex-start;
+  justify-content: flex-start;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 `;
 
 const ProfilePic = styled.img`
@@ -109,6 +111,11 @@ const TitleRow = styled.div`
   ${FontSizeNormal};
   /* color: ${cons.FONT_COLOR_SECONDARY}; */
   font-weight: 400;
+
+  ${forMobile(`
+    flex-direction: column;
+    align-items: flex-start;
+  `)}
 `;
 
 const UserSubId = styled.div`
@@ -124,6 +131,10 @@ const DateTime = styled.div`
   margin-left: 0.8em;
   color: ${cons.FONT_COLOR_LIGHT};
   ${FontSizeSemiSmall}
+
+  ${forMobile(`
+  margin-left: 0;
+  `)}
 `;
 
 const Body = styled.div``;

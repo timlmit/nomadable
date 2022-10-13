@@ -21,6 +21,7 @@ export const ContainerStyleInside = css`
   box-sizing: border-box;
 
   ${forMobile(`
-    padding: 0 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
   `)}
 `;

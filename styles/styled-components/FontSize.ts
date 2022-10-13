@@ -1,3 +1,4 @@
+import { forMobile } from "./../Responsive";
 import { css } from "styled-components";
 
 export const FontSizeHeroLarge = css`

@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import * as cons from "../../constants";
+import { forMobile } from "../../styles/Responsive";
 import { DottedBackground } from "../../styles/styled-components/Background";
 import {
   FontSizeSemiLarge,
@@ -37,6 +38,12 @@ const ContentsWrapper = styled.div`
   width: 100%;
 
   ${DottedBackground}
+
+  ${forMobile(`
+      padding-left: 1rem;
+      padding-right: 1rem;
+      min-height: 100vh;
+  `)}
 `;
 
 const MessageModal = styled.div`
@@ -59,6 +66,10 @@ const MessageModal = styled.div`
 
   animation: fadein-up 1s ease-out;
   opacity: 0.95;
+
+  ${forMobile(`
+    padding: 2rem 2rem 3rem 2rem;
+    `)}
 `;
 
 const MailIcon = styled.img`

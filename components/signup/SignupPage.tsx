@@ -10,6 +10,7 @@ import {
   APP_URL,
 } from "../../constants";
 import placeWithData from "../../pages/api/place-with-data";
+import { forMobile } from "../../styles/Responsive";
 import { DottedBackground } from "../../styles/styled-components/Background";
 import {
   ButtonPrimaryLarge,
@@ -81,6 +82,10 @@ const ContentsWrapper = styled.div`
   width: 100%;
 
   ${DottedBackground}
+
+  ${forMobile(`
+    padding-bottom: 3rem;
+  `)}
 `;
 
 const HeroSection = styled.div`
@@ -88,6 +93,12 @@ const HeroSection = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 6rem;
+
+  ${forMobile(`
+    margin-top: 3rem;
+    flex-direction: column;
+    align-items: flex-start;
+  `)}
 `;
 
 const CatchCopy = styled.div`
@@ -98,11 +109,20 @@ const CatchCopy = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   margin-top: 5rem;
+
+  ${forMobile(`
+    margin-top: 0rem;
+    margin-right:0;
+  `)}
 `;
 
 const Title = styled.div`
   ${FontSizeHeroLarge}
   font-weight: bold;
+
+  ${forMobile(`
+    font-size: 2.2rem;
+  `)}
 `;
 
 const Subtitle = styled.div`
@@ -111,9 +131,19 @@ const Subtitle = styled.div`
   opacity: 1;
   margin-top: 1.5em;
   line-height: 1.5em;
+
+  ${forMobile(`
+    font-size: 1rem;
+    line-height: 1.4em;
+  `)}
 `;
 
-const Contents = styled.div``;
+const Contents = styled.div`
+  ${forMobile(`
+  margin-top: 1.5rem;
+  width: 100%;
+  `)}
+`;
 
 const Label = styled.div`
   font-weight: bold;
@@ -128,6 +158,10 @@ const FormBox = styled.div`
   border-radius: 0.3rem;
   width: 26rem;
   background-color: rgba(255, 255, 255, 1);
+
+  ${forMobile(`
+  width: 100%;
+  `)}
 `;
 
 const Mention = styled.div`
