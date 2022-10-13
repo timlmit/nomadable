@@ -1,8 +1,8 @@
+import { forMobile } from "./../Responsive";
 import { css } from "styled-components";
 
 import { HideScrollBarCss } from "./StyleUtils";
 import * as cons from "../../constants";
-import { forMobile } from "../Responsive";
 
 export const ModalOverlayCss = css<{
   visible: boolean;
@@ -51,6 +51,11 @@ export const ModalOverlayCss = css<{
     `
     align-items: flex-start;
   `};
+
+  ${forMobile(`
+    align-items: flex-start;
+    padding: 0 0.5rem;
+  `)}
 `;
 
 export const ModalWindowCss = css<{
@@ -97,4 +102,9 @@ export const ModalWindowCss = css<{
         min-height: 100%;
       }
     `};
+
+  ${forMobile(`
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+  `)}
 `;

@@ -9,6 +9,7 @@ import {
   showNotification,
 } from "../../redux/slices/uiSlice";
 import { CubicBezier } from "../../styles/styled-components/Animations";
+import { forMobile } from "../../styles/Responsive";
 
 interface Props {}
 
@@ -69,15 +70,30 @@ const Card = styled.div<{ visible: boolean }>`
     props.visible &&
     `
     right: 2rem;
+    ${forMobile(`
+      right: 1rem;
+  `)}
   `};
+
+  ${forMobile(`
+    padding: 1.5rem;
+    bottom: 1.5rem;
+  `)}
 `;
 
 const Icon = styled.div`
   margin-right: 2rem;
+
+  ${forMobile(`
+    margin-right: 1.3rem;
+  `)}
 `;
 
 const IconImg = styled.img`
   width: 3.5rem;
+  ${forMobile(`
+    width: 3rem;
+  `)}
 `;
 
 const Message = styled.div`
@@ -88,6 +104,10 @@ const Earned = styled.div`
   ${fs.FontSizeLarge};
   color: ${cons.FONT_COLOR_LIGHT};
   margin-bottom: 0.6rem;
+  ${forMobile(`
+    ${fs.FontSizeSemiLarge};
+    margin-bottom: 0.2rem;
+  `)}
 `;
 
 const EarnedNumber = styled.span`
@@ -95,6 +115,10 @@ const EarnedNumber = styled.span`
   font-weight: bold;
   color: ${cons.FONT_COLOR_NORMAL};
   margin: 0 0.3rem;
+
+  ${forMobile(`
+    ${fs.FontSizeLarge};
+  `)}
 `;
 
 const TotalPoint = styled.div`

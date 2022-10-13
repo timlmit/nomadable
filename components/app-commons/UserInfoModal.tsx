@@ -12,6 +12,7 @@ import {
   initUserWithStats,
   selectUserWithStats,
 } from "../../redux/slices/userSlice";
+import { ClickableStyle } from "../../styles/styled-components/Interactions";
 import { AccountContents } from "../account/AccountContents";
 import { Modal } from "../commons/Modal";
 
@@ -26,6 +27,7 @@ export const UserInfoModal: React.FC<Props> = ({}) => {
   const userId = visibleModal.referenceId;
 
   const closeModal = () => {
+    console.log("close");
     dispatch(closeModalGlobal());
   };
 
@@ -38,10 +40,35 @@ export const UserInfoModal: React.FC<Props> = ({}) => {
   }, [visible, userId]);
 
   return (
-    <Modal visible={visible} closeModal={closeModal} width="30rem">
+    <Modal visible={visible} closeModal={closeModal} width="30rem" alignTop>
+      <CloseButton onClick={closeModal}>
+        <CloseIcon src="/icon/cross-black.png" />
+      </CloseButton>
       <AccountContents userWithStats={userWithStats} isMyAccount={false} />
     </Modal>
   );
 };
 
-const UserInfoModalWrapper = styled.div``;
+const CloseButton = styled.div`
+  ${ClickableStyle}
+  position: absolute;
+  top: 0.48rem;
+  right: 0.6rem;
+
+  height: 2.2rem;
+  width: 2.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+  &:hover {
+    background-color: ${cons.FONT_COLOR_SUPER_LIGHT};
+  }
+  z-index: 1;
+  /* transition: all 0.2s ease-out; */
+`;
+
+const CloseIcon = styled.img`
+  width: 0.7rem;
+  opacity: 0.6;
+`;
