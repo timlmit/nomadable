@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import * as cons from "../../constants";
+import { forMobile } from "../../styles/Responsive";
 import {
   FontSizeLarge,
   FontSizeSemiLarge,
@@ -44,11 +45,19 @@ const StatsItemsWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
   padding: 0 2rem;
+
+  ${forMobile(`
+    padding: 0 1rem;
+  `)}
 `;
 
 const ItemWrapper = styled.div`
   text-align: center;
   margin-right: 2rem;
+
+  ${forMobile(`
+    margin-right: 1rem;
+  `)}
 `;
 
 const Number = styled.div`
@@ -62,4 +71,8 @@ const Unit = styled.div`
   ${FontSizeSemiSmall};
   font-weight: 500;
   margin-top: 0.3rem;
+
+  ${forMobile(`
+    font-size: 0.8rem;
+  `)}
 `;

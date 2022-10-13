@@ -121,7 +121,7 @@ const Title = styled.div`
   font-weight: bold;
 
   ${forMobile(`
-    font-size: 2.2rem;
+    font-size: 2.8rem;
   `)}
 `;
 

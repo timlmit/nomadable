@@ -88,7 +88,7 @@ export const AccountContents: React.FC<Props> = ({
           {isMyAccount && (
             <EditButton onClick={onClickEdit}>
               <EditIcon src="/icon/gear-black.svg" />
-              Edit profile
+              Edit
             </EditButton>
           )}
 
@@ -147,6 +147,7 @@ const EditButton = styled.button`
   padding-left: 1rem;
   padding-right: 1rem;
   height: 2.8rem;
+  min-width: auto;
 `;
 
 const EditIcon = styled.img`
