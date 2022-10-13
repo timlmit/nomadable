@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
 import * as cons from "../../constants";
+import { useScrolllPosition } from "../../modules/hooks/useScrollPosition";
 import { useViewHeight } from "../../modules/hooks/useViewHeight";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
@@ -19,6 +20,7 @@ import {
   Place,
 } from "../../redux/slices/placeSlice";
 import { forMobile } from "../../styles/Responsive";
+import { AnimationSlideUp } from "../../styles/styled-components/Animations";
 import { FontSizeSemiSmall } from "../../styles/styled-components/FontSize";
 import { ClickableStyle } from "../../styles/styled-components/Interactions";
 import { MapSearch } from "../commons/MapSearch";
@@ -34,16 +36,21 @@ interface Props {
 export const TopPage: React.FC<Props> = ({ places }) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
-
+  // store
+  const contributers = useAppSelector(selectContributersArea);
+  const apiFetchPlacesStatus = useAppSelector(selectApiFetchPlacesStatus);
+  // ref
+  const fetchTimeoutRef = useRef<any>(0);
+  // local state
   const [mapArea, setMapArea] = useState<null | MapArea>(null);
   const [pageIndex, setPageIndex] = useState(0);
   const [selectedPlace, setSelectedPlace] = useState("");
   const [filterObj, setFilterObj] = useState<FilterObj>(initialFilterObj);
-  const fetchTimeoutRef = useRef<any>(0);
-  const contributers = useAppSelector(selectContributersArea);
-  const [viewHeight] = useViewHeight();
+  const [scrollButtonVisible, setScrollButtonVisible] = useState(false);
   const [filterVisible, setFilterVisible] = useState(false);
-  const apiFetchPlacesStatus = useAppSelector(selectApiFetchPlacesStatus);
+  // custom hook
+  const [viewHeight] = useViewHeight();
+  const [scrollPosition] = useScrolllPosition();
 
   /**
    * Modules
@@ -113,17 +120,17 @@ export const TopPage: React.FC<Props> = ({ places }) => {
     setFilterObj(_filterObj);
   };
 
-  const onClickToggle = () => {
+  const onClickToggle = (smooth?: boolean) => {
     if (window.scrollY < 5) {
       const top = viewHeight - 240;
       window.scrollTo({
         top,
-        // behavior: "smooth",
+        behavior: smooth ? "smooth" : "auto",
       });
     } else {
       window.scrollTo({
         top: 0,
-        // behavior: "smooth",
+        behavior: smooth ? "smooth" : "auto",
       });
     }
   };
@@ -157,6 +164,14 @@ export const TopPage: React.FC<Props> = ({ places }) => {
     // }
   }, [places]);
 
+  useEffect(() => {
+    if (scrollPosition.scrollY > 50) {
+      setScrollButtonVisible(true);
+    } else {
+      setScrollButtonVisible(false);
+    }
+  }, [scrollPosition]);
+
   /**
    * Render
    */
@@ -174,7 +189,7 @@ export const TopPage: React.FC<Props> = ({ places }) => {
   return (
     <TopPageWrapper>
       <SearchResultSection viewHeight={viewHeight}>
-        <PullTabForMobile onClick={onClickToggle}>
+        <PullTabForMobile onClick={() => onClickToggle(false)}>
           <SectionLoader
             visible={apiFetchPlacesStatus.status === cons.API_LOADING}
           />
@@ -194,7 +209,7 @@ export const TopPage: React.FC<Props> = ({ places }) => {
         />
       </SearchResultSection>
       <MapSection viewHeight={viewHeight}>
-        <RecentCheckIns />
+        {/* <RecentCheckIns /> */}
         <FilterButtonForMobile onClick={() => changeFilterVisible(true)}>
           {renderFilterCount()}
           <FilterIcon src="/icon/filter-black3.svg" />
@@ -209,7 +224,10 @@ export const TopPage: React.FC<Props> = ({ places }) => {
         />
       </MapSection>
 
-      <ScrollUpButton onClick={onClickToggle}>
+      <ScrollUpButton
+        onClick={() => onClickToggle(true)}
+        visible={scrollButtonVisible}
+      >
         <ScrollUpIcon src="/icon/up-arrow-white.svg" />
       </ScrollUpButton>
 
@@ -292,7 +310,7 @@ const MapSection = styled.div<{ viewHeight: number }>`
   }
 `;
 
-const ScrollUpButton = styled.button`
+const ScrollUpButton = styled.button<{ visible: boolean }>`
   display: none;
   position: fixed;
   bottom: 1.5rem;
@@ -306,10 +324,15 @@ const ScrollUpButton = styled.button`
   background-color: white;
   background-color: ${cons.COLOR_PRIMARY_2};
   color: white;
+  ${AnimationSlideUp}
 
-  ${forMobile(`
-    display:block;
+  ${(props) =>
+    props.visible &&
+    `
+    ${forMobile(`
+      display:block;
   `)}
+  `};
 `;
 
 const ScrollUpIcon = styled.img`
@@ -322,7 +345,7 @@ const FilterButtonForMobile = styled.button`
   display: none;
   position: absolute;
   top: 1.2rem;
-  right: 1.2rem;
+  left: 1.2rem;
   background-color: white;
   z-index: 10;
   height: 3.3rem;

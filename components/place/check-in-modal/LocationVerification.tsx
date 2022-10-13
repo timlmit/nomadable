@@ -31,7 +31,7 @@ export const LocationVerification: React.FC<Props> = (props) => {
   const onClickVerify = async () => {
     try {
       setRequestingLocation(true);
-      const location = await getCurrentLocation();
+      const location = await getCurrentLocation({ accurate: true });
 
       if (!location) {
         throw Error;
@@ -57,12 +57,8 @@ export const LocationVerification: React.FC<Props> = (props) => {
       props.onVerified();
       setRequestingLocation(false);
     } catch (error: any) {
-      if (error.code === 3) {
-        onClickVerify();
-      } else {
-        setRequestingLocation(false);
-        window.alert("Something went wrong. Please contact support.");
-      }
+      setRequestingLocation(false);
+      window.alert("Something went wrong. Please contact support.");
     }
   };
 

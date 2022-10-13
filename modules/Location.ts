@@ -2,29 +2,44 @@
  * getCurrentLocation
  */
 
-import { rejects } from "assert";
-import error from "next/error";
-
-const options = {
+const accurateOption = {
   enableHighAccuracy: true,
   timeout: 5000,
   maximumAge: 0,
 };
 
-export const getCurrentLocation = async (): Promise<
-  { lat: number; lng: number } | false
-> => {
+const fastOption = {
+  enableHighAccuracy: false,
+  timeout: 1000,
+  maximumAge: 1000 * 60 * 3,
+};
+
+export const getCurrentLocation = async ({
+  accurate,
+}: {
+  accurate: boolean;
+}): Promise<{ lat: number; lng: number } | false> => {
+  const options = accurate ? accurateOption : fastOption;
+
   return new Promise((resolve, reject) => {
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const crd = pos.coords;
-        resolve({ lat: crd.latitude, lng: crd.longitude });
-      },
-      (error) => {
-        reject(error);
-      },
-      options
-    );
+    const tryGetCurrentLocation = () => {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const crd = pos.coords;
+          resolve({ lat: crd.latitude, lng: crd.longitude });
+        },
+        (error) => {
+          if (error.code === 3) {
+            tryGetCurrentLocation();
+          } else {
+            reject(error);
+          }
+        },
+        options
+      );
+    };
+
+    tryGetCurrentLocation();
   });
 };
 

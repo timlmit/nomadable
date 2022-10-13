@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import mapboxgl from "mapbox-gl";
 
@@ -24,6 +24,9 @@ interface Props {
   selectedPlace: string;
   viewHeight: number;
 }
+
+const MAP_STYLE_STREET = "mapbox://styles/mapbox/streets-v11";
+const MAP_STYLE_LIGHT = "mapbox://styles/mapbox/light-v10";
 
 export const MapSearch: React.FC<Props> = (props) => {
   const router = useRouter();
@@ -60,7 +63,7 @@ export const MapSearch: React.FC<Props> = (props) => {
     mapRef.current = new mapboxgl.Map({
       container: mapId,
       // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
-      style: "mapbox://styles/mapbox/light-v10",
+      style: MAP_STYLE_LIGHT,
       center: [lng || 0, lat || 0],
       zoom: zoom || 0.1,
       interactive: true,
@@ -74,6 +77,18 @@ export const MapSearch: React.FC<Props> = (props) => {
     mapRef.current.on("zoomend", () => {
       onViewportUpdate();
     });
+
+    mapRef.current.addControl(
+      new mapboxgl.GeolocateControl({
+        positionOptions: {
+          enableHighAccuracy: true,
+        },
+        // When active the map will receive updates to the device's location as it changes.
+        trackUserLocation: true,
+        // Draw an arrow next to the location dot to indicate which direction the device is heading.
+        showUserHeading: true,
+      })
+    );
   };
 
   /**
@@ -165,7 +180,11 @@ export const MapSearch: React.FC<Props> = (props) => {
    * Render
    */
 
-  return <Map id={mapId} viewHeight={props.viewHeight}></Map>;
+  return (
+    <MapWrapper>
+      <Map id={mapId} viewHeight={props.viewHeight}></Map>
+    </MapWrapper>
+  );
 };
 
 const Map = styled.div<{ viewHeight: number }>`
@@ -175,4 +194,10 @@ const Map = styled.div<{ viewHeight: number }>`
   @media only screen and (max-width: ${cons.WIDTH_TABLET}px) {
     height: calc(${(props) => props.viewHeight}px - 15rem);
   }
+`;
+
+const MapWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  position: relative;
 `;
