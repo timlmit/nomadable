@@ -6,6 +6,7 @@ import * as cons from "../../../constants";
 import { ERR_SOMETHING } from "../../../modules/ErrorCode";
 import { callDeleteReview, callPostReview } from "../../../calls/reviewCall";
 import { Review, ReviewWithData } from "../placeSlice";
+import { showPointEarned } from "../uiSlice";
 
 /**
  * Types
@@ -105,11 +106,13 @@ export const apiPostReview = createAsyncThunk<
   } // Types for ThunkAPI
 >("review/PostReview", async ({ placeId, stars, comment, isNew }, thunkApi) => {
   try {
-    const { reviewWithData, reviewStars } = await callPostReview(
-      placeId,
-      stars,
-      comment
-    );
+    const { reviewWithData, reviewStars, addingPoint, totalPoint } =
+      await callPostReview(placeId, stars, comment);
+
+    if (addingPoint > 0) {
+      thunkApi.dispatch(showPointEarned({ addingPoint, totalPoint }));
+    }
+
     return { reviewWithData, placeId, reviewStars, isNew };
   } catch (error: any) {
     return thunkApi.rejectWithValue(error as CallError);

@@ -10,6 +10,9 @@ import {
 } from "../../../../modules/DateUtils";
 import { ReviewStars } from "../../../app-commons/ReviewStars";
 import { ButtonText } from "../../../../styles/styled-components/Buttons";
+import { ClickableStyle } from "../../../../styles/styled-components/Interactions";
+import { useAppDispatch, useAppSelector } from "../../../../redux/hooks";
+import { updateVisibleModal } from "../../../../redux/slices/uiSlice";
 
 interface Props {
   reviewWithData: ReviewWithData;
@@ -20,13 +23,20 @@ export const ReviewItem: React.FC<Props> = ({
   reviewWithData,
   onClickEdit,
 }) => {
+  const dispatch = useAppDispatch();
   const rv = reviewWithData;
+
+  const onClickUserInfo = () => {
+    dispatch(
+      updateVisibleModal({ id: cons.MODAL_USER_INFO, referenceId: rv.userId })
+    );
+  };
 
   return (
     <ReviewItemWrapper>
       <UserSection>
-        <UserPicture src={rv.userPicture} />
-        <UserInfo>
+        <UserPicture src={rv.userPicture} onClick={onClickUserInfo} />
+        <UserInfo onClick={onClickUserInfo}>
           <Name>{rv.userName}</Name>
           <PostDate>{generateDateText(new Date(rv.created))}</PostDate>
         </UserInfo>
@@ -56,6 +66,7 @@ const UserSection = styled.div`
 `;
 
 const UserPicture = styled.img`
+  ${ClickableStyle}
   width: 2.8rem;
   height: 2.8rem;
   object-fit: cover;
@@ -63,6 +74,7 @@ const UserPicture = styled.img`
 `;
 
 const UserInfo = styled.div`
+  ${ClickableStyle}
   margin-left: 1rem;
 `;
 

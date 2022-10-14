@@ -9,7 +9,8 @@ import { getPlacePhotos } from "../../modules/api/getPlacePhotos";
 import { Place } from "../../redux/slices/placeSlice";
 import { getUniqueSlug } from "../../modules/api/getUniqueSlug";
 import { addNewEvent } from "../../modules/api/addNewEvent";
-import { distributePointsAddPlace } from "../../modules/api/addPoint";
+import { distributePointsGeneral } from "../../modules/api/addPoint";
+import { getPointPlan, POINT_TYPE_ADD_PLACE } from "../../constants";
 
 const PLACE_ID = "place_id";
 
@@ -97,11 +98,12 @@ handler.post(async (req: any, res: any) => {
       isOfficial: false,
     });
 
-    const { addingPoint, totalPoint } = await distributePointsAddPlace(
+    const { addingPoint, totalPoint } = await distributePointsGeneral(
       req.mongoose,
       userId,
       placeId,
-      placeId
+      placeId,
+      POINT_TYPE_ADD_PLACE
     );
 
     return res

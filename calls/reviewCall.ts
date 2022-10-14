@@ -13,6 +13,8 @@ export const callPostReview = async (
 ): Promise<{
   reviewWithData: ReviewWithData;
   reviewStars: number;
+  addingPoint: number;
+  totalPoint: number;
 }> => {
   try {
     const response = await axios({

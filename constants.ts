@@ -151,11 +151,13 @@ export const LOCATION_LINK_LATLNG = "https://www.google.com/maps/?q=";
 
 export const PLACE_TYPE_CAFE = "Cafe";
 export const PLACE_TYPE_WORKSPACE = "Work Space";
+export const PLACE_TYPE_PUBLIC = "Public Space";
 export const PLACE_TYPE_HOTEL = "Hotel";
 export const PLACE_TYPE_OTHER = "Other";
 export const PLACE_TYPE_LIST: any = {
   [PLACE_TYPE_CAFE]: { text: "Cafe", icon: "☕" },
   [PLACE_TYPE_WORKSPACE]: { text: "Work Space", icon: "🖥️" },
+  [PLACE_TYPE_PUBLIC]: { text: "Public Space", icon: "🏛️" },
   [PLACE_TYPE_HOTEL]: { text: "Hotel", icon: "🛏️" },
   [PLACE_TYPE_OTHER]: { text: "Other", icon: "🌐" },
 };
@@ -164,19 +166,18 @@ export const PLACE_TYPE_LIST: any = {
  * Availability
  */
 
+// cafe
 export const AVL_POWER_SOCKET = "power_socket";
 export const AVL_SINGLE_ORIGIN = "single_origin";
 export const AVL_FOOD_MENU = "food";
-export const AVL_LIST_CAFE = [
-  AVL_POWER_SOCKET,
-  AVL_SINGLE_ORIGIN,
-  AVL_FOOD_MENU,
-];
-
+// work space
 export const AVL_DROP_IN = "drop_in";
 export const AVL_RENTAL_MONITOR = "monitor";
 export const AVL_LIST_WORKSPACE = [AVL_POWER_SOCKET, AVL_RENTAL_MONITOR];
-
+// public space
+export const AVL_OPEN_AIR = "open_air";
+export const AVL_INDOOR = "indoor";
+// hotel
 export const AVL_WORKSPACE = "work_space";
 export const AVL_LIST_HOTEL = [AVL_WORKSPACE];
 
@@ -190,6 +191,11 @@ export const AVL_WORKSPACE_LIST: any = {
   [AVL_RENTAL_MONITOR]: { text: "Rental Monitor", icon: "🖥" },
 };
 
+export const AVL_PUBLICSPACE_LIST: any = {
+  [AVL_OPEN_AIR]: { text: "Open Air", icon: "🍀" },
+  [AVL_INDOOR]: { text: "Indoor Space", icon: "🏠" },
+};
+
 export const AVL_HOTEL_LIST: any = {
   [AVL_WORKSPACE]: { text: "Has Coworking Space", icon: "💻" },
 };
@@ -197,6 +203,7 @@ export const AVL_HOTEL_LIST: any = {
 export const AVL_ALL_LIST: any = {
   ...AVL_CAFE_LIST,
   ...AVL_WORKSPACE_LIST,
+  ...AVL_PUBLICSPACE_LIST,
   ...AVL_HOTEL_LIST,
 };
 
@@ -234,7 +241,7 @@ export const getPointPlan = (pointType: string) => {
     case POINT_TYPE_BE_CHECKED_IN:
       return 1;
     case POINT_TYPE_REVIEW:
-      return 30;
+      return 10;
     default:
       return 1;
   }

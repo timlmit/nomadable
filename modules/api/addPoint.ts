@@ -95,21 +95,22 @@ const distributePointsCheckIn = async (
   };
 };
 
-const distributePointsAddPlace = async (
+const distributePointsGeneral = async (
   mongoose: any,
   userId: string,
   actionId: string,
-  placeId: string
+  placeId: string,
+  pointType: string
 ) => {
   const Point = mongoose.model("Point");
 
-  const addingPoint = getPointPlan(POINT_TYPE_ADD_PLACE);
+  const addingPoint = getPointPlan(pointType);
 
   await Point.create({
     userId: userId,
     timestamp: Date.now(),
     point: addingPoint,
-    type: POINT_TYPE_ADD_PLACE,
+    type: pointType,
     actionId,
     placeId,
   });
@@ -123,4 +124,15 @@ const distributePointsAddPlace = async (
   };
 };
 
-export { distributePointsCheckIn, distributePointsAddPlace };
+const deletePoint = async (mongoose: any, userId: string, actionId: string) => {
+  const Point = mongoose.model("Point");
+
+  await Point.remove({
+    userId: userId,
+    actionId,
+  });
+
+  return;
+};
+
+export { distributePointsCheckIn, distributePointsGeneral, deletePoint };

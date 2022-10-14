@@ -1,3 +1,4 @@
+import { POINT_TYPE_REVIEW } from "./../../constants";
 import nextConnect from "next-connect";
 
 import { ERR_SOMETHING } from "../../modules/ErrorCode";
@@ -5,6 +6,7 @@ import databaseMiddleware from "../../middleware/database";
 import authenticationMiddleware from "../../middleware/authentication";
 import { updateReviewStarsOfPlace } from "../../modules/api/updateReviewStarsOfPlace";
 import { makeReviewsWithData } from "../../modules/api/makeReviewsWithData";
+import { distributePointsGeneral } from "../../modules/api/addPoint";
 
 const handler = nextConnect();
 
@@ -18,26 +20,45 @@ handler.post(async (req: any, res: any) => {
   try {
     const Review = req.mongoose.model("Review");
 
-    const review = await Review.findOneAndUpdate(
-      { placeId, userId },
-      {
+    let pointResult = { addingPoint: 0, totalPoint: 0 };
+
+    let review = await Review.findOne({ placeId, userId });
+
+    if (review) {
+      review.stars = stars > 5 ? 5 : stars;
+      review.comment = comment;
+      await review.save();
+    } else {
+      review = await Review.create({
         placeId,
         userId,
-        stars: stars > 5 ? 5 : stars,
+        stars,
         comment,
-      },
-      { new: true, upsert: true }
-    ).lean();
+      });
+
+      pointResult = await distributePointsGeneral(
+        req.mongoose,
+        userId,
+        review._doc._id,
+        placeId,
+        POINT_TYPE_REVIEW
+      );
+    }
 
     const [reviewWithData] = await makeReviewsWithData(
       req.mongoose,
-      [review],
+      [review._doc],
       userId
     );
 
     const reviewStars = await updateReviewStarsOfPlace(req.mongoose, placeId);
 
-    return res.status(200).json({ reviewWithData, reviewStars });
+    return res.status(200).json({
+      reviewWithData,
+      reviewStars,
+      addingPoint: pointResult.addingPoint,
+      totalPoint: pointResult.totalPoint,
+    });
   } catch (error: any) {
     return res.status(500).json({ message: ERR_SOMETHING, placeId: "" });
   }

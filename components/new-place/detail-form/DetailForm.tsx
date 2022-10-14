@@ -114,6 +114,24 @@ export const DetailForm: React.FC<Props> = ({
         </SpecificForms>
       )}
 
+      {newPlace.placeType === cons.PLACE_TYPE_PUBLIC && (
+        <SpecificForms>
+          <ToggleForm
+            title="Is it (or does it include) an outdoor space?"
+            item={cons.AVL_OPEN_AIR}
+            onClickSwitch={onClickSwitch}
+            active={newPlace.availability.includes(cons.AVL_OPEN_AIR)}
+          />
+
+          <ToggleForm
+            title="Is it (or does it include) an indoor space?"
+            item={cons.AVL_INDOOR}
+            onClickSwitch={onClickSwitch}
+            active={newPlace.availability.includes(cons.AVL_INDOOR)}
+          />
+        </SpecificForms>
+      )}
+
       {newPlace.placeType === cons.PLACE_TYPE_HOTEL && (
         <SpecificForms>
           <ToggleForm

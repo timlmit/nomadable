@@ -5,6 +5,7 @@ import databaseMiddleware from "../../middleware/database";
 import authenticationMiddleware from "../../middleware/authentication";
 import { updateReviewStarsOfPlace } from "../../modules/api/updateReviewStarsOfPlace";
 import { makeReviewsWithData } from "../../modules/api/makeReviewsWithData";
+import { deletePoint } from "../../modules/api/addPoint";
 
 const handler = nextConnect();
 
@@ -21,6 +22,7 @@ handler.post(async (req: any, res: any) => {
     await Review.remove({ userId, _id: reviewId });
 
     const reviewStars = await updateReviewStarsOfPlace(req.mongoose, placeId);
+    await deletePoint(req.mongoose, userId, reviewId);
 
     return res.status(200).json({ reviewStars });
   } catch (error: any) {
