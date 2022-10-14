@@ -32,7 +32,10 @@ const PlaceContainer: React.FC<Props> = (props) => {
 
   const apiStatusFetchPlace = useAppSelector(selectApiFetchPlaceForPageStatus);
   const placeWithData = useAppSelector(selectPlaceForPage);
-  const pd = placeWithData.id ? placeWithData : props.placeWithData;
+
+  const pd = placeWithData.id
+    ? placeWithData
+    : props.placeWithData || initialPlaceWithData;
 
   /**
    * Effect
@@ -111,7 +114,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   } catch (err: any) {
     return {
       props: {
-        placeWithData: null,
+        placeWithData: undefined,
       },
     };
   }
