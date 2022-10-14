@@ -1,3 +1,4 @@
+import { callFetchReviews } from "./../../../calls/reviewCall";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { CallError } from "../../../calls/Types";
@@ -5,7 +6,7 @@ import { RootState } from "../../store";
 import * as cons from "../../../constants";
 import { ERR_SOMETHING } from "../../../modules/ErrorCode";
 import { callDeleteReview, callPostReview } from "../../../calls/reviewCall";
-import { Review, ReviewWithData } from "../placeSlice";
+import { Review, ReviewWithData, ReviewWithPlaceData } from "../placeSlice";
 import { showPointEarned } from "../uiSlice";
 
 /**
@@ -15,12 +16,14 @@ import { showPointEarned } from "../uiSlice";
 interface ApiStatus {
   status: string;
   error: string;
+  requestId: string;
 }
 
 interface ApiState {
   // user auth
   apiPostReviewStatus: ApiStatus;
   apiDeleteReviewStatus: ApiStatus;
+  apiFetchReviewsStatus: ApiStatus;
 }
 
 /**
@@ -30,11 +33,13 @@ interface ApiState {
 const initialApiState = {
   status: cons.API_IDLE,
   error: "",
+  requestId: "",
 };
 
 const initialState: ApiState = {
   apiPostReviewStatus: initialApiState,
   apiDeleteReviewStatus: initialApiState,
+  apiFetchReviewsStatus: initialApiState,
 };
 
 const apiSlice = createSlice({
@@ -76,6 +81,22 @@ const apiSlice = createSlice({
         state.apiDeleteReviewStatus.error = action.payload.message;
       } else {
         state.apiDeleteReviewStatus.error = action.error.message || "";
+      }
+    });
+
+    // FetchReviews
+    builder.addCase(apiFetchReviews.pending, (state, action) => {
+      state.apiFetchReviewsStatus.status = cons.API_LOADING;
+    });
+    builder.addCase(apiFetchReviews.fulfilled, (state, action) => {
+      state.apiFetchReviewsStatus.status = cons.API_SUCCEEDED;
+    });
+    builder.addCase(apiFetchReviews.rejected, (state, action) => {
+      state.apiFetchReviewsStatus.status = cons.API_FALIED;
+      if (action.payload) {
+        state.apiFetchReviewsStatus.error = action.payload.message;
+      } else {
+        state.apiFetchReviewsStatus.error = action.error.message || "";
       }
     });
   },
@@ -140,6 +161,25 @@ export const apiDeleteReview = createAsyncThunk<
   }
 });
 
+// apiFetchReviews
+
+export const apiFetchReviews = createAsyncThunk<
+  {
+    reviews: ReviewWithPlaceData[];
+  }, // Return type of the payload creator
+  { userId: string; loadedCnt: number; loadingCnt: number }, // First argument to the payload creator
+  {
+    rejectValue: CallError;
+  } // Types for ThunkAPI
+>("review/FetchReviews", async (params, thunkApi) => {
+  try {
+    const data = await callFetchReviews(params);
+    return data;
+  } catch (error: any) {
+    return thunkApi.rejectWithValue(error as CallError);
+  }
+});
+
 export const { initApiPostReviewState } = apiSlice.actions;
 
 /**
@@ -151,6 +191,9 @@ export const selectApiPostReviewStatus = (state: RootState): ApiStatus =>
 
 export const selectApiDeleteReviewStatus = (state: RootState): ApiStatus =>
   state.apiReview.apiDeleteReviewStatus;
+
+export const selectApiFetchReviewsStatus = (state: RootState): ApiStatus =>
+  state.apiReview.apiFetchReviewsStatus;
 
 /**
  * Export actions & reducer

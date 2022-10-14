@@ -1,4 +1,5 @@
 import {
+  callFetchDiscoveredPlaces,
   callFetchPlaces,
   callRecentCheckIns,
 } from "./../../../calls/placeCalls";
@@ -15,6 +16,7 @@ import {
 import { ERR_SOMETHING } from "../../../modules/ErrorCode";
 import { FilterObj, MapArea, Place, PlaceWithData } from "../placeSlice";
 import { showPointEarned } from "../uiSlice";
+import places from "../../../pages/api/places";
 
 /**
  * Types
@@ -32,6 +34,7 @@ interface ApiState {
   apiCheckInStatus: ApiStatus;
   apiFetchPlacesStatus: ApiStatus;
   apiFetchRecentCheckInsStatus: ApiStatus;
+  apiFetchDiscoveredPlacesStatus: ApiStatus;
 }
 
 /**
@@ -49,6 +52,7 @@ const initialState: ApiState = {
   apiCheckInStatus: initialApiState,
   apiFetchPlacesStatus: initialApiState,
   apiFetchRecentCheckInsStatus: initialApiState,
+  apiFetchDiscoveredPlacesStatus: initialApiState,
 };
 
 const apiSlice = createSlice({
@@ -62,6 +66,10 @@ const apiSlice = createSlice({
     initapiFetchPlaceForPageState: (state) => {
       state.apiFetchPlaceForPageStatus.status = cons.API_IDLE;
       state.apiFetchPlaceForPageStatus.error = "";
+    },
+    initApiFetchDiscoveredPlacesState: (state) => {
+      state.apiFetchDiscoveredPlacesStatus.status = cons.API_IDLE;
+      state.apiFetchDiscoveredPlacesStatus.error = "";
     },
   },
   extraReducers: (builder) => {
@@ -142,6 +150,22 @@ const apiSlice = createSlice({
         state.apiFetchRecentCheckInsStatus.error = action.payload.message;
       } else {
         state.apiFetchRecentCheckInsStatus.error = action.error.message || "";
+      }
+    });
+
+    // Fetch Discovered Places
+    builder.addCase(apiFetchDiscoveredPlaces.pending, (state, action) => {
+      state.apiFetchDiscoveredPlacesStatus.status = cons.API_LOADING;
+    });
+    builder.addCase(apiFetchDiscoveredPlaces.fulfilled, (state, action) => {
+      state.apiFetchDiscoveredPlacesStatus.status = cons.API_SUCCEEDED;
+    });
+    builder.addCase(apiFetchDiscoveredPlaces.rejected, (state, action) => {
+      state.apiFetchDiscoveredPlacesStatus.status = cons.API_FALIED;
+      if (action.payload) {
+        state.apiFetchDiscoveredPlacesStatus.error = action.payload.message;
+      } else {
+        state.apiFetchDiscoveredPlacesStatus.error = action.error.message || "";
       }
     });
   },
@@ -254,12 +278,39 @@ export const apiFetchRecentCheckIns = createAsyncThunk<
   }
 });
 
+// callFetchDiscoveredPlaces
+
+export const apiFetchDiscoveredPlaces = createAsyncThunk<
+  { places: Place[] }, // Return type of the payload creator
+  { userId: string; loadedCnt: number; loadingCnt: number }, // First argument to the payload creator
+  {
+    rejectValue: CallError;
+  } // Types for ThunkAPI
+>(
+  "place/FetchDiscoveredPlaces",
+  async ({ userId, loadedCnt, loadingCnt }, thunkApi) => {
+    try {
+      const { places } = await callFetchDiscoveredPlaces(
+        userId,
+        loadedCnt,
+        loadingCnt
+      );
+      return { places };
+    } catch (error: any) {
+      return thunkApi.rejectWithValue(error as CallError);
+    }
+  }
+);
+
 /**
  * Actions: call ajax & mutate store (only from here)
  */
 
-export const { initApiCreatePlaceState, initapiFetchPlaceForPageState } =
-  apiSlice.actions;
+export const {
+  initApiCreatePlaceState,
+  initapiFetchPlaceForPageState,
+  initApiFetchDiscoveredPlacesState,
+} = apiSlice.actions;
 
 /**
  * Selectors
@@ -280,6 +331,10 @@ export const selectApiFetchPlacesStatus = (state: RootState): ApiStatus =>
 export const selectApiFetchRecentCheckInsStatus = (
   state: RootState
 ): ApiStatus => state.apiPlace.apiFetchRecentCheckInsStatus;
+
+export const selectApiFetchDiscoveredPlacesStatus = (
+  state: RootState
+): ApiStatus => state.apiPlace.apiFetchDiscoveredPlacesStatus;
 
 /**
  * Export actions & reducer

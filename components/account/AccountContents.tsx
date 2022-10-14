@@ -113,9 +113,7 @@ export const AccountContents: React.FC<Props> = ({
           />
         </StatsInfo>
       </BasicSecion>
-      <DetailSection>
-        {/* <AccountDetail discoveredPlaces={} myReviews={} /> */}
-      </DetailSection>
+      <DetailSection>{/* <AccountDetail userId={_id} /> */}</DetailSection>
 
       <EditProfileModal
         visible={editModalVisible}

@@ -18,12 +18,13 @@ interface Props {
   height?: string;
   error?: boolean;
   errorMessage?: string;
+  small?: boolean;
 }
 
 export const FormSet: React.FC<Props> = (props) => {
   return (
     <FormSetWrapper width={props.width}>
-      <FormLabelStyle>{props.label}</FormLabelStyle>
+      <FormLabelStyle small={props.small}>{props.label}</FormLabelStyle>
 
       {props.textArea ? (
         <Textarea
@@ -32,6 +33,7 @@ export const FormSet: React.FC<Props> = (props) => {
           placeholder={props.placeholder}
           height={props.height}
           error={props.error}
+          small={props.small}
         />
       ) : (
         <Form
@@ -39,6 +41,7 @@ export const FormSet: React.FC<Props> = (props) => {
           onChange={props.onChange}
           placeholder={props.placeholder}
           error={props.error}
+          small={props.small}
         />
       )}
       {props.error && <ErrorMessage>{props.errorMessage}</ErrorMessage>}
@@ -54,7 +57,11 @@ const Form = styled.input`
   ${FormStyle}
 `;
 
-const Textarea = styled.textarea<{ height?: string; error?: boolean }>`
+const Textarea = styled.textarea<{
+  height?: string;
+  error?: boolean;
+  small?: boolean;
+}>`
   ${FormStyle};
 
   height: ${(props) => props.height || "8rem"};

@@ -145,7 +145,6 @@ export const callFetchAllPlaceIds = async (): Promise<{
   placeIds: string[];
 }> => {
   try {
-    console.log("fetch");
     const response = await axios({
       method: "get",
       url: `${APP_URL}/api/all-place-ids`,
@@ -153,6 +152,32 @@ export const callFetchAllPlaceIds = async (): Promise<{
 
     return response.data;
   } catch (error: any) {
+    throw {
+      code: "",
+      message: error.response.data.message,
+    };
+  }
+};
+
+// callFetchAllPlaceIds
+
+export const callFetchDiscoveredPlaces = async (
+  userId: string,
+  loadedCnt: number,
+  loadingCnt: number
+): Promise<{
+  places: Place[];
+}> => {
+  try {
+    const response = await axios({
+      method: "get",
+      url: `${APP_URL}/api/discovered-places`,
+      params: { userId, loadedCnt, loadingCnt },
+    });
+
+    return response.data;
+  } catch (error: any) {
+    console.log("🚀 ~ file: placeCalls.ts ~ line 177 ~ error", error);
     throw {
       code: "",
       message: error.response.data.message,

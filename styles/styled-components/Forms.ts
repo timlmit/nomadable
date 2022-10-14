@@ -7,12 +7,19 @@ import {
   FontSizeSmall,
 } from "./FontSize";
 
-export const FormLabelStyle = styled.div`
+export const FormLabelStyle = styled.div<{ small?: boolean }>`
   font-weight: bold;
   ${FontSizeSemiSmall};
   color: ${cons.FONT_COLOR_NORMAL};
   margin-top: 1.2rem;
   margin-bottom: 0.6rem;
+
+  ${(props) =>
+    props.small &&
+    `
+    margin-top: 1rem;
+    margin-bottom: 0.7rem;
+  `};
 
   /* color: ${cons.FONT_COLOR_LIGHT}; */
 `;
@@ -20,6 +27,7 @@ export const FormLabelStyle = styled.div`
 export const FormStyle = css<{
   error?: boolean;
   maxWidth?: string;
+  small?: boolean;
 }>`
   width: 100%;
   ${FontSizeNormal};
@@ -40,6 +48,12 @@ export const FormStyle = css<{
     props.error &&
     `
   border: 1px solid ${cons.COLOR_ERROR_2};
+`};
+
+  ${(props) =>
+    props.small &&
+    `
+    padding: 0.7rem 0.8rem;
 `};
 `;
 

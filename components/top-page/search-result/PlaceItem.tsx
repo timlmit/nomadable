@@ -31,7 +31,11 @@ export const PlaceItem: React.FC<Props> = ({ place, selected }) => {
       <a target="_blank" rel="noopener">
         <PlaceItemWrapper selected={selected}>
           <ImageWrapper>
-            <Image src={place.thumbnail} alt="place image" />
+            <Image
+              className="place_image"
+              src={place.thumbnail}
+              alt="place image"
+            />
             <SpeedWrapper>
               <NetSpeedIndicator speed={place.speedDown} bgWhite />
             </SpeedWrapper>
@@ -75,7 +79,7 @@ const PlaceItemWrapper = styled.div<{ selected: undefined | boolean }>`
   ${(props) =>
     props.selected === true &&
     `
-    & img {
+    & .place_image {
       border: 3px solid ${cons.COLOR_RED_0};
       width: calc(100% - 6px);
       height: calc(100% - 6px);

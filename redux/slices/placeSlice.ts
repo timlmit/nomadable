@@ -82,6 +82,13 @@ export interface ReviewWithData extends Review {
   myReview: boolean;
 }
 
+export interface ReviewWithPlaceData extends Review {
+  placeType: string;
+  spotName: string;
+  spotAddress: string;
+  thumbnail: string;
+}
+
 interface PlaceState {
   searchResult: Place[];
   recentCheckIns: Place[];

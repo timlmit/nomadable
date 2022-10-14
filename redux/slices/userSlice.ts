@@ -8,6 +8,9 @@ import {
   apiFetchUserWithStats,
   apiUpdateUser,
 } from "./api/apiUserSlice";
+import { Place, Review, ReviewWithPlaceData } from "./placeSlice";
+import { apiFetchDiscoveredPlaces } from "./api/apiPlaceSlice";
+import { apiFetchReviews } from "./api/apiReviewSlice";
 
 /**
  * Types
@@ -54,6 +57,8 @@ interface UserState {
   user: User;
   userWithStatsMine: UserWithStats;
   userWithStats: UserWithStats;
+  discoveredPlaces: Place[];
+  reviews: ReviewWithPlaceData[];
 }
 
 /**
@@ -98,6 +103,8 @@ const initialState: UserState = {
   user: initialUser,
   userWithStatsMine: initialUserWithStats,
   userWithStats: initialUserWithStats,
+  discoveredPlaces: [],
+  reviews: [],
 };
 
 const userSlice = createSlice({
@@ -128,6 +135,20 @@ const userSlice = createSlice({
         ...action.payload.editableUser,
       };
     });
+    builder.addCase(apiFetchDiscoveredPlaces.fulfilled, (state, action) => {
+      const existingPlaceIds = state.discoveredPlaces.map((pl) => pl.id);
+      const newPlaces = action.payload.places.filter(
+        (pl) => !existingPlaceIds.includes(pl.id)
+      );
+      state.discoveredPlaces = [...state.discoveredPlaces, ...newPlaces];
+    });
+    builder.addCase(apiFetchReviews.fulfilled, (state, action) => {
+      const existingReviewIds = state.reviews.map((rv) => rv._id);
+      const newReviews = action.payload.reviews.filter(
+        (rv) => !existingReviewIds.includes(rv._id)
+      );
+      state.reviews = [...state.reviews, ...newReviews];
+    });
   },
 });
 
@@ -152,6 +173,12 @@ export const selectMyAccountWithStats = (state: RootState): UserWithStats =>
 
 export const selectUserWithStats = (state: RootState): UserWithStats =>
   state.user.userWithStats;
+
+export const selectDiscoveredPlaces = (state: RootState): Place[] =>
+  state.user.discoveredPlaces;
+
+export const selectUserReviews = (state: RootState): ReviewWithPlaceData[] =>
+  state.user.reviews;
 
 /**
  * Export actions & reducer

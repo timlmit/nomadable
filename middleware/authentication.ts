@@ -11,6 +11,8 @@ const openUrls = [
   "/api/contributers-area",
   "/api/user-with-stats",
   "/api/all-place-ids",
+  "/api/discovered-places",
+  "/api/reviews",
 ];
 
 const withoutAuth = (url: string): boolean => {

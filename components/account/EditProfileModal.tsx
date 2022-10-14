@@ -146,6 +146,7 @@ export const EditProfileModal: React.FC<Props> = ({
           width="14rem"
           error={errorMsgName.length > 0}
           errorMessage={errorMsgName}
+          small={true}
         />
 
         <FormSet
@@ -156,6 +157,7 @@ export const EditProfileModal: React.FC<Props> = ({
           width="14rem"
           error={errorMsgId.length > 0}
           errorMessage={errorMsgId}
+          small={true}
         />
 
         <FormSet
@@ -164,6 +166,7 @@ export const EditProfileModal: React.FC<Props> = ({
           placeholder="Web Designer"
           onChange={onChangeTitle}
           width="20rem"
+          small={true}
         />
 
         <FormSet
@@ -173,6 +176,7 @@ export const EditProfileModal: React.FC<Props> = ({
           onChange={onChangeDescription}
           textArea
           height="8rem"
+          small={true}
         />
 
         <FormSet
@@ -182,6 +186,7 @@ export const EditProfileModal: React.FC<Props> = ({
           onChange={onChangeLink}
           error={errorMsgLink.length > 0}
           errorMessage={errorMsgLink}
+          small={true}
         />
         {/* {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>} */}
       </ModalBody>
