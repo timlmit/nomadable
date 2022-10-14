@@ -76,7 +76,7 @@ export const FilterModal: React.FC<Props> = ({
    */
 
   return (
-    <Modal visible={visible} closeModal={onCloseModal} width="36rem" alignTop>
+    <Modal visible={visible} closeModal={onCloseModal} width="32rem" alignTop>
       <ModalHeader title="Filter" onClickClose={onCloseModal} />
       <ModalBody>
         <Label>Place Types</Label>

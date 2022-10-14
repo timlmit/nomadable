@@ -137,3 +137,28 @@ export const callRecentCheckIns = async (): Promise<{
     };
   }
 };
+
+// callFetchAllPlaceIds
+
+export const callFetchAllPlaceIds = async (): Promise<{
+  placeIds: string[];
+}> => {
+  try {
+    console.log("fetch");
+    const response = await axios({
+      method: "get",
+      url: `${APP_URL}/api/all-place-ids`,
+    });
+
+    return response.data;
+  } catch (error: any) {
+    console.log(
+      "🚀 ~ file: placeCalls.ts ~ line 155 ~ callFetchAllPlaceIds ~ error",
+      error
+    );
+    throw {
+      code: "",
+      message: error.response.data.message,
+    };
+  }
+};

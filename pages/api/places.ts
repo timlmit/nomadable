@@ -34,7 +34,7 @@ handler.post(async (req: any, res: any) => {
       placeType: placeTypeFilter,
       availability: availabilityFilter,
     })
-      .sort({ testCnt: -1 })
+      .sort({ reviewStars: -1 })
       .limit(50)
       .lean();
 

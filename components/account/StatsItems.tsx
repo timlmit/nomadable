@@ -54,10 +54,6 @@ const StatsItemsWrapper = styled.div`
 const ItemWrapper = styled.div`
   text-align: center;
   margin-right: 2rem;
-
-  ${forMobile(`
-    margin-right: 1rem;
-  `)}
 `;
 
 const Number = styled.div`

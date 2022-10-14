@@ -9,6 +9,7 @@ import { ClickableStyle } from "../../../styles/styled-components/Interactions";
 import { NetSpeedIndicator } from "../../commons/NetSpeedIndicator";
 import { AnimationSlideUp } from "../../../styles/styled-components/Animations";
 import { Bold } from "../../../styles/styled-components/Texts";
+import { getStarValue } from "../../place/components/review/ReviewScore";
 
 interface Props {
   place: Place;
@@ -42,9 +43,18 @@ export const PlaceItem: React.FC<Props> = ({ place, selected }) => {
           </ImageWrapper>
           <Name>{place.spotName}</Name>
           <Address>{getCity(place.spotAddress)}</Address>
-          <CheckInCnt>
-            <CheckInNum>{place.testCnt}</CheckInNum> checked in
-          </CheckInCnt>
+          <ScoreInfo>
+            {place.reviewStars > 0 && (
+              <ReviewStars>
+                <StarIcon src="/icon/star-black.svg" />
+                {getStarValue(place.reviewStars)}
+                <Dot>&#x2022;</Dot>
+              </ReviewStars>
+            )}
+            <CheckInCnt>
+              <CheckInNum>{place.testCnt}</CheckInNum> check-ins
+            </CheckInCnt>
+          </ScoreInfo>
         </PlaceItemWrapper>
       </a>
     </Link>
@@ -113,18 +123,42 @@ const Address = styled.div`
   color: ${cons.FONT_COLOR_LIGHT};
   ${fs.FontSizeSemiSmall};
   font-weight: 400;
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.4rem;
   /* font-weight: 600; */
+`;
+
+const ScoreInfo = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.2rem;
 `;
 
 const CheckInCnt = styled.div`
   color: ${cons.FONT_COLOR_LIGHT};
   ${fs.FontSizeSemiSmall};
   font-weight: 400;
-  margin-bottom: 1.2rem;
 `;
 
 const CheckInNum = styled.span`
   /* color: ${cons.FONT_COLOR_NORMAL}; */
   font-weight: 700;
+`;
+
+const ReviewStars = styled.div`
+  ${fs.FontSizeSemiSmall};
+  font-weight: 700;
+  color: ${cons.FONT_COLOR_NORMAL};
+  display: flex;
+  align-items: center;
+  margin-right: 0.2rem;
+`;
+
+const StarIcon = styled.img`
+  width: 0.75rem;
+  margin-right: 0.15rem;
+`;
+
+const Dot = styled.div`
+  color: ${cons.FONT_COLOR_LIGHT};
+  margin-left: 0.2rem;
 `;

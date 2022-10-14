@@ -11,7 +11,7 @@ interface Props {
   reviewCnt: number;
 }
 
-const getStarValue = (stars: number): string => {
+export const getStarValue = (stars: number): string => {
   const _stars = stars || 0;
   const floatValue = Math.round(_stars * 10) / 10;
   const valueStr = floatValue.toString();

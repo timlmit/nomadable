@@ -311,6 +311,7 @@ const MapSection = styled.div<{ viewHeight: number }>`
 `;
 
 const ScrollUpButton = styled.button<{ visible: boolean }>`
+  ${ClickableStyle}
   display: none;
   position: fixed;
   bottom: 1.5rem;

@@ -20,6 +20,7 @@ import {
 import { selectAuthenticated } from "../../redux/slices/userSlice";
 import { forMobile } from "../../styles/Responsive";
 import { apiPostReview } from "../../redux/slices/api/apiReviewSlice";
+import { getStarValue } from "./components/review/ReviewScore";
 
 interface Props {
   placeWithData: PlaceWithData;
@@ -79,7 +80,16 @@ export const PlacePage: React.FC<Props> = ({ placeWithData }) => {
   return (
     <PlacePageWrapper>
       <SpotName>{pd.spotName}</SpotName>
-      <ReviewInfo></ReviewInfo>
+      <ReviewInfo>
+        {pd.reviewStars > 0 && (
+          <ReviewStars>
+            <StarIcon src="/icon/star-black.svg" />
+            {getStarValue(pd.reviewStars)}
+            <ReviewCnt>({pd.reviewsWithData.length})</ReviewCnt>
+            {/* <Dot>&#x2022;</Dot> */}
+          </ReviewStars>
+        )}
+      </ReviewInfo>
       <ImageWrapper>
         <SpotImages images={pd.images} />
       </ImageWrapper>
@@ -198,4 +208,29 @@ const InfoLabel = styled.div`
   font-weight: bold;
   color: ${cons.FONT_COLOR_NORMAL};
   margin-bottom: 1.5rem;
+`;
+
+const ReviewStars = styled.div`
+  ${fs.FontSizeNormal};
+  font-weight: 700;
+  color: ${cons.FONT_COLOR_NORMAL};
+  display: flex;
+  align-items: center;
+  margin-right: 0.2rem;
+`;
+
+const StarIcon = styled.img`
+  width: 0.75rem;
+  margin-right: 0.15rem;
+`;
+
+const ReviewCnt = styled.div`
+  font-weight: 400;
+  margin-left: 0.2rem;
+  color: ${cons.FONT_COLOR_LIGHT};
+`;
+
+const Dot = styled.div`
+  color: ${cons.FONT_COLOR_LIGHT};
+  margin-left: 0.2rem;
 `;
