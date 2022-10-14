@@ -32,7 +32,7 @@ const PlaceContainer: React.FC<Props> = (props) => {
 
   const apiStatusFetchPlace = useAppSelector(selectApiFetchPlaceForPageStatus);
   const placeWithData = useAppSelector(selectPlaceForPage);
-  const pd = placeWithData || props.placeWithData;
+  const pd = placeWithData.id ? placeWithData : props.placeWithData;
 
   /**
    * Effect
