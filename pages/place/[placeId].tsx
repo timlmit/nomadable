@@ -32,14 +32,14 @@ const PlaceContainer: React.FC<Props> = (props) => {
 
   const apiStatusFetchPlace = useAppSelector(selectApiFetchPlaceForPageStatus);
   const placeWithData = useAppSelector(selectPlaceForPage);
-  const pd = props.placeWithData || placeWithData;
+  const pd = placeWithData || props.placeWithData;
 
   /**
    * Effect
    */
 
   useEffect(() => {
-    if (router.query.placeId && !props.placeWithData) {
+    if (router.query.placeId) {
       const { placeId } = router.query;
 
       if (!placeId || typeof placeId !== "string") return;

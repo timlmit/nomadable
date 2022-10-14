@@ -23,6 +23,10 @@ export const ReviewItem: React.FC<Props> = ({
   reviewWithData,
   onClickEdit,
 }) => {
+  console.log(
+    "🚀 ~ file: ReviewItem.tsx ~ line 26 ~ reviewWithData",
+    reviewWithData
+  );
   const dispatch = useAppDispatch();
   const rv = reviewWithData;
 
