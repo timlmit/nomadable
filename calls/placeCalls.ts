@@ -36,6 +36,7 @@ export const callCreatePlace = async (
 export const callFetchPlace = async (
   placeId: string
 ): Promise<{ placeWithData: PlaceWithData }> => {
+  console.log("🚀 ~ file: placeCalls.ts ~ line 39 ~ placeId", placeId);
   try {
     const response = await axios({
       method: "get",
@@ -152,10 +153,6 @@ export const callFetchAllPlaceIds = async (): Promise<{
 
     return response.data;
   } catch (error: any) {
-    console.log(
-      "🚀 ~ file: placeCalls.ts ~ line 155 ~ callFetchAllPlaceIds ~ error",
-      error
-    );
     throw {
       code: "",
       message: error.response.data.message,

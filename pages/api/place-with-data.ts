@@ -12,7 +12,7 @@ handler.use(databaseMiddleware);
 handler.use(authenticationMiddleware);
 
 handler.get(async (req: any, res: any) => {
-  const { userId } = req;
+  const userId = req.userId;
   const { placeId } = req.query;
 
   try {
@@ -26,7 +26,7 @@ handler.get(async (req: any, res: any) => {
     if (!place) throw Error;
 
     // get discoverer
-    const placeWithData = await makePlaceWithData(place, userId, req.mongoose);
+    const placeWithData = await makePlaceWithData(req.mongoose, place, userId);
 
     return res.status(200).json({ placeWithData });
   } catch (error: any) {

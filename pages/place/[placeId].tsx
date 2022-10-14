@@ -72,56 +72,47 @@ const PlaceContainer: React.FC<Props> = (props) => {
 
 export default PlaceContainer;
 
-// export const getStaticPaths: GetStaticPaths = async () => {
-//   try {
-//     console.log("getStaticPaths");
-//     const { placeIds } = await callFetchAllPlaceIds();
-//     console.log(
-//       "🚀 ~ file: [placeId].tsx ~ line 77 ~ constgetStaticPaths:GetStaticPaths= ~ placeIds",
-//       placeIds
-//     );
+export const getStaticPaths: GetStaticPaths = async () => {
+  try {
+    const { placeIds } = await callFetchAllPlaceIds();
 
-//     const paths = placeIds.map((placeId: string) => {
-//       return {
-//         params: {
-//           placeId,
-//         },
-//       };
-//     });
+    const paths = placeIds.map((placeId: string) => {
+      return {
+        params: {
+          placeId,
+        },
+      };
+    });
 
-//     return {
-//       paths,
-//       fallback: true,
-//     };
-//   } catch (err) {
-//     return {
-//       paths: [{ params: { placeId: "" } }],
-//       fallback: true,
-//     };
-//   }
-// };
+    return {
+      paths,
+      fallback: true,
+    };
+  } catch (err) {
+    return {
+      paths: [{ params: { placeId: "" } }],
+      fallback: true,
+    };
+  }
+};
 
-// export const getStaticProps: GetStaticProps = async ({ params }) => {
-//   try {
-//     if (!params || typeof params.placeId !== "string") throw Error;
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  try {
+    if (!params || typeof params.placeId !== "string") throw Error;
 
-//     const { placeWithData } = await callFetchPlace(params.placeId);
-//     console.log(
-//       "🚀 ~ file: [placeId].tsx ~ line 98 ~ constgetStaticProps:GetStaticProps= ~ placeWithData",
-//       placeWithData
-//     );
+    const { placeWithData } = await callFetchPlace(params.placeId);
 
-//     return {
-//       props: {
-//         placeWithData,
-//       },
-//       revalidate: 1, // regenerate the static page on the access after 1 second later from the previous access
-//     };
-//   } catch (err: any) {
-//     return {
-//       props: {
-//         placeWithData: undefined,
-//       },
-//     };
-//   }
-// };
+    return {
+      props: {
+        placeWithData,
+      },
+      revalidate: 1, // regenerate the static page on the access after 1 second later from the previous access
+    };
+  } catch (err: any) {
+    return {
+      props: {
+        placeWithData: null,
+      },
+    };
+  }
+};

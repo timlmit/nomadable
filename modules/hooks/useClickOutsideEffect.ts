@@ -14,10 +14,10 @@ export const useClickOutsideEffect = (ref: any, onClickOutside: () => void) => {
       }
     };
     // Bind the event listener
-    document.addEventListener("mousedown", handleClickOutside);
+    document && document.addEventListener("mousedown", handleClickOutside);
     return () => {
       // Unbind the event listener on clean up
-      document.removeEventListener("mousedown", handleClickOutside);
+      document && document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [ref]);
 };

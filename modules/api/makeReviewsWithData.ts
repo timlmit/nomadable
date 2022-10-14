@@ -4,7 +4,7 @@ import { Review } from "../../redux/slices/placeSlice";
 export const makeReviewsWithData = async (
   mongoose: any,
   reviews: Review[],
-  myUserId: string
+  myUserId?: string
 ): Promise<ReviewWithData[]> => {
   try {
     const User = mongoose.model("User");

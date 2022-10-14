@@ -2,9 +2,9 @@ import { Place, PlaceWithData } from "../../redux/slices/placeSlice";
 import { makeReviewsWithData } from "./makeReviewsWithData";
 
 export const makePlaceWithData = async (
+  mongoose: any,
   place: Place,
-  userId: string,
-  mongoose: any
+  userId?: string
 ) => {
   try {
     const User = mongoose.model("User");
