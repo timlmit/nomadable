@@ -192,7 +192,7 @@ export const AVL_WORKSPACE_LIST: any = {
 };
 
 export const AVL_PUBLICSPACE_LIST: any = {
-  [AVL_OPEN_AIR]: { text: "Open Air", icon: "🍀" },
+  [AVL_OPEN_AIR]: { text: "Open Air Space", icon: "🍀" },
   [AVL_INDOOR]: { text: "Indoor Space", icon: "🏠" },
 };
 

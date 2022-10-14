@@ -113,6 +113,19 @@ export const FilterModal: React.FC<Props> = ({
           )}
 
         {localFilterObj.placeTypes.length === 1 &&
+          localFilterObj.placeTypes[0] === cons.PLACE_TYPE_PUBLIC && (
+            <SpecificForms>
+              <Label>Filter for Public Spaces</Label>
+              <FilterComponent
+                onChangeFilterItems={onChangeAvailability}
+                filterItems={localFilterObj.availability}
+                typeDict={cons.AVL_PUBLICSPACE_LIST}
+                allowAllSelect
+              />
+            </SpecificForms>
+          )}
+
+        {localFilterObj.placeTypes.length === 1 &&
           localFilterObj.placeTypes[0] === cons.PLACE_TYPE_HOTEL && (
             <SpecificForms>
               <Label>Filter for Hotels</Label>
