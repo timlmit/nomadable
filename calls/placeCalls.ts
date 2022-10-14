@@ -34,16 +34,16 @@ export const callCreatePlace = async (
 // callFetchPlace
 
 export const callFetchPlace = async (
-  placeId: string
+  placeId: string,
+  forSSR?: boolean
 ): Promise<{ placeWithData: PlaceWithData }> => {
-  console.log("🚀 ~ file: placeCalls.ts ~ line 39 ~ placeId", placeId);
   try {
     const response = await axios({
       method: "get",
       url: `${APP_URL}/api/place-with-data`,
       params: { placeId },
       headers: {
-        Authorization: readCookie(COOKIE_ACCESS_TOKEN) || "",
+        Authorization: forSSR ? "" : readCookie(COOKIE_ACCESS_TOKEN) || "",
       },
     });
 

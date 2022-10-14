@@ -100,7 +100,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   try {
     if (!params || typeof params.placeId !== "string") throw Error;
 
-    const { placeWithData } = await callFetchPlace(params.placeId);
+    const { placeWithData } = await callFetchPlace(params.placeId, true);
 
     return {
       props: {

@@ -7,7 +7,6 @@ export const useScrolllPosition = () => {
   });
 
   const onScroll = (e: any) => {
-    console.log("🚀 ~ file: useScrollPosition.ts ~ line 10 ~ onScroll ~ e", e);
     setScrollPosition({ scrollY: window.scrollY, scrollX: window.scrollX });
   };
 
