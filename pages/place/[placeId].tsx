@@ -65,9 +65,9 @@ const PlaceContainer: React.FC<Props> = (props) => {
         pageDescription={cons.APP_LONG_DESCRIPTION}
         pagePath={`${cons.APP_URL}/place/${pd.id}`}
       />
-      <SectionLoader
+      {/* <SectionLoader
         visible={apiStatusFetchPlace.status === cons.API_LOADING}
-      />
+      /> */}
       <PlacePage placeWithData={pd} />
     </Layout>
   );
