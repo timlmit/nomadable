@@ -80,7 +80,7 @@ export const ReviewFormModal: React.FC<Props> = ({}) => {
 
   return (
     <Modal visible={visible} width="32rem" closeModal={closeModal}>
-      <ModalHeader onClickClose={closeModal} title="Write Review" />
+      <ModalHeader onClickClose={closeModal} title={"Write Review"} />
       <Body>
         <StarSection>
           <ReviewStars stars={stars} onChange={updateStars} />
