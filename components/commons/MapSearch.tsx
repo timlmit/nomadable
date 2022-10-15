@@ -41,7 +41,9 @@ export const MapSearch: React.FC<Props> = (props) => {
   const router = useRouter();
   const mapId = `mapbox-${props.mapId}`;
   const mapRef = useRef<mapboxgl.Map>();
-  const markersRef = useRef<{ id: string; marker: any }[]>([]);
+  const markersRef = useRef<{ pin: Pin; marker: any }[]>([]);
+  const [pins, setPins] = useState<Pin[]>([]);
+  const [zoomLevel, setZoomLevel] = useState(0);
 
   /**
    * Modules
@@ -58,12 +60,19 @@ export const MapSearch: React.FC<Props> = (props) => {
     props.onChange(sw.lat, sw.lng, ne.lat, ne.lng);
   };
 
-  const makeIcon = (placeType: string, name: string, color: string) => {
+  const makeIcon = (
+    placeType: string,
+    name: string,
+    color: string,
+    fontSize: number
+  ) => {
     return `
       <div style="display:flex; flex-direction: column; align-items: center;">
         <div style="font-size: ${
-          placeType === cons.PLACE_TYPE_WORKSPACE ? 1.65 : 2
-        }rem; margin-bottom: 0.3rem;">${
+          placeType === cons.PLACE_TYPE_WORKSPACE
+            ? fontSize * 2
+            : fontSize * 2.5
+        }rem; margin-bottom: ${fontSize * 0.2}rem;">${
       cons.PLACE_TYPE_LIST[placeType].icon
     }</div>
         <div style="display:flex; align-items: center;">
@@ -104,6 +113,10 @@ export const MapSearch: React.FC<Props> = (props) => {
 
     mapRef.current.on("zoomend", () => {
       onViewportUpdate();
+      if (mapRef.current) {
+        const zoom = mapRef.current.getZoom();
+        setZoomLevel(zoom < 8 ? 0 : zoom < 15 ? 1 : 2);
+      }
     });
 
     mapRef.current.addControl(
@@ -145,22 +158,28 @@ export const MapSearch: React.FC<Props> = (props) => {
       const marker = new mapboxgl.Marker({ color: pin.color })
         .setLngLat([pin.lng, pin.lat])
         .addTo(mapRef.current);
-      markersRef.current.push({ id: pin.id, marker });
+      markersRef.current.push({ pin, marker });
 
       marker.getElement().addEventListener("click", () => {
         props.onClickMarker(pin.id);
       });
 
-      marker.getElement().innerHTML = makeIcon(
-        pin.placeType,
-        pin.name,
-        pin.color
-      );
+      if (zoomLevel >= 1) {
+        marker.getElement().innerHTML = makeIcon(
+          pin.placeType,
+          pin.name,
+          pin.color,
+          zoomLevel >= 2 ? 0.85 : 0.7
+        );
+      } else {
+        // marker.getElement().innerHTML = "";
+      }
+
       marker.getElement().style.fontSize = "0.8rem";
 
       marker.getElement().style.cursor = "pointer";
       marker.getElement().style.opacity =
-        pin.id === props.selectedPlace ? "0.7" : "1";
+        pin.id === props.selectedPlace ? "0.8" : "1";
     });
   };
 
@@ -186,15 +205,22 @@ export const MapSearch: React.FC<Props> = (props) => {
    */
 
   useEffect(() => {
+    updatePins(pins);
+  }, [zoomLevel]);
+
+  useEffect(() => {
     if (props.viewHeight < 1) return;
     const { lat, lng, zoom } = props;
     loadMapBox(lat, lng, zoom);
   }, [props.lat, props.lng, props.zoom, props.viewHeight]);
 
   useEffect(() => {
-    const pins = makePins(props.places);
-    updatePins(pins);
+    setPins(makePins(props.places));
   }, [props.places]);
+
+  useEffect(() => {
+    updatePins(pins);
+  }, [pins]);
 
   useEffect(() => {
     if (router.query.latStart) {
@@ -207,7 +233,7 @@ export const MapSearch: React.FC<Props> = (props) => {
   useEffect(() => {
     markersRef.current.forEach((marker) => {
       marker.marker.getElement().style.opacity =
-        marker.id === props.selectedPlace ? 0.5 : 1;
+        marker.pin.id === props.selectedPlace ? 0.5 : 1;
     });
   }, [props.selectedPlace]);
 
