@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import mapboxgl from "mapbox-gl";
+import mapboxgl, { Marker } from "mapbox-gl";
 
 import * as cons from "../../constants";
 import { Place } from "../../redux/slices/placeSlice";
@@ -28,6 +28,15 @@ interface Props {
 const MAP_STYLE_STREET = "mapbox://styles/mapbox/streets-v11";
 const MAP_STYLE_LIGHT = "mapbox://styles/mapbox/light-v10";
 
+interface Pin {
+  id: string;
+  lat: number;
+  lng: number;
+  color: string;
+  placeType: string;
+  name: string;
+}
+
 export const MapSearch: React.FC<Props> = (props) => {
   const router = useRouter();
   const mapId = `mapbox-${props.mapId}`;
@@ -47,6 +56,23 @@ export const MapSearch: React.FC<Props> = (props) => {
     const sw = currentBound.getSouthWest();
 
     props.onChange(sw.lat, sw.lng, ne.lat, ne.lng);
+  };
+
+  const makeIcon = (placeType: string, name: string, color: string) => {
+    return `
+      <div style="display:flex; flex-direction: column; align-items: center;">
+        <div style="font-size: 2rem; margin-bottom: 0.3rem;">${
+          cons.PLACE_TYPE_LIST[placeType].icon
+        }</div>
+        <div style="display:flex; align-items: center;">
+          <div style="height: 0.6rem; width: 0.6rem; border-radius: 50%; background-color: ${color}; margin-right: 0.3rem;"></div>
+          <div style="font-weight: bold; font-size: 0.7rem;">${name.slice(
+            0,
+            10
+          )}</div>
+        </div>
+      </div>
+    `;
   };
 
   /**
@@ -95,18 +121,18 @@ export const MapSearch: React.FC<Props> = (props) => {
    * Update Pins
    */
 
-  const makePins = (places: Place[]) => {
+  const makePins = (places: Place[]): Pin[] => {
     return places.map((p) => ({
       id: p.id,
       lat: p.spotLat,
       lng: p.spotLng,
       color: getColorOfSpeed(p.speedDown),
+      placeType: p.placeType,
+      name: p.spotName,
     }));
   };
 
-  const updatePins = (
-    pins: { id: string; lat: number; lng: number; color: string }[]
-  ) => {
+  const updatePins = (pins: Pin[]) => {
     // Create a default Marker and add it to the mapbox.
     markersRef.current.map((m) => {
       m.marker.remove();
@@ -123,9 +149,16 @@ export const MapSearch: React.FC<Props> = (props) => {
         props.onClickMarker(pin.id);
       });
 
+      marker.getElement().innerHTML = makeIcon(
+        pin.placeType,
+        pin.name,
+        pin.color
+      );
+      marker.getElement().style.fontSize = "0.8rem";
+
       marker.getElement().style.cursor = "pointer";
       marker.getElement().style.opacity =
-        pin.id === props.selectedPlace ? "0.5" : "1";
+        pin.id === props.selectedPlace ? "0.7" : "1";
     });
   };
 
@@ -200,4 +233,15 @@ const MapWrapper = styled.div`
   width: 100%;
   height: 100%;
   position: relative;
+`;
+
+const IconWrapper = styled.div``;
+
+const Name = styled.div``;
+
+const MarkerIcon = styled.div<{ color: string }>`
+  background-color: ${(props) => props.color};
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
 `;

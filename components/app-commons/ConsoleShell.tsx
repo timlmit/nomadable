@@ -71,6 +71,10 @@ const Wrapper = styled.div`
   align-items: flex-start;
   padding-top: 9rem;
   padding-bottom: 4rem;
+
+  ${forMobile(`
+    padding-top: 6.5rem;
+  `)}
 `;
 
 const Navigation = styled.div`

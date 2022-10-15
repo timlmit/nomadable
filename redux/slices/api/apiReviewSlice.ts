@@ -50,6 +50,10 @@ const apiSlice = createSlice({
       state.apiPostReviewStatus.status = cons.API_IDLE;
       state.apiPostReviewStatus.error = "";
     },
+    initApiFetchReviewsState: (state) => {
+      state.apiFetchReviewsStatus.status = cons.API_IDLE;
+      state.apiFetchReviewsStatus.error = "";
+    },
   },
   extraReducers: (builder) => {
     // PostReview
@@ -180,7 +184,8 @@ export const apiFetchReviews = createAsyncThunk<
   }
 });
 
-export const { initApiPostReviewState } = apiSlice.actions;
+export const { initApiPostReviewState, initApiFetchReviewsState } =
+  apiSlice.actions;
 
 /**
  * Selectors

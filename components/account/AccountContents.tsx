@@ -11,6 +11,7 @@ import {
   selectApiUpdateUserStatus,
 } from "../../redux/slices/api/apiUserSlice";
 import { EditableUser, UserWithStats } from "../../redux/slices/userSlice";
+import { forMobile } from "../../styles/Responsive";
 import { ButtonSecondarySmall } from "../../styles/styled-components/Buttons";
 import {
   FontSizeLarge,
@@ -18,6 +19,7 @@ import {
   FontSizeSemiLarge,
   FontSizeSemiSmall,
 } from "../../styles/styled-components/FontSize";
+import { ContainerStyleInside } from "../../styles/styled-components/Layouts";
 import { PageLoader } from "../commons/PageLoader";
 import { SectionLoader } from "../commons/SectionLoader";
 import { AccountDetail } from "./AccountDetail";
@@ -42,6 +44,7 @@ export const AccountContents: React.FC<Props> = ({
     points,
     ranking,
     discovered,
+    reviews,
     checkIns,
   },
   isMyAccount,
@@ -113,7 +116,13 @@ export const AccountContents: React.FC<Props> = ({
           />
         </StatsInfo>
       </BasicSecion>
-      <DetailSection>{/* <AccountDetail userId={_id} /> */}</DetailSection>
+      <DetailSection>
+        <AccountDetail
+          userId={_id}
+          discoveredCnt={discovered}
+          reviewCnt={reviews}
+        />
+      </DetailSection>
 
       <EditProfileModal
         visible={editModalVisible}
@@ -146,6 +155,11 @@ const EditButton = styled.button`
   padding-right: 1rem;
   height: 2.8rem;
   min-width: auto;
+
+  ${forMobile(`
+    top: 1.8rem;
+    right: 0.5rem;
+  `)}
 `;
 
 const EditIcon = styled.img`
@@ -156,19 +170,23 @@ const EditIcon = styled.img`
 
 const Header = styled.div`
   border-bottom: 1px solid ${cons.FONT_COLOR_SUPER_LIGHT};
-  padding: 1rem 2rem;
+  ${ContainerStyleInside}
+  padding-top: 1rem;
+  padding-bottom: 1rem;
   font-weight: bold;
   color: ${cons.FONT_COLOR_NORMAL};
   ${FontSizeNormal}
 `;
 
 const BasicSecion = styled.div`
+  ${ContainerStyleInside}
   margin-bottom: 3rem;
   position: relative;
 `;
 
 const NameAndDescription = styled.div`
-  padding: 2rem 2rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
   position: relative;
 `;
 

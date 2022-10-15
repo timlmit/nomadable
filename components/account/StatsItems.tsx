@@ -8,6 +8,7 @@ import {
   FontSizeSemiLarge,
   FontSizeSemiSmall,
 } from "../../styles/styled-components/FontSize";
+import { ContainerStyleInside } from "../../styles/styled-components/Layouts";
 
 interface Props {
   points: number;
@@ -35,7 +36,7 @@ export const StatsItems: React.FC<Props> = ({
     <StatsItemsWrapper>
       <StatsItem number={`${points}`} unit="points" />
       <StatsItem number={`#${ranking}`} unit="contributer" />
-      <StatsItem number={`${discovered}`} unit="discovered" />
+      {/* <StatsItem number={`${discovered}`} unit="discovered" /> */}
       <StatsItem number={`${checkIns}`} unit="check-ins" />
     </StatsItemsWrapper>
   );
@@ -44,22 +45,26 @@ export const StatsItems: React.FC<Props> = ({
 const StatsItemsWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
-  padding: 0 2rem;
-
-  ${forMobile(`
-    padding: 0 1rem;
-  `)}
+  /* ${ContainerStyleInside} */
 `;
 
 const ItemWrapper = styled.div`
   text-align: center;
   margin-right: 2rem;
+
+  ${forMobile(`
+    margin-right: 1rem;
+  `)}
 `;
 
 const Number = styled.div`
   color: ${cons.FONT_COLOR_NORMAL};
   font-weight: bold;
   ${FontSizeLarge};
+
+  ${forMobile(`
+    font-size: 1.2rem;
+  `)}
 `;
 
 const Unit = styled.div`

@@ -51,7 +51,7 @@ const PageWrapper = styled.div<{ bgColor?: string }>`
 const PageContainer = styled.div`
   ${ContainerStyle}
   ${forMobile(`
-
-
+      padding-left: 0.7rem;
+      padding-right: 0.7rem;
   `)}
 `;

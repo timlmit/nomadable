@@ -1,3 +1,4 @@
+import image from "next/image";
 import React from "react";
 import styled from "styled-components";
 
@@ -17,10 +18,17 @@ export const SpotImages: React.FC<Props> = ({ images }) => {
           <LargeImage src={images[0]} />
         </LargeImageSection>
         <SmallImageSection>
-          <SmallImage src={images[1]} />
-          <SmallImage src={images[2]} />
-          <SmallImage src={images[3]} />
-          <SmallImage src={images[4]} />
+          {images
+            .slice(1, images.length)
+            .map((image: string, index: number) => {
+              return (
+                <SmallImage
+                  key={image}
+                  src={image}
+                  lastItem={index + 2 === images.length}
+                />
+              );
+            })}
         </SmallImageSection>
       </Scroller>
     </SpotImagesWrapper>
@@ -58,6 +66,8 @@ const LargeImageSection = styled.div`
 
   ${forMobile(`
     width: 100%;
+    border-top-left-radius: 0.8rem;
+    border-bottom-left-radius: 0.8rem;
 `)}
 `;
 
@@ -75,11 +85,27 @@ const SmallImageSection = styled.div`
 
   ${forMobile(`
     width: 100%;
+    flex-wrap: nowrap;
   `)}
 `;
 
-const SmallImage = styled.img`
+const SmallImage = styled.img<{ lastItem: boolean }>`
   width: calc(50% - ${FLEX_GAP / 2}rem);
   object-fit: cover;
   height: 50%;
+
+  ${(props) =>
+    props.lastItem &&
+    `
+  ${forMobile(`
+    border-top-right-radius: 0.8rem;
+    border-bottom-right-radius: 0.8rem;
+  `)}
+
+`};
+
+  ${forMobile(`
+    width: 100%;
+    height: 100%;
+  `)}
 `;

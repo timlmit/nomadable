@@ -16,7 +16,7 @@ interface Props {
   selected: boolean | undefined;
 }
 
-const getCity = (address: string) => {
+export const getCity = (address: string) => {
   const addressArr = address.split(",");
   const countryCityArr = addressArr.slice(
     addressArr.length - 2,

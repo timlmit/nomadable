@@ -50,6 +50,7 @@ export interface UserWithStats {
   points: number;
   ranking: number;
   discovered: number;
+  reviews: number;
   checkIns: number;
 }
 
@@ -96,6 +97,7 @@ export const initialUserWithStats: UserWithStats = {
   points: 0,
   ranking: 0,
   discovered: 0,
+  reviews: 0,
   checkIns: 0,
 };
 
@@ -117,6 +119,10 @@ const userSlice = createSlice({
     },
     initUserWithStats: (state) => {
       state.userWithStats = initialUserWithStats;
+    },
+    initDiscoveredAndReviews: (state) => {
+      state.discoveredPlaces = [];
+      state.reviews = [];
     },
   },
   extraReducers: (builder) => {
@@ -152,7 +158,8 @@ const userSlice = createSlice({
   },
 });
 
-export const { updateUser, initUserWithStats } = userSlice.actions;
+export const { updateUser, initUserWithStats, initDiscoveredAndReviews } =
+  userSlice.actions;
 
 /**
  * Selectors

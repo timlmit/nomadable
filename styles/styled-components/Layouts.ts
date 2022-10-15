@@ -17,11 +17,11 @@ export const ContainerStyle = css<{ width: string }>`
 export const ContainerStyleInside = css`
   width: 100%;
   margin: auto;
-  padding: 0 1.5rem;
+  padding: 0 2rem;
   box-sizing: border-box;
 
   ${forMobile(`
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: 1.2rem;
+    padding-right: 1.2rem;
   `)}
 `;

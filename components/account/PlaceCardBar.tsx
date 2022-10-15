@@ -4,7 +4,10 @@ import styled from "styled-components";
 
 import * as cons from "../../constants";
 import { forMobile } from "../../styles/Responsive";
-import { FontSizeSemiSmall } from "../../styles/styled-components/FontSize";
+import {
+  FontSizeSemiSmall,
+  FontSizeSmall,
+} from "../../styles/styled-components/FontSize";
 import { ClickableStyle } from "../../styles/styled-components/Interactions";
 
 interface Props {
@@ -14,25 +17,27 @@ interface Props {
   address: string;
 }
 
-export const PlaceCard: React.FC<Props> = ({
+export const PlaceCardBar: React.FC<Props> = ({
   placeId,
   pictures,
   name,
   address,
 }) => {
   return (
-    <Link href={`/place/${placeId}`}>
-      <PlaceCardWrapper>
-        <ImageSection>
-          {pictures.slice(0, 3).map((picture) => (
-            <Picture key={picture} src={picture} />
-          ))}
-        </ImageSection>
-        <InfoSection>
-          <Name>{name}</Name>
-          <Address>{address}</Address>
-        </InfoSection>
-      </PlaceCardWrapper>
+    <Link href={`/place/${placeId}`} passHref>
+      <a target="_blank" rel="noopener">
+        <PlaceCardWrapper>
+          <ImageSection>
+            {pictures.slice(0, 1).map((picture) => (
+              <Picture key={picture} src={picture} />
+            ))}
+          </ImageSection>
+          <InfoSection>
+            <Name>{name}</Name>
+            <Address>{address}</Address>
+          </InfoSection>
+        </PlaceCardWrapper>
+      </a>
     </Link>
   );
 };
@@ -44,33 +49,49 @@ const PlaceCardWrapper = styled.div`
 
   border-radius: 0.5rem;
   overflow: hidden;
-  width: 26rem;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+
+  height: 7rem;
 
   ${forMobile(`
     width: 100%;
+    height: 6rem;
   `)}
 `;
 
 const ImageSection = styled.div`
   display: flex;
   gap: 0.2rem;
+  height: 100%;
+
+  ${forMobile(`
+    height: 100%;
+  `)}
 `;
 
 const Picture = styled.img`
-  width: 100%;
-  height: 6rem;
   object-fit: cover;
+  width: 8rem;
+  height: 100%;
 
   ${forMobile(`
-      width: 33.4%;
-      height: 4.5rem;
+      width: 7rem;
+      height: 100%;
   `)}
 `;
 
 const InfoSection = styled.div`
-  border-top: 1px solid ${cons.FONT_COLOR_LIGHTEST};
-  padding: 0.8rem 0.8rem 1rem 0.8rem;
+  padding: 0.9rem 0.8rem 1rem 1.2rem;
   color: ${cons.FONT_COLOR_NORMAL};
+  width: 100%;
+
+  ${forMobile(`
+    padding: 0.7rem 0.8rem 1rem 1.2rem;
+  `)}
 `;
 
 const Name = styled.div`
@@ -84,4 +105,8 @@ const Address = styled.div`
   color :${cons.FONT_COLOR_LIGHT};
   font-weight: 400;
   margin-top: 0.4em;
+
+  ${forMobile(`
+    ${FontSizeSmall}
+  `)}
 `;

@@ -10,6 +10,7 @@ export const getUserWithStats = async (
   const Point = mongoose.model("Point");
   const Place = mongoose.model("Place");
   const CheckIn = mongoose.model("CheckIn");
+  const Review = mongoose.model("Review");
 
   try {
     const user = await User.findOne({ _id: userId }).lean();
@@ -28,6 +29,7 @@ export const getUserWithStats = async (
 
     // discovered places
     const discoveredPlaceCnt = await Place.count({ discoveredBy: userId });
+    const reviewCnt = await Review.count({ userId });
 
     // check ins
     const checkInCnt = await CheckIn.count({ userId });
@@ -46,6 +48,7 @@ export const getUserWithStats = async (
       points: ranking[indexOfUser] ? ranking[indexOfUser].total : 0,
       ranking: indexOfUser < 0 ? ranking.length + 1 : indexOfUser + 1,
       discovered: discoveredPlaceCnt,
+      reviews: reviewCnt,
       checkIns: checkInCnt,
     };
 
