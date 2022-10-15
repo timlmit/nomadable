@@ -61,9 +61,11 @@ export const MapSearch: React.FC<Props> = (props) => {
   const makeIcon = (placeType: string, name: string, color: string) => {
     return `
       <div style="display:flex; flex-direction: column; align-items: center;">
-        <div style="font-size: 2rem; margin-bottom: 0.3rem;">${
-          cons.PLACE_TYPE_LIST[placeType].icon
-        }</div>
+        <div style="font-size: ${
+          placeType === cons.PLACE_TYPE_WORKSPACE ? 1.65 : 2
+        }rem; margin-bottom: 0.3rem;">${
+      cons.PLACE_TYPE_LIST[placeType].icon
+    }</div>
         <div style="display:flex; align-items: center;">
           <div style="height: 0.6rem; width: 0.6rem; border-radius: 50%; background-color: ${color}; margin-right: 0.3rem;"></div>
           <div style="font-weight: bold; font-size: 0.7rem;">${name.slice(

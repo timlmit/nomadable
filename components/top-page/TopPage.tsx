@@ -267,7 +267,7 @@ const SearchResultSection = styled.div<{ viewHeight: number }>`
     background-color: white;
     position: absolute;
 
-    left: 1rem;
+    left: 1.2rem;
     width: calc(100% - 1rem);
     top: calc(${(props) => props.viewHeight}px - 10rem);
     border-top-right-radius: 0.8rem;

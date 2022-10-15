@@ -135,7 +135,7 @@ const Header = styled.div<{ width: number }>`
   z-index: 1;
   width: ${(props) => props.width}rem;
   box-sizing: border-box;
-  margin-left: -1.5rem;
+  margin-left: -2rem;
   padding: 1.5rem 1.5rem;
   border-bottom: 1px solid ${cons.FONT_COLOR_SUPER_LIGHT};
 
