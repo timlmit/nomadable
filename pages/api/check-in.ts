@@ -68,7 +68,6 @@ handler.post(async (req: any, res: any) => {
   try {
     const Place = req.mongoose.model("Place");
     const CheckIn = req.mongoose.model("CheckIn");
-    const Point = req.mongoose.model("Point");
 
     // create check in
     const checkin = await CheckIn.create({
@@ -83,9 +82,9 @@ handler.post(async (req: any, res: any) => {
     const updatedPlace = await updateWifiSpeedOfPlace(Place, CheckIn, placeId);
 
     const placeWithData = await makePlaceWithData(
+      req.mongoose,
       updatedPlace,
-      userId,
-      req.mongoose
+      userId
     );
 
     // distribute points
@@ -99,6 +98,10 @@ handler.post(async (req: any, res: any) => {
 
     return res.status(200).json({ placeWithData, addingPoint, totalPoint });
   } catch (error: any) {
+    console.log(
+      "🚀 ~ file: check-in.ts ~ line 101 ~ handler.post ~ error",
+      error
+    );
     return res.status(500).json({ message: ERR_SOMETHING, placeId: "" });
   }
 });

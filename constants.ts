@@ -170,7 +170,7 @@ export const PLACE_TYPE_LIST: any = {
 export const AVL_POWER_SOCKET = "power_socket";
 export const AVL_SINGLE_ORIGIN = "single_origin";
 export const AVL_FOOD_MENU = "food";
-// work space
+// Coworking
 export const AVL_DROP_IN = "drop_in";
 export const AVL_RENTAL_MONITOR = "monitor";
 export const AVL_LIST_WORKSPACE = [AVL_POWER_SOCKET, AVL_RENTAL_MONITOR];
