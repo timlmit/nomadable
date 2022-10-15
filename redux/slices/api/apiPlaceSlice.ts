@@ -224,16 +224,14 @@ export const apiFetchPlaceForPage = createAsyncThunk<
 
 export const apiCheckIn = createAsyncThunk<
   { placeWithData: PlaceWithData }, // Return type of the payload creator
-  { placeId: string; speedDown: number; speedUp: number }, // First argument to the payload creator
+  { placeId: string; speedDown: number; speedUp: number; isPublic: boolean }, // First argument to the payload creator
   {
     rejectValue: CallError;
   } // Types for ThunkAPI
->("place/CheckIn", async ({ placeId, speedDown, speedUp }, thunkApi) => {
+>("place/CheckIn", async (params, thunkApi) => {
   try {
     const { placeWithData, addingPoint, totalPoint } = await callCheckIn(
-      placeId,
-      speedDown,
-      speedUp
+      params
     );
 
     thunkApi.dispatch(showPointEarned({ addingPoint, totalPoint }));

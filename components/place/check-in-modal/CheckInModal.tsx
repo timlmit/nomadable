@@ -16,7 +16,7 @@ interface Props {
   onClose: () => void;
   spotLat: number | null;
   spotLng: number | null;
-  onCheckIn: (speedDown: number, speedUp: number) => void;
+  onCheckIn: (speedDown: number, speedUp: number, isPublic: boolean) => void;
 }
 
 export const CheckInModal: React.FC<Props> = (props) => {
@@ -30,8 +30,12 @@ export const CheckInModal: React.FC<Props> = (props) => {
     setPageIndex(2);
   };
 
-  const onFinishTest = (speedDown: number, speedUp: number) => {
-    props.onCheckIn(speedDown, speedUp);
+  const onFinishTest = (
+    speedDown: number,
+    speedUp: number,
+    isPublic: boolean
+  ) => {
+    props.onCheckIn(speedDown, speedUp, isPublic);
     setTimeout(() => {
       setPageIndex(1);
     }, 1000);

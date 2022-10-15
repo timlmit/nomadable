@@ -14,9 +14,11 @@ import {
   AnimationSlideLeft,
 } from "../../../styles/styled-components/Animations";
 import { doNetSpeedTest } from "../../../modules/SpeedOfMe";
+import { ClickableStyle } from "../../../styles/styled-components/Interactions";
+import { InfoTip } from "../../commons/InfoTip";
 
 interface Props {
-  onFinishTest: (speedDown: number, speedUp: number) => void;
+  onFinishTest: (speedDown: number, speedUp: number, isPublic: boolean) => void;
 }
 
 // const TEST_COUNT = 0;
@@ -30,6 +32,7 @@ export const WifiSpeedTest: React.FC<Props> = (props) => {
   const [testStarted, setTestStarted] = useState(false);
   const [resultSpeedUp, setResultSpeedUp] = useState(0);
   const [resultSpeedDown, setResultSpeedDown] = useState(0);
+  const [isPublic, setIsPublic] = useState(false);
   const testCntDownRef = useRef(0);
   const testCntUpRef = useRef(0);
 
@@ -86,7 +89,7 @@ export const WifiSpeedTest: React.FC<Props> = (props) => {
   };
 
   const onClickSubmit = () => {
-    props.onFinishTest(resultSpeedDown, resultSpeedUp);
+    props.onFinishTest(resultSpeedDown, resultSpeedUp, isPublic);
     initializeState();
   };
 
@@ -110,7 +113,19 @@ export const WifiSpeedTest: React.FC<Props> = (props) => {
           <NetSpeedIndicator speed={resultSpeedUp} />
         </TestResultItem>
       </TestResultWrapper>
+
       <Footer>
+        <PublicCheckInWrapper>
+          <PublicCheckInClickable onClick={() => setIsPublic(!isPublic)}>
+            <CheckBox type="checkbox" checked={isPublic} onChange={() => {}} />
+            Make this check-in public?{" "}
+          </PublicCheckInClickable>
+          <InfoTip position="right: -7.4rem; bottom: 1.5rem;" width="14rem">
+            If you enabled this option, the check-in event will be posted on the
+            Community page.
+          </InfoTip>
+        </PublicCheckInWrapper>
+
         {testFinished ? (
           <Buttons>
             <ButtonTestAgain onClick={onClickAgain}>Test Again</ButtonTestAgain>
@@ -132,7 +147,7 @@ const Wrapper = styled.div`
 
 const TestResultWrapper = styled.div<{ testStarted: boolean }>`
   /* border-top: 1px solid ${cons.FONT_COLOR_SUPER_LIGHT}; */
-  border-bottom: 1px solid ${cons.FONT_COLOR_SUPER_LIGHT};
+
   padding: 1rem 0 2rem 0;
   /* border-radius: 0.5em; */
   /* background-color: ${cons.FONT_COLOR_SUPER_LIGHT}; */
@@ -152,6 +167,25 @@ const TestResultItem = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+const PublicCheckInWrapper = styled.div`
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+`;
+
+const PublicCheckInClickable = styled.div`
+  ${ClickableStyle}
+  color: ${cons.FONT_COLOR_SECONDARY};
+  font-weight: 400;
+  display: inline-flex;
+  align-items: center;
+  margin-right: 0.3rem;
+`;
+
+const CheckBox = styled.input`
+  margin-right: 0.5rem;
 `;
 
 const Label = styled.div`

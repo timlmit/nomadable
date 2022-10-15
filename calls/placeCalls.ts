@@ -58,11 +58,12 @@ export const callFetchPlace = async (
 
 // check In
 
-export const callCheckIn = async (
-  placeId: string,
-  speedDown: number,
-  speedUp: number
-): Promise<{
+export const callCheckIn = async (data: {
+  placeId: string;
+  speedDown: number;
+  speedUp: number;
+  isPublic: boolean;
+}): Promise<{
   placeWithData: PlaceWithData;
   addingPoint: number;
   totalPoint: number;
@@ -71,7 +72,7 @@ export const callCheckIn = async (
     const response = await axios({
       method: "post",
       url: `${APP_URL}/api/check-in`,
-      data: { speedDown, speedUp, placeId },
+      data,
       headers: {
         Authorization: readCookie(COOKIE_ACCESS_TOKEN) || "",
       },

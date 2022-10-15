@@ -52,10 +52,12 @@ export const PlacePage: React.FC<Props> = ({ placeWithData }) => {
     setCheckInModalVisible(false);
   };
 
-  const onCheckIn = (speedDown: number, speedUp: number) => {
+  const onCheckIn = (speedDown: number, speedUp: number, isPublic: boolean) => {
     // check in
     setCheckInModalVisible(false);
-    dispatch(apiCheckIn({ placeId: placeWithData.id, speedDown, speedUp }));
+    dispatch(
+      apiCheckIn({ placeId: placeWithData.id, speedDown, speedUp, isPublic })
+    );
   };
 
   /**

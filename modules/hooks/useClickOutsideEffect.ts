@@ -14,10 +14,18 @@ export const useClickOutsideEffect = (ref: any, onClickOutside: () => void) => {
       }
     };
     // Bind the event listener
-    document && document.addEventListener("mousedown", handleClickOutside);
+    if (window.PointerEvent) {
+      document.addEventListener("pointerdown", handleClickOutside);
+    } else {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
     return () => {
       // Unbind the event listener on clean up
-      document && document.removeEventListener("mousedown", handleClickOutside);
+      if (window.PointerEvent) {
+        document.removeEventListener("pointerdown", handleClickOutside);
+      } else {
+        document.removeEventListener("mousedown", handleClickOutside);
+      }
     };
   }, [ref]);
 };

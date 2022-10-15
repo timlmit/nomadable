@@ -11,6 +11,8 @@ import { ERR_SOMETHING } from "../../modules/ErrorCode";
 import databaseMiddleware from "../../middleware/database";
 import authenticationMiddleware from "../../middleware/authentication";
 import { makePlaceWithData } from "../../modules/api/makePlaceWithData";
+import { addNewEvent } from "../../modules/api/addNewEvent";
+import user from "./user";
 
 const handler = nextConnect();
 
@@ -63,7 +65,7 @@ const updateWifiSpeedOfPlace = async (
 handler.post(async (req: any, res: any) => {
   const { userId } = req;
 
-  const { speedDown, speedUp, placeId } = req.body;
+  const { speedDown, speedUp, placeId, isPublic } = req.body;
 
   try {
     const Place = req.mongoose.model("Place");
@@ -96,12 +98,20 @@ handler.post(async (req: any, res: any) => {
       placeId
     );
 
+    // update event
+    if (isPublic) {
+      await addNewEvent(req.mongoose, {
+        userId,
+        title: `checked in to a place ✅`,
+        timestamp: Date.now(),
+        body: "",
+        isOfficial: false,
+        placeId,
+      });
+    }
+
     return res.status(200).json({ placeWithData, addingPoint, totalPoint });
   } catch (error: any) {
-    console.log(
-      "🚀 ~ file: check-in.ts ~ line 101 ~ handler.post ~ error",
-      error
-    );
     return res.status(500).json({ message: ERR_SOMETHING, placeId: "" });
   }
 });
