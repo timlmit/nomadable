@@ -29,7 +29,7 @@ export const callSignupWithEmail = async (
   email: string,
   password: string,
   userName: string
-): Promise<{}> => {
+) => {
   try {
     await axios({
       method: "post",
@@ -37,7 +37,7 @@ export const callSignupWithEmail = async (
       data: { email, password, userName },
     });
 
-    return {};
+    return true;
   } catch (error: any) {
     throw {
       code: "",

@@ -59,7 +59,6 @@ export const SignupForm: React.FC<Props> = ({}) => {
 
   const onClickSubmit = () => {
     if (canSubmit()) {
-      // doSignupWithEmail(dispatch, email, password, userName);
       dispatch(apiSignupWithEmail({ email, password, userName }));
     }
   };
@@ -158,7 +157,8 @@ export const SignupForm: React.FC<Props> = ({}) => {
       {apiSignupStatus.error.length > 0 && (
         <SignupErrorStyle>{apiSignupStatus.error}</SignupErrorStyle>
       )}
-      <SubmitButton
+      <SignUpButton
+        type="button"
         disabled={
           !canSubmit() ||
           apiSignupStatus.status === cons.API_LOADING ||
@@ -167,7 +167,7 @@ export const SignupForm: React.FC<Props> = ({}) => {
         onClick={onClickSubmit}
       >
         Sign Up
-      </SubmitButton>
+      </SignUpButton>
       <TermsAndPrivacyStyle></TermsAndPrivacyStyle>
       <DividerStyle />
       <FooterWrapperStyle>
@@ -194,7 +194,7 @@ const FormContainer = styled.form`
 
 const FormSet = styled.div``;
 
-const SubmitButton = styled.button`
+const SignUpButton = styled.button`
   ${ButtonPrimaryLarge}
   width: 100%;
   margin-top: 2rem;

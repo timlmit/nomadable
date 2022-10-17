@@ -76,8 +76,9 @@ handler.post(async (req: any, res: any) => {
     }
 
     await sendMailUserVerify(email, userName, req.mongoose);
-    return res.status(200).json();
+    return res.status(200).json("ok");
   } catch (error: any) {
+    console.log("error", error);
     return res.status(500).json(ERR_SOMETHING);
   }
 });

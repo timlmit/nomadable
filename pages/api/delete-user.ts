@@ -24,10 +24,6 @@ handler.post(async (req: any, res: any) => {
     }
 
     // delete image
-    console.log(
-      "🚀 ~ file: delete-user.ts ~ line 28 ~ handler.post ~ user.picture",
-      user.picture
-    );
     await removeImage(user.picture);
 
     // clear user info
@@ -50,10 +46,6 @@ handler.post(async (req: any, res: any) => {
 
     return res.status(200).json({});
   } catch (error: any) {
-    console.log(
-      "🚀 ~ file: delete-user.ts ~ line 53 ~ handler.post ~ error",
-      error
-    );
     return res.status(500).json(ERR_SOMETHING);
   }
 });
