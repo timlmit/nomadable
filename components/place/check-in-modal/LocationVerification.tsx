@@ -31,7 +31,24 @@ export const LocationVerification: React.FC<Props> = (props) => {
   const onClickVerify = async () => {
     try {
       setRequestingLocation(true);
-      const location = await getCurrentLocation({ accurate: true });
+
+      let succeed = undefined;
+      let location;
+
+      while (succeed === undefined) {
+        console.log(
+          "🚀 ~ file: LocationVerification.tsx ~ line 39 ~ onClickVerify ~ succeed",
+          succeed
+        );
+        try {
+          location = await getCurrentLocation({ accurate: true });
+          succeed = true;
+        } catch (err: any) {
+          if (err.code !== 3) {
+            succeed = false;
+          }
+        }
+      }
 
       if (!location) {
         throw Error;

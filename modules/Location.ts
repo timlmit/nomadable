@@ -2,6 +2,8 @@
  * getCurrentLocation
  */
 
+import next from "next";
+
 const accurateOption = {
   enableHighAccuracy: true,
   timeout: 5000,
@@ -22,24 +24,24 @@ export const getCurrentLocation = async ({
   const options = accurate ? accurateOption : fastOption;
 
   return new Promise((resolve, reject) => {
-    const tryGetCurrentLocation = () => {
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          const crd = pos.coords;
-          resolve({ lat: crd.latitude, lng: crd.longitude });
-        },
-        (error) => {
-          if (error.code === 3) {
-            tryGetCurrentLocation();
-          } else {
-            reject(error);
-          }
-        },
-        options
-      );
-    };
-
-    tryGetCurrentLocation();
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const crd = pos.coords;
+        resolve({ lat: crd.latitude, lng: crd.longitude });
+      },
+      (error) => {
+        console.log(
+          "🚀 ~ file: Location.ts ~ line 33 ~ returnnewPromise ~ error",
+          error
+        );
+        if (error.code === 3) {
+          reject(error);
+        } else {
+          reject(error);
+        }
+      },
+      options
+    );
   });
 };
 
