@@ -7,6 +7,7 @@ import { Place } from "../../redux/slices/placeSlice";
 import { features } from "process";
 import { getColorOfSpeed } from "./NetSpeedIndicator";
 import { useRouter } from "next/router";
+import { convertPlacesToPins, makeIcon } from "../map-search/MapSearchModules";
 
 interface Props {
   mapId: string;
@@ -60,40 +61,10 @@ export const MapSearch: React.FC<Props> = (props) => {
     props.onChange(sw.lat, sw.lng, ne.lat, ne.lng);
   };
 
-  const makeIcon = (
-    placeType: string,
-    name: string,
-    color: string,
-    fontSize: number
-  ) => {
-    return `
-      <div style="display:flex; flex-direction: column; align-items: center;">
-        <div style="font-size: ${
-          placeType === cons.PLACE_TYPE_WORKSPACE
-            ? fontSize * 2
-            : fontSize * 2.5
-        }rem; margin-bottom: ${fontSize * 0.2}rem;">${
-      cons.PLACE_TYPE_LIST[placeType].icon
-    }</div>
-        <div style="display:flex; align-items: center;">
-          <div style="height: 0.6rem; width: 0.6rem; border-radius: 50%; background-color: ${color}; margin-right: 0.3rem;"></div>
-          <div style="font-weight: bold; font-size: 0.7rem;">${name.slice(
-            0,
-            10
-          )}</div>
-        </div>
-      </div>
-    `;
-  };
-
   /**
    * Load Map Box
    */
-  const loadMapBox = (
-    lat: number | undefined,
-    lng: number | undefined,
-    zoom: number | undefined
-  ) => {
+  const loadMapBox = () => {
     mapboxgl.accessToken =
       "pk.eyJ1IjoieXMwNTIwIiwiYSI6ImNsOHIzZTdhNDB5MGczcXJ1cW41bzJ4YmsifQ.mLHbDsXmbrmjxIIbkY4j1A";
 
@@ -101,8 +72,8 @@ export const MapSearch: React.FC<Props> = (props) => {
       container: mapId,
       // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
       style: MAP_STYLE_LIGHT,
-      center: [lng || 0, lat || 0],
-      zoom: zoom || 0.1,
+      center: [0, 0],
+      zoom: 0.1,
       interactive: true,
     });
 
@@ -115,7 +86,7 @@ export const MapSearch: React.FC<Props> = (props) => {
       onViewportUpdate();
       if (mapRef.current) {
         const zoom = mapRef.current.getZoom();
-        setZoomLevel(zoom < 8 ? 0 : zoom < 15 ? 1 : 2);
+        setZoomLevel(zoom < 8 ? 0 : 1);
       }
     });
 
@@ -135,17 +106,6 @@ export const MapSearch: React.FC<Props> = (props) => {
   /**
    * Update Pins
    */
-
-  const makePins = (places: Place[]): Pin[] => {
-    return places.map((p) => ({
-      id: p.id,
-      lat: p.spotLat,
-      lng: p.spotLng,
-      color: getColorOfSpeed(p.speedDown),
-      placeType: p.placeType,
-      name: p.spotName,
-    }));
-  };
 
   const updatePins = (pins: Pin[]) => {
     // Create a default Marker and add it to the mapbox.
@@ -210,12 +170,11 @@ export const MapSearch: React.FC<Props> = (props) => {
 
   useEffect(() => {
     if (props.viewHeight < 1) return;
-    const { lat, lng, zoom } = props;
-    loadMapBox(lat, lng, zoom);
-  }, [props.lat, props.lng, props.zoom, props.viewHeight]);
+    loadMapBox();
+  }, [props.viewHeight]);
 
   useEffect(() => {
-    setPins(makePins(props.places));
+    setPins(convertPlacesToPins(props.places));
   }, [props.places]);
 
   useEffect(() => {

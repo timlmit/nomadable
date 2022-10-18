@@ -24,7 +24,7 @@ const makeIcon = (
         }rem; margin-bottom: ${fontSize * 0.2}rem;">${
     PLACE_TYPE_LIST[placeType].icon
   }</div>
-        <div style="display:flex; align-items: center;">
+        <div style="display:flex; align-items: center; position: absolute; left: 2rem; width: 6rem;">
           <div style="height: 0.6rem; width: 0.6rem; border-radius: 50%; background-color: ${color}; margin-right: 0.3rem;"></div>
           <div style="font-weight: bold; font-size: 0.7rem;">${name.slice(
             0,
