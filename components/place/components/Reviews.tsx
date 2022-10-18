@@ -2,12 +2,18 @@ import React from "react";
 import styled from "styled-components";
 
 import * as cons from "../../../constants";
-import { useAppDispatch } from "../../../redux/hooks";
+import { winddowAlert } from "../../../modules/ClientFunctions";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+import { apiVoteReview } from "../../../redux/slices/api/apiReviewSlice";
 import { Review, ReviewWithData } from "../../../redux/slices/placeSlice";
 import {
   openEditReviewForm,
   openNewReviewForm,
 } from "../../../redux/slices/reviewFormSlice";
+import {
+  selectAuthenticated,
+  selectUser,
+} from "../../../redux/slices/userSlice";
 import {
   ButtonSecondarySmall,
   ButtonSecondarySmallest,
@@ -28,13 +34,27 @@ export const Reviews: React.FC<Props> = ({
   placeId,
 }) => {
   const dispatch = useAppDispatch();
+  const isAuthenticated = useAppSelector(selectAuthenticated);
+  const userId = useAppSelector(selectUser)._id;
 
   const showNewReviewForm = () => {
-    dispatch(openNewReviewForm({ placeId }));
+    if (isAuthenticated) {
+      dispatch(openNewReviewForm({ placeId }));
+    } else {
+      winddowAlert(cons.MSG_NOT_LOGIN);
+    }
   };
 
   const onClickEdit = (reviewId: string, stars: number, comment: string) => {
     dispatch(openEditReviewForm({ reviewId, placeId, stars, comment }));
+  };
+
+  const onClickVote = (
+    isUpvote: boolean,
+    reviewId: string,
+    clearVote: boolean
+  ) => {
+    dispatch(apiVoteReview({ reviewId, isUpvote, userId, clearVote }));
   };
 
   return (
@@ -54,6 +74,8 @@ export const Reviews: React.FC<Props> = ({
               key={reviewWithData._id}
               reviewWithData={reviewWithData}
               onClickEdit={onClickEdit}
+              userId={userId}
+              onClickVote={onClickVote}
             />
           ))}
         </ReviewItems>

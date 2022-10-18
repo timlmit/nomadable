@@ -18,7 +18,7 @@ handler.get(async (req: any, res: any) => {
 
     const reviews = await Review.find({ userId })
       .sort({
-        created: -1,
+        voteScore: -1,
       })
       .skip(loadedCnt)
       .limit(loadingCnt)

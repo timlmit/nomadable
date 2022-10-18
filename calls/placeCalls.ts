@@ -5,6 +5,7 @@ import {
   MapArea,
   Place,
   PlaceWithData,
+  Vote,
 } from "../redux/slices/placeSlice";
 import { readCookie } from "../modules/CookieHandler";
 
@@ -178,7 +179,35 @@ export const callFetchDiscoveredPlaces = async (
 
     return response.data;
   } catch (error: any) {
-    console.log("🚀 ~ file: placeCalls.ts ~ line 177 ~ error", error);
+    throw {
+      code: "",
+      message: error.response.data.message,
+    };
+  }
+};
+
+// callVoteAvailability
+
+export const callVoteAvailability = async (params: {
+  placeId: string;
+  vote: Vote;
+}): Promise<{
+  placeId: string;
+  placeType: string;
+  availability: string[];
+}> => {
+  try {
+    const response = await axios({
+      method: "post",
+      url: `${APP_URL}/api/vote-availability`,
+      data: params,
+      headers: {
+        Authorization: readCookie(COOKIE_ACCESS_TOKEN) || "",
+      },
+    });
+
+    return response.data;
+  } catch (error: any) {
     throw {
       code: "",
       message: error.response.data.message,

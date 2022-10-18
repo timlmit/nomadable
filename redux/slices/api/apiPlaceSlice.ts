@@ -2,6 +2,7 @@ import {
   callFetchDiscoveredPlaces,
   callFetchPlaces,
   callRecentCheckIns,
+  callVoteAvailability,
 } from "./../../../calls/placeCalls";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
@@ -14,7 +15,7 @@ import {
   callFetchPlace,
 } from "../../../calls/placeCalls";
 import { ERR_SOMETHING } from "../../../modules/ErrorCode";
-import { FilterObj, MapArea, Place, PlaceWithData } from "../placeSlice";
+import { FilterObj, MapArea, Place, PlaceWithData, Vote } from "../placeSlice";
 import { showPointEarned } from "../uiSlice";
 import places from "../../../pages/api/places";
 
@@ -35,6 +36,7 @@ interface ApiState {
   apiFetchPlacesStatus: ApiStatus;
   apiFetchRecentCheckInsStatus: ApiStatus;
   apiFetchDiscoveredPlacesStatus: ApiStatus;
+  apiVoteAvailabilityStatus: ApiStatus;
 }
 
 /**
@@ -53,6 +55,7 @@ const initialState: ApiState = {
   apiFetchPlacesStatus: initialApiState,
   apiFetchRecentCheckInsStatus: initialApiState,
   apiFetchDiscoveredPlacesStatus: initialApiState,
+  apiVoteAvailabilityStatus: initialApiState,
 };
 
 const apiSlice = createSlice({
@@ -166,6 +169,22 @@ const apiSlice = createSlice({
         state.apiFetchDiscoveredPlacesStatus.error = action.payload.message;
       } else {
         state.apiFetchDiscoveredPlacesStatus.error = action.error.message || "";
+      }
+    });
+
+    // Vote Availability
+    builder.addCase(apiVoteAvailability.pending, (state, action) => {
+      state.apiVoteAvailabilityStatus.status = cons.API_LOADING;
+    });
+    builder.addCase(apiVoteAvailability.fulfilled, (state, action) => {
+      state.apiVoteAvailabilityStatus.status = cons.API_SUCCEEDED;
+    });
+    builder.addCase(apiVoteAvailability.rejected, (state, action) => {
+      state.apiVoteAvailabilityStatus.status = cons.API_FALIED;
+      if (action.payload) {
+        state.apiVoteAvailabilityStatus.error = action.payload.message;
+      } else {
+        state.apiVoteAvailabilityStatus.error = action.error.message || "";
       }
     });
   },
@@ -300,6 +319,23 @@ export const apiFetchDiscoveredPlaces = createAsyncThunk<
   }
 );
 
+// apiVoteAvailability
+
+export const apiVoteAvailability = createAsyncThunk<
+  { placeId: string; placeType: string; availability: string[] }, // Return type of the payload creator
+  { placeId: string; vote: Vote }, // First argument to the payload creator
+  {
+    rejectValue: CallError;
+  } // Types for ThunkAPI
+>("place/VoteAvailability", async (params, thunkApi) => {
+  try {
+    const data = await callVoteAvailability(params);
+    return data;
+  } catch (error: any) {
+    return thunkApi.rejectWithValue(error as CallError);
+  }
+});
+
 /**
  * Actions: call ajax & mutate store (only from here)
  */
@@ -333,6 +369,9 @@ export const selectApiFetchRecentCheckInsStatus = (
 export const selectApiFetchDiscoveredPlacesStatus = (
   state: RootState
 ): ApiStatus => state.apiPlace.apiFetchDiscoveredPlacesStatus;
+
+export const selectApiVoteAvailabilityStatus = (state: RootState): ApiStatus =>
+  state.apiPlace.apiVoteAvailabilityStatus;
 
 /**
  * Export actions & reducer

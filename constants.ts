@@ -19,6 +19,8 @@ export const APP_SHORT_DESCRIPTION = "Search Nomad Cafes around the World";
 export const APP_LONG_DESCRIPTION =
   "Find cafes, co-working spaces, hotels with high-speed WiFi access.";
 
+export const MSG_NOT_LOGIN = "Please login to use this feature.";
+
 /**
  * Colors
  */

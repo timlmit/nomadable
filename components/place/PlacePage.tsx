@@ -83,12 +83,17 @@ export const PlacePage: React.FC<Props> = ({ placeWithData }) => {
     <PlacePageWrapper>
       <SpotName>{pd.spotName}</SpotName>
       <ReviewInfo>
+        <PlaceType>
+          {cons.PLACE_TYPE_LIST[pd.placeType].icon}
+          {` `}
+          {cons.PLACE_TYPE_LIST[pd.placeType].text}
+        </PlaceType>
         {pd.reviewStars > 0 && (
           <ReviewStars>
+            <Dot>&#x2022;</Dot>
             <StarIcon src="/icon/star-black.svg" />
             {getStarValue(pd.reviewStars)}
             <ReviewCnt>({pd.reviewsWithData.length})</ReviewCnt>
-            {/* <Dot>&#x2022;</Dot> */}
           </ReviewStars>
         )}
       </ReviewInfo>
@@ -114,7 +119,11 @@ export const PlacePage: React.FC<Props> = ({ placeWithData }) => {
             />
           </InfoItemWrapper>
           <InfoItemWrapper label="Basic Info">
-            <Availability availability={pd.availability} />
+            <Availability
+              placeId={pd.id}
+              availability={pd.availability}
+              placeType={pd.placeType}
+            />
           </InfoItemWrapper>
           <InfoItemWrapper label="Reviews">
             <Reviews
@@ -157,6 +166,8 @@ const SpotName = styled.div`
 
 const ReviewInfo = styled.div`
   margin-top: 0.8rem;
+  display: flex;
+  align-items: center;
 `;
 
 const ImageWrapper = styled.div`
@@ -234,5 +245,13 @@ const ReviewCnt = styled.div`
 
 const Dot = styled.div`
   color: ${cons.FONT_COLOR_LIGHT};
-  margin-left: 0.2rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+`;
+
+const PlaceType = styled.div`
+  color: ${cons.FONT_COLOR_NORMAL};
+  font-weight: 600;
+  display: flex;
+  align-items: center;
 `;

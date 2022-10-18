@@ -13,15 +13,24 @@ import { ButtonText } from "../../../../styles/styled-components/Buttons";
 import { ClickableStyle } from "../../../../styles/styled-components/Interactions";
 import { useAppDispatch, useAppSelector } from "../../../../redux/hooks";
 import { updateVisibleModal } from "../../../../redux/slices/uiSlice";
+import { VoteButtons } from "./VoteButtons";
 
 interface Props {
   reviewWithData: ReviewWithData;
   onClickEdit: (reviewId: string, stars: number, comment: string) => void;
+  userId: string;
+  onClickVote: (
+    isUpvote: boolean,
+    reviewId: string,
+    clearVote: boolean
+  ) => void;
 }
 
 export const ReviewItem: React.FC<Props> = ({
   reviewWithData,
   onClickEdit,
+  userId,
+  onClickVote,
 }) => {
   const dispatch = useAppDispatch();
   const rv = reviewWithData;
@@ -30,6 +39,11 @@ export const ReviewItem: React.FC<Props> = ({
     dispatch(
       updateVisibleModal({ id: cons.MODAL_USER_INFO, referenceId: rv.userId })
     );
+  };
+
+  const _onClickVote = (isUpvote: boolean, clearVote: boolean) => {
+    if (!reviewWithData._id) return;
+    onClickVote(isUpvote, reviewWithData._id, clearVote);
   };
 
   return (
@@ -52,6 +66,14 @@ export const ReviewItem: React.FC<Props> = ({
         )}
       </UserSection>
       <CommentSection>{rv.comment}</CommentSection>
+      <InfoSection>
+        <VoteButtons
+          userId={userId}
+          onClickVote={_onClickVote}
+          upVoters={rv.upVoters}
+          downVoters={rv.downVoters}
+        />
+      </InfoSection>
     </ReviewItemWrapper>
   );
 };
@@ -105,4 +127,8 @@ const EditButton = styled.button`
   ${ButtonText};
   margin-left: 0.8rem;
   text-decoration: underline;
+`;
+
+const InfoSection = styled.div`
+margin-top: 1rem;
 `;

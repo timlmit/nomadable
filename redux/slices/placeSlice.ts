@@ -8,8 +8,13 @@ import {
   apiFetchPlaceForPage,
   apiFetchPlaces,
   apiFetchRecentCheckIns,
+  apiVoteAvailability,
 } from "./api/apiPlaceSlice";
-import { apiDeleteReview, apiPostReview } from "./api/apiReviewSlice";
+import {
+  apiDeleteReview,
+  apiPostReview,
+  apiVoteReview,
+} from "./api/apiReviewSlice";
 
 /**
  * Types
@@ -71,8 +76,9 @@ export interface Review {
   userId: string;
   stars: number;
   comment: string;
-  votedValue: number;
-  voters: string[];
+  voteScore: number;
+  upVoters: string[];
+  downVoters: string[];
   created: string;
 }
 
@@ -87,6 +93,17 @@ export interface ReviewWithPlaceData extends Review {
   spotName: string;
   spotAddress: string;
   thumbnail: string;
+}
+
+export interface Vote {
+  placeType: string;
+  availability: string[];
+}
+
+export interface Availability {
+  userId: string;
+  placeId: string;
+  vote: Vote;
 }
 
 interface PlaceState {
@@ -193,6 +210,44 @@ const placeSlice = createSlice({
           );
       }
     });
+    builder.addCase(apiVoteAvailability.fulfilled, (state, action) => {
+      if (state.placeForPage.id === action.payload.placeId) {
+        state.placeForPage.placeType = action.payload.placeType;
+        state.placeForPage.availability = action.payload.availability;
+      }
+    });
+
+    builder.addCase(apiVoteReview.pending, (state, action) => {
+      state.placeForPage.reviewsWithData =
+        state.placeForPage.reviewsWithData.map((review) => {
+          if (review._id !== action.meta.arg.reviewId) return review;
+
+          review.upVoters = review.upVoters.filter(
+            (voter) => voter !== action.meta.arg.userId
+          );
+          review.downVoters = review.downVoters.filter(
+            (voter) => voter !== action.meta.arg.userId
+          );
+
+          if (!action.meta.arg.clearVote) {
+            if (action.meta.arg.isUpvote) {
+              review.upVoters.push(action.meta.arg.userId);
+            } else {
+              review.downVoters.push(action.meta.arg.userId);
+            }
+          }
+
+          return review;
+        });
+    });
+
+    builder.addCase(apiVoteReview.fulfilled, (state, action) => {
+      state.placeForPage.reviewsWithData =
+        state.placeForPage.reviewsWithData.map((review) => {
+          if (review._id !== action.payload.reviewWithData._id) return review;
+          return action.payload.reviewWithData;
+        });
+    });
   },
 });
 
@@ -216,3 +271,5 @@ export const selectRecentCheckIns = (state: RootState): Place[] =>
  */
 
 export default placeSlice.reducer;
+
+

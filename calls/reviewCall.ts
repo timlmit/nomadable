@@ -90,3 +90,31 @@ export const callFetchReviews = async (params: {
     };
   }
 };
+
+// callVoteReview
+
+export const callVoteReview = async (params: {
+  reviewId: string;
+  isUpvote: boolean;
+  clearVote: boolean;
+}): Promise<{
+  reviewWithData: ReviewWithData;
+}> => {
+  try {
+    const response = await axios({
+      method: "post",
+      url: `${APP_URL}/api/vote-review`,
+      data: params,
+      headers: {
+        Authorization: readCookie(COOKIE_ACCESS_TOKEN) || "",
+      },
+    });
+
+    return response.data;
+  } catch (error: any) {
+    throw {
+      code: "",
+      message: error.response.data.message,
+    };
+  }
+};

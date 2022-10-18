@@ -36,10 +36,6 @@ export const LocationVerification: React.FC<Props> = (props) => {
       let location;
 
       while (succeed === undefined) {
-        console.log(
-          "🚀 ~ file: LocationVerification.tsx ~ line 39 ~ onClickVerify ~ succeed",
-          succeed
-        );
         try {
           location = await getCurrentLocation({ accurate: true });
           succeed = true;
