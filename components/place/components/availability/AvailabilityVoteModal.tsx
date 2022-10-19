@@ -2,14 +2,18 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 import * as cons from "../../../../constants";
-import { useAppDispatch } from "../../../../redux/hooks";
-import { apiVoteAvailability } from "../../../../redux/slices/api/apiPlaceSlice";
+import { useAppDispatch, useAppSelector } from "../../../../redux/hooks";
+import {
+  apiVoteAvailability,
+  selectApiVoteAvailabilityStatus,
+} from "../../../../redux/slices/api/apiPlaceSlice";
 import { ButtonBlackSmall } from "../../../../styles/styled-components/Buttons";
 import * as fs from "../../../../styles/styled-components/FontSize";
 import { ContainerStyleInside } from "../../../../styles/styled-components/Layouts";
 import { AvailabilityForm } from "../../../app-commons/AvailabilityForm";
 import { Modal } from "../../../commons/Modal";
 import { ModalHeader } from "../../../commons/ModalHeader";
+import { PageLoader } from "../../../commons/PageLoader";
 
 interface Props {
   visible: boolean;
@@ -21,6 +25,7 @@ interface Props {
 
 export const AvailabilityVoteModal: React.FC<Props> = (props) => {
   const dispatch = useAppDispatch();
+  const apiStatus = useAppSelector(selectApiVoteAvailabilityStatus);
   const [placeType, setPlaceType] = useState(props.placeType);
   const [availability, setAvailability] = useState(props.availability);
 
@@ -48,6 +53,10 @@ export const AvailabilityVoteModal: React.FC<Props> = (props) => {
 
   return (
     <Modal visible={props.visible} width="30rem" closeModal={props.closeModal}>
+      <PageLoader
+        visible={apiStatus.status === cons.API_LOADING}
+        message="Submitting..."
+      />
       <ModalHeader title="Edit Basic Info" onClickClose={props.closeModal} />
       <BodyWrapper>
         <AvailabilityForm
@@ -59,7 +68,11 @@ export const AvailabilityVoteModal: React.FC<Props> = (props) => {
         <Message>*The information will be determined by majority vote.</Message>
       </BodyWrapper>
       <Footer>
-        <SubmitButton type="button" onClick={onClickSubmit}>
+        <SubmitButton
+          type="button"
+          onClick={onClickSubmit}
+          disabled={apiStatus.status === cons.API_LOADING}
+        >
           Submit
         </SubmitButton>
       </Footer>

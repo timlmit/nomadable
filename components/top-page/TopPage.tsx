@@ -22,8 +22,9 @@ import { forMobile } from "../../styles/Responsive";
 import { AnimationSlideUp } from "../../styles/styled-components/Animations";
 import { FontSizeSemiSmall } from "../../styles/styled-components/FontSize";
 import { ClickableStyle } from "../../styles/styled-components/Interactions";
-import { MapSearch } from "../commons/MapSearch";
+import { MapSearch } from "../map-search/MapSearch";
 import { SectionLoader } from "../commons/SectionLoader";
+import { SplashPage } from "../commons/SplashPage";
 import { FilterModal } from "./search-result/FilterModal";
 import { SearchResult } from "./search-result/SearchResult";
 
@@ -247,6 +248,7 @@ const HEADER_HEIGHT = 5;
 const RESULT_WIDTH = 36;
 
 const TopPageWrapper = styled.div`
+  background-color: #c9d2d3;
   display: flex;
   width: calc(100% + 4rem);
   margin-left: -2rem;
@@ -263,6 +265,7 @@ const TopPageWrapper = styled.div`
 
 const SearchResultSection = styled.div<{ viewHeight: number }>`
   width: ${RESULT_WIDTH}rem;
+  background-color: white;
 
   @media only screen and (max-width: ${cons.WIDTH_TABLET}px) {
     z-index: 2;

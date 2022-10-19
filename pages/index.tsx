@@ -16,14 +16,21 @@ import { GetStaticProps } from "next";
 import styled from "styled-components";
 import { forMobile } from "../styles/Responsive";
 import { FontSizeLarge } from "../styles/styled-components/FontSize";
+import { SplashPage } from "../components/commons/SplashPage";
+import { selectApiFetchPlacesStatus } from "../redux/slices/api/apiPlaceSlice";
 
 interface TopPageProps {}
 
 export default function TopPageContainer(props: TopPageProps) {
   const places = useAppSelector(selectPlaceSearchResult);
+  const apiStatus = useAppSelector(selectApiFetchPlacesStatus);
 
   return (
     <Fragment>
+      <SplashPage
+        visible={apiStatus.status === cons.API_IDLE}
+        message="Loading app..."
+      />
       <Layout width={"100%"} fixed>
         <HeadSetter
           pageTitle={`${APP_NAME}: ${APP_SHORT_DESCRIPTION}`}
@@ -32,9 +39,6 @@ export default function TopPageContainer(props: TopPageProps) {
         />
         <TopPage places={places} />
       </Layout>
-      {/* <ForMobile>
-        Sorry, the mobile version is not ready yet. Please access via PC.
-      </ForMobile> */}
     </Fragment>
   );
 }

@@ -112,8 +112,7 @@ handler.post(async (req: any, res: any) => {
       {
         placeType,
         availability,
-      },
-      { new: true }
+      }
     );
 
     return res.status(200).json({ placeId, placeType, availability });
