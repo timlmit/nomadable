@@ -75,7 +75,6 @@ export const AccountContents: React.FC<Props> = ({
   if (!_id)
     return (
       <Wrapper>
-        <Header>Profile</Header>
         <LoadingBody>
           <SectionLoader visible />
         </LoadingBody>
@@ -84,7 +83,6 @@ export const AccountContents: React.FC<Props> = ({
 
   return (
     <Wrapper>
-      <Header>Profile</Header>
       <BasicSecion>
         <SectionLoader visible={apiStatus.status === cons.API_LOADING} />
         <NameAndDescription>
@@ -166,16 +164,6 @@ const EditIcon = styled.img`
   width: 1rem;
   margin-right: 0.5rem;
   opacity: 0.5;
-`;
-
-const Header = styled.div`
-  border-bottom: 1px solid ${cons.FONT_COLOR_SUPER_LIGHT};
-  ${ContainerStyleInside}
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  font-weight: bold;
-  color: ${cons.FONT_COLOR_NORMAL};
-  ${FontSizeNormal}
 `;
 
 const BasicSecion = styled.div`

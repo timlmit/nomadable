@@ -5,10 +5,10 @@ import styled from "styled-components";
 import * as cons from "../../../constants";
 import * as fs from "../../../styles/styled-components/FontSize";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
-import {
-  apiFetchRecentCheckIns,
-  selectApiFetchRecentCheckInsStatus,
-} from "../../../redux/slices/api/apiPlaceSlice";
+// import {
+//   apiFetchRecentCheckIns,
+//   selectApiFetchRecentCheckInsStatus,
+// } from "../../../redux/slices/api/apiPlaceSlice";
 import { selectRecentCheckIns } from "../../../redux/slices/placeSlice";
 import { selectAuthenticated } from "../../../redux/slices/userSlice";
 import { ButtonSecondaryMedium } from "../../../styles/styled-components/Buttons";
@@ -25,7 +25,7 @@ interface Props {}
 export const RecentCheckIns: React.FC<Props> = ({}) => {
   const dispatch = useAppDispatch();
 
-  const apiStatus = useAppSelector(selectApiFetchRecentCheckInsStatus);
+  // const apiStatus = useAppSelector(selectApiFetchRecentCheckInsStatus);
   const isAuthenticated = useAppSelector(selectAuthenticated);
   const recentCheckIns = useAppSelector(selectRecentCheckIns);
 
@@ -35,11 +35,11 @@ export const RecentCheckIns: React.FC<Props> = ({}) => {
     setVisible(true);
   };
 
-  useEffect(() => {
-    if (isAuthenticated && apiStatus.status === cons.API_IDLE) {
-      dispatch(apiFetchRecentCheckIns({}));
-    }
-  }, [isAuthenticated, apiStatus]);
+  // useEffect(() => {
+  //   if (isAuthenticated && apiStatus.status === cons.API_IDLE) {
+  //     dispatch(apiFetchRecentCheckIns({}));
+  //   }
+  // }, [isAuthenticated, apiStatus]);
 
   if (!isAuthenticated || recentCheckIns.length < 1) return null;
 

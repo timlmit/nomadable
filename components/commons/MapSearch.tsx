@@ -38,6 +38,8 @@ interface Pin {
   name: string;
 }
 
+let geoControl: any = null;
+
 export const MapSearch: React.FC<Props> = (props) => {
   const router = useRouter();
   const mapId = `mapbox-${props.mapId}`;
@@ -45,6 +47,7 @@ export const MapSearch: React.FC<Props> = (props) => {
   const markersRef = useRef<{ pin: Pin; marker: any }[]>([]);
   const [pins, setPins] = useState<Pin[]>([]);
   const [zoomLevel, setZoomLevel] = useState(0);
+  // const geoControlRef = useRef();
 
   /**
    * Modules
@@ -90,17 +93,17 @@ export const MapSearch: React.FC<Props> = (props) => {
       }
     });
 
-    mapRef.current.addControl(
-      new mapboxgl.GeolocateControl({
-        positionOptions: {
-          enableHighAccuracy: true,
-        },
-        // When active the map will receive updates to the device's location as it changes.
-        trackUserLocation: true,
-        // Draw an arrow next to the location dot to indicate which direction the device is heading.
-        showUserHeading: true,
-      })
-    );
+    geoControl = new mapboxgl.GeolocateControl({
+      positionOptions: {
+        enableHighAccuracy: true,
+      },
+      // When active the map will receive updates to the device's location as it changes.
+      trackUserLocation: true,
+      // Draw an arrow next to the location dot to indicate which direction the device is heading.
+      showUserHeading: true,
+    });
+
+    mapRef.current.addControl(geoControl);
   };
 
   /**
@@ -165,17 +168,15 @@ export const MapSearch: React.FC<Props> = (props) => {
    */
 
   useEffect(() => {
+    markersRef.current.forEach((marker) => {
+      marker.marker.getElement().style.opacity =
+        marker.pin.id === props.selectedPlace ? 0.5 : 1;
+    });
+  }, [props.selectedPlace]);
+
+  useEffect(() => {
     updatePins(pins);
   }, [zoomLevel]);
-
-  useEffect(() => {
-    if (props.viewHeight < 1) return;
-    loadMapBox();
-  }, [props.viewHeight]);
-
-  useEffect(() => {
-    setPins(convertPlacesToPins(props.places));
-  }, [props.places]);
 
   useEffect(() => {
     updatePins(pins);
@@ -190,11 +191,13 @@ export const MapSearch: React.FC<Props> = (props) => {
   }, [mapRef.current]);
 
   useEffect(() => {
-    markersRef.current.forEach((marker) => {
-      marker.marker.getElement().style.opacity =
-        marker.pin.id === props.selectedPlace ? 0.5 : 1;
-    });
-  }, [props.selectedPlace]);
+    setPins(convertPlacesToPins(props.places));
+  }, [props.places]);
+
+  useEffect(() => {
+    if (props.viewHeight < 1) return;
+    loadMapBox();
+  }, [props.viewHeight]);
 
   /**
    * Render

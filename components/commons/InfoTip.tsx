@@ -56,6 +56,8 @@ const InfoButton = styled.div`
 
 const InfoIcon = styled.img`
   opacity: 0.5;
+  height: 100%;
+  width: 100%;
 `;
 
 const Window = styled.div<{

@@ -14,7 +14,7 @@ const EventContainer: React.FC<Props> = ({}) => {
   const router = useRouter();
 
   return (
-    <ConsoleShell pathname={router.pathname}>
+    <ConsoleShell pathname={router.pathname} headerLabel="Community">
       <HeadSetter
         pageTitle={`Community | ${cons.APP_NAME}`}
         pageDescription={cons.APP_LONG_DESCRIPTION}

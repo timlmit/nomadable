@@ -1,4 +1,3 @@
-import Link from "next/link";
 import Router, { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
@@ -25,7 +24,6 @@ import { FontSizeSemiSmall } from "../../styles/styled-components/FontSize";
 import { ClickableStyle } from "../../styles/styled-components/Interactions";
 import { MapSearch } from "../commons/MapSearch";
 import { SectionLoader } from "../commons/SectionLoader";
-import { RecentCheckIns } from "./recent-checkins/RecentCheckIns";
 import { FilterModal } from "./search-result/FilterModal";
 import { SearchResult } from "./search-result/SearchResult";
 
@@ -97,15 +95,6 @@ export const TopPage: React.FC<Props> = ({ places }) => {
       latEnd,
       lngEnd,
     });
-
-    router.push(
-      {
-        pathname: "/",
-        query: { latStart, lngStart, latEnd, lngEnd },
-      },
-      undefined,
-      { shallow: true }
-    );
   };
 
   const onClickMarker = (placeId: string) => {
@@ -151,6 +140,19 @@ export const TopPage: React.FC<Props> = ({ places }) => {
   /**
    * Effect
    */
+
+  useEffect(() => {
+    if (!mapArea) return;
+    const { latStart, lngStart, latEnd, lngEnd } = mapArea;
+    router.push(
+      {
+        pathname: "/",
+        query: { latStart, lngStart, latEnd, lngEnd },
+      },
+      undefined,
+      { shallow: true }
+    );
+  }, [mapArea]);
 
   useEffect(() => {
     if (!mapArea) return;

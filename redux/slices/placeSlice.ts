@@ -7,7 +7,7 @@ import {
   apiCheckIn,
   apiFetchPlaceForPage,
   apiFetchPlaces,
-  apiFetchRecentCheckIns,
+  // apiFetchRecentCheckIns,
   apiVoteAvailability,
 } from "./api/apiPlaceSlice";
 import {
@@ -184,9 +184,9 @@ const placeSlice = createSlice({
     builder.addCase(apiFetchPlaces.fulfilled, (state, action) => {
       state.searchResult = action.payload.places;
     });
-    builder.addCase(apiFetchRecentCheckIns.fulfilled, (state, action) => {
-      state.recentCheckIns = action.payload.recentCheckIns;
-    });
+    // builder.addCase(apiFetchRecentCheckIns.fulfilled, (state, action) => {
+    //   state.recentCheckIns = action.payload.recentCheckIns;
+    // });
     builder.addCase(apiPostReview.fulfilled, (state, action) => {
       state.placeForPage.reviewStars = action.payload.reviewStars;
       if (action.payload.isNew) {
@@ -271,5 +271,3 @@ export const selectRecentCheckIns = (state: RootState): Place[] =>
  */
 
 export default placeSlice.reducer;
-
-

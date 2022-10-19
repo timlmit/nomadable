@@ -34,7 +34,6 @@ export const SettingContents: React.FC<Props> = ({}) => {
         visible={apiDeleteStatus.status === cons.API_LOADING}
         message="Deleting..."
       />
-      <Header>Setting</Header>
       <BodyWrapper>
         <Wrapper>Comming soon...</Wrapper>
       </BodyWrapper>
@@ -50,14 +49,6 @@ export const SettingContents: React.FC<Props> = ({}) => {
 const EventContentsWrapper = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-const Header = styled.div`
-  border-bottom: 1px solid ${cons.FONT_COLOR_SUPER_LIGHT};
-  padding: 1rem 2rem;
-  font-weight: bold;
-  color: ${cons.FONT_COLOR_NORMAL};
-  ${FontSizeNormal}
 `;
 
 const BodyWrapper = styled.div`

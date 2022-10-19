@@ -1,4 +1,4 @@
-import { apiFetchRecentCheckIns } from "./apiPlaceSlice";
+// import { apiFetchRecentCheckIns } from "./apiPlaceSlice";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { CallError } from "../../../calls/Types";
@@ -20,6 +20,7 @@ import { ERR_SOMETHING } from "../../../modules/ErrorCode";
 import { saveTokenToCookie } from "../../../modules/AuthUtils";
 import { Contributer } from "../contributerSlice";
 import { removeCookie } from "../../../modules/CookieHandler";
+import { apiFetchNotificationUnseenCnt } from "./apiNotificationSlice";
 
 /**
  * Types
@@ -263,6 +264,9 @@ export const apiFetchUser = createAsyncThunk<
   try {
     const { data } = await callFetchUser();
     if (!data) throw unknownError;
+
+    thunkApi.dispatch(apiFetchNotificationUnseenCnt({}));
+
     return data;
   } catch (error: any) {
     return thunkApi.rejectWithValue(error as CallError);
@@ -327,7 +331,7 @@ export const apiLoginUser = createAsyncThunk<
 
     setTimeout(() => {
       thunkApi.dispatch(apiFetchUser({}));
-      thunkApi.dispatch(apiFetchRecentCheckIns({}));
+      // thunkApi.dispatch(apiFetchRecentCheckIns({}));
     }, 500);
 
     return data;

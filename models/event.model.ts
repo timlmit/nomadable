@@ -11,7 +11,7 @@ export const EventSchema = (mongoose: any) => {
   });
   try {
     EventSchema.index({
-      posted: -1,
+      timestamp: -1,
     });
 
     mongoose.model("Event", EventSchema);

@@ -13,10 +13,15 @@ import {
 } from "../../styles/styled-components/FontSize";
 import { ClickableStyle } from "../../styles/styled-components/Interactions";
 import { ContainerStyleInside } from "../../styles/styled-components/Layouts";
+import { NotificationMarkCss } from "../../styles/styled-components/UIs";
 import { PlaceCard } from "./PlaceCard";
 
+interface EventItemProps extends EventWithData {
+  seen?: boolean;
+}
+
 interface Props {
-  eventWithData: EventWithData;
+  eventWithData: EventItemProps;
 }
 
 export const EventItem: React.FC<Props> = ({
@@ -36,6 +41,8 @@ export const EventItem: React.FC<Props> = ({
     placeType,
     placeName,
     placeAddress,
+    // notification
+    seen,
   },
 }) => {
   const dispatch = useAppDispatch();
@@ -48,6 +55,7 @@ export const EventItem: React.FC<Props> = ({
 
   return (
     <Wrapper>
+      <NotificationMark visible={seen === false} />
       <ItemContainer>
         <ProfilePic src={userPicture} onClick={onClickUser} />
         <MainSection>
@@ -75,7 +83,7 @@ export const EventItem: React.FC<Props> = ({
 
 const Wrapper = styled.div`
   color: ${cons.FONT_COLOR_NORMAL};
-  border-top: 1px solid ${cons.FONT_COLOR_SUPER_LIGHT};
+  border-bottom: 1px solid ${cons.FONT_COLOR_SUPER_LIGHT};
 `;
 
 const ItemContainer = styled.div`
@@ -85,6 +93,7 @@ const ItemContainer = styled.div`
   justify-content: flex-start;
   padding-top: 1rem;
   padding-bottom: 1rem;
+  position: relative;
 `;
 
 const ProfilePic = styled.img`
@@ -138,3 +147,9 @@ const DateTime = styled.div`
 `;
 
 const Body = styled.div``;
+
+const NotificationMark = styled.div<{ visible: boolean }>`
+  ${NotificationMarkCss};
+  left: 4.2rem;
+  top: 1rem;
+`;

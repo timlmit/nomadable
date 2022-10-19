@@ -29,7 +29,7 @@ const AccountContainer: React.FC<Props> = ({}) => {
   }, [apiStatus]);
 
   return (
-    <ConsoleShell pathname={router.pathname}>
+    <ConsoleShell pathname={router.pathname} headerLabel="Profile">
       <HeadSetter
         pageTitle={`Profile | ${cons.APP_NAME}`}
         pageDescription={cons.APP_LONG_DESCRIPTION}

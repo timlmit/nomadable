@@ -17,17 +17,20 @@ import {
   initLoginUserState,
 } from "../../redux/slices/api/apiUserSlice";
 import { updateVisibleModal } from "../../redux/slices/uiSlice";
+import { NotificationMarkCss } from "../../styles/styled-components/UIs";
 
 interface Props {
   visible: boolean;
   authenticated: boolean | undefined;
   hideDropdown: () => void;
+  notificaitonExist: boolean;
 }
 
 export const MenuDropdown: React.FC<Props> = ({
   visible,
   authenticated,
   hideDropdown,
+  notificaitonExist,
 }) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -66,6 +69,10 @@ export const MenuDropdown: React.FC<Props> = ({
           <DropdownItem onClick={() => goToPage("/community")}>
             <ItemIcon src="/icon/group-black.svg" /> Community
           </DropdownItem>
+          <DropdownItem onClick={() => goToPage("/notification")}>
+            <ItemIcon src="/icon/bell-black.svg" /> Notification
+            <NotificationMark visible={notificaitonExist} />
+          </DropdownItem>
           <DropdownItem onClick={() => goToPage("/profile")}>
             <ItemIcon src="/icon/user-black.svg" /> Profile
           </DropdownItem>
@@ -100,20 +107,18 @@ const MenuDropdownWrapper = styled.div`
 `;
 
 const DropdownItem = styled.div`
-  ${DropDownItemStyle}
-`;
-
-const DropdownItemBold = styled.div`
-  ${DropDownItemStyle}
-  font-weight: bold;
+  ${DropDownItemStyle};
+  position: relative;
 `;
 
 const ItemIcon = styled.img`
   ${DropDownIconStyle}
 `;
 
-const Hr = styled.div`
-  height: 1px;
-  width: 100%;
-  background-color: ${cons.FONT_COLOR_SUPER_LIGHT};
+const NotificationMark = styled.div`
+  ${NotificationMarkCss};
+  right: 3rem;
+  top: 1rem;
+  height: 0.7rem;
+  width: 0.7rem;
 `;

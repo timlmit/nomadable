@@ -7,16 +7,25 @@ import * as cons from "../../constants";
 import { useAppSelector } from "../../redux/hooks";
 import { selectAuthenticated } from "../../redux/slices/userSlice";
 import { forMobile } from "../../styles/Responsive";
-import { FontSizeSemiLarge } from "../../styles/styled-components/FontSize";
+import {
+  FontSizeNormal,
+  FontSizeSemiLarge,
+} from "../../styles/styled-components/FontSize";
 import { ClickableStyle } from "../../styles/styled-components/Interactions";
+import { ContainerStyleInside } from "../../styles/styled-components/Layouts";
 import { Layout } from "../commons/Layout";
 
 interface Props {
   pathname: string;
   children: ReactNode;
+  headerLabel: string;
 }
 
-export const ConsoleShell: React.FC<Props> = ({ pathname, children }) => {
+export const ConsoleShell: React.FC<Props> = ({
+  pathname,
+  children,
+  headerLabel,
+}) => {
   const router = useRouter();
   const isAuthenticated = useAppSelector(selectAuthenticated);
 
@@ -40,10 +49,10 @@ export const ConsoleShell: React.FC<Props> = ({ pathname, children }) => {
               Community
             </NavItem>
           </Link>
-          <Link href="/point">
-            <NavItem active={pathname === "/point"}>
-              <NavIcon src="/icon/coin-black.svg" />
-              Point
+          <Link href="/notification">
+            <NavItem active={pathname === "/notification"}>
+              <NavIcon src="/icon/bell-black.svg" />
+              Notification
             </NavItem>
           </Link>
           <Link href="/profile">
@@ -59,7 +68,10 @@ export const ConsoleShell: React.FC<Props> = ({ pathname, children }) => {
             </NavItem>
           </Link>
         </Navigation>
-        <Card>{children}</Card>
+        <Card>
+          <CardHeader>{headerLabel}</CardHeader>
+          {children}
+        </Card>
       </Wrapper>
     </Layout>
   );
@@ -134,4 +146,14 @@ const Card = styled.div`
     margin-left: 0;
     width: 100%;
   `)}
+`;
+
+const CardHeader = styled.div`
+  border-bottom: 1px solid ${cons.FONT_COLOR_SUPER_LIGHT};
+  ${ContainerStyleInside}
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  font-weight: bold;
+  color: ${cons.FONT_COLOR_NORMAL};
+  ${FontSizeNormal}
 `;

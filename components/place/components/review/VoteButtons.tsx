@@ -14,11 +14,17 @@ interface Props {
 
 export const VoteButtons: React.FC<Props> = (props) => {
   const onClickUpvote = () => {
-    props.onClickVote(true, props.upVoters && props.upVoters.includes(props.userId));
+    props.onClickVote(
+      true,
+      props.upVoters && props.upVoters.includes(props.userId)
+    );
   };
 
   const onClickDownvote = () => {
-    props.onClickVote(false, props.downVoters && props.downVoters.includes(props.userId));
+    props.onClickVote(
+      false,
+      props.downVoters && props.downVoters.includes(props.userId)
+    );
   };
 
   return (
@@ -53,7 +59,8 @@ export const VoteButtons: React.FC<Props> = (props) => {
 const VoteButtonsWrapper = styled.div`
   display: inline-flex;
   align-items: center;
-  background-color: rgb(0 0 0 / 5%);
+  border: 1px solid rgb(0 0 0 / 14%);
+  /* background-color: rgb(0 0 0 / 5%); */
   border-radius: 0.4rem;
   border-radius: 10rem;
   padding: 0.5rem 0.8rem;
@@ -72,15 +79,14 @@ const VoteIcon = styled.img`
 
 const UpvoteButton = styled(VoteButton)``;
 
-const UpvoteIcon = styled(VoteIcon)`
-`;
+const UpvoteIcon = styled(VoteIcon)``;
 
 const VoteScore = styled.div`
   color: ${cons.FONT_COLOR_LIGHT};
   margin-left: 0.2rem;
   padding-right: 0.6rem;
   font-weight: 400;
-  border-right: 1px solid rgb(204 204 204)
+  border-right: 1px solid rgb(204 204 204);
 `;
 
 const DownvoteButton = styled(VoteButton)`

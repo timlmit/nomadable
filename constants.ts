@@ -248,3 +248,9 @@ export const getPointPlan = (pointType: string) => {
       return 1;
   }
 };
+
+/**
+ * Notification  Types
+ */
+export const NOTIFY_TYPE_UPV_REVIEW = "upvote_review";
+export const NOTIFY_TYPE_BE_CHECKED_IN = "checked_in";

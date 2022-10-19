@@ -1,12 +1,22 @@
 import Link from "next/link";
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
-import { FONT_COLOR_LIGHT, FONT_COLOR_LIGHTEST } from "../../constants";
+import {
+  COLOR_RED_0,
+  COLOR_RED_1,
+  FONT_COLOR_LIGHT,
+  FONT_COLOR_LIGHTEST,
+  SHADOW_0,
+  SHADOW_1,
+} from "../../constants";
 import { useClickOutsideEffect } from "../../modules/hooks/useClickOutsideEffect";
+import { useAppSelector } from "../../redux/hooks";
+import { selectUnseenNotificationCnt } from "../../redux/slices/notificationSlice";
 import { User } from "../../redux/slices/userSlice";
 import { forMobile } from "../../styles/Responsive";
 import { ClickableStyle } from "../../styles/styled-components/Interactions";
 import { ContainerStyle } from "../../styles/styled-components/Layouts";
+import { NotificationMarkCss } from "../../styles/styled-components/UIs";
 import { MenuDropdown } from "./MenuDropdown";
 
 interface Props {
@@ -24,6 +34,7 @@ export const Header: React.FC<Props> = ({
 }) => {
   const wrapperRef = useRef(null);
   const [dropdownVisible, setDropdownVisible] = useState(false);
+  const notificationCnt = useAppSelector(selectUnseenNotificationCnt);
 
   const hideDropdown = () => {
     setDropdownVisible(false);
@@ -38,6 +49,7 @@ export const Header: React.FC<Props> = ({
           <Brandlogo src="/img/brand/brandlogo.svg" />
         </Link>
         <MenuWrapper ref={wrapperRef}>
+          <NotificationMark visible={notificationCnt > 0} />
           <Menu onClick={() => setDropdownVisible(!dropdownVisible)}>
             <MenuIcon src="/icon/menu-black.png" />
             <UserIcon src={user.picture || "/icon/user-gray.png"} />
@@ -46,6 +58,7 @@ export const Header: React.FC<Props> = ({
             visible={dropdownVisible}
             authenticated={authenticated}
             hideDropdown={hideDropdown}
+            notificaitonExist={notificationCnt > 0}
           />
         </MenuWrapper>
       </PageContainer>
@@ -116,4 +129,8 @@ const UserIcon = styled.img`
   width: 1.7rem;
   border-radius: 50%;
   object-fit: cover;
+`;
+
+const NotificationMark = styled.div<{ visible: boolean }>`
+  ${NotificationMarkCss}
 `;

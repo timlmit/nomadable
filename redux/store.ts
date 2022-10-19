@@ -6,12 +6,14 @@ import placeReducer from "./slices/placeSlice";
 import newPlaceReducer from "./slices/newPlaceSlice";
 import contributerReducer from "./slices/contributerSlice";
 import eventReducer from "./slices/eventSlice";
+import notificationReducer from "./slices/notificationSlice";
 import reviewFormReducer from "./slices/reviewFormSlice";
 import apiUserReducer from "./slices/api/apiUserSlice";
 import apiSpotReducer from "./slices/api/apiSpotSlice";
 import apiPlaceReducer from "./slices/api/apiPlaceSlice";
 import apiEventReducer from "./slices/api/apiEventSlice";
 import apiReviewReducer from "./slices/api/apiReviewSlice";
+import apiNotificationReducer from "./slices/api/apiNotificationSlice";
 
 export const store = configureStore({
   reducer: {
@@ -21,13 +23,14 @@ export const store = configureStore({
     newPlace: newPlaceReducer,
     contributer: contributerReducer,
     event: eventReducer,
+    notification: notificationReducer,
     reviewForm: reviewFormReducer,
     apiUser: apiUserReducer,
     apiSpot: apiSpotReducer,
     apiPlace: apiPlaceReducer,
     apiEvent: apiEventReducer,
     apiReview: apiReviewReducer,
-    // apiSpeedTest: apiSpeedTestReducer,
+    apiNotification: apiNotificationReducer,
   },
 });
 

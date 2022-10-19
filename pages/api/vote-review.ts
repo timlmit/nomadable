@@ -1,4 +1,8 @@
-import { POINT_TYPE_REVIEW } from "./../../constants";
+import {
+  getPointPlan,
+  NOTIFY_TYPE_UPV_REVIEW,
+  POINT_TYPE_REVIEW,
+} from "./../../constants";
 import nextConnect from "next-connect";
 
 import { ERR_SOMETHING } from "../../modules/ErrorCode";
@@ -8,6 +12,11 @@ import { updateReviewStarsOfPlace } from "../../modules/api/updateReviewStarsOfP
 import { makeReviewsWithData } from "../../modules/api/makeReviewsWithData";
 import { distributePointsGeneral } from "../../modules/api/addPoint";
 import { Review } from "../../redux/slices/placeSlice";
+import {
+  addNewNotification,
+  removeNotification,
+} from "../../modules/api/addNewNotification";
+import { Notification } from "../../redux/slices/notificationSlice";
 
 const handler = nextConnect();
 
@@ -44,13 +53,38 @@ handler.post(async (req: any, res: any) => {
 
     await review.save();
 
-    const [reviewWithData] = await makeReviewsWithData(req.mongoose, [
-      review._doc,
-    ]);
+    const [reviewWithData] = await makeReviewsWithData(
+      req.mongoose,
+      [review._doc],
+      userId
+    );
+
+    // add to notification
+    if (clearVote || !isUpvote) {
+      await removeNotification(
+        req.mongoose,
+        review.userId,
+        userId,
+        NOTIFY_TYPE_UPV_REVIEW
+      );
+    } else {
+      const notificationItem: Notification = {
+        notifyTo: review.userId,
+        userId,
+        title: `upvoted your review ⬆️`,
+        timestamp: Date.now(),
+        placeId: review.placeId,
+        body: "",
+        isOfficial: false,
+        notificationType: NOTIFY_TYPE_UPV_REVIEW,
+        seen: false,
+      };
+      await addNewNotification(req.mongoose, notificationItem);
+    }
 
     return res.status(200).json({ reviewWithData });
   } catch (error: any) {
-    console.log('error', error);
+    console.log("error", error);
     return res.status(500).json({ message: ERR_SOMETHING, placeId: "" });
   }
 });

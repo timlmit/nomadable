@@ -34,7 +34,7 @@ interface ApiState {
   apiFetchPlaceForPageStatus: ApiStatus;
   apiCheckInStatus: ApiStatus;
   apiFetchPlacesStatus: ApiStatus;
-  apiFetchRecentCheckInsStatus: ApiStatus;
+  // apiFetchRecentCheckInsStatus: ApiStatus;
   apiFetchDiscoveredPlacesStatus: ApiStatus;
   apiVoteAvailabilityStatus: ApiStatus;
 }
@@ -53,7 +53,7 @@ const initialState: ApiState = {
   apiFetchPlaceForPageStatus: initialApiState,
   apiCheckInStatus: initialApiState,
   apiFetchPlacesStatus: initialApiState,
-  apiFetchRecentCheckInsStatus: initialApiState,
+  // apiFetchRecentCheckInsStatus: initialApiState,
   apiFetchDiscoveredPlacesStatus: initialApiState,
   apiVoteAvailabilityStatus: initialApiState,
 };
@@ -141,20 +141,20 @@ const apiSlice = createSlice({
     });
 
     // Fetch Recent CheckIns
-    builder.addCase(apiFetchRecentCheckIns.pending, (state, action) => {
-      state.apiFetchRecentCheckInsStatus.status = cons.API_LOADING;
-    });
-    builder.addCase(apiFetchRecentCheckIns.fulfilled, (state, action) => {
-      state.apiFetchRecentCheckInsStatus.status = cons.API_SUCCEEDED;
-    });
-    builder.addCase(apiFetchRecentCheckIns.rejected, (state, action) => {
-      state.apiFetchRecentCheckInsStatus.status = cons.API_FALIED;
-      if (action.payload) {
-        state.apiFetchRecentCheckInsStatus.error = action.payload.message;
-      } else {
-        state.apiFetchRecentCheckInsStatus.error = action.error.message || "";
-      }
-    });
+    // builder.addCase(apiFetchRecentCheckIns.pending, (state, action) => {
+    //   state.apiFetchRecentCheckInsStatus.status = cons.API_LOADING;
+    // });
+    // builder.addCase(apiFetchRecentCheckIns.fulfilled, (state, action) => {
+    //   state.apiFetchRecentCheckInsStatus.status = cons.API_SUCCEEDED;
+    // });
+    // builder.addCase(apiFetchRecentCheckIns.rejected, (state, action) => {
+    //   state.apiFetchRecentCheckInsStatus.status = cons.API_FALIED;
+    //   if (action.payload) {
+    //     state.apiFetchRecentCheckInsStatus.error = action.payload.message;
+    //   } else {
+    //     state.apiFetchRecentCheckInsStatus.error = action.error.message || "";
+    //   }
+    // });
 
     // Fetch Discovered Places
     builder.addCase(apiFetchDiscoveredPlaces.pending, (state, action) => {
@@ -280,20 +280,20 @@ export const apiFetchPlaces = createAsyncThunk<
 
 // callFetchPlaces
 
-export const apiFetchRecentCheckIns = createAsyncThunk<
-  { recentCheckIns: Place[] }, // Return type of the payload creator
-  {}, // First argument to the payload creator
-  {
-    rejectValue: CallError;
-  } // Types for ThunkAPI
->("place/FetchRecentCheckIns", async (_, thunkApi) => {
-  try {
-    const { recentCheckIns } = await callRecentCheckIns();
-    return { recentCheckIns };
-  } catch (error: any) {
-    return thunkApi.rejectWithValue(error as CallError);
-  }
-});
+// export const apiFetchRecentCheckIns = createAsyncThunk<
+//   { recentCheckIns: Place[] }, // Return type of the payload creator
+//   {}, // First argument to the payload creator
+//   {
+//     rejectValue: CallError;
+//   } // Types for ThunkAPI
+// >("place/FetchRecentCheckIns", async (_, thunkApi) => {
+//   try {
+//     const { recentCheckIns } = await callRecentCheckIns();
+//     return { recentCheckIns };
+//   } catch (error: any) {
+//     return thunkApi.rejectWithValue(error as CallError);
+//   }
+// });
 
 // callFetchDiscoveredPlaces
 
@@ -362,9 +362,9 @@ export const selectApiCheckInStatus = (state: RootState): ApiStatus =>
 export const selectApiFetchPlacesStatus = (state: RootState): ApiStatus =>
   state.apiPlace.apiFetchPlacesStatus;
 
-export const selectApiFetchRecentCheckInsStatus = (
-  state: RootState
-): ApiStatus => state.apiPlace.apiFetchRecentCheckInsStatus;
+// export const selectApiFetchRecentCheckInsStatus = (
+//   state: RootState
+// ): ApiStatus => state.apiPlace.apiFetchRecentCheckInsStatus;
 
 export const selectApiFetchDiscoveredPlacesStatus = (
   state: RootState

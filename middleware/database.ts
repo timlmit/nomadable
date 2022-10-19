@@ -10,6 +10,7 @@ import { PointSchema } from "../models/point.model";
 import { EventSchema } from "../models/event.model";
 import { ReviewSchema } from "../models/review.model";
 import { AvailabilitySchema } from "../models/availability.model";
+import { NotificationSchema } from "../models/notification.model";
 
 mongoose.connect(process.env.DB_URL);
 
@@ -23,6 +24,7 @@ async function database(req: any, res: any, next: any) {
   EventSchema(mongoose);
   ReviewSchema(mongoose);
   AvailabilitySchema(mongoose);
+  NotificationSchema(mongoose);
   req.mongoose = mongoose;
   next();
 }

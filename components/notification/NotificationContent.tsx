@@ -4,36 +4,32 @@ import styled from "styled-components";
 import * as cons from "../../constants";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
-  apiFetchLatestEvents,
-  selectApiFetchLatestEventsStatus,
-} from "../../redux/slices/api/apiEventSlice";
-import {
-  EventWithData,
-  selectLatestEvents,
-} from "../../redux/slices/eventSlice";
-import { FontSizeNormal } from "../../styles/styled-components/FontSize";
+  apiFetchLatestNotifications,
+  selectApiFetchLatestNotificationsStatus,
+} from "../../redux/slices/api/apiNotificationSlice";
+import { selectLatestNotifications } from "../../redux/slices/notificationSlice";
 import { ClickableStyle } from "../../styles/styled-components/Interactions";
 import { SectionLoader } from "../commons/SectionLoader";
-import { EventItem } from "./EventItem";
+import { EventItem } from "../event/EventItem";
 
 interface Props {}
 
-export const EventContents: React.FC<Props> = ({}) => {
+export const NotificationContent: React.FC<Props> = ({}) => {
   const dispatch = useAppDispatch();
-  const latestEvents = useAppSelector(selectLatestEvents);
-  const apiStatus = useAppSelector(selectApiFetchLatestEventsStatus);
+  const latestNotifications = useAppSelector(selectLatestNotifications);
+  const apiStatus = useAppSelector(selectApiFetchLatestNotificationsStatus);
 
   const [pageIndex, setPageIndex] = useState(0);
 
   const onClickLoadMore = () => {
     const newPageIndex = pageIndex + 1;
-    dispatch(apiFetchLatestEvents({ pageIndex: newPageIndex }));
+    dispatch(apiFetchLatestNotifications({ pageIndex: newPageIndex }));
     setPageIndex(newPageIndex);
   };
 
   useEffect(() => {
     if (apiStatus.status === cons.API_IDLE) {
-      dispatch(apiFetchLatestEvents({ pageIndex }));
+      dispatch(apiFetchLatestNotifications({ pageIndex }));
     }
   }, [apiStatus.status]);
 
@@ -41,7 +37,7 @@ export const EventContents: React.FC<Props> = ({}) => {
     <EventContentsWrapper>
       <BodyWrapper>
         <EventsWrapper>
-          {latestEvents.map((evt) => {
+          {latestNotifications.map((evt) => {
             return <EventItem key={evt.timestamp} eventWithData={evt} />;
           })}
         </EventsWrapper>

@@ -8,6 +8,7 @@ import { Layout } from "../../components/commons/Layout";
 import * as cons from "../../constants";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import HeadSetter from "../../components/commons/HeadSetter";
+import { NotificationContent } from "../../components/notification/NotificationContent";
 
 interface Props {}
 
@@ -15,13 +16,13 @@ const PointContainer: React.FC<Props> = ({}) => {
   const router = useRouter();
 
   return (
-    <ConsoleShell pathname={router.pathname}>
+    <ConsoleShell pathname={router.pathname} headerLabel="Notification">
       <HeadSetter
-        pageTitle={`Point | ${cons.APP_NAME}`}
+        pageTitle={`Notification | ${cons.APP_NAME}`}
         pageDescription={cons.APP_LONG_DESCRIPTION}
-        pagePath={`${cons.APP_URL}/point`}
+        pagePath={`${cons.APP_URL}/notification`}
       />
-      <Wrapper>Comming soon...</Wrapper>
+      <NotificationContent />
     </ConsoleShell>
   );
 };
