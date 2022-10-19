@@ -188,6 +188,7 @@ export const TopPage: React.FC<Props> = ({ places }) => {
     if (filterCnt < 1) return null;
     return <FilterCnt>{filterCnt}</FilterCnt>;
   };
+  //
 
   return (
     <TopPageWrapper>
