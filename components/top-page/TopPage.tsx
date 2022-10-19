@@ -260,7 +260,7 @@ const TopPageWrapper = styled.div`
     position: relative;
     background-color: #c9d2d3;
     margin-left: -2rem;
-    width: calc(100% + 3rem);
+    width: calc(100% + 2.7rem);
   `)}
 `;
 
