@@ -3,6 +3,34 @@ import styled, { css } from "styled-components";
 import * as cons from "../../constants";
 import * as fs from "../../styles/styled-components/FontSize";
 
+export const Header1 = css`
+  font-size: 2rem;
+  font-weight: 700;
+  color: ${cons.FONT_COLOR_NORMAL};
+  line-height: 1.3em;
+`;
+
+export const Header2 = css`
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: ${cons.FONT_COLOR_NORMAL};
+  line-height: 1.3em;
+`;
+
+export const Header3 = css`
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: ${cons.FONT_COLOR_NORMAL};
+  line-height: 1.3em;
+`;
+
+export const Header4 = css`
+  font-size: 1rem;
+  font-weight: 700;
+  color: ${cons.FONT_COLOR_NORMAL};
+  line-height: 1.3em;
+`;
+
 export const HeaderSmall = css`
   ${fs.FontSizeSemiLarge};
   font-weight: 700;
@@ -15,9 +43,14 @@ export const Paragraph = css`
   ${fs.FontSizeNormal}
   line-height: 1.4em;
   font-weight: 400;
-  color: ${cons.FONT_COLOR_SECONDARY};
+  color: ${cons.FONT_COLOR_NORMAL};
   margin-bottom: 1em;
   /* color: ${cons.FONT_COLOR_LIGHT}; */
+`;
+
+export const ParagraphLarge = css`
+  ${Paragraph}
+  ${fs.FontSizeSemiLarge}
 `;
 
 export const Bold = styled.span<{ color?: string }>`

@@ -72,6 +72,7 @@ export const callFetchReviews = async (params: {
   userId: string;
   loadedCnt: number;
   loadingCnt: number;
+  latest?: boolean;
 }): Promise<{
   reviews: ReviewWithPlaceData[];
 }> => {

@@ -40,11 +40,10 @@ export const Layout: React.FC<Props> = ({
 
 const PageWrapper = styled.div<{ bgColor?: string }>`
   background-color: ${(props) => props.bgColor};
-  min-height: 100vh;
+  /* min-height: 100vh; */
 
   ${forMobile(`
     // width: calc(100% - 2rem);
-
   `)}
 `;
 

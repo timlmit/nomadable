@@ -189,7 +189,7 @@ export const apiFetchReviews = createAsyncThunk<
   {
     reviews: ReviewWithPlaceData[];
   }, // Return type of the payload creator
-  { userId: string; loadedCnt: number; loadingCnt: number }, // First argument to the payload creator
+  { userId: string; loadedCnt: number; loadingCnt: number; latest?: boolean }, // First argument to the payload creator
   {
     rejectValue: CallError;
   } // Types for ThunkAPI

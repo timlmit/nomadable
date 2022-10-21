@@ -1,3 +1,4 @@
+import { FilterObj, PlaceWithData } from "../../redux/slices/placeSlice";
 import * as cons from "./../../constants";
 import * as ct from "./cities";
 /**
@@ -8,13 +9,14 @@ export interface Article {
   slug: string;
   city: ct.City;
   title: string;
-  rules: {
-    placeType: string[];
-    availability: string[];
-    placeCnt: number;
-  };
+  filterObj: FilterObj;
+  placeCnt: number;
   omitPlaceIds: string[];
   omitReviewIds: string[];
+}
+
+export interface ArticleWithData extends Article {
+  placesWithData: PlaceWithData[];
 }
 
 /**
@@ -22,27 +24,27 @@ export interface Article {
  */
 
 const BANGKOK_CORWORKING: Article = {
-  slug: "top-5-coworking-spaces",
+  slug: `top-5-coworking-spaces-${ct.THAILAND_BANGKOK.slug}`,
   city: ct.THAILAND_BANGKOK,
   title: "Top 5 Coworking Spaces in Bangkok, Thailand",
-  rules: {
-    placeType: [cons.PLACE_TYPE_WORKSPACE],
+  filterObj: {
+    placeTypes: [cons.PLACE_TYPE_WORKSPACE],
     availability: [cons.AVL_DROP_IN],
-    placeCnt: 5,
   },
+  placeCnt: 5,
   omitPlaceIds: [],
   omitReviewIds: [],
 };
 
 const BANGKOK_CAFE: Article = {
-  slug: "top-5-wifi-cafes",
+  slug: `top-5-wifi-cafes-${ct.THAILAND_BANGKOK.slug}`,
   city: ct.THAILAND_BANGKOK,
   title: "Top 5 WiFi Cafes in Bangkok, Thailand to Work & Study From",
-  rules: {
-    placeType: [cons.PLACE_TYPE_CAFE],
+  filterObj: {
+    placeTypes: [cons.PLACE_TYPE_CAFE],
     availability: [],
-    placeCnt: 5,
   },
+  placeCnt: 5,
   omitPlaceIds: [],
   omitReviewIds: [],
 };
@@ -51,11 +53,9 @@ const BANGKOK_CAFE: Article = {
  * Export
  */
 
-const articles: Article[] = [
+export const ARTICLES: Article[] = [
   // South East Asia
   BANGKOK_CORWORKING,
   BANGKOK_CAFE,
   // East Europe
 ];
-
-export default articles;

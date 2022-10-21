@@ -76,6 +76,9 @@ export const MenuDropdown: React.FC<Props> = ({
           <DropdownItem onClick={() => goToPage("/profile")}>
             <ItemIcon src="/icon/user-black.svg" /> Profile
           </DropdownItem>
+          <DropdownItem onClick={() => goToPage("/cities")}>
+            <ItemIcon src="/icon/place-black.svg" /> Cities
+          </DropdownItem>
           <DropdownItem onClick={() => goToPage("/setting")}>
             <ItemIcon src="/icon/gear-black.svg" /> Setting
           </DropdownItem>

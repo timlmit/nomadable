@@ -96,6 +96,7 @@ export const LocationVerification: React.FC<Props> = (props) => {
           lng={props.spotLng}
           interactive={false}
           mapId="location-verification"
+          withPin
         />
       </MapWrapper>
       <Footer>

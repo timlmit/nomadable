@@ -18,9 +18,14 @@ const ButtonBase = css`
  */
 
 const SizeLarge = css`
-  ${FontSizeNormal}
+  /* ${FontSizeNormal}
   border-radius: 0.2rem;
-  padding: 1.2rem 2rem;
+  padding: 1.2rem 2rem; */
+
+  border-radius: 0.2rem;
+  height: 3.4rem;
+  padding: 0 2.8rem;
+  font-size: 1.1rem;
 `;
 
 const SizeMedium = css`
@@ -109,6 +114,20 @@ const ColorWhite = css<{ disabled?: boolean }>`
   `};
 `;
 
+const ColorRed = css<{ disabled?: boolean }>`
+  background-color: ${cons.COLOR_RED_0};
+  color: white;
+  ${(props) =>
+    props.disabled &&
+    `
+    cursor: not-allowed;
+    pointer-events: none !important;
+    background-color: ${cons.FONT_COLOR_LIGHTEST};
+    color: ${cons.FONT_COLOR_NORMAL};
+    opacity: 0.7;
+  `}
+`;
+
 /**
  * Export Buttons
  */
@@ -171,6 +190,18 @@ export const ButtonGraySmall = css`
   ${ButtonBase}
   ${SizeSmall}
   ${ColorGray}
+`;
+
+export const ButtonRedLarge = css`
+  ${ButtonBase}
+  ${SizeLarge}
+  ${ColorRed}
+`;
+
+export const ButtonRedMedium = css`
+  ${ButtonBase}
+  ${SizeMedium}
+  ${ColorRed}
 `;
 
 export const ButtonText = css`

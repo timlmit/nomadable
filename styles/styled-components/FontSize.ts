@@ -5,6 +5,10 @@ export const FontSizeHeroLarge = css`
   font-size: 4rem;
 `;
 
+export const FontSizeHeaderLarge = css`
+  font-size: 2.2rem;
+`;
+
 export const FontSizeExLarge = css`
   font-size: 1.9rem;
 `;

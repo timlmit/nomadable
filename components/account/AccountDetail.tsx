@@ -74,6 +74,7 @@ export const AccountDetail: React.FC<Props> = ({
         userId,
         loadedCnt,
         loadingCnt: 15,
+        latest: true,
       })
     );
   };

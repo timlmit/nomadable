@@ -13,6 +13,8 @@ const openUrls = [
   "/api/all-place-ids",
   "/api/discovered-places",
   "/api/reviews",
+  "/api/cities-with-data",
+  "/api/articles-with-data",
 ];
 
 const withoutAuth = (url: string): boolean => {

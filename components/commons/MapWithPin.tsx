@@ -9,6 +9,7 @@ interface Props {
   interactive: boolean;
   lat: number | null;
   lng: number | null;
+  withPin: boolean;
 }
 
 export const MapWithPin: React.FC<Props> = (props) => {
@@ -35,7 +36,7 @@ export const MapWithPin: React.FC<Props> = (props) => {
     });
 
     // Create a default Marker and add it to the mapbox.
-    if (lng && lat) {
+    if (lng && lat && props.withPin) {
       const marker1 = new mapboxgl.Marker({ color: "black" })
         .setLngLat([lng, lat])
         .addTo(map);

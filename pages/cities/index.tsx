@@ -1,44 +1,68 @@
 import { GetStaticProps } from "next";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { callFetchCitiesWithData } from "../../calls/placeCalls";
+import { Breadcrumb } from "../../components/app-commons/Breadcrumb";
+import { CitiesSection } from "../../components/cities/CitiesSection";
+import { Layout } from "../../components/commons/Layout";
+import {
+  CONTAINER_WIDTH_NARROW,
+  CONTAINER_WIDTH_SO_NARROW,
+} from "../../constants";
 
-import { CITIES, City } from "../../data/articles/cities";
+import {
+  CITIES,
+  City,
+  CityMetaData,
+  CityWithData,
+} from "../../data/articles/cities";
+import citiesWithData from "../api/cities-with-data";
 
 interface Props {
-  cities: City[];
+  citiesWithData: CityWithData[];
 }
 
+const BREADCRUMBS = [{ text: "Cities", url: "/cities" }];
+
 const Cities: React.FC<Props> = (props) => {
+  const [_citiesWithData, setCitiesWithData] = useState<CityWithData[]>([]);
+
+  const fetchData = async () => {
+    const { citiesWithData } = await callFetchCitiesWithData(CITIES);
+    setCitiesWithData(citiesWithData);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [null]);
+
   return (
-    <div>
-      {CITIES.map((city) => (
-        <div key={city.slug}>
-          <Image src={city.thumbnail} alt="city" width={100} height={100} />
-        </div>
-      ))}
-    </div>
+    <Layout width={CONTAINER_WIDTH_NARROW} fixed>
+      <Breadcrumb breadcrumbs={BREADCRUMBS} />
+      <CitiesSection citiesWithData={_citiesWithData || props.citiesWithData} />
+    </Layout>
   );
 };
 
 export default Cities;
 
-// export const getStaticProps: GetStaticProps = async ({ params }) => {
-//   try {
-//     if (!params || typeof params.placeId !== "string") throw Error;
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  try {
+    if (!params || typeof params.placeId !== "string") throw Error;
 
-//     const cities = CITIES;
+    const { citiesWithData } = await callFetchCitiesWithData(CITIES);
 
-//     return {
-//       props: {
-//         cities,
-//       },
-//       revalidate: 1, // regenerate the static page on the access after 1 second later from the previous access
-//     };
-//   } catch (err: any) {
-//     return {
-//       props: {
-//         cities: [],
-//       },
-//     };
-//   }
-// };
+    return {
+      props: {
+        citiesWithData,
+      },
+      revalidate: 1, // regenerate the static page on the access after 1 second later from the previous access
+    };
+  } catch (err: any) {
+    return {
+      props: {
+        citiesWithData: [],
+      },
+    };
+  }
+};

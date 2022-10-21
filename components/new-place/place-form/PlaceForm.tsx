@@ -90,6 +90,7 @@ export const PlaceForm: React.FC<Props> = ({
           lat={newPlace.spotLat}
           lng={newPlace.spotLng}
           mapId="create-place"
+          withPin
         />
       </MapWrapper>
     </PlaceFormShell>

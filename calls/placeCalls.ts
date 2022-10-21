@@ -8,6 +8,8 @@ import {
   Vote,
 } from "../redux/slices/placeSlice";
 import { readCookie } from "../modules/CookieHandler";
+import { City, CityWithData } from "../data/articles/cities";
+import { Article, ArticleWithData } from "../data/articles/articles";
 
 export const callCreatePlace = async (
   place: Place
@@ -204,6 +206,48 @@ export const callVoteAvailability = async (params: {
       headers: {
         Authorization: readCookie(COOKIE_ACCESS_TOKEN) || "",
       },
+    });
+
+    return response.data;
+  } catch (error: any) {
+    throw {
+      code: "",
+      message: error.response.data.message,
+    };
+  }
+};
+
+//
+
+export const callFetchCitiesWithData = async (
+  params: City[]
+): Promise<{ citiesWithData: CityWithData[] }> => {
+  try {
+    const response = await axios({
+      method: "post",
+      url: `${APP_URL}/api/cities-with-data`,
+      data: { cities: params },
+    });
+
+    return response.data;
+  } catch (error: any) {
+    throw {
+      code: "",
+      message: error.response.data.message,
+    };
+  }
+};
+
+// callFetchArticlesWithData
+
+export const callFetchArticlesWithData = async (
+  params: Article[]
+): Promise<{ articlesWithData: ArticleWithData[] }> => {
+  try {
+    const response = await axios({
+      method: "post",
+      url: `${APP_URL}/api/articles-with-data`,
+      data: { articles: params },
     });
 
     return response.data;

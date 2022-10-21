@@ -11,15 +11,15 @@ handler.use(databaseMiddleware);
 handler.use(authenticationMiddleware);
 
 handler.get(async (req: any, res: any) => {
-  const { userId, loadedCnt, loadingCnt } = req.query;
+  const { userId, loadedCnt, loadingCnt, latest } = req.query;
 
   try {
     const Review = req.mongoose.model("Review");
 
+    const sortObj = latest ? { created: -1 } : { voteScore: -1 };
+
     const reviews = await Review.find({ userId })
-      .sort({
-        voteScore: -1,
-      })
+      .sort(sortObj)
       .skip(loadedCnt)
       .limit(loadingCnt)
       .lean();

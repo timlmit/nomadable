@@ -3,7 +3,10 @@ import styled from "styled-components";
 
 import * as cons from "../../../constants";
 import * as fs from "../../../styles/styled-components/FontSize";
-import { ButtonPrimaryLarge } from "../../../styles/styled-components/Buttons";
+import {
+  ButtonPrimaryLarge,
+  ButtonPrimaryMedium,
+} from "../../../styles/styled-components/Buttons";
 import { NetSpeedIndicator } from "../../commons/NetSpeedIndicator";
 import { SectionLoader } from "../../commons/SectionLoader";
 import { forMobile } from "../../../styles/Responsive";
@@ -156,8 +159,11 @@ const CheckInNumber = styled.span`
 `;
 
 const CheckInButton = styled.button`
-  ${ButtonPrimaryLarge};
+  ${ButtonPrimaryMedium};
   margin-top: 1rem;
+  height: 5rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
 
   ${(props) =>
     props.disabled &&
