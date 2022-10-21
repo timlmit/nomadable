@@ -114,12 +114,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     if (!article) throw Error;
 
     // get articles
-    console.log("fetching");
     const { articlesWithData } = await callFetchArticlesWithData([article]);
-    console.log(
-      "🚀 ~ file: [articleSlug].tsx ~ line 118 ~ constgetStaticProps:GetStaticProps= ~ articlesWithData",
-      articlesWithData
-    );
 
     return {
       props: {

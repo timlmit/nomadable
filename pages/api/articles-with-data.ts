@@ -14,10 +14,6 @@ handler.use(authenticationMiddleware);
 
 handler.post(async (req: any, res: any) => {
   const { articles } = req.body;
-  console.log(
-    "🚀 ~ file: articles-with-data.ts ~ line 17 ~ handler.post ~ articles",
-    articles
-  );
 
   try {
     const articlesWithData: ArticleWithData[] = [];
@@ -25,10 +21,6 @@ handler.post(async (req: any, res: any) => {
 
     while (articlesWithData.length < articles.length) {
       const article: Article = articles[loopCnt];
-      console.log(
-        "🚀 ~ file: articles-with-data.ts ~ line 25 ~ handler.post ~ article",
-        article
-      );
 
       const places = await fetchPlacesWithFilter(
         req.mongoose,
@@ -36,10 +28,6 @@ handler.post(async (req: any, res: any) => {
         article.filterObj,
         0,
         article.placeCnt
-      );
-      console.log(
-        "🚀 ~ file: articles-with-data.ts ~ line 34 ~ handler.post ~ places",
-        places
       );
 
       const placesWithData = await Promise.all([
@@ -50,11 +38,6 @@ handler.post(async (req: any, res: any) => {
         return values;
       });
 
-      console.log(
-        "🚀 ~ file: articles-with-data.ts ~ line 61 ~ handler.post ~ placesWithData",
-        placesWithData
-      );
-
       articlesWithData.push({ ...article, placesWithData: placesWithData });
 
       loopCnt += 1;
@@ -62,10 +45,6 @@ handler.post(async (req: any, res: any) => {
 
     return res.status(200).json({ articlesWithData });
   } catch (error: any) {
-    console.log(
-      "🚀 ~ file: articles-with-data.ts ~ line 48 ~ handler.post ~ error",
-      error
-    );
     return res.status(500).json({ message: ERR_SOMETHING, placeId: "" });
   }
 });
