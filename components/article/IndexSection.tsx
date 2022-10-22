@@ -22,7 +22,7 @@ export const IndexSection: React.FC<Props> = ({
     <IndexSectionWrapper>
       <Label>
         <Square />
-        Contents
+        List
       </Label>
       <IndexesWrapper>
         {placesWithData.map((place, index) => (
