@@ -4,10 +4,6 @@ export const GlobalHead = () => (
   <Fragment>
     {/* <meta name="google-signin-scope" content="profile email" /> */}
     {/* <meta name="google-signin-client_id" content={process.env.GAPI_CLIENT_ID} /> */}
-    <link
-      href="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.css"
-      rel="stylesheet"
-    />
 
     <meta
       name="viewport"
@@ -104,6 +100,19 @@ export const GlobalHead = () => (
         `,
       }}
     />
+
+    {/* MapBox */}
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.css"
+      rel="stylesheet"
+    />
+
+    {/* Plausible Analytics */}
+    <script
+      defer
+      data-domain="nomadable.net"
+      src="https://plausible.io/js/plausible.js"
+    ></script>
 
     {/* Speed Test */}
     <script src="//speedof.me/api/api.js" type="text/javascript" async />

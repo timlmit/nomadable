@@ -6,6 +6,7 @@ import * as cons from "../../../constants";
 import { Article, ArticleWithData } from "../../../data/articles/articles";
 import { Boundary, CityWithData } from "../../../data/articles/cities";
 import newPlace from "../../../pages/new-place";
+import { forMobile } from "../../../styles/Responsive";
 import { ButtonRedLarge } from "../../../styles/styled-components/Buttons";
 import { CardBoaderCss } from "../../../styles/styled-components/Card";
 import { ClickableStyle } from "../../../styles/styled-components/Interactions";
@@ -88,6 +89,15 @@ const Card = styled.div`
   height: 17rem;
   max-width: 52rem;
   border-radius: 0.8rem;
+
+  ${forMobile(`
+    height: auto;
+    border:none;
+    border-radius: 0;
+    text-align: center;
+    border-bottom: 1px solid ${cons.FONT_COLOR_SUPER_LIGHT};
+    padding-bottom: 2.5rem;
+  `)}
 `;
 
 const LeftSection = styled.div`
@@ -95,6 +105,11 @@ const LeftSection = styled.div`
   width: 60%;
   padding: 3rem;
   /* height: 100%; */
+
+  ${forMobile(`
+  width: 100%;
+  padding: 0;
+  `)}
 `;
 
 const CardHeader = styled.h1`
@@ -110,13 +125,20 @@ const MapWrapper = styled.div`
   background-color: ${cons.FONT_COLOR_SUPER_LIGHT};
   width: 40%;
   height: 100%;
-  /* border-radius: 0.8rem; */
+
+  ${forMobile(`
+  display:none;
+  `)}
 `;
 
 // Articles
 
 const ArticleSection = styled.div`
   margin-top: 2rem;
+
+  ${forMobile(`
+    margin-top: 1.5rem;
+  `)}
 `;
 
 const ArticleHeader = styled.div`
@@ -131,5 +153,9 @@ const ArticlesWrapper = styled.div`
 `;
 
 const ArticleItemWrapper = styled.div`
-  ${ClickableStyle}
+  ${ClickableStyle};
+
+  ${forMobile(`
+    width: calc(50% - 0.5rem);
+  `)}
 `;

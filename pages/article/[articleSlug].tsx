@@ -8,6 +8,7 @@ import {
 import { Breadcrumb } from "../../components/app-commons/Breadcrumb";
 import { ArticleSection } from "../../components/article/ArticleSection";
 import { CitySection } from "../../components/cities/city/CitySection";
+import HeadSetter from "../../components/commons/HeadSetter";
 import { Layout } from "../../components/commons/Layout";
 import {
   CONTAINER_WIDTH_NARROW,
@@ -18,6 +19,7 @@ import {
   Article,
   ArticleWithData,
 } from "../../data/articles/articles";
+import * as cons from "../../constants";
 
 interface Props {
   articleWithData: ArticleWithData;
@@ -37,6 +39,15 @@ const ArticlePage: React.FC<Props> = (props) => {
     if (!article) return;
     const { articlesWithData } = await callFetchArticlesWithData([article]);
     setArticle(articlesWithData[0]);
+  };
+
+  const generatePageDescription = () => {
+    return `
+      ${_article.title} (with WiFi speed information): 
+      ${_article.placesWithData
+        .map((p, index) => ` ${index + 1}. ${p.spotName}`)
+        .join(" · ")}.
+    `;
   };
 
   /**
@@ -60,6 +71,11 @@ const ArticlePage: React.FC<Props> = (props) => {
 
   return (
     <Layout width={CONTAINER_WIDTH_SO_NARROW} fixed>
+      <HeadSetter
+        pageTitle={`${_article.title} | ${cons.APP_NAME}`}
+        pageDescription={generatePageDescription()}
+        pagePath={`${cons.APP_URL}/article/${_article.slug}`}
+      />
       <Breadcrumb
         breadcrumbs={[
           { text: "Cities", url: "/cities" },

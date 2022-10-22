@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 import * as cons from "../../constants";
 import { CityWithData } from "../../data/articles/cities";
+import { forMobile } from "../../styles/Responsive";
 import { AnimationSlideUp } from "../../styles/styled-components/Animations";
 import * as fs from "../../styles/styled-components/FontSize";
 import { ClickableStyle } from "../../styles/styled-components/Interactions";
@@ -44,6 +45,12 @@ const CityItemWrapper = styled.a`
   width: 25%;
   ${AnimationSlideUp}
   display:block;
+
+  ${forMobile(`
+    width: 100%;
+    margin-bottom: 1.1rem;
+    height: 14rem;
+  `)}
 `;
 
 const CityCard = styled.div<{ imgUrl: string }>`
@@ -102,6 +109,10 @@ const CountryName = styled.div`
 const Label = styled.div`
   color: ${cons.FONT_COLOR_NORMAL};
   margin-top: 0.6rem;
+
+  ${forMobile(`
+  margin-top: 0.3rem;
+  `)}
 `;
 
 const Bold = styled.span`

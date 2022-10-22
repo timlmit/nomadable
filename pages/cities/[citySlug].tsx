@@ -7,8 +7,9 @@ import {
 } from "../../calls/placeCalls";
 import { Breadcrumb } from "../../components/app-commons/Breadcrumb";
 import { CitySection } from "../../components/cities/city/CitySection";
+import HeadSetter from "../../components/commons/HeadSetter";
 import { Layout } from "../../components/commons/Layout";
-import { CONTAINER_WIDTH_NARROW } from "../../constants";
+import { APP_NAME, APP_URL, CONTAINER_WIDTH_NARROW } from "../../constants";
 import {
   ARTICLES,
   Article,
@@ -50,6 +51,15 @@ const CityPage: React.FC<Props> = (props) => {
     setArticles(articlesWithData);
   };
 
+  const generatePageDescription = () => {
+    return `
+      Find best cafes & coworking spaces to work from in ${ct.city}, ${
+      ct.country
+    } (with WiFi speed information).
+      ${_articles.map((at) => ` ${at.title}`).join(" · ")}.
+    `;
+  };
+
   /**
    * Efect
    */
@@ -69,6 +79,11 @@ const CityPage: React.FC<Props> = (props) => {
 
   return (
     <Layout width={CONTAINER_WIDTH_NARROW} fixed>
+      <HeadSetter
+        pageTitle={`Find Places to Work From in ${ct.city}, ${ct.country} | ${APP_NAME}`}
+        pageDescription={generatePageDescription()}
+        pagePath={`${APP_URL}/cities/${ct.slug}`}
+      />
       <Breadcrumb
         breadcrumbs={[
           { text: "Cities", url: "/cities" },

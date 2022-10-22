@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 import * as cons from "../../constants";
 import { PlaceWithData } from "../../redux/slices/placeSlice";
+import { forMobile } from "../../styles/Responsive";
 import * as fs from "../../styles/styled-components/FontSize";
 import {
   Header2,
@@ -51,7 +52,11 @@ export const ArticlePlaceItem: React.FC<Props> = ({ index, placeWithData }) => {
           </BodyTextFlex>
         </InternetSpeed>
         <Review>
-          <BodyLabel>Review by {pl.userName}</BodyLabel>
+          <BodyLabel>
+            {(pl.reviewsWithData.length > 0 &&
+              `Review by ${pl.reviewsWithData[0].userName}`) ||
+              "No reviews yet"}
+          </BodyLabel>
           <BodyText>
             {pl.reviewsWithData.length > 0 && pl.reviewsWithData[0].comment}
           </BodyText>
@@ -87,6 +92,10 @@ const HeaderImage = styled.img`
   border-radius: 0.6rem;
   height: 18rem;
   object-fit: cover;
+
+  ${forMobile(`
+    height: 14rem;
+  `)}
 `;
 
 const BodySection = styled.div``;

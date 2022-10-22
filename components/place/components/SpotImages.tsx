@@ -75,6 +75,11 @@ const LargeImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+
+  ${forMobile(`
+    border-top-left-radius: 0.8rem;
+    border-bottom-left-radius: 0.8rem;
+`)}
 `;
 
 const SmallImageSection = styled.div`

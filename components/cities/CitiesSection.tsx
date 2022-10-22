@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import * as cons from "../../constants";
 import { CityWithData } from "../../data/articles/cities";
+import { forMobile } from "../../styles/Responsive";
 import * as fs from "../../styles/styled-components/FontSize";
 import { CityItem } from "./CityItem";
 
@@ -31,9 +32,14 @@ const Title = styled.div`
   color: ${cons.FONT_COLOR_NORMAL};
   margin-bottom: 2.5rem;
   margin-top: 1.5rem;
+
+  ${forMobile(`
+    margin-bottom: 1.8rem;
+  `)}
 `;
 
 const Container = styled.div`
   display: flex;
   gap: 1.5rem;
+  flex-wrap: wrap;
 `;

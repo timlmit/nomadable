@@ -68,7 +68,7 @@ export const CITIES: City[] = [
    * South East Asia
    */
   THAILAND_BANGKOK,
-  THAILAND_CHIANGMAI,
+  // THAILAND_CHIANGMAI,
   /**
    * East Europe
    */

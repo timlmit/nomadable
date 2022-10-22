@@ -37,6 +37,10 @@ const PlaceContainer: React.FC<Props> = (props) => {
     ? placeWithData
     : props.placeWithData || initialPlaceWithData;
 
+  const generateDescription = () => {
+    return `Is ${props.placeWithData?.spotName} a good place to work from? Find out their wifi speed, power outlets, and more, and read reviews by other digital nomads.`;
+  };
+
   /**
    * Effect
    */
@@ -62,7 +66,7 @@ const PlaceContainer: React.FC<Props> = (props) => {
     <Layout width={cons.CONTAINER_WIDTH_NARROW}>
       <HeadSetter
         pageTitle={`${pd.spotName} | ${cons.APP_NAME}`}
-        pageDescription={cons.APP_LONG_DESCRIPTION}
+        pageDescription={generateDescription()}
         pagePath={`${cons.APP_URL}/place/${pd.id}`}
       />
       {/* <SectionLoader

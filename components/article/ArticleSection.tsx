@@ -10,6 +10,7 @@ import {
 } from "../../modules/DateUtils";
 import { useInviewElement } from "../../modules/hooks/useInViewElm";
 import { useScrolllPosition } from "../../modules/hooks/useScrollPosition";
+import { forMobile } from "../../styles/Responsive";
 import { ButtonRedMedium } from "../../styles/styled-components/Buttons";
 import * as fs from "../../styles/styled-components/FontSize";
 import {
@@ -98,16 +99,30 @@ const HeaderImage = styled.img`
   border-radius: 0.8rem;
   height: 22rem;
   object-fit: cover;
+
+  ${forMobile(`
+    height: 15rem;
+    width: calc(100% + 1.7rem);
+    margin-left: -1rem;
+    border-radius: 0;
+  `)}
 `;
 const BodyWrapper = styled.div`
   margin-top: 3.5rem;
   display: flex;
   justify-content: space-between;
+
+  ${forMobile(`
+     flex-direction: column-reverse;
+  `)}
 `;
 
 const ArticleColumn = styled.div`
-  width: 100%;
   width: 30rem;
+
+  ${forMobile(`
+    width: 100%;
+  `)}
 `;
 const PlaceWrapper = styled.div``;
 
@@ -129,4 +144,15 @@ const IndexColumn = styled.div`
   position: -webkit-sticky;
   position: sticky;
   top: 8rem;
+
+  ${forMobile(`
+    position: static;
+    height: auto;
+    width: 100%;
+    margin-left: 0;
+    margin-top: -1.5rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid ${cons.FONT_COLOR_SUPER_LIGHT};
+    padding-bottom: 1rem;
+  `)}
 `;
