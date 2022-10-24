@@ -6,9 +6,9 @@ mv robots.txt disabled-robots.txt
 git add .
 git commit -m "$1"
 git push live master
-ssh -t root@nomadable.net <<- 'ENDSSH'
+ssh root@nomadable.net << EOF
     cd /var/www/nomadable
     npm install
     npm run build
     pm2 restart nomadable
-ENDSSH
+EOF
