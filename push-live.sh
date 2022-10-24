@@ -4,5 +4,5 @@ git add .
 git commit -m "$1"
 git push live master
 ssh root@nomadable.net
-expect "'/Users/uzu/.ssh/id_rsa':"
+expect "Enter passphrase for key '/root/.ssh/id_rsa':"
 send "$2\r"
