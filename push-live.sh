@@ -12,4 +12,4 @@ git push live master
 #     npm run build
 #     pm2 restart nomadable
 # EOF
-ssh root@nomadable.net "cd /var/www/nomadable.net && npm install && npm run build && pm2 restart nomadable"
+ssh root@nomadable.net "cd /var/www/nomadable.net && /root/.nvm/versions/node/v17.9.0/bin/npm install && /root/.nvm/versions/node/v17.9.0/bin/npm run build && /root/.nvm/versions/node/v17.9.0/bin/pm2 restart nomadable"
