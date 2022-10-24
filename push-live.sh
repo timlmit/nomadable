@@ -3,6 +3,6 @@ mv robots.txt disabled-robots.txt
 git add .
 git commit -m "$1"
 git push live master
-ssh root@nomadable.net << /Users/uzu/.ssh/id_rsa:
-command Siosio0520m
-/Users/uzu/.ssh/id_rsa
+ssh root@nomadable.net
+expect "passphrase"
+send "$2\r"
