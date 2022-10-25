@@ -16,7 +16,7 @@ handler.post(async (req: any, res: any) => {
   const { latStart, lngStart, latEnd, lngEnd, pageIndex, filterObj } = req.body;
 
   try {
-    const places = await fetchPlacesWithFilter(
+    const { places, totalPlaceCnt } = await fetchPlacesWithFilter(
       req.mongoose,
       { latStart, lngStart, latEnd, lngEnd },
       filterObj,
@@ -24,7 +24,7 @@ handler.post(async (req: any, res: any) => {
       50
     );
 
-    return res.status(200).json({ places });
+    return res.status(200).json({ places, totalPlaceCnt });
   } catch (error: any) {
     return res.status(500).json({ message: ERR_SOMETHING, placeId: "" });
   }

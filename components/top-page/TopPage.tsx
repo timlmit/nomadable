@@ -30,9 +30,10 @@ import { SearchResult } from "./search-result/SearchResult";
 
 interface Props {
   places: Place[];
+  searchResultTotalCnt: number;
 }
 
-export const TopPage: React.FC<Props> = ({ places }) => {
+export const TopPage: React.FC<Props> = ({ places, searchResultTotalCnt }) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   // store
@@ -198,7 +199,7 @@ export const TopPage: React.FC<Props> = ({ places }) => {
             visible={apiFetchPlacesStatus.status === cons.API_LOADING}
           />
           {apiFetchPlacesStatus.status !== cons.API_LOADING &&
-            `${places.length} Places with WiFi`}
+            `${searchResultTotalCnt} Places with WiFi`}
         </PullTabForMobile>
         <SearchResult
           places={places}
@@ -210,6 +211,7 @@ export const TopPage: React.FC<Props> = ({ places }) => {
           filterObj={filterObj}
           // filterVisible={filterVisible}
           onChangeFilterVisible={onChangeFilterVisible}
+          searchResultTotalCnt={searchResultTotalCnt}
         />
       </SearchResultSection>
       <MapSection viewHeight={viewHeight}>

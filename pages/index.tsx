@@ -11,7 +11,10 @@ import { TopPage } from "../components/top-page/TopPage";
 import { Layout } from "../components/commons/Layout";
 import HeadSetter from "../components/commons/HeadSetter";
 import { useAppSelector } from "../redux/hooks";
-import { selectPlaceSearchResult } from "../redux/slices/placeSlice";
+import {
+  selectPlaceSearchResult,
+  selectSearchResultTotalCnt,
+} from "../redux/slices/placeSlice";
 import { GetStaticProps } from "next";
 import styled from "styled-components";
 import { forMobile } from "../styles/Responsive";
@@ -23,6 +26,7 @@ interface TopPageProps {}
 
 export default function TopPageContainer(props: TopPageProps) {
   const places = useAppSelector(selectPlaceSearchResult);
+  const searchResultTotalCnt = useAppSelector(selectSearchResultTotalCnt);
   const apiStatus = useAppSelector(selectApiFetchPlacesStatus);
 
   return (
@@ -37,7 +41,7 @@ export default function TopPageContainer(props: TopPageProps) {
           pageDescription={APP_LONG_DESCRIPTION}
           pagePath={APP_URL}
         />
-        <TopPage places={places} />
+        <TopPage places={places} searchResultTotalCnt={searchResultTotalCnt} />
       </Layout>
     </Fragment>
   );

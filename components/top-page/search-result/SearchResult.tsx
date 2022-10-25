@@ -33,6 +33,7 @@ interface Props {
   filterObj: FilterObj;
   // filterVisible: boolean;
   onChangeFilterVisible: (visible: boolean) => void;
+  searchResultTotalCnt: number;
 }
 
 export const SearchResult: React.FC<Props> = ({
@@ -45,6 +46,7 @@ export const SearchResult: React.FC<Props> = ({
   filterObj,
   // filterVisible,
   onChangeFilterVisible,
+  searchResultTotalCnt,
 }) => {
   const apiStatus = useAppSelector(selectApiFetchPlacesStatus);
   // const [filterVisible, setFilterVisible] = useState(false);
@@ -81,7 +83,7 @@ export const SearchResult: React.FC<Props> = ({
     <Wrapper>
       <SectionLoader visible={apiStatus.status === cons.API_LOADING} />
       <Header width={width}>
-        <PageTitle>{places.length} Places with WiFi</PageTitle>
+        <PageTitle>{searchResultTotalCnt} Places with WiFi</PageTitle>
         <FilterButton onClick={onClickFilterButton}>
           <FilterIcon src="/icon/filter-black3.svg" />
           Filter

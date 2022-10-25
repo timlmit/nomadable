@@ -96,7 +96,7 @@ export const callFetchPlaces = async (params: {
   mapArea: MapArea;
   pageIndex: number;
   filterObj: FilterObj;
-}): Promise<{ places: Place[] }> => {
+}): Promise<{ places: Place[]; totalPlaceCnt: number }> => {
   try {
     const response = await axios({
       method: "post",

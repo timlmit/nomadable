@@ -7,7 +7,7 @@ export const fetchPlacesWithFilter = async (
   filterObj: FilterObj,
   skip: number,
   limit: number
-): Promise<Place[]> => {
+): Promise<{ places: Place[]; totalPlaceCnt: number }> => {
   try {
     const Place = mongoose.model("Place");
 
@@ -21,19 +21,23 @@ export const fetchPlacesWithFilter = async (
         ? { $all: filterObj.availability }
         : { $exists: true };
 
-    // get place
-    const places = await Place.find({
+    const condition = {
       spotLat: { $gte: boundary.latStart, $lte: boundary.latEnd },
       spotLng: { $gte: boundary.lngStart, $lte: boundary.lngEnd },
       placeType: placeTypeFilter,
       availability: availabilityFilter,
-    })
+    };
+
+    // get place
+    const places = await Place.find(condition)
       .sort({ reviewStars: -1, testCnt: -1 })
       .skip(skip)
       .limit(limit)
       .lean();
 
-    return places;
+    const totalPlaceCnt = await Place.countDocuments(condition);
+
+    return { places, totalPlaceCnt };
   } catch (err) {
     throw err;
   }

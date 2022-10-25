@@ -25,7 +25,7 @@ handler.post(async (req: any, res: any) => {
 
     while (citiesWithData.length < cities.length) {
       const city: City = cities[loopCnt];
-      const places = await fetchPlacesWithFilter(
+      const { places } = await fetchPlacesWithFilter(
         req.mongoose,
         city.boundary,
         initialFilterObj,

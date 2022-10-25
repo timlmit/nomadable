@@ -108,6 +108,7 @@ export interface Availability {
 
 interface PlaceState {
   searchResult: Place[];
+  searchResultTotalCnt: number;
   recentCheckIns: Place[];
   placeForPage: PlaceWithData;
 }
@@ -156,6 +157,7 @@ export const initialPlaceWithData: PlaceWithData = {
 
 const initialState: PlaceState = {
   searchResult: [],
+  searchResultTotalCnt: 0,
   recentCheckIns: [],
   placeForPage: initialPlaceWithData,
 };
@@ -183,6 +185,7 @@ const placeSlice = createSlice({
     });
     builder.addCase(apiFetchPlaces.fulfilled, (state, action) => {
       state.searchResult = action.payload.places;
+      state.searchResultTotalCnt = action.payload.totalPlaceCnt;
     });
     // builder.addCase(apiFetchRecentCheckIns.fulfilled, (state, action) => {
     //   state.recentCheckIns = action.payload.recentCheckIns;
@@ -265,6 +268,9 @@ export const selectPlaceSearchResult = (state: RootState): Place[] =>
 
 export const selectRecentCheckIns = (state: RootState): Place[] =>
   state.place.recentCheckIns;
+
+export const selectSearchResultTotalCnt = (state: RootState): number =>
+  state.place.searchResultTotalCnt;
 
 /**
  * Export actions & reducer
