@@ -53,5 +53,5 @@ const PageContainer = styled.div`
       padding-left: 0.7rem;
       padding-right: 0.7rem;
   `)}
-  min-height: calc(100vh - 7rem);
+  min-height: 100vh;
 `;
