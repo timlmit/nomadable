@@ -63,10 +63,8 @@ const Cities: React.FC<Props> = (props) => {
 
 export default Cities;
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getStaticProps: GetStaticProps = async ({}) => {
   try {
-    if (!params || typeof params.placeId !== "string") throw Error;
-
     const { citiesWithData } = await callFetchCitiesWithData(CITIES);
     const totalPlaceCnt = citiesWithData.reduce(
       (total, city) => total + city.spotCnt,
