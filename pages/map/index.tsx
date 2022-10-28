@@ -12,6 +12,7 @@ import {
   APP_URL,
   FONT_COLOR_LIGHT,
   API_IDLE,
+  PATH_MAP,
 } from "../../constants";
 import { useAppSelector } from "../../redux/hooks";
 import { selectApiFetchPlacesStatus } from "../../redux/slices/api/apiPlaceSlice";
@@ -37,9 +38,9 @@ export default function TopPageContainer(props: TopPageProps) {
       />
       <Layout width={"100%"} fixed>
         <HeadSetter
-          pageTitle={`${APP_NAME}: ${APP_SHORT_DESCRIPTION}`}
+          pageTitle={`WiFi Map | ${APP_NAME}`}
           pageDescription={APP_LONG_DESCRIPTION}
-          pagePath={APP_URL}
+          pagePath={`${APP_URL}${PATH_MAP}`}
         />
         <TopPage places={places} searchResultTotalCnt={searchResultTotalCnt} />
       </Layout>

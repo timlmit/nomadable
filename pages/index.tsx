@@ -6,7 +6,12 @@ import { Breadcrumb } from "../components/app-commons/Breadcrumb";
 import { CitiesSection } from "../components/cities/CitiesSection";
 import HeadSetter from "../components/commons/HeadSetter";
 import { Layout } from "../components/commons/Layout";
-import { CONTAINER_WIDTH_NARROW, APP_NAME, APP_URL } from "../constants";
+import {
+  CONTAINER_WIDTH_NARROW,
+  APP_NAME,
+  APP_URL,
+  APP_SHORT_DESCRIPTION,
+} from "../constants";
 import { CityWithData, CITIES } from "../data/articles/cities";
 
 interface Props {
@@ -48,7 +53,7 @@ const Cities: React.FC<Props> = (props) => {
   return (
     <Layout width={CONTAINER_WIDTH_NARROW} fixed>
       <HeadSetter
-        pageTitle={`${APP_NAME}: Find Places to Work From Anywhere You Are`}
+        pageTitle={`${APP_NAME}: ${APP_SHORT_DESCRIPTION}`}
         pageDescription={generatePageDescription()}
         pagePath={`${APP_URL}`}
       />
