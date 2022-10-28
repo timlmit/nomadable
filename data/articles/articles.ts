@@ -24,7 +24,7 @@ export interface ArticleWithData extends Article {
  */
 
 const BANGKOK_CORWORKING: Article = {
-  slug: `top-5-coworking-spaces-${ct.THAILAND_BANGKOK.slug}`,
+  slug: `top-coworking-spaces-${ct.THAILAND_BANGKOK.slug}`,
   city: ct.THAILAND_BANGKOK,
   title: "Top 5 Coworking Spaces in Bangkok, Thailand",
   filterObj: {
@@ -37,9 +37,9 @@ const BANGKOK_CORWORKING: Article = {
 };
 
 const BANGKOK_CAFE: Article = {
-  slug: `top-5-wifi-cafes-${ct.THAILAND_BANGKOK.slug}`,
+  slug: `top-work-study-cafes-${ct.THAILAND_BANGKOK.slug}`,
   city: ct.THAILAND_BANGKOK,
-  title: "Top 5 WiFi Cafes in Bangkok, Thailand to Work & Study From",
+  title: "Top 5 Study & Work Friendly Cafes in Bangkok, Thailand",
   filterObj: {
     placeTypes: [cons.PLACE_TYPE_CAFE],
     availability: [],

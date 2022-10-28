@@ -5,7 +5,10 @@ import styled from "styled-components";
 import * as cons from "../../constants";
 import { CityWithData } from "../../data/articles/cities";
 import { forMobile } from "../../styles/Responsive";
-import { AnimationSlideUp } from "../../styles/styled-components/Animations";
+import {
+  AnimationFadeIn,
+  AnimationSlideUp,
+} from "../../styles/styled-components/Animations";
 import * as fs from "../../styles/styled-components/FontSize";
 import { ClickableStyle } from "../../styles/styled-components/Interactions";
 
@@ -31,7 +34,7 @@ export const CityItem: React.FC<Props> = ({ cityWithData }) => {
           <CountryName>{ct.country}</CountryName>
         </CityCard>
         <Label>
-          <Bold>{ct.spotCnt}</Bold> spots to work from
+          <Bold>{ct.spotCnt}</Bold> places to work from
         </Label>
       </CityItemWrapper>
     </Link>
@@ -42,9 +45,10 @@ const CityItemWrapper = styled.a`
   color: white;
   ${ClickableStyle}
   height: 13rem;
-  width: 25%;
-  ${AnimationSlideUp}
-  display:block;
+  width: calc(25% - 1.13rem);
+  ${AnimationFadeIn}
+  display: block;
+  margin-bottom: 1.5rem;
 
   ${forMobile(`
     width: 100%;

@@ -42,6 +42,8 @@ handler.post(async (req: any, res: any) => {
       loopCnt += 1;
     }
 
+    citiesWithData.sort((a, b) => b.spotCnt - a.spotCnt);
+
     return res.status(200).json({ citiesWithData });
   } catch (error: any) {
     return res.status(500).json({ message: ERR_SOMETHING, placeId: "" });

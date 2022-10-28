@@ -224,29 +224,22 @@ export const STATUS_PERM_CLOSE = "Parmanently Closed";
  */
 
 export const POINT_TYPE_CHECK_IN = "Check In";
+export const POINT_TYPE_FIRST_CHECK_IN = "First Check In";
 export const POINT_TYPE_BE_CHECKED_IN = "Checked In";
 export const POINT_TYPE_ADD_PLACE = "Add Place";
 export const POINT_TYPE_REVIEW = "Review";
 
-// export const POINT_TYPES = {
-//   [POINT_TYPE_CHECK_IN]: { point: 5 },
-//   [POINT_TYPE_BE_CHECKED_IN]: { point: 1 },
-//   [POINT_TYPE_REVIEW]: { point: 30 },
-// };
+export const POINT_TABLE: { type: string; point: number }[] = [
+  { type: POINT_TYPE_ADD_PLACE, point: 1 },
+  { type: POINT_TYPE_FIRST_CHECK_IN, point: 5 },
+  { type: POINT_TYPE_CHECK_IN, point: 1 },
+  { type: POINT_TYPE_BE_CHECKED_IN, point: 1 },
+  { type: POINT_TYPE_REVIEW, point: 5 },
+];
 
-export const getPointPlan = (pointType: string) => {
-  switch (pointType) {
-    case POINT_TYPE_ADD_PLACE:
-      return 5;
-    case POINT_TYPE_CHECK_IN:
-      return 5;
-    case POINT_TYPE_BE_CHECKED_IN:
-      return 1;
-    case POINT_TYPE_REVIEW:
-      return 10;
-    default:
-      return 1;
-  }
+export const getPointPlan = (pointType: string): number => {
+  const plan = POINT_TABLE.find((item) => item.type === pointType);
+  return plan ? plan.point : 0;
 };
 
 /**
@@ -254,3 +247,11 @@ export const getPointPlan = (pointType: string) => {
  */
 export const NOTIFY_TYPE_UPV_REVIEW = "upvote_review";
 export const NOTIFY_TYPE_BE_CHECKED_IN = "checked_in";
+
+/**
+ * Paths
+ */
+
+export const PATH_HOME = "/";
+export const PATH_MAP = "/map";
+export const PATH_SIGNUP = "/signup";

@@ -54,5 +54,5 @@ export const DropDownItemStyle = css`
 export const DropDownIconStyle = css`
   width: 0.8rem;
   margin-right: 0.6rem;
-  opacity: 0.9;
+  opacity: 0.8;
 `;

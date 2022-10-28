@@ -62,22 +62,23 @@ export const MenuDropdown: React.FC<Props> = ({
     if (authenticated) {
       return (
         <Fragment>
+          <DropdownItem onClick={() => goToPage(cons.PATH_MAP)}>
+            <ItemIcon src="/icon/map-black.svg" />
+            Map
+          </DropdownItem>
           <DropdownItem onClick={() => goToPage("/new-place")}>
             <ItemIcon src="/icon/plus-black2.svg" />
             New Place
-          </DropdownItem>
-          <DropdownItem onClick={() => goToPage("/community")}>
-            <ItemIcon src="/icon/group-black.svg" /> Community
           </DropdownItem>
           <DropdownItem onClick={() => goToPage("/notification")}>
             <ItemIcon src="/icon/bell-black.svg" /> Notification
             <NotificationMark visible={notificaitonExist} />
           </DropdownItem>
+          <DropdownItem onClick={() => goToPage("/community")}>
+            <ItemIcon src="/icon/group-black.svg" /> Community
+          </DropdownItem>
           <DropdownItem onClick={() => goToPage("/profile")}>
             <ItemIcon src="/icon/user-black.svg" /> Profile
-          </DropdownItem>
-          <DropdownItem onClick={() => goToPage("/cities")}>
-            <ItemIcon src="/icon/place-black.svg" /> Cities
           </DropdownItem>
           <DropdownItem onClick={() => goToPage("/setting")}>
             <ItemIcon src="/icon/gear-black.svg" /> Setting
@@ -91,8 +92,18 @@ export const MenuDropdown: React.FC<Props> = ({
     }
     return (
       <Fragment>
-        <DropdownItem onClick={onClickLogin}>Log In</DropdownItem>
-        <DropdownItem onClick={() => goToPage("/signup")}>Sign Up</DropdownItem>
+        <DropdownItem onClick={() => goToPage(cons.PATH_MAP)}>
+          <ItemIcon src="/icon/map-black.svg" />
+          Map
+        </DropdownItem>
+        <DropdownItem onClick={onClickLogin}>
+          <ItemIcon src="/icon/login-skeleton.svg" />
+          Log In
+        </DropdownItem>
+        <DropdownItem onClick={() => goToPage("/signup")}>
+          <ItemIcon src="/icon/signup-skeleton.svg" />
+          Sign Up
+        </DropdownItem>
       </Fragment>
     );
   };

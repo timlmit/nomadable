@@ -19,7 +19,7 @@ export const Breadcrumb: React.FC<Props> = ({ breadcrumbs }) => {
   return (
     <BreadcrumbWrapper>
       <Link href="/" passHref>
-        <ItemLink>Map</ItemLink>
+        <ItemLink>Home</ItemLink>
       </Link>
       {breadcrumbs.map((item, index) => {
         if (index + 1 < breadcrumbs.length) {
@@ -44,7 +44,7 @@ export const Breadcrumb: React.FC<Props> = ({ breadcrumbs }) => {
 };
 
 const BreadcrumbWrapper = styled.div`
-  margin-top: 7rem;
+  padding-top: 7rem;
   margin-bottom: 1rem;
   display: flex;
   align-items: center;

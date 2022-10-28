@@ -1,93 +1,91 @@
-import React, { Fragment, useEffect } from "react";
-import * as cons from "../constants";
-
-import {
-  APP_LONG_DESCRIPTION,
-  APP_NAME,
-  APP_SHORT_DESCRIPTION,
-  APP_URL,
-} from "../constants";
-import { TopPage } from "../components/top-page/TopPage";
-import { Layout } from "../components/commons/Layout";
-import HeadSetter from "../components/commons/HeadSetter";
-import { useAppSelector } from "../redux/hooks";
-import {
-  selectPlaceSearchResult,
-  selectSearchResultTotalCnt,
-} from "../redux/slices/placeSlice";
 import { GetStaticProps } from "next";
-import styled from "styled-components";
-import { forMobile } from "../styles/Responsive";
-import { FontSizeLarge } from "../styles/styled-components/FontSize";
-import { SplashPage } from "../components/commons/SplashPage";
-import { selectApiFetchPlacesStatus } from "../redux/slices/api/apiPlaceSlice";
+import Image from "next/image";
+import React, { useEffect, useState } from "react";
+import { callFetchCitiesWithData } from "../calls/placeCalls";
+import { Breadcrumb } from "../components/app-commons/Breadcrumb";
+import { CitiesSection } from "../components/cities/CitiesSection";
+import HeadSetter from "../components/commons/HeadSetter";
+import { Layout } from "../components/commons/Layout";
+import { CONTAINER_WIDTH_NARROW, APP_NAME, APP_URL } from "../constants";
+import { CityWithData, CITIES } from "../data/articles/cities";
 
-interface TopPageProps {}
-
-export default function TopPageContainer(props: TopPageProps) {
-  const places = useAppSelector(selectPlaceSearchResult);
-  const searchResultTotalCnt = useAppSelector(selectSearchResultTotalCnt);
-  const apiStatus = useAppSelector(selectApiFetchPlacesStatus);
-
-  return (
-    <Fragment>
-      <SplashPage
-        visible={apiStatus.status === cons.API_IDLE}
-        message="Loading app..."
-      />
-      <Layout width={"100%"} fixed>
-        <HeadSetter
-          pageTitle={`${APP_NAME}: ${APP_SHORT_DESCRIPTION}`}
-          pageDescription={APP_LONG_DESCRIPTION}
-          pagePath={APP_URL}
-        />
-        <TopPage places={places} searchResultTotalCnt={searchResultTotalCnt} />
-      </Layout>
-    </Fragment>
-  );
+interface Props {
+  citiesWithData: CityWithData[];
+  totalPlaceCnt: number;
 }
 
-const ForMobile = styled.div`
-  display: none;
+const Cities: React.FC<Props> = (props) => {
+  const [_citiesWithData, setCitiesWithData] = useState<CityWithData[]>(
+    props.citiesWithData || []
+  );
+  const [totalPlaceCnt, setTotalPlaceCnt] = useState<number>(
+    props.totalPlaceCnt
+  );
 
-  ${forMobile(`
-  background-color: white;
-  padding: 2rem;
-  box-sizing: border-box;
-  ${FontSizeLarge};
-  color : ${cons.FONT_COLOR_LIGHT};
-  line-height: 1.5em;
+  const generatePageDescription = () => {
+    return `
+      Find best places to work from wherever you are: 
+      ${_citiesWithData
+        .map((city, index) => ` ${index + 1}. ${city.city}`)
+        .join(" · ")}.
+    `;
+  };
 
+  const fetchData = async () => {
+    const { citiesWithData } = await callFetchCitiesWithData(CITIES);
+    setCitiesWithData(citiesWithData);
+    const _totalPlaceCnt = citiesWithData.reduce(
+      (acc, city) => acc + city.spotCnt,
+      0
+    );
+    setTotalPlaceCnt(_totalPlaceCnt);
+  };
 
-  display: flex;
-  justify-contents: center;
-  align-items: center;
-  text-align:center;
+  useEffect(() => {
+    fetchData();
+  }, [null]);
 
-  position: fixed;;
-  top: 0;
-  left:0;
-  height: 100%;
-  width: 100vw;
-  z-index: 100;
-`)}
-`;
+  return (
+    <Layout width={CONTAINER_WIDTH_NARROW} fixed>
+      <HeadSetter
+        pageTitle={`${APP_NAME}: Find Places to Work From Anywhere You Are`}
+        pageDescription={generatePageDescription()}
+        pagePath={`${APP_URL}`}
+      />
+      {/* <Breadcrumb breadcrumbs={BREADCRUMBS} /> */}
+      <CitiesSection
+        citiesWithData={_citiesWithData}
+        totalPlaceCnt={totalPlaceCnt}
+      />
+    </Layout>
+  );
+};
 
-// export const getStaticProps: GetStaticProps = async ({ params }) => {
-//   try {
-//     if (!params || typeof params.postId !== "string") throw Error;
+export default Cities;
 
-//     return {
-//       props: {
-//         places: [],
-//       },
-//       revalidate: 1, // regenerate the static page on the access after 1 second later from the previous access
-//     };
-//   } catch (err: any) {
-//     return {
-//       props: {
-//         places: [],
-//       },
-//     };
-//   }
-// };
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  try {
+    if (!params || typeof params.placeId !== "string") throw Error;
+
+    const { citiesWithData } = await callFetchCitiesWithData(CITIES);
+    const totalPlaceCnt = citiesWithData.reduce(
+      (total, city) => total + city.spotCnt,
+      0
+    );
+
+    return {
+      props: {
+        citiesWithData,
+        totalPlaceCnt,
+      },
+      revalidate: 1, // regenerate the static page on the access after 1 second later from the previous access
+    };
+  } catch (err: any) {
+    return {
+      props: {
+        citiesWithData: [],
+        totalPlaceCnt: 0,
+      },
+    };
+  }
+};

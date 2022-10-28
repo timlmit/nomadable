@@ -78,7 +78,6 @@ const ArticlePage: React.FC<Props> = (props) => {
       />
       <Breadcrumb
         breadcrumbs={[
-          { text: "Cities", url: "/cities" },
           {
             text: `${_article.city.city}, ${_article.city.country}`,
             url: `/cities/${_article.city.slug}`,

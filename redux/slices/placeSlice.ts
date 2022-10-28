@@ -107,6 +107,7 @@ export interface Availability {
 }
 
 interface PlaceState {
+  totalPlaceCnt: number;
   searchResult: Place[];
   searchResultTotalCnt: number;
   recentCheckIns: Place[];
@@ -156,6 +157,7 @@ export const initialPlaceWithData: PlaceWithData = {
 };
 
 const initialState: PlaceState = {
+  totalPlaceCnt: 0,
   searchResult: [],
   searchResultTotalCnt: 0,
   recentCheckIns: [],

@@ -28,7 +28,7 @@ export const CitySection: React.FC<Props> = (props) => {
 
   const makeQueryString = (boundary: Boundary): string => {
     const { latStart, lngStart, latEnd, lngEnd } = boundary;
-    const queryString = `/?latStart=${latStart}&lngStart=${lngStart}&latEnd=${latEnd}&lngEnd=${lngEnd}`;
+    const queryString = `${cons.PATH_MAP}?latStart=${latStart}&lngStart=${lngStart}&latEnd=${latEnd}&lngEnd=${lngEnd}`;
     return queryString;
   };
 
@@ -58,21 +58,23 @@ export const CitySection: React.FC<Props> = (props) => {
         </MapWrapper>
       </Card>
 
-      <ArticleSection>
-        <ArticleHeader>Articles</ArticleHeader>
-        <ArticlesWrapper>
-          {props.articlesWithData.map((at) => (
-            <Link href={`/article/${at.slug}`} key={at.slug}>
-              <ArticleItemWrapper key={at.slug}>
-                <CardWithImage
-                  image={at.placesWithData[0].images[0]}
-                  title={at.title}
-                />
-              </ArticleItemWrapper>
-            </Link>
-          ))}
-        </ArticlesWrapper>
-      </ArticleSection>
+      {props.articlesWithData.length > 0 && (
+        <ArticleSection>
+          <ArticleHeader>Articles</ArticleHeader>
+          <ArticlesWrapper>
+            {props.articlesWithData.map((at) => (
+              <Link href={`/article/${at.slug}`} key={at.slug}>
+                <ArticleItemWrapper key={at.slug}>
+                  <CardWithImage
+                    image={at.placesWithData[0].images[0]}
+                    title={at.title}
+                  />
+                </ArticleItemWrapper>
+              </Link>
+            ))}
+          </ArticlesWrapper>
+        </ArticleSection>
+      )}
     </CitySectionWrapper>
   );
 };
