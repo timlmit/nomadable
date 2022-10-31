@@ -1,6 +1,11 @@
 import { createApi } from "unsplash-js";
 
 // on your node server
+console.log(
+  "🚀 ~ file: getUnslashImageTop.ts ~ line 6 ~ process.env.UNSPLASH_ACCESS_KEY",
+  process.env.UNSPLASH_ACCESS_KEY
+);
+
 const unsplash = createApi({
   accessKey: process.env.UNSPLASH_ACCESS_KEY,
   //...other fetch options
