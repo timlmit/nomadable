@@ -28,7 +28,7 @@ export const CityItem: React.FC<Props> = ({ cityWithData }) => {
   return (
     <Link href={makeQueryString(ct.boundary)} passHref>
       <CityItemWrapper>
-        <CityCard imgUrl={ct.thumbnail}>
+        <CityCard imgUrl={ct.thumbnail || ""}>
           <AvgSpeed>
             <AvgSpeedIcon src="/icon/wifi-white.svg" />
             <AvgSpeedNum>
