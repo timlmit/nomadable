@@ -7,18 +7,10 @@ import {
 } from "../../calls/placeCalls";
 import { Breadcrumb } from "../../components/app-commons/Breadcrumb";
 import { ArticleSection } from "../../components/article/ArticleSection";
-import { CitySection } from "../../components/cities/city/CitySection";
 import HeadSetter from "../../components/commons/HeadSetter";
 import { Layout } from "../../components/commons/Layout";
-import {
-  CONTAINER_WIDTH_NARROW,
-  CONTAINER_WIDTH_SO_NARROW,
-} from "../../constants";
-import {
-  ARTICLES,
-  Article,
-  ArticleWithData,
-} from "../../data/articles/articles";
+import { CONTAINER_WIDTH_SO_NARROW } from "../../constants";
+import { ARTICLES, ArticleWithData } from "../../data/articles/articles";
 import * as cons from "../../constants";
 
 interface Props {
@@ -79,8 +71,8 @@ const ArticlePage: React.FC<Props> = (props) => {
       <Breadcrumb
         breadcrumbs={[
           {
-            text: `${_article.city.city}, ${_article.city.country}`,
-            url: `/cities/${_article.city.slug}`,
+            text: "Articles",
+            url: cons.PATH_ARTICLES,
           },
           { text: ``, url: `/article/${_article.slug}` },
         ]}

@@ -62,13 +62,21 @@ export const MenuDropdown: React.FC<Props> = ({
     if (authenticated) {
       return (
         <Fragment>
+          <DropdownItem onClick={() => goToPage("/new-place")}>
+            <ItemIcon src="/icon/plus-black2.svg" />
+            New Place
+          </DropdownItem>
+          <DropdownItem onClick={() => goToPage(cons.PATH_HOME)}>
+            <ItemIcon src="/icon/home-black.svg" />
+            Home
+          </DropdownItem>
           <DropdownItem onClick={() => goToPage(cons.PATH_MAP)}>
             <ItemIcon src="/icon/map-black.svg" />
             Map
           </DropdownItem>
-          <DropdownItem onClick={() => goToPage("/new-place")}>
-            <ItemIcon src="/icon/plus-black2.svg" />
-            New Place
+          <DropdownItem onClick={() => goToPage(cons.PATH_ARTICLES)}>
+            <ItemIcon src="/icon/article-black.svg" />
+            Articles
           </DropdownItem>
           <DropdownItem onClick={() => goToPage("/notification")}>
             <ItemIcon src="/icon/bell-black.svg" /> Notification

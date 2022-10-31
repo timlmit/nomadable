@@ -15,6 +15,8 @@ declare global {
       KPN_CLIENT_SECRET: string;
       SOM_API_ACCOUNT: string;
       SOM_API_DOMAIN: string;
+      UNSPLASH_ACCESS_KEY: string;
+      UNSPLASH_SECRET_KEY: string;
     }
   }
 }

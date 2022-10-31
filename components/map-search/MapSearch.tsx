@@ -155,10 +155,13 @@ export const MapSearch: React.FC<Props> = (props) => {
       const lngEnd = parseFloat(query.lngEnd);
 
       const map = mapRef.current;
-      map?.fitBounds([
-        [lngEnd, latEnd],
-        [lngStart, latStart],
-      ]);
+      map?.fitBounds(
+        [
+          [lngEnd, latEnd],
+          [lngStart, latStart],
+        ],
+        { duration: 0 }
+      );
     } catch (err) {
       return;
     }

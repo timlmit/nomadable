@@ -13,9 +13,13 @@ import {
   FONT_COLOR_LIGHT,
   API_IDLE,
   PATH_MAP,
+  API_LOADING,
 } from "../../constants";
-import { useAppSelector } from "../../redux/hooks";
-import { selectApiFetchPlacesStatus } from "../../redux/slices/api/apiPlaceSlice";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import {
+  initApiFetchPlacesState,
+  selectApiFetchPlacesStatus,
+} from "../../redux/slices/api/apiPlaceSlice";
 import {
   selectPlaceSearchResult,
   selectSearchResultTotalCnt,
@@ -26,15 +30,22 @@ import { FontSizeLarge } from "../../styles/styled-components/FontSize";
 interface TopPageProps {}
 
 export default function TopPageContainer(props: TopPageProps) {
+  const dispatch = useAppDispatch();
   const places = useAppSelector(selectPlaceSearchResult);
   const searchResultTotalCnt = useAppSelector(selectSearchResultTotalCnt);
   const apiStatus = useAppSelector(selectApiFetchPlacesStatus);
+
+  useEffect(() => {
+    return () => {
+      dispatch(initApiFetchPlacesState());
+    };
+  }, [null]);
 
   return (
     <Fragment>
       <SplashPage
         visible={apiStatus.status === API_IDLE}
-        message="Loading app..."
+        message="Loading map..."
       />
       <Layout width={"100%"} fixed>
         <HeadSetter

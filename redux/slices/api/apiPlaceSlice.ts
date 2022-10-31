@@ -70,6 +70,10 @@ const apiSlice = createSlice({
       state.apiFetchPlaceForPageStatus.status = cons.API_IDLE;
       state.apiFetchPlaceForPageStatus.error = "";
     },
+    initApiFetchPlacesState: (state) => {
+      state.apiFetchPlacesStatus.status = cons.API_IDLE;
+      state.apiFetchPlacesStatus.error = "";
+    },
     initApiFetchDiscoveredPlacesState: (state) => {
       state.apiFetchDiscoveredPlacesStatus.status = cons.API_IDLE;
       state.apiFetchDiscoveredPlacesStatus.error = "";
@@ -348,6 +352,7 @@ export const {
   initApiCreatePlaceState,
   initapiFetchPlaceForPageState,
   initApiFetchDiscoveredPlacesState,
+  initApiFetchPlacesState,
 } = apiSlice.actions;
 
 /**

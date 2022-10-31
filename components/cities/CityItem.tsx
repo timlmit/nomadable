@@ -3,7 +3,7 @@ import React from "react";
 import styled from "styled-components";
 
 import * as cons from "../../constants";
-import { CityWithData } from "../../data/articles/cities";
+import { Boundary, CityWithData } from "../../data/articles/cities";
 import { forMobile } from "../../styles/Responsive";
 import {
   AnimationFadeIn,
@@ -19,8 +19,14 @@ interface Props {
 export const CityItem: React.FC<Props> = ({ cityWithData }) => {
   const ct = cityWithData;
 
+  const makeQueryString = (boundary: Boundary): string => {
+    const { latStart, lngStart, latEnd, lngEnd } = boundary;
+    const queryString = `${cons.PATH_MAP}?latStart=${latStart}&lngStart=${lngStart}&latEnd=${latEnd}&lngEnd=${lngEnd}`;
+    return queryString;
+  };
+
   return (
-    <Link href={`/cities/${ct.slug}`} passHref>
+    <Link href={makeQueryString(ct.boundary)} passHref>
       <CityItemWrapper>
         <CityCard imgUrl={ct.thumbnail}>
           <AvgSpeed>

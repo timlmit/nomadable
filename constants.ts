@@ -256,3 +256,4 @@ export const NOTIFY_TYPE_BE_CHECKED_IN = "checked_in";
 export const PATH_HOME = "/";
 export const PATH_MAP = "/map";
 export const PATH_SIGNUP = "/signup";
+export const PATH_ARTICLES = "/articles";

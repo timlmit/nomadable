@@ -32,7 +32,8 @@
     "redux": "^4.2.0",
     "redux-logger": "^3.0.6",
     "redux-saga": "^1.1.3",
-    "sharp": "^0.30.7"
+    "sharp": "^0.30.7",
+    "unsplash-js": "^7.0.15"
   },
   "devDependencies": {
     "@types/node": "^18.6.1",

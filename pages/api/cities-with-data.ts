@@ -9,6 +9,7 @@ import { City, CityWithData } from "../../data/articles/cities";
 import places from "./places";
 import { initialFilterObj } from "../../redux/slices/placeSlice";
 import { getAverage } from "../../modules/Math";
+import { getUnsplashImageTop } from "../../modules/api/getUnslashImageTop";
 
 const handler = nextConnect();
 
@@ -37,7 +38,16 @@ handler.post(async (req: any, res: any) => {
       const placesWithSpeed = places.filter((place) => place.speedDown !== 0);
       const downSpeedArr = placesWithSpeed.map((place) => place.speedDown);
       const avgSpeed = downSpeedArr.length > 0 ? getAverage(downSpeedArr) : 0;
-      citiesWithData.push({ ...city, spotCnt, avgSpeed });
+
+      // get image
+      const image = await getUnsplashImageTop(`${city.city}, ${city.country}`);
+
+      citiesWithData.push({
+        ...city,
+        spotCnt,
+        avgSpeed,
+        thumbnail: image || city.thumbnail,
+      });
 
       loopCnt += 1;
     }
