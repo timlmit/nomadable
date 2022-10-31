@@ -205,7 +205,8 @@ const Title = styled.div`
   /* background-color: ${cons.FONT_COLOR_SUPER_LIGHT}; */
   /* padding: 0.2rem 0.4rem; */
   border-radius: 0.3rem;
-  display: inline-block;
+  /* display: inline-block; */
+  margin-bottom: 0.5rem;
 `;
 
 const Description = styled.div`
