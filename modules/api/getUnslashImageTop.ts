@@ -21,7 +21,7 @@ export const getUnsplashImageTop = async (query: string): Promise<string> => {
     });
     console.log(
       "🚀 ~ file: getUnslashImageTop.ts ~ line 17 ~ getUnsplashImageTop ~ response",
-      response
+      response.errors
     );
 
     if (!response || !response.response) throw Error;
