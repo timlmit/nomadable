@@ -14,11 +14,19 @@ export const getUnsplashImageTop = async (query: string): Promise<string> => {
       perPage: 1,
       orientation: "landscape",
     });
+    console.log(
+      "🚀 ~ file: getUnslashImageTop.ts ~ line 17 ~ getUnsplashImageTop ~ response",
+      response
+    );
 
     if (!response || !response.response) throw Error;
 
     return response.response.results[0].urls.small;
   } catch (error) {
+    console.log(
+      "🚀 ~ file: getUnslashImageTop.ts ~ line 22 ~ getUnsplashImageTop ~ error",
+      error
+    );
     return "";
   }
 };
