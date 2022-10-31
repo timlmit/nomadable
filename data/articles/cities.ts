@@ -68,10 +68,10 @@ export const INDONESIA_CANGGU: City = {
   country: "Indonesia",
   city: "Canggu",
   boundary: {
-    latStart: -8.957168656734723,
-    lngStart: 114.3382006747978,
-    latEnd: -7.857758794729477,
-    lngEnd: 115.77997932473403,
+    latStart: -8.707071696141014,
+    lngStart: 115.07572211994403,
+    latEnd: -8.60429808302807,
+    lngEnd: 115.2004462734472,
   },
   // center: { lat: -8.653273825526307, lng: 115.13478074413004 },
   thumbnail: `${IMAGE_PATH}/indonesia-canggu.jpg`,
@@ -96,10 +96,10 @@ export const CANADA_VANCUBER: City = {
   country: "Canada",
   city: "Vancuber",
   boundary: {
-    latStart: 49.084691272693874,
-    lngStart: -123.3497740875437,
-    latEnd: 49.34870064629706,
-    lngEnd: 122.78946708463108,
+    latStart: 49.06904929903996,
+    lngStart: -123.35248601373657,
+    latEnd: 49.39535206379091,
+    lngEnd: -122.75296120963932,
   },
 };
 
@@ -108,10 +108,10 @@ export const USA_NEW_YORK: City = {
   country: "USA",
   city: "New York",
   boundary: {
-    latStart: 40.55595155508979,
-    lngStart: -74.20693533959131,
-    latEnd: 40.83374568046946,
-    lngEnd: -73.79777708682808,
+    latStart: 40.54667681393454,
+    lngStart: -74.24563592537136,
+    latEnd: 40.8745391712454,
+    lngEnd: -73.72670426372198,
   },
 };
 
