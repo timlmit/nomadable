@@ -29,7 +29,7 @@ module.exports = {
       };
     }
 
-    if (path === "/cities") {
+    if (path === "/articles") {
       return {
         loc: path,
         priority: 0.9,
