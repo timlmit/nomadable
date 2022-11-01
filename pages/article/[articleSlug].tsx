@@ -67,6 +67,7 @@ const ArticlePage: React.FC<Props> = (props) => {
         pageTitle={`${_article.title} | ${cons.APP_NAME}`}
         pageDescription={generatePageDescription()}
         pagePath={`${cons.APP_URL}/article/${_article.slug}`}
+        pageImg={_article.placesWithData[0].images[0]}
       />
       <Breadcrumb
         breadcrumbs={[
