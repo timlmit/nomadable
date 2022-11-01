@@ -16,7 +16,7 @@ export const APP_OBP_IMAGE = `${APP_URL}/img/brand/brandogp1.png`;
 export const PATH_COUNTRY_IMGS = `${APP_URL}/img/country/`;
 
 export const APP_SHORT_DESCRIPTION =
-  "Cafes & Coworking Spaces for Digital Nomads";
+  "Find Cafes & Coworking Spaces for Digital Nomads";
 export const APP_LONG_DESCRIPTION =
   "Find cafes, co-working spaces, hotels with high-speed WiFi access.";
 
