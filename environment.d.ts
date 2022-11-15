@@ -17,6 +17,7 @@ declare global {
       SOM_API_DOMAIN: string;
       UNSPLASH_ACCESS_KEY: string;
       UNSPLASH_SECRET_KEY: string;
+      GOOGLE_TAG_MANAGER_ID: string;
     }
   }
 }
