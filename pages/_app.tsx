@@ -16,6 +16,7 @@ import {
 } from "../redux/slices/api/apiUserSlice";
 import { Notification } from "../components/global/Notification";
 import Script from "next/script";
+import { GoogleTagManager } from "../components/global/GoogleTagManager";
 // import { doFetchUser } from "../redux/actions/userAction";
 
 const App = ({ Component, pageProps }: AppProps) => {
@@ -59,6 +60,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         <GlobalHead />
       </Head>
       {/* Google tag (gtag.js) */}
+      <GoogleTagManager />
       <GlobalStyles />
       <Notification />
       <Component {...pageProps} />
