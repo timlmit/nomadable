@@ -59,19 +59,6 @@ const App = ({ Component, pageProps }: AppProps) => {
         <GlobalHead />
       </Head>
       {/* Google tag (gtag.js) */}
-      <Script
-        src={`https://www.googletagmanager.com/gtag/js?id=G-CSH3FHQBZD`}
-        strategy="afterInteractive"
-      />
-      <Script id="google-analytics" strategy="afterInteractive">
-        {`        
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-CSH3FHQBZD');
-      `}
-      </Script>
       <GlobalStyles />
       <Notification />
       <Component {...pageProps} />
