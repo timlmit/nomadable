@@ -40,7 +40,7 @@ const CitiesSectionWrapper = styled.div`
   padding-top: 6rem;
 `;
 
-const Title = styled.div`
+const Title = styled.h1`
   ${fs.FontSizeHeaderLarge};
   font-weight: bold;
   color: ${cons.FONT_COLOR_NORMAL};

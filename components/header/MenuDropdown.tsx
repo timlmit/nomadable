@@ -104,6 +104,10 @@ export const MenuDropdown: React.FC<Props> = ({
           <ItemIcon src="/icon/map-black.svg" />
           Map
         </DropdownItem>
+        <DropdownItem onClick={() => goToPage(cons.PATH_ARTICLES)}>
+          <ItemIcon src="/icon/article-black.svg" />
+          Articles
+        </DropdownItem>
         <DropdownItem onClick={onClickLogin}>
           <ItemIcon src="/icon/login-skeleton.svg" />
           Log In

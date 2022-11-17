@@ -83,7 +83,7 @@ const Wrapper = styled.div`
   padding-bottom: 5rem;
 `;
 
-const Title = styled.div`
+const Title = styled.h1`
   ${Header1}
 `;
 
