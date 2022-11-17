@@ -231,11 +231,11 @@ export const POINT_TYPE_ADD_PLACE = "Add Place";
 export const POINT_TYPE_REVIEW = "Review";
 
 export const POINT_TABLE: { type: string; point: number }[] = [
-  { type: POINT_TYPE_ADD_PLACE, point: 1 },
-  { type: POINT_TYPE_FIRST_CHECK_IN, point: 5 },
-  { type: POINT_TYPE_CHECK_IN, point: 1 },
-  { type: POINT_TYPE_BE_CHECKED_IN, point: 1 },
-  { type: POINT_TYPE_REVIEW, point: 5 },
+  { type: POINT_TYPE_ADD_PLACE, point: 3 },
+  { type: POINT_TYPE_FIRST_CHECK_IN, point: 10 },
+  { type: POINT_TYPE_CHECK_IN, point: 3 },
+  { type: POINT_TYPE_BE_CHECKED_IN, point: 3 },
+  { type: POINT_TYPE_REVIEW, point: 10 },
 ];
 
 export const getPointPlan = (pointType: string): number => {
