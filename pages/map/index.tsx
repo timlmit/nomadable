@@ -85,21 +85,21 @@ const ForMobile = styled.div`
 `)}
 `;
 
-// export const getStaticProps: GetStaticProps = async ({ params }) => {
-//   try {
-//     if (!params || typeof params.postId !== "string") throw Error;
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  try {
+    if (!params || typeof params.postId !== "string") throw Error;
 
-//     return {
-//       props: {
-//         places: [],
-//       },
-//       revalidate: 1, // regenerate the static page on the access after 1 second later from the previous access
-//     };
-//   } catch (err: any) {
-//     return {
-//       props: {
-//         places: [],
-//       },
-//     };
-//   }
-// };
+    return {
+      props: {
+        places: [],
+      },
+      revalidate: 1, // regenerate the static page on the access after 1 second later from the previous access
+    };
+  } catch (err: any) {
+    return {
+      props: {
+        places: [],
+      },
+    };
+  }
+};

@@ -68,27 +68,27 @@ const Cities: React.FC<Props> = (props) => {
 
 export default Cities;
 
-// export const getStaticProps: GetStaticProps = async ({}) => {
-//   try {
-//     const { citiesWithData } = await callFetchCitiesWithData(CITIES);
-//     const totalPlaceCnt = citiesWithData.reduce(
-//       (total, city) => total + city.spotCnt,
-//       0
-//     );
+export const getStaticProps: GetStaticProps = async ({}) => {
+  try {
+    const { citiesWithData } = await callFetchCitiesWithData(CITIES);
+    const totalPlaceCnt = citiesWithData.reduce(
+      (total, city) => total + city.spotCnt,
+      0
+    );
 
-//     return {
-//       props: {
-//         citiesWithData,
-//         totalPlaceCnt,
-//       },
-//       revalidate: 1, // regenerate the static page on the access after 1 second later from the previous access
-//     };
-//   } catch (err: any) {
-//     return {
-//       props: {
-//         citiesWithData: [],
-//         totalPlaceCnt: 0,
-//       },
-//     };
-//   }
-// };
+    return {
+      props: {
+        citiesWithData,
+        totalPlaceCnt,
+      },
+      revalidate: 1, // regenerate the static page on the access after 1 second later from the previous access
+    };
+  } catch (err: any) {
+    return {
+      props: {
+        citiesWithData: [],
+        totalPlaceCnt: 0,
+      },
+    };
+  }
+};

@@ -89,52 +89,52 @@ export default ArticlePage;
  * SSR
  */
 
-// export const getStaticPaths: GetStaticPaths = async () => {
-//   try {
-//     const articleSlugs = ARTICLES.map((at) => at.slug);
+export const getStaticPaths: GetStaticPaths = async () => {
+  try {
+    const articleSlugs = ARTICLES.map((at) => at.slug);
 
-//     const paths = articleSlugs.map((articleSlug: string) => {
-//       return {
-//         params: {
-//           articleSlug,
-//         },
-//       };
-//     });
+    const paths = articleSlugs.map((articleSlug: string) => {
+      return {
+        params: {
+          articleSlug,
+        },
+      };
+    });
 
-//     return {
-//       paths,
-//       fallback: true,
-//     };
-//   } catch (err) {
-//     return {
-//       paths: [{ params: { articleSlug: "" } }],
-//       fallback: true,
-//     };
-//   }
-// };
+    return {
+      paths,
+      fallback: true,
+    };
+  } catch (err) {
+    return {
+      paths: [{ params: { articleSlug: "" } }],
+      fallback: true,
+    };
+  }
+};
 
-// export const getStaticProps: GetStaticProps = async ({ params }) => {
-//   try {
-//     if (!params || typeof params.articleSlug !== "string") throw Error;
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  try {
+    if (!params || typeof params.articleSlug !== "string") throw Error;
 
-//     // get city data
-//     const article = ARTICLES.find((at) => at.slug === params.articleSlug);
-//     if (!article) throw Error;
+    // get city data
+    const article = ARTICLES.find((at) => at.slug === params.articleSlug);
+    if (!article) throw Error;
 
-//     // get articles
-//     const { articlesWithData } = await callFetchArticlesWithData([article]);
+    // get articles
+    const { articlesWithData } = await callFetchArticlesWithData([article]);
 
-//     return {
-//       props: {
-//         articleWithData: articlesWithData[0],
-//       },
-//       revalidate: 1, // regenerate the static page on the access after 1 second later from the previous access
-//     };
-//   } catch (err: any) {
-//     return {
-//       props: {
-//         articleWithData: null,
-//       },
-//     };
-//   }
-// };
+    return {
+      props: {
+        articleWithData: articlesWithData[0],
+      },
+      revalidate: 1, // regenerate the static page on the access after 1 second later from the previous access
+    };
+  } catch (err: any) {
+    return {
+      props: {
+        articleWithData: null,
+      },
+    };
+  }
+};
