@@ -14,6 +14,7 @@ interface Props {
 }
 
 export const ArticlesSection: React.FC<Props> = (props) => {
+  if (!props.articlesWithData) return null;
   /**
    * Render
    */

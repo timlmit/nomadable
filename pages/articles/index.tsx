@@ -62,21 +62,21 @@ export default Articles;
  * SSR
  */
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  try {
-    const { articlesWithData } = await callFetchArticlesWithData(ARTICLES);
+// export const getStaticProps: GetStaticProps = async ({ params }) => {
+//   try {
+//     const { articlesWithData } = await callFetchArticlesWithData(ARTICLES);
 
-    return {
-      props: {
-        articlesWithData,
-      },
-      revalidate: 1, // regenerate the static page on the access after 1 second later from the previous access
-    };
-  } catch (err: any) {
-    return {
-      props: {
-        articlesWithData: [],
-      },
-    };
-  }
-};
+//     return {
+//       props: {
+//         articlesWithData,
+//       },
+//       revalidate: 1, // regenerate the static page on the access after 1 second later from the previous access
+//     };
+//   } catch (err: any) {
+//     return {
+//       props: {
+//         articlesWithData: [],
+//       },
+//     };
+//   }
+// };
