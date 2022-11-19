@@ -45,6 +45,10 @@ export const UserSchema = (mongoose: any) => {
       type: Date,
       default: null,
     },
+    admin: {
+      type: Boolean,
+      default: false,
+    },
     created: {
       type: Date,
       default: Date.now,

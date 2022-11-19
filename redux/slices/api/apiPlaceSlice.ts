@@ -2,6 +2,7 @@ import {
   callFetchDiscoveredPlaces,
   callFetchPlaces,
   callRecentCheckIns,
+  callUpdateImages,
   callVoteAvailability,
 } from "./../../../calls/placeCalls";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
@@ -339,6 +340,23 @@ export const apiVoteAvailability = createAsyncThunk<
   try {
     const data = await callVoteAvailability(params);
     return data;
+  } catch (error: any) {
+    return thunkApi.rejectWithValue(error as CallError);
+  }
+});
+
+// apiUpdateImages
+
+export const apiUpdateImages = createAsyncThunk<
+  {}, // Return type of the payload creator
+  { placeId: string }, // First argument to the payload creator
+  {
+    rejectValue: CallError;
+  } // Types for ThunkAPI
+>("place/UpdateImages", async (params, thunkApi) => {
+  try {
+    await callUpdateImages(params);
+    return;
   } catch (error: any) {
     return thunkApi.rejectWithValue(error as CallError);
   }

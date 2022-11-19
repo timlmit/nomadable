@@ -32,6 +32,7 @@ export interface User extends EditableUser {
   salt: string;
   subscriber: string;
   verified: boolean;
+  admin: boolean;
   deletedDate: Date | null;
   created: Date | undefined;
 }
@@ -79,6 +80,7 @@ export const initialUser: User = {
   salt: "",
   subscriber: "",
   verified: false,
+  admin: false,
   deletedDate: null,
   created: undefined,
 };

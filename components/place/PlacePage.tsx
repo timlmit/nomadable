@@ -15,12 +15,14 @@ import { SectionLoader } from "../commons/SectionLoader";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
   apiCheckIn,
+  apiUpdateImages,
   selectApiCheckInStatus,
 } from "../../redux/slices/api/apiPlaceSlice";
-import { selectAuthenticated } from "../../redux/slices/userSlice";
+import { selectAuthenticated, selectUser } from "../../redux/slices/userSlice";
 import { forMobile } from "../../styles/Responsive";
 import { apiPostReview } from "../../redux/slices/api/apiReviewSlice";
 import { getStarValue } from "./components/review/ReviewScore";
+import { ButtonText } from "../../styles/styled-components/Buttons";
 
 interface Props {
   placeWithData: PlaceWithData;
@@ -29,6 +31,7 @@ interface Props {
 export const PlacePage: React.FC<Props> = ({ placeWithData }) => {
   const pd = placeWithData;
   const dispatch = useAppDispatch();
+  const user = useAppSelector(selectUser);
 
   const apiStatusCheckIn = useAppSelector(selectApiCheckInStatus);
   const isAuthenticated = useAppSelector(selectAuthenticated);
@@ -58,6 +61,10 @@ export const PlacePage: React.FC<Props> = ({ placeWithData }) => {
     dispatch(
       apiCheckIn({ placeId: placeWithData.id, speedDown, speedUp, isPublic })
     );
+  };
+
+  const updateImages = () => {
+    dispatch(apiUpdateImages({ placeId: pd.id }));
   };
 
   /**
@@ -99,6 +106,11 @@ export const PlacePage: React.FC<Props> = ({ placeWithData }) => {
       </ReviewInfo>
       <ImageWrapper>
         <SpotImages images={pd.images} />
+        {user.admin && (
+          <UpdateImageButton onClick={updateImages}>
+            Update Images
+          </UpdateImageButton>
+        )}
       </ImageWrapper>
       <InfoWrapper>
         <RightSection>
@@ -172,6 +184,7 @@ const ReviewInfo = styled.div`
 
 const ImageWrapper = styled.div`
   margin-top: 1.4rem;
+  position: relative;
 `;
 
 const InfoWrapper = styled.div`
@@ -254,4 +267,12 @@ const PlaceType = styled.div`
   font-weight: 600;
   display: flex;
   align-items: center;
+`;
+
+const UpdateImageButton = styled.button`
+  ${ButtonText};
+  position: absolute;
+  bottom: 1rem;
+  color: gray;
+  left: 1rem;
 `;

@@ -11,6 +11,7 @@ import { getUniqueSlug } from "../../modules/api/getUniqueSlug";
 import { addNewEvent } from "../../modules/api/addNewEvent";
 import { distributePointsGeneral } from "../../modules/api/addPoint";
 import { getPointPlan, POINT_TYPE_ADD_PLACE } from "../../constants";
+import { getImagesOfPlace } from "../../modules/api/getImagesOfPlace";
 
 const PLACE_ID = "place_id";
 
@@ -26,25 +27,6 @@ handler.use(authenticationMiddleware);
 //     },
 //   },
 // };
-
-const getPlaceDetail = async (placeId: string) => {
-  try {
-    const URL = "https://maps.googleapis.com/maps/api/place/details/json";
-    const KEY = `key=${process.env.GAPI_KEY}`;
-    const INPUT = `place_id=${placeId}`;
-    const LANG = "language=en";
-    const ITEMS = "fields=photos";
-
-    const response = await axios({
-      method: "get",
-      url: `${URL}?${KEY}&${INPUT}&${LANG}&${ITEMS}`,
-    });
-
-    return response.data;
-  } catch (error) {
-    throw Error;
-  }
-};
 
 handler.post(async (req: any, res: any) => {
   const { userId } = req;
@@ -69,13 +51,8 @@ handler.post(async (req: any, res: any) => {
     /**
      * Update Photos
      */
-    const data = await getPlaceDetail(place.googlePlaceId);
 
-    const photoReferences = data.result.photos.map(
-      (p: any) => p.photo_reference
-    );
-
-    const imageUrls = await getPlacePhotos(photoReferences.slice(0, 5));
+    const imageUrls = await getImagesOfPlace(place.googlePlaceId, 5);
 
     // create post
 

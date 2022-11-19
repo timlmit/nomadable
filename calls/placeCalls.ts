@@ -258,3 +258,25 @@ export const callFetchArticlesWithData = async (
     };
   }
 };
+
+// callUpdateImages
+
+export const callUpdateImages = async (params: { placeId: string }) => {
+  try {
+    await axios({
+      method: "post",
+      url: `${APP_URL}/api/update-images`,
+      data: params,
+      headers: {
+        Authorization: readCookie(COOKIE_ACCESS_TOKEN) || "",
+      },
+    });
+
+    return;
+  } catch (error: any) {
+    throw {
+      code: "",
+      message: error.response.data.message,
+    };
+  }
+};

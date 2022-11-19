@@ -3,7 +3,12 @@ import React from "react";
 import styled from "styled-components";
 
 import * as cons from "../../../constants";
+import updateImages from "../../../pages/api/update-images";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+import { apiUpdateImages } from "../../../redux/slices/api/apiPlaceSlice";
+import { selectUser } from "../../../redux/slices/userSlice";
 import { forMobile } from "../../../styles/Responsive";
+import { ButtonText } from "../../../styles/styled-components/Buttons";
 import { HideScrollBarCss } from "../../../styles/styled-components/StyleUtils";
 
 interface Props {
