@@ -92,9 +92,9 @@ export const PERU_LIMA: City = {
 };
 
 export const CANADA_VANCUBER: City = {
-  slug: "canada-vancuber",
+  slug: "canada-vancouver",
   country: "Canada",
-  city: "Vancuber",
+  city: "Vancouver",
   boundary: {
     latStart: 49.06904929903996,
     lngStart: -123.35248601373657,
