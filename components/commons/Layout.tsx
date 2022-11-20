@@ -15,6 +15,8 @@ interface Props {
   fixed?: boolean;
 }
 
+const FOOTER_HEIGHT = "3.5rem";
+
 export const Layout: React.FC<Props> = ({
   width,
   children,
@@ -33,7 +35,7 @@ export const Layout: React.FC<Props> = ({
         fixed={fixed}
       />
       <PageContainer width={width}>{children}</PageContainer>
-      <Footer width={width} />
+      <Footer width={width} height={FOOTER_HEIGHT} />
     </PageWrapper>
   );
 };
@@ -53,5 +55,5 @@ const PageContainer = styled.div`
       padding-left: 0.7rem;
       padding-right: 0.7rem;
   `)}
-  min-height: 100vh;
+  min-height: calc(100vh - ${FOOTER_HEIGHT});
 `;

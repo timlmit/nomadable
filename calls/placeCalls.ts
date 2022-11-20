@@ -5,6 +5,7 @@ import {
   MapArea,
   Place,
   PlaceWithData,
+  SitemapLink,
   Vote,
 } from "../redux/slices/placeSlice";
 import { readCookie } from "../modules/CookieHandler";
@@ -278,5 +279,22 @@ export const callUpdateImages = async (params: { placeId: string }) => {
       code: "",
       message: error.response.data.message,
     };
+  }
+};
+
+// fetch places links
+
+export const callFetchPlaceLinks = async (): Promise<{
+  placeLinks: SitemapLink[];
+}> => {
+  try {
+    const response = await axios({
+      method: "get",
+      url: `${APP_URL}/api/sitemap-links`,
+    });
+
+    return response.data;
+  } catch (error: any) {
+    return { placeLinks: [] };
   }
 };

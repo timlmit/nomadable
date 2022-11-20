@@ -6,6 +6,7 @@ import {
   COLOR_RED_1,
   FONT_COLOR_LIGHT,
   FONT_COLOR_LIGHTEST,
+  FONT_COLOR_SUPER_LIGHT,
   SHADOW_0,
   SHADOW_1,
 } from "../../constants";
@@ -69,7 +70,7 @@ export const Header: React.FC<Props> = ({
 const HeaderWrapper = styled.div<{ fixed?: boolean }>`
   display: flex;
   position: relative;
-  border-bottom: 1px solid ${FONT_COLOR_LIGHTEST};
+  border-bottom: 1px solid ${FONT_COLOR_SUPER_LIGHT};
   height: 5rem;
   box-sizing: border-box;
   background-color: white;

@@ -20,6 +20,11 @@ import {
  * Types
  */
 
+export interface SitemapLink {
+  url: string;
+  text: string;
+}
+
 export interface Spot {
   googlePlaceId: string;
   spotName: string;

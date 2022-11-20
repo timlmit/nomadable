@@ -59,3 +59,10 @@ export const ARTICLES: Article[] = [
   BANGKOK_CAFE,
   // East Europe
 ];
+
+export const ARTICLE_LINKS = ARTICLES.map((article) => {
+  return {
+    url: `${cons.APP_URL}/article/${article.slug}`,
+    text: article.title,
+  };
+});

@@ -1,11 +1,12 @@
 import { GetStaticProps } from "next";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { callFetchCitiesWithData } from "../calls/placeCalls";
 import { Breadcrumb } from "../components/app-commons/Breadcrumb";
 import { CitiesSection } from "../components/cities/CitiesSection";
 import HeadSetter from "../components/commons/HeadSetter";
 import { Layout } from "../components/commons/Layout";
+import { Footer } from "../components/global/Footer";
 import {
   CONTAINER_WIDTH_NARROW,
   APP_NAME,
