@@ -24,6 +24,7 @@ handler.post(async (req: any, res: any) => {
     if (user && user.admin && place) {
       const imageUrls = await getImagesOfPlace(place.googlePlaceId, 5);
       place.images = imageUrls;
+      place.thumbnail = imageUrls[0];
       await place.save();
     }
 
