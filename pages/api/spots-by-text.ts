@@ -14,17 +14,16 @@ handler.use(authenticationMiddleware);
 
 const getPlaceCandidates = async (input: string) => {
   try {
-    const URL =
-      "https://maps.googleapis.com/maps/api/place/queryautocomplete/json";
+    const URL = "https://maps.googleapis.com/maps/api/place/textsearch/json";
     const KEY = `key=${process.env.GAPI_KEY}`;
-    const INPUT = `input=${encodeURIComponent(input.trim())}`;
+    const INPUT = `query=${encodeURIComponent(input.trim())}`;
     // const INPUT_TYPE = "inputtype=textquery";
-    const LANG = "language=en";
+    // const LANG = "language=en";
     // const ITEMS = "fields=place_id,name,structured_formatting";
 
     const response = await axios({
       method: "get",
-      url: `${URL}?${KEY}&${INPUT}&${LANG}`,
+      url: `${URL}?${KEY}&${INPUT}`,
     });
 
     return response.data;
@@ -37,14 +36,24 @@ handler.get(async (req: any, res: any) => {
   const { text } = req.query;
 
   try {
-    const { predictions } = await getPlaceCandidates(text);
-    const spotPredictions = predictions.map((p: any) => ({
+    const { results } = await getPlaceCandidates(text);
+
+    const resultsFiltered = results.filter((p: any) => {
+      return (
+        typeof p.place_id === "string" &&
+        p.business_status !== "CLOSED_PERMANENTLY"
+      );
+    });
+
+    const spotPredictions = resultsFiltered.map((p: any) => ({
       placeId: p.place_id,
-      mainText: p.structured_formatting.main_text,
-      secondaryText: p.structured_formatting.secondary_text,
+      mainText: p.name,
+      secondaryText: p.formatted_address,
     }));
 
-    return res.status(200).json({ spotPredictions });
+    return res
+      .status(200)
+      .json({ spotPredictions: spotPredictions.slice(0, 5) });
   } catch (error: any) {
     return res.status(500).json(ERR_SOMETHING);
   }
