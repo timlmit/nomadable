@@ -139,6 +139,42 @@ export const JAPAN_TOKYO: City = {
   },
 };
 
+export const MALAYSIA_KUALA_LUMPUR: City = {
+  slug: "malaysia-kuala_lumpur",
+  country: "Malaysia",
+  city: "Kuala Lumpur",
+  boundary: {
+    latStart: 3.029225521625051,
+    lngStart: 101.57264492776164,
+    latEnd: 3.2522847314116916,
+    lngEnd: 101.81063093782183,
+  },
+};
+
+export const NEPAL_KATHMANDU: City = {
+  slug: "nepal-kathmandu",
+  country: "Nepal",
+  city: "Kathmandu",
+  boundary: {
+    latStart: 27.647187383730724,
+    lngStart: 85.24605637850743,
+    latEnd: 27.76800341116551,
+    lngEnd: 85.39143370802088,
+  },
+};
+
+export const ITALY_ROME: City = {
+  slug: "italy-rome",
+  country: "Italy",
+  city: "Rome",
+  boundary: {
+    latStart: 41.5938809690432,
+    lngStart: 12.053516911437526,
+    latEnd: 42.186241162210536,
+    lngEnd: 12.9012258134006,
+  },
+};
+
 export const CITIES: City[] = [
   /**
    * Eeast Asia
@@ -151,6 +187,11 @@ export const CITIES: City[] = [
   THAILAND_BANGKOK,
   THAILAND_CHIANGMAI,
   INDONESIA_CANGGU,
+  MALAYSIA_KUALA_LUMPUR,
+  /**
+   * South Asia
+   */
+  NEPAL_KATHMANDU,
   /**
    * North America
    */
@@ -163,4 +204,5 @@ export const CITIES: City[] = [
   /**
    * East Europe
    */
+  ITALY_ROME,
 ];
