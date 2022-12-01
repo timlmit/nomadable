@@ -40,6 +40,7 @@ const FooterWrapper = styled.div<{ height: string }>`
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  margin-top: 3rem;
 `;
 
 const PageContainer = styled.div`
