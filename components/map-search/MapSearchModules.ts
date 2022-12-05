@@ -1,3 +1,4 @@
+import { PLACE_TYPE_CAFE } from "./../../constants";
 import { Place } from "../../redux/slices/placeSlice";
 import { PLACE_TYPE_WORKSPACE, PLACE_TYPE_LIST } from "../../constants";
 import { getColorOfSpeed } from "../commons/NetSpeedIndicator";
@@ -20,7 +21,7 @@ const makeIcon = (
   return `
       <div style="display:flex; flex-direction: column; align-items: center;">
         <div style="font-size: ${
-          placeType === PLACE_TYPE_WORKSPACE ? fontSize * 2 : fontSize * 2.5
+          placeType === PLACE_TYPE_CAFE ? fontSize * 2.4 : fontSize * 2
         }rem; margin-bottom: ${fontSize * 0.2}rem;">${
     PLACE_TYPE_LIST[placeType].icon
   }</div>
