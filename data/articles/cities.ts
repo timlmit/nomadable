@@ -175,6 +175,18 @@ export const ITALY_ROME: City = {
   },
 };
 
+export const AUSTRALIA_MELBOURNE: City = {
+  slug: "australia-melbourne",
+  country: "Australia",
+  city: "Melbourne",
+  boundary: {
+    latStart: -38.041517889722535,
+    lngStart: 144.6610860211103,
+    latEnd: -37.60347224843642,
+    lngEnd: 145.2293761827463,
+  },
+};
+
 export const CITIES: City[] = [
   /**
    * Eeast Asia
@@ -205,4 +217,8 @@ export const CITIES: City[] = [
    * East Europe
    */
   ITALY_ROME,
+  /**
+   * Oceanian
+   */
+  AUSTRALIA_MELBOURNE,
 ];
