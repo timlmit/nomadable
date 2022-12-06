@@ -68,6 +68,7 @@ const PlaceContainer: React.FC<Props> = (props) => {
         pageTitle={`${pd.spotName} | ${cons.APP_NAME}`}
         pageDescription={generateDescription()}
         pagePath={`${cons.APP_URL}/place/${pd.id}`}
+        pageImg={pd.images[0]}
       />
       {/* <SectionLoader
         visible={apiStatusFetchPlace.status === cons.API_LOADING}
