@@ -26,12 +26,12 @@ export interface ArticleWithData extends Article {
 const BANGKOK_CORWORKING: Article = {
   slug: `top-coworking-spaces-${ct.THAILAND_BANGKOK.slug}`,
   city: ct.THAILAND_BANGKOK,
-  title: "Top 5 Coworking Spaces in Bangkok, Thailand",
+  title: "Top 10 Coworking Spaces in Bangkok, Thailand",
   filterObj: {
     placeTypes: [cons.PLACE_TYPE_WORKSPACE],
     availability: [cons.AVL_DROP_IN],
   },
-  placeCnt: 5,
+  placeCnt: 10,
   omitPlaceIds: [],
   omitReviewIds: [],
 };
@@ -39,12 +39,12 @@ const BANGKOK_CORWORKING: Article = {
 const BANGKOK_CAFE: Article = {
   slug: `top-work-study-cafes-${ct.THAILAND_BANGKOK.slug}`,
   city: ct.THAILAND_BANGKOK,
-  title: "Top 5 Study & Work Friendly Cafes in Bangkok, Thailand",
+  title: "Top 10 Study & Work Friendly Cafes in Bangkok, Thailand",
   filterObj: {
     placeTypes: [cons.PLACE_TYPE_CAFE],
     availability: [],
   },
-  placeCnt: 5,
+  placeCnt: 10,
   omitPlaceIds: [],
   omitReviewIds: [],
 };
