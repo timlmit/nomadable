@@ -182,8 +182,10 @@ export const PlacePage: React.FC<Props> = ({ placeWithData }) => {
             />
           </DiscoveredByWrapper>
           {user.admin && (
-            <DeletePlaceWrapper onClick={deletePlace}>
-              <DeletePlaceButton>Delete this place</DeletePlaceButton>
+            <DeletePlaceWrapper>
+              <DeletePlaceButton onClick={deletePlace}>
+                Delete this place
+              </DeletePlaceButton>
             </DeletePlaceWrapper>
           )}
         </LeftSection>
