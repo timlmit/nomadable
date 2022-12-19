@@ -43,7 +43,8 @@ export const DiscoveredBy: React.FC<Props> = ({
 };
 
 const DiscoveredByWrapper = styled.div`
-  ${ClickableStyle}
+  ${ClickableStyle};
+  display: inline-block;
 `;
 
 const Label = styled.div`

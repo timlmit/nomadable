@@ -35,6 +35,27 @@ export const callCreatePlace = async (
   }
 };
 
+export const callDeletePlace = async (placeId: string) => {
+  try {
+    await axios({
+      method: "post",
+      url: `${APP_URL}/api/delete-place`,
+      data: { placeId },
+      headers: {
+        Authorization: readCookie(COOKIE_ACCESS_TOKEN) || "",
+      },
+    });
+
+    return;
+  } catch (error: any) {
+    throw {
+      code: "",
+      message: error.response.data.message,
+      placeId: error.response.data.placeId,
+    };
+  }
+};
+
 // callFetchPlace
 
 export const callFetchPlace = async (

@@ -1,11 +1,11 @@
 import {
+  callDeletePlace,
   callFetchDiscoveredPlaces,
   callFetchPlaces,
-  callRecentCheckIns,
   callUpdateImages,
   callVoteAvailability,
 } from "./../../../calls/placeCalls";
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { CallError } from "../../../calls/Types";
 import { RootState } from "../../store";
@@ -18,7 +18,6 @@ import {
 import { ERR_SOMETHING } from "../../../modules/ErrorCode";
 import { FilterObj, MapArea, Place, PlaceWithData, Vote } from "../placeSlice";
 import { showPointEarned } from "../uiSlice";
-import places from "../../../pages/api/places";
 
 /**
  * Types
@@ -32,6 +31,7 @@ interface ApiStatus {
 interface ApiState {
   // user auth
   apiCreatePlaceStatus: ApiStatus;
+  apiDeletePlaceStatus: ApiStatus;
   apiFetchPlaceForPageStatus: ApiStatus;
   apiCheckInStatus: ApiStatus;
   apiFetchPlacesStatus: ApiStatus;
@@ -51,6 +51,7 @@ const initialApiState = {
 
 const initialState: ApiState = {
   apiCreatePlaceStatus: initialApiState,
+  apiDeletePlaceStatus: initialApiState,
   apiFetchPlaceForPageStatus: initialApiState,
   apiCheckInStatus: initialApiState,
   apiFetchPlacesStatus: initialApiState,
@@ -66,6 +67,10 @@ const apiSlice = createSlice({
     initApiCreatePlaceState: (state) => {
       state.apiCreatePlaceStatus.status = cons.API_IDLE;
       state.apiCreatePlaceStatus.error = "";
+    },
+    initApiDeletePlaceState: (state) => {
+      state.apiDeletePlaceStatus.status = cons.API_IDLE;
+      state.apiDeletePlaceStatus.error = "";
     },
     initapiFetchPlaceForPageState: (state) => {
       state.apiFetchPlaceForPageStatus.status = cons.API_IDLE;
@@ -94,6 +99,22 @@ const apiSlice = createSlice({
         state.apiCreatePlaceStatus.error = action.payload.message;
       } else {
         state.apiCreatePlaceStatus.error = action.error.message || "";
+      }
+    });
+
+    // CreatePlace
+    builder.addCase(apiDeletePlace.pending, (state, action) => {
+      state.apiDeletePlaceStatus.status = cons.API_LOADING;
+    });
+    builder.addCase(apiDeletePlace.fulfilled, (state, action) => {
+      state.apiDeletePlaceStatus.status = cons.API_SUCCEEDED;
+    });
+    builder.addCase(apiDeletePlace.rejected, (state, action) => {
+      state.apiDeletePlaceStatus.status = cons.API_FALIED;
+      if (action.payload) {
+        state.apiDeletePlaceStatus.error = action.payload.message;
+      } else {
+        state.apiDeletePlaceStatus.error = action.error.message || "";
       }
     });
 
@@ -223,6 +244,24 @@ export const apiCreatePlace = createAsyncThunk<
     if (error.placeId) {
       errorCallback(error.placeId);
     }
+    return thunkApi.rejectWithValue(error as CallError);
+  }
+});
+
+// CreatePlace
+
+export const apiDeletePlace = createAsyncThunk<
+  {}, // Return type of the payload creator
+  { placeId: string }, // First argument to the payload creator
+  {
+    rejectValue: CallError;
+  } // Types for ThunkAPI
+>("place/DeletePlace", async ({ placeId }, thunkApi) => {
+  try {
+    await callDeletePlace(placeId);
+    return;
+  } catch (error: any) {
+    window.alert(error.message);
     return thunkApi.rejectWithValue(error as CallError);
   }
 });
@@ -368,6 +407,7 @@ export const apiUpdateImages = createAsyncThunk<
 
 export const {
   initApiCreatePlaceState,
+  initApiDeletePlaceState,
   initapiFetchPlaceForPageState,
   initApiFetchDiscoveredPlacesState,
   initApiFetchPlacesState,
@@ -379,6 +419,9 @@ export const {
 
 export const selectApiCreatePlaceStatus = (state: RootState): ApiStatus =>
   state.apiPlace.apiCreatePlaceStatus;
+
+export const selectApiDeletePlaceStatus = (state: RootState): ApiStatus =>
+  state.apiPlace.apiDeletePlaceStatus;
 
 export const selectApiFetchPlaceForPageStatus = (state: RootState): ApiStatus =>
   state.apiPlace.apiFetchPlaceForPageStatus;

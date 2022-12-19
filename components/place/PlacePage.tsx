@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import styled from "styled-components";
 
 import * as cons from "../../constants";
@@ -15,25 +15,36 @@ import { SectionLoader } from "../commons/SectionLoader";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
   apiCheckIn,
+  apiDeletePlace,
   apiUpdateImages,
+  initApiDeletePlaceState,
   selectApiCheckInStatus,
+  selectApiDeletePlaceStatus,
 } from "../../redux/slices/api/apiPlaceSlice";
 import { selectAuthenticated, selectUser } from "../../redux/slices/userSlice";
 import { forMobile } from "../../styles/Responsive";
 import { apiPostReview } from "../../redux/slices/api/apiReviewSlice";
 import { getStarValue } from "./components/review/ReviewScore";
-import { ButtonText } from "../../styles/styled-components/Buttons";
+import {
+  ButtonSecondaryMedium,
+  ButtonSecondarySmall,
+  ButtonSecondarySmallest,
+  ButtonText,
+} from "../../styles/styled-components/Buttons";
+import Router, { useRouter } from "next/router";
 
 interface Props {
   placeWithData: PlaceWithData;
 }
 
 export const PlacePage: React.FC<Props> = ({ placeWithData }) => {
+  const router = useRouter();
   const pd = placeWithData;
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
 
   const apiStatusCheckIn = useAppSelector(selectApiCheckInStatus);
+  const apiStatusDelete = useAppSelector(selectApiDeletePlaceStatus);
   const isAuthenticated = useAppSelector(selectAuthenticated);
 
   const [checkInModalVisible, setCheckInModalVisible] = useState(false);
@@ -66,6 +77,24 @@ export const PlacePage: React.FC<Props> = ({ placeWithData }) => {
   const updateImages = () => {
     dispatch(apiUpdateImages({ placeId: pd.id }));
   };
+
+  const deletePlace = () => {
+    // check if user really want to delete the place and then delete
+    if (window.confirm(`Are you sure you want to delete "${pd.spotName}"?`)) {
+      dispatch(apiDeletePlace({ placeId: pd.id }));
+    }
+  };
+
+  /**
+   * Effect
+   */
+
+  useEffect(() => {
+    if (apiStatusDelete.status === cons.API_SUCCEEDED) {
+      dispatch(initApiDeletePlaceState());
+      router.push("/");
+    }
+  }, [apiStatusDelete]);
 
   /**
    * Render
@@ -152,6 +181,11 @@ export const PlacePage: React.FC<Props> = ({ placeWithData }) => {
               userPicture={pd.userPicture}
             />
           </DiscoveredByWrapper>
+          {user.admin && (
+            <DeletePlaceWrapper onClick={deletePlace}>
+              <DeletePlaceButton>Delete this place</DeletePlaceButton>
+            </DeletePlaceWrapper>
+          )}
         </LeftSection>
       </InfoWrapper>
       <CheckInModal
@@ -166,7 +200,7 @@ export const PlacePage: React.FC<Props> = ({ placeWithData }) => {
 };
 
 const PlacePageWrapper = styled.div`
-  padding-bottom: 4rem;
+  padding-bottom: 2rem;
 `;
 
 const SpotName = styled.div`
@@ -275,4 +309,17 @@ const UpdateImageButton = styled.button`
   bottom: 1rem;
   color: gray;
   left: 1rem;
+`;
+
+const DeletePlaceWrapper = styled.div`
+  border-top: 1px solid ${cons.FONT_COLOR_LIGHTEST};
+  margin-top: 3rem;
+  padding-top: 2rem;
+`;
+
+const DeletePlaceButton = styled.button`
+  /* ${ButtonText} */
+  ${ButtonSecondarySmallest}
+  color: ${cons.COLOR_RED_0};
+  border-color: ${cons.COLOR_RED_4};
 `;
