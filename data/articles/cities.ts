@@ -187,6 +187,18 @@ export const AUSTRALIA_MELBOURNE: City = {
   },
 };
 
+export const SOUTH_AFRICA_JOHANNESBURG: City = {
+  slug: "south_africa-johannesburg",
+  country: "South Africa",
+  city: "Johannesburg",
+  boundary: {
+    latStart: -26.863921174388345,
+    lngStart: 27.234980504189394,
+    latEnd: -25.61866281534857,
+    lngEnd: 28.79070328280011,
+  },
+};
+
 export const CITIES: City[] = [
   /**
    * Eeast Asia
@@ -221,4 +233,8 @@ export const CITIES: City[] = [
    * Oceanian
    */
   AUSTRALIA_MELBOURNE,
+  /**
+   * Africa
+   */
+  SOUTH_AFRICA_JOHANNESBURG,
 ];
