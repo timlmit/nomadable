@@ -106,6 +106,11 @@ export const EditProfileModal: React.FC<Props> = ({
     onSubmit({ id, email, picture, name, title, description, link }, base64);
   };
 
+  const onClickCancel = () => {
+    setEditableUser(editableUser);
+    closeModal();
+  };
+
   const onUploadImage = (imgElms: HTMLImageElement[]) => {
     setEditableUser({ ...newEditableUser, picture: imgElms[0].src });
     const _base64 = convertImgElmsToBase64s(imgElms[0]);
@@ -191,7 +196,7 @@ export const EditProfileModal: React.FC<Props> = ({
         {/* {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>} */}
       </ModalBody>
       <Footer>
-        <CancelButton>Cancel</CancelButton>
+        <CancelButton onClick={onClickCancel}>Cancel</CancelButton>
         <SubmitButton onClick={onClickSubmit} disabled={!canSubmit()}>
           Save
         </SubmitButton>

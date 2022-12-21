@@ -2,12 +2,19 @@ import styled, { css } from "styled-components";
 
 import * as cons from "../../constants";
 import * as fs from "../../styles/styled-components/FontSize";
+import { forMobile } from "../Responsive";
 
 export const Header1 = css`
   font-size: 2rem;
   font-weight: 700;
   color: ${cons.FONT_COLOR_NORMAL};
   line-height: 1.3em;
+
+  margin: 1.5em 0 1.5em 0;
+
+  ${forMobile(`
+  margin: 1em 0 1em 0;
+`)}
 `;
 
 export const Header2 = css`
@@ -15,6 +22,12 @@ export const Header2 = css`
   font-weight: 700;
   color: ${cons.FONT_COLOR_NORMAL};
   line-height: 1.3em;
+
+  margin: 2em 0 1em 0;
+
+  ${forMobile(`
+    margin: 1.5em 0 1em 0;
+  `)}
 `;
 
 export const Header3 = css`

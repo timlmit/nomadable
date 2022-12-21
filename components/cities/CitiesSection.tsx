@@ -48,7 +48,9 @@ const Title = styled.h1`
   margin-top: 1.5rem;
 
   ${forMobile(`
-    margin-bottom: 1.8rem;
+    margin-top: 0.8rem;
+    margin-bottom: 1rem;
+    ${fs.FontSizeLarge};
   `)}
 `;
 
@@ -56,6 +58,10 @@ const Container = styled.div`
   display: flex;
   gap: 1.5rem;
   flex-wrap: wrap;
+
+  ${forMobile(`
+    gap: 0.7rem;
+  `)}
 `;
 
 const Subtitle = styled.div`
@@ -64,4 +70,8 @@ const Subtitle = styled.div`
   color: ${cons.FONT_COLOR_LIGHT};
   font-weight: 400;
   font-size: 1.2rem;
+
+  ${forMobile(`
+    margin-bottom: 1.5rem;
+  `)}
 `;

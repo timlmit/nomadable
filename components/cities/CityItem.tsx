@@ -57,9 +57,9 @@ const CityItemWrapper = styled.a`
   margin-bottom: 1.5rem;
 
   ${forMobile(`
-    width: 100%;
-    margin-bottom: 1.1rem;
-    height: 14rem;
+    width: calc(50% - 0.35rem);
+    margin-bottom: 1.6rem;
+    height: 11rem;
   `)}
 `;
 
@@ -108,6 +108,11 @@ const AvgSpeedUnit = styled.div`
 const CityName = styled.div`
   ${fs.FontSizeExLarge}
   font-weight: bold;
+  text-align: center;
+
+  ${forMobile(`
+      font-size: 1.6rem;
+  `)}
 `;
 
 const CountryName = styled.div`
@@ -121,7 +126,7 @@ const Label = styled.div`
   margin-top: 0.6rem;
 
   ${forMobile(`
-  margin-top: 0.3rem;
+  margin-top: 0.2rem;
   `)}
 `;
 

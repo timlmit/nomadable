@@ -19,6 +19,10 @@ export const FontSizeLarge = css`
 
 export const FontSizeSemiLarge = css`
   font-size: 1.2rem;
+
+  ${forMobile(`
+    font-size: 1.1rem;
+  `)}
 `;
 
 export const FontSizeNormal = css`

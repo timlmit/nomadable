@@ -71,6 +71,8 @@ handler.post(async (req: any, res: any) => {
     const Place = req.mongoose.model("Place");
     const CheckIn = req.mongoose.model("CheckIn");
 
+    const firstCheckIn = !(await CheckIn.exists({ placeId }));
+
     // create check in
     const checkin = await CheckIn.create({
       userId,
@@ -95,7 +97,8 @@ handler.post(async (req: any, res: any) => {
       userId,
       updatedPlace.discoveredBy,
       checkin._id,
-      placeId
+      placeId,
+      firstCheckIn
     );
 
     // update event

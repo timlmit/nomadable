@@ -33,14 +33,14 @@ interface Props {}
 export const SignupPage: React.FC<Props> = ({}) => {
   return (
     <LayoutPlain>
-      <ContentsWrapper imageUrl="/img/img/background.jpg">
+      <ContentsWrapper imageUrl="/img/img/background3.jpg">
         <HeroSection width={CONTAINER_WIDTH_NARROW}>
           <CatchCopy>
             <Title>Join the Nomadable Community</Title>
             <Subtitle>
               Nomadable is maintained by digital nomads around the world. Please
-              contribute by adding your favorite cafes, coworking spaces, and
-              hotels.
+              contribute by adding your favorite cafes, coworking spaces,
+              libraries, etc.
             </Subtitle>
           </CatchCopy>
 
@@ -55,15 +55,15 @@ export const SignupPage: React.FC<Props> = ({}) => {
         <Mention>
           Image by{` `}
           <a
-            href="https://unsplash.com/@ploywanasiri?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+            href="https://unsplash.com/@potofgold07?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
             target="_blank"
             rel="noreferrer"
           >
-            Wanaporn Yangsiri
+            Raman
           </a>
           {` `}
           <a
-            href="https://unsplash.com/ja?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+            href="https://unsplash.com/ja/@potofgold07?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
             target="_blank"
             rel="noreferrer"
           >

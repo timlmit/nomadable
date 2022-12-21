@@ -73,26 +73,16 @@ const ContentWrapper = styled.div`
   `)}
 `;
 
-const Title = styled.div`
+const Title = styled.h1`
   ${Header1};
-  margin: 1.5em 0 1.5em 0;
-
-  ${forMobile(`
-    margin: 1em 0 1em 0;
-  `)}
 `;
 
 const SectionWrapper = styled.div`
   /* margin: 1rem 0rem; */
 `;
 
-const SectionTitle = styled.div`
+const SectionTitle = styled.h2`
   ${Header2};
-  margin: 2em 0 1.5em 0;
-
-  ${forMobile(`
-    margin: 1.5em 0 1em 0;
-  `)}
 `;
 
 export const getStaticProps: GetStaticProps = async ({}) => {

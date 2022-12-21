@@ -138,7 +138,7 @@ const Header = styled.div<{ width: number }>`
   width: ${(props) => props.width}rem;
   box-sizing: border-box;
   margin-left: -2rem;
-  padding: 1.5rem 1.5rem;
+  padding: 1.5rem 2rem;
   border-bottom: 1px solid ${cons.FONT_COLOR_SUPER_LIGHT};
 
   ${forMobile(`

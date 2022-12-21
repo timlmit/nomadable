@@ -14,11 +14,11 @@ export const getUserWithStats = async (
 
   try {
     const user = await User.findOne({ _id: userId }).lean();
-    const monthAgo = Date.now() - 1000 * 60 * 60 * 24 * 30;
+    // const monthAgo = Date.now() - 1000 * 60 * 60 * 24 * 30;
 
     // get point ranking
     const ranking = await Point.aggregate([
-      { $match: { timestamp: { $gt: monthAgo } } },
+      // { $match: { timestamp: { $gt: monthAgo } } },
       { $group: { _id: "$userId", total: { $sum: "$point" } } },
       { $sort: { total: -1 } },
     ]);

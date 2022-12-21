@@ -3,7 +3,10 @@ import {
   POINT_TYPE_ADD_PLACE,
   POINT_TYPE_BE_CHECKED_IN,
 } from "./../../constants";
-import { POINT_TYPE_CHECK_IN } from "../../constants";
+import {
+  POINT_TYPE_CHECK_IN,
+  POINT_TYPE_FIRST_CHECK_IN,
+} from "../../constants";
 import { Point } from "mapbox-gl";
 
 /**
@@ -42,11 +45,16 @@ const distributePointsCheckIn = async (
   checkInUser: string,
   discoveredBy: string,
   actionId: string,
-  placeId: string
+  placeId: string,
+  firstCheckIn: boolean
 ) => {
   const Point = mongoose.model("Point");
 
-  const checkInPoint = getPointPlan(POINT_TYPE_CHECK_IN);
+  const checkInType = firstCheckIn
+    ? POINT_TYPE_FIRST_CHECK_IN
+    : POINT_TYPE_CHECK_IN;
+
+  const checkInPoint = getPointPlan(checkInType);
   const checkedInPoint = getPointPlan(POINT_TYPE_BE_CHECKED_IN);
 
   // send points to check in user
@@ -54,7 +62,7 @@ const distributePointsCheckIn = async (
     userId: checkInUser,
     timestamp: Date.now(),
     point: checkInPoint,
-    type: POINT_TYPE_CHECK_IN,
+    type: checkInType,
     actionId,
     placeId,
   });

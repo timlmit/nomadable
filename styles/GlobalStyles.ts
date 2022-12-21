@@ -40,7 +40,7 @@ const GlobalStyles = createGlobalStyle`
   h4,
   p {
     margin: 0;
-    font-size: 18px;
+    /* font-size: 18px; */
     font-weight: 400;
   }
 

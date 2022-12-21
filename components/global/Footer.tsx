@@ -22,6 +22,10 @@ export const Footer: React.FC<Props> = ({ width, height }) => {
         <FooterContents>
           <Trademark>{`© ${new Date().getFullYear()} Nomadable`}</Trademark>
           <Dot>&#x2022;</Dot>
+          <Link href="/about" passHref>
+            <a>How It Works</a>
+          </Link>
+          <Dot>&#x2022;</Dot>
           <Link href="/sitemap" passHref>
             <a>Sitemap</a>
           </Link>

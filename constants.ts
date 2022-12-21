@@ -230,12 +230,20 @@ export const POINT_TYPE_BE_CHECKED_IN = "Checked In";
 export const POINT_TYPE_ADD_PLACE = "Add Place";
 export const POINT_TYPE_REVIEW = "Review";
 
-export const POINT_TABLE: { type: string; point: number }[] = [
-  { type: POINT_TYPE_ADD_PLACE, point: 3 },
-  { type: POINT_TYPE_FIRST_CHECK_IN, point: 10 },
-  { type: POINT_TYPE_CHECK_IN, point: 3 },
-  { type: POINT_TYPE_BE_CHECKED_IN, point: 1 },
-  { type: POINT_TYPE_REVIEW, point: 10 },
+export const POINT_TABLE: {
+  type: string;
+  point: number;
+  description: string;
+}[] = [
+  { type: POINT_TYPE_ADD_PLACE, point: 3, description: "Add place" },
+  { type: POINT_TYPE_FIRST_CHECK_IN, point: 10, description: "First check in" },
+  { type: POINT_TYPE_CHECK_IN, point: 3, description: "Check in" },
+  {
+    type: POINT_TYPE_BE_CHECKED_IN,
+    point: 1,
+    description: "Your place be checked in",
+  },
+  { type: POINT_TYPE_REVIEW, point: 10, description: "Post a review" },
 ];
 
 export const getPointPlan = (pointType: string): number => {
