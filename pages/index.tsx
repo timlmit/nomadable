@@ -72,10 +72,9 @@ export default Cities;
 export const getStaticProps: GetStaticProps = async ({}) => {
   try {
     const { citiesWithData } = await callFetchCitiesWithData(CITIES);
-    const totalPlaceCnt = citiesWithData.reduce(
-      (total, city) => total + city.spotCnt,
-      0
-    );
+    const totalPlaceCnt = citiesWithData
+      .filter((c) => c.boundary !== null)
+      .reduce((total, city) => total + city.spotCnt, 0);
 
     return {
       props: {
