@@ -34,6 +34,7 @@ interface Props {
   // filterVisible: boolean;
   onChangeFilterVisible: (visible: boolean) => void;
   searchResultTotalCnt: number;
+  onHoverPlace: (placeId: string) => void;
 }
 
 export const SearchResult: React.FC<Props> = ({
@@ -47,6 +48,7 @@ export const SearchResult: React.FC<Props> = ({
   // filterVisible,
   onChangeFilterVisible,
   searchResultTotalCnt,
+  onHoverPlace,
 }) => {
   const apiStatus = useAppSelector(selectApiFetchPlacesStatus);
   // const [filterVisible, setFilterVisible] = useState(false);
@@ -96,7 +98,16 @@ export const SearchResult: React.FC<Props> = ({
             <NoResult>There is no search result in the area.</NoResult>
           )}
           {places.map((place) => (
-            <PlaceWrapper key={place.id} id={`element_${place.id}`}>
+            <PlaceWrapper
+              key={place.id}
+              id={`element_${place.id}`}
+              onMouseEnter={() => {
+                onHoverPlace(place.id);
+              }}
+              onMouseLeave={() => {
+                onHoverPlace("");
+              }}
+            >
               <PlaceItem
                 place={place}
                 selected={

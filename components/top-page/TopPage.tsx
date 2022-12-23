@@ -48,6 +48,7 @@ export const TopPage: React.FC<Props> = ({ places, searchResultTotalCnt }) => {
   const [filterObj, setFilterObj] = useState<FilterObj>(initialFilterObj);
   const [scrollButtonVisible, setScrollButtonVisible] = useState(false);
   const [filterVisible, setFilterVisible] = useState(false);
+  const [hoveredPlace, setHoveredPlace] = useState("");
   // custom hook
   const [viewHeight] = useViewHeight();
   const [scrollPosition] = useScrolllPosition();
@@ -139,6 +140,10 @@ export const TopPage: React.FC<Props> = ({ places, searchResultTotalCnt }) => {
     onChangeFilterVisible(false);
   };
 
+  const onHoverPlace = (placeId: string) => {
+    setHoveredPlace(placeId);
+  };
+
   /**
    * Effect
    */
@@ -212,6 +217,7 @@ export const TopPage: React.FC<Props> = ({ places, searchResultTotalCnt }) => {
           // filterVisible={filterVisible}
           onChangeFilterVisible={onChangeFilterVisible}
           searchResultTotalCnt={searchResultTotalCnt}
+          onHoverPlace={onHoverPlace}
         />
       </SearchResultSection>
       <MapSection viewHeight={viewHeight}>
@@ -227,6 +233,7 @@ export const TopPage: React.FC<Props> = ({ places, searchResultTotalCnt }) => {
           onClickMarker={onClickMarker}
           selectedPlace={selectedPlace}
           viewHeight={viewHeight}
+          hoveredPlace={hoveredPlace}
         />
       </MapSection>
 

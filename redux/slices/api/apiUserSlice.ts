@@ -1,3 +1,5 @@
+import { logEventSignup } from "./../../../modules/EventLogger";
+
 // import { apiFetchRecentCheckIns } from "./apiPlaceSlice";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
@@ -284,6 +286,7 @@ export const apiSignupWithEmail = createAsyncThunk<
 >("user/SignupWithEmail", async ({ email, password, userName }, thunkApi) => {
   try {
     await callSignupWithEmail(email, password, userName);
+    logEventSignup();
     return;
   } catch (error: any) {
     window.alert(error.response.data);

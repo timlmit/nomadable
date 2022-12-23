@@ -1,20 +1,41 @@
 import { fetchPlacesWithFilter } from "./../../modules/api/fetchPlacesWithFilter";
-import { PLACE_TYPE_CAFE } from "./../../constants";
+import { APP_URL, PLACE_TYPE_CAFE } from "./../../constants";
 import nextConnect from "next-connect";
 
 import { ERR_SOMETHING } from "../../modules/ErrorCode";
 import databaseMiddleware from "../../middleware/database";
 import authenticationMiddleware from "../../middleware/authentication";
-import { City, CityWithData } from "../../data/articles/cities";
+import { Boundary, City, CityWithData } from "../../data/articles/cities";
 import places from "./places";
 import { initialFilterObj } from "../../redux/slices/placeSlice";
 import { getAverage } from "../../modules/Math";
 import { getUnsplashImageTop } from "../../modules/api/getUnslashImageTop";
+import mongoose from "mongoose";
 
 const handler = nextConnect();
 
 handler.use(databaseMiddleware);
 handler.use(authenticationMiddleware);
+
+const getCityMetaData = async (boundary: Boundary | null, mongoose: any) => {
+  const { places } = await fetchPlacesWithFilter(
+    mongoose,
+    boundary,
+    initialFilterObj,
+    0,
+    1000
+  );
+
+  const spotCnt = places.length;
+  const placesWithSpeed = places.filter((place) => place.speedDown !== 0);
+  const downSpeedArr = placesWithSpeed.map((place) => place.speedDown);
+  const avgSpeed = downSpeedArr.length > 0 ? getAverage(downSpeedArr) : 0;
+
+  return {
+    spotCnt,
+    avgSpeed,
+  };
+};
 
 handler.post(async (req: any, res: any) => {
   //   const { userId } = req;
@@ -24,20 +45,27 @@ handler.post(async (req: any, res: any) => {
     const citiesWithData: CityWithData[] = [];
     let loopCnt = 0;
 
+    // add world
+    const { spotCnt, avgSpeed } = await getCityMetaData(null, req.mongoose);
+    const world: CityWithData = {
+      avgSpeed,
+      boundary: null,
+      city: "World",
+      country: "",
+      spotCnt,
+      slug: "world",
+      thumbnail: `${APP_URL}/img/img/world/world1.jpg`,
+    };
+    citiesWithData.push(world);
+
+    // add cities
     while (citiesWithData.length < cities.length) {
       const city: City = cities[loopCnt];
-      const { places } = await fetchPlacesWithFilter(
-        req.mongoose,
-        city.boundary,
-        initialFilterObj,
-        0,
-        1000
-      );
 
-      const spotCnt = places.length;
-      const placesWithSpeed = places.filter((place) => place.speedDown !== 0);
-      const downSpeedArr = placesWithSpeed.map((place) => place.speedDown);
-      const avgSpeed = downSpeedArr.length > 0 ? getAverage(downSpeedArr) : 0;
+      const { spotCnt, avgSpeed } = await getCityMetaData(
+        city.boundary,
+        req.mongoose
+      );
 
       // get image
       const image = await getUnsplashImageTop(`${city.city}, ${city.country}`);

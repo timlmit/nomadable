@@ -46,8 +46,10 @@ export const Header: React.FC<Props> = ({
   return (
     <HeaderWrapper fixed={fixed}>
       <PageContainer width={width}>
-        <Link href="/">
-          <Brandlogo src="/img/brand/brandlogo.svg" />
+        <Link href="/" passHref>
+          <a>
+            <Brandlogo src="/img/brand/brandlogo.svg" />
+          </a>
         </Link>
         <MenuWrapper ref={wrapperRef}>
           <NotificationMark visible={notificationCnt > 0} />

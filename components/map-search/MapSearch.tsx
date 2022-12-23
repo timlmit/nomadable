@@ -6,7 +6,7 @@ import * as cons from "../../constants";
 import { Place } from "../../redux/slices/placeSlice";
 import { features } from "process";
 import { getColorOfSpeed } from "../commons/NetSpeedIndicator";
-import { useRouter } from "next/router";
+import router, { useRouter } from "next/router";
 import { convertPlacesToPins, makeIcon } from "./MapSearchModules";
 
 interface Props {
@@ -24,6 +24,7 @@ interface Props {
   onClickMarker: (placeId: string) => void;
   selectedPlace: string;
   viewHeight: number;
+  hoveredPlace: string;
 }
 
 const MAP_STYLE_STREET = "mapbox://styles/mapbox/streets-v11";
@@ -89,7 +90,8 @@ export const MapSearch: React.FC<Props> = (props) => {
       onViewportUpdate();
       if (mapRef.current) {
         const zoom = mapRef.current.getZoom();
-        setZoomLevel(zoom < 10 ? 0 : 1);
+        const _zoomLevel = zoom < 10 ? 0 : zoom < 15 ? 1 : 2;
+        setZoomLevel(_zoomLevel);
       }
     });
 
@@ -128,15 +130,14 @@ export const MapSearch: React.FC<Props> = (props) => {
         props.onClickMarker(pin.id);
       });
 
-      if (zoomLevel >= 1) {
-        marker.getElement().innerHTML = makeIcon(
-          pin.placeType,
-          pin.name,
-          pin.color,
-          zoomLevel >= 2 ? 0.85 : 0.7
-        );
-      } else {
-        // marker.getElement().innerHTML = "";
+      if (zoomLevel >= 1 && props.hoveredPlace !== pin.id) {
+        marker.getElement().innerHTML = makeIcon({
+          placeType: pin.placeType,
+          name: pin.name,
+          color: pin.color,
+          fontSize: zoomLevel >= 1 ? 0.8 : 0.7,
+          withName: zoomLevel >= 2 ? true : false,
+        });
       }
 
       marker.getElement().style.fontSize = "0.8rem";
@@ -180,7 +181,7 @@ export const MapSearch: React.FC<Props> = (props) => {
 
   useEffect(() => {
     updatePins(pins);
-  }, [zoomLevel]);
+  }, [pins, zoomLevel, props.hoveredPlace]);
 
   useEffect(() => {
     updatePins(pins);

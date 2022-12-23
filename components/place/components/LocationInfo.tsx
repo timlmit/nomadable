@@ -1,7 +1,9 @@
+import { title } from "process";
 import React from "react";
 import styled from "styled-components";
 
 import * as cons from "../../../constants";
+import { logEventGoogleLink } from "../../../modules/EventLogger";
 import { forMobile } from "../../../styles/Responsive";
 import { ButtonText } from "../../../styles/styled-components/Buttons";
 import * as fs from "../../../styles/styled-components/FontSize";
@@ -16,6 +18,8 @@ export const LocationInfo: React.FC<Props> = ({
   spotAddress,
 }) => {
   const onClickLink = () => {
+    logEventGoogleLink(googlePlaceId);
+
     window.open(`${cons.LOCATION_LINK_PLACE_ID}${googlePlaceId}`);
   };
 

@@ -3,7 +3,7 @@ import { FilterObj, Place } from "../../redux/slices/placeSlice";
 
 export const fetchPlacesWithFilter = async (
   mongoose: any,
-  boundary: Boundary,
+  boundary: Boundary | null,
   filterObj: FilterObj,
   skip: number,
   limit: number
@@ -21,9 +21,15 @@ export const fetchPlacesWithFilter = async (
         ? { $all: filterObj.availability }
         : { $exists: true };
 
+    const boundaryCondition = boundary
+      ? {
+          spotLat: { $gte: boundary.latStart, $lte: boundary.latEnd },
+          spotLng: { $gte: boundary.lngStart, $lte: boundary.lngEnd },
+        }
+      : { spotLat: { $exists: true } };
+
     const condition = {
-      spotLat: { $gte: boundary.latStart, $lte: boundary.latEnd },
-      spotLng: { $gte: boundary.lngStart, $lte: boundary.lngEnd },
+      ...boundaryCondition,
       placeType: placeTypeFilter,
       availability: availabilityFilter,
     };

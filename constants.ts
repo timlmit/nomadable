@@ -265,3 +265,12 @@ export const PATH_HOME = "/";
 export const PATH_MAP = "/map";
 export const PATH_SIGNUP = "/signup";
 export const PATH_ARTICLES = "/articles";
+
+/**
+ * Event name
+ */
+
+export const EVENT_GOOGLE_CLICK = "click_google_map_link";
+export const EVENT_SIGNUP = "signup_succeed";
+export const EVENT_CHECKIN = "checkin";
+export const EVENT_SUBMIT_PLACE = "submit_place";

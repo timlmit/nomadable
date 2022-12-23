@@ -1,4 +1,9 @@
 import {
+  logEventCheckIn,
+  logEventSubmitPlace,
+} from "./../../../modules/EventLogger";
+
+import {
   callDeletePlace,
   callFetchDiscoveredPlaces,
   callFetchPlaces,
@@ -238,6 +243,7 @@ export const apiCreatePlace = createAsyncThunk<
   try {
     const { placeId, addingPoint, totalPoint } = await callCreatePlace(place);
     thunkApi.dispatch(showPointEarned({ addingPoint, totalPoint }));
+    logEventSubmitPlace();
     return { placeId };
   } catch (error: any) {
     window.alert(error.message);
@@ -298,7 +304,7 @@ export const apiCheckIn = createAsyncThunk<
     );
 
     thunkApi.dispatch(showPointEarned({ addingPoint, totalPoint }));
-
+    logEventCheckIn(placeWithData.id);
     return { placeWithData };
   } catch (error: any) {
     return thunkApi.rejectWithValue(error as CallError);

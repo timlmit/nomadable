@@ -13,7 +13,7 @@ export interface City {
   slug: string;
   country: string;
   city: string;
-  boundary: Boundary;
+  boundary: Boundary | null;
   // center: { lat: number; lng: number };
   thumbnail?: string;
 }

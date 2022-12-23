@@ -12,26 +12,34 @@ export interface Pin {
   name: string;
 }
 
-const makeIcon = (
-  placeType: string,
-  name: string,
-  color: string,
-  fontSize: number
-) => {
+const makeIcon = (props: {
+  placeType: string;
+  name: string;
+  color: string;
+  fontSize: number;
+  withName: boolean;
+}) => {
   return `
       <div style="display:flex; flex-direction: column; align-items: center;">
         <div style="font-size: ${
-          placeType === PLACE_TYPE_CAFE ? fontSize * 2.4 : fontSize * 2
-        }rem; margin-bottom: ${fontSize * 0.2}rem;">${
-    PLACE_TYPE_LIST[placeType].icon
+          props.placeType === PLACE_TYPE_CAFE
+            ? props.fontSize * 2.4
+            : props.fontSize * 2
+        }rem; margin-bottom: ${props.fontSize * 0.2}rem;">${
+    PLACE_TYPE_LIST[props.placeType].icon
   }</div>
-        <div style="display:flex; align-items: center; position: absolute; left: 2rem; width: 6rem;">
-          <div style="height: 0.6rem; width: 0.6rem; border-radius: 50%; background-color: ${color}; margin-right: 0.3rem;"></div>
-          <div style="font-weight: bold; font-size: 0.7rem;">${name.slice(
-            0,
-            10
-          )}</div>
-        </div>
+          <div style="position: absolute; left: 1.4rem; top: -0.1rem; height: 0.6rem; width: 0.6rem; border-radius: 50%; background-color: ${
+            props.color
+          };"></div>
+
+          ${
+            props.withName
+              ? `<div style="position: absolute; left: 1.9rem; width: 5rem; font-size: 0.7rem; font-weight: bold; margin-left: 0.3rem;">${props.name.slice(
+                  0,
+                  10
+                )}</div>`
+              : ""
+          }
       </div>
     `;
 };
