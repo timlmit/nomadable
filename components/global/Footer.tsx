@@ -23,14 +23,24 @@ export const Footer: React.FC<Props> = ({ width, height }) => {
           <Trademark>{`© ${new Date().getFullYear()} Nomadable`}</Trademark>
           <Dot>&#x2022;</Dot>
           <Link href="/about" passHref>
-            <a>How It Works</a>
+            <a>About</a>
           </Link>
           <Dot>&#x2022;</Dot>
           <Link href="/sitemap" passHref>
             <a>Sitemap</a>
           </Link>
           <Dot>&#x2022;</Dot>
-          <a href="mailto:yuya.uzu@gmail.com">Contact</a>
+          <Link href="https://twitter.com/NomadableApp" passHref>
+            <LinkA target="_blank" rel="noopener noreferrer">
+              <SnsIcon src="/icon/twitter-black.svg" />
+            </LinkA>
+          </Link>
+          <Dot>&#x2022;</Dot>
+          <Link href="https://facebook.com/NomadableApp" passHref>
+            <LinkA target="_blank" rel="noopener noreferrer">
+              <SnsIcon src="/icon/facebook-black.svg" />
+            </LinkA>
+          </Link>
         </FooterContents>
       </PageContainer>
     </FooterWrapper>
@@ -62,6 +72,11 @@ const FooterContents = styled.div`
     /* text-transform: uppercase; */
     color: ${FONT_COLOR_NORMAL};
   }
+
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.3rem;
 `;
 
 const Trademark = styled.div`
@@ -70,5 +85,18 @@ const Trademark = styled.div`
 
 const Dot = styled.div`
   color: ${FONT_COLOR_LIGHTEST};
-  margin: 0 0.5rem;
+  /* margin: 0 0.5rem; */
+  display: flex;
+  align-items: center;
+`;
+
+const SnsIcon = styled.img`
+  width: 1.15rem;
+  opacity: 0.5;
+  margin: 0 0.1rem;
+`;
+
+const LinkA = styled.a`
+  display: flex;
+  align-items: center;
 `;

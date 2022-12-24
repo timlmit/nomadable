@@ -34,11 +34,11 @@ const About: React.FC<Props> = ({}) => {
   return (
     <Layout width={cons.CONTAINER_WIDTH_SO_NARROW} fixed>
       <HeadSetter
-        pageTitle={`How It Works | ${cons.APP_NAME}`}
+        pageTitle={`About | ${cons.APP_NAME}`}
         pageDescription="This is a about page of Nomadable."
         pagePath={`${cons.APP_URL}/about`}
       />
-      <Breadcrumb breadcrumbs={[{ text: "How It Works", url: "/about" }]} />
+      <Breadcrumb breadcrumbs={[{ text: "About", url: "/about" }]} />
 
       <ContentWrapper>
         <Title>How It Works</Title>
