@@ -1,12 +1,9 @@
 import { GetStaticProps } from "next";
-import Image from "next/image";
 import React, { Fragment, useEffect, useState } from "react";
 import { callFetchCitiesWithData } from "../calls/placeCalls";
-import { Breadcrumb } from "../components/app-commons/Breadcrumb";
 import { CitiesSection } from "../components/cities/CitiesSection";
 import HeadSetter from "../components/commons/HeadSetter";
 import { Layout } from "../components/commons/Layout";
-import { Footer } from "../components/global/Footer";
 import {
   CONTAINER_WIDTH_NARROW,
   APP_NAME,
@@ -38,13 +35,15 @@ const Cities: React.FC<Props> = (props) => {
   };
 
   const fetchData = async () => {
-    const { citiesWithData } = await callFetchCitiesWithData(CITIES);
-    setCitiesWithData(citiesWithData);
-    const _totalPlaceCnt = citiesWithData.reduce(
-      (acc, city) => acc + city.spotCnt,
-      0
+    const { citiesWithData, totalPlaceCnt } = await callFetchCitiesWithData(
+      CITIES
     );
-    setTotalPlaceCnt(_totalPlaceCnt);
+    setCitiesWithData(citiesWithData);
+    // const _totalPlaceCnt = citiesWithData.reduce(
+    //   (acc, city) => acc + city.spotCnt,
+    //   0
+    // );
+    setTotalPlaceCnt(totalPlaceCnt);
   };
 
   useEffect(() => {
@@ -71,10 +70,12 @@ export default Cities;
 
 export const getStaticProps: GetStaticProps = async ({}) => {
   try {
-    const { citiesWithData } = await callFetchCitiesWithData(CITIES);
-    const totalPlaceCnt = citiesWithData
-      .filter((c) => c.boundary !== null)
-      .reduce((total, city) => total + city.spotCnt, 0);
+    const { citiesWithData, totalPlaceCnt } = await callFetchCitiesWithData(
+      CITIES
+    );
+    // const totalPlaceCnt = citiesWithData
+    //   .filter((c) => c.boundary !== null)
+    //   .reduce((total, city) => total + city.spotCnt, 0);
 
     return {
       props: {

@@ -1,5 +1,5 @@
 import { fetchPlacesWithFilter } from "./../../modules/api/fetchPlacesWithFilter";
-import { APP_URL, PLACE_TYPE_CAFE } from "./../../constants";
+import { APP_URL, PLACE_TYPE_CAFE, STATUS_OPEN } from "./../../constants";
 import nextConnect from "next-connect";
 
 import { ERR_SOMETHING } from "../../modules/ErrorCode";
@@ -38,6 +38,7 @@ const getCityMetaData = async (boundary: Boundary | null, mongoose: any) => {
 };
 
 handler.post(async (req: any, res: any) => {
+  const Place = mongoose.model("Place");
   //   const { userId } = req;
   const { cities } = req.body;
 
@@ -82,7 +83,9 @@ handler.post(async (req: any, res: any) => {
 
     citiesWithData.sort((a, b) => b.spotCnt - a.spotCnt);
 
-    return res.status(200).json({ citiesWithData });
+    const totalPlaceCnt = await Place.count({ status: STATUS_OPEN });
+
+    return res.status(200).json({ citiesWithData, totalPlaceCnt });
   } catch (error: any) {
     return res.status(500).json({ message: ERR_SOMETHING, placeId: "" });
   }
