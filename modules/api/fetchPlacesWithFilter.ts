@@ -1,3 +1,4 @@
+import { STATUS_OPEN } from "./../../constants";
 import { Boundary } from "../../data/articles/cities";
 import { FilterObj, Place } from "../../redux/slices/placeSlice";
 
@@ -32,6 +33,7 @@ export const fetchPlacesWithFilter = async (
       ...boundaryCondition,
       placeType: placeTypeFilter,
       availability: availabilityFilter,
+      status: STATUS_OPEN,
     };
 
     // get place
