@@ -243,7 +243,7 @@ export const callVoteAvailability = async (params: {
 
 export const callFetchCitiesWithData = async (
   params: City[]
-): Promise<{ citiesWithData: CityWithData[] }> => {
+): Promise<{ citiesWithData: CityWithData[]; totalPlaceCnt: number }> => {
   try {
     const response = await axios({
       method: "post",
@@ -253,8 +253,9 @@ export const callFetchCitiesWithData = async (
 
     return response.data;
   } catch (error: any) {
-    return {
-      citiesWithData: [],
+    throw {
+      code: "",
+      message: error.response.data.message,
     };
   }
 };

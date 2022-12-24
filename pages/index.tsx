@@ -35,13 +35,15 @@ const Cities: React.FC<Props> = (props) => {
   };
 
   const fetchData = async () => {
-    const { citiesWithData } = await callFetchCitiesWithData(CITIES);
+    const { citiesWithData, totalPlaceCnt } = await callFetchCitiesWithData(
+      CITIES
+    );
     setCitiesWithData(citiesWithData);
     // const _totalPlaceCnt = citiesWithData.reduce(
     //   (acc, city) => acc + city.spotCnt,
     //   0
     // );
-    setTotalPlaceCnt(0);
+    setTotalPlaceCnt(totalPlaceCnt);
   };
 
   useEffect(() => {
@@ -68,7 +70,9 @@ export default Cities;
 
 export const getStaticProps: GetStaticProps = async ({}) => {
   try {
-    const { citiesWithData } = await callFetchCitiesWithData(CITIES);
+    const { citiesWithData, totalPlaceCnt } = await callFetchCitiesWithData(
+      CITIES
+    );
     // const totalPlaceCnt = citiesWithData
     //   .filter((c) => c.boundary !== null)
     //   .reduce((total, city) => total + city.spotCnt, 0);
@@ -76,7 +80,7 @@ export const getStaticProps: GetStaticProps = async ({}) => {
     return {
       props: {
         citiesWithData,
-        totalPlaceCnt: 0,
+        totalPlaceCnt,
       },
       revalidate: 1, // regenerate the static page on the access after 1 second later from the previous access
     };
