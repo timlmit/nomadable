@@ -1,10 +1,7 @@
 import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import {
-  callFetchArticlesWithData,
-  callFetchCitiesWithData,
-} from "../../calls/placeCalls";
+import { callFetchArticlesWithData } from "../../calls/placeCalls";
 import { Breadcrumb } from "../../components/app-commons/Breadcrumb";
 import { ArticleSection } from "../../components/article/ArticleSection";
 import HeadSetter from "../../components/commons/HeadSetter";
