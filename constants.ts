@@ -12,7 +12,7 @@ export const APP_HOST = prod ? "nomadable.net" : "localhost";
 export const APP_PORT = prod ? 80 : 3000;
 
 export const APP_NAME = "Nomadable";
-export const APP_OBP_IMAGE = `${APP_URL}/img/brand/brandogp2.png`;
+export const APP_OBP_IMAGE = `${APP_URL}/img/brand/brandogp3.png`;
 export const PATH_COUNTRY_IMGS = `${APP_URL}/img/country/`;
 
 export const APP_SHORT_DESCRIPTION =

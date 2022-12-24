@@ -81,10 +81,6 @@ handler.post(async (req: any, res: any) => {
 
     return res.status(200).json({ contributers });
   } catch (error: any) {
-    console.log(
-      "🚀 ~ file: contributers-area.ts ~ line 84 ~ handler.get ~ error",
-      error
-    );
     return res.status(500).json(ERR_LOGIN_FAIL);
   }
 });
