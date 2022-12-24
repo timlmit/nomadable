@@ -253,9 +253,9 @@ export const callFetchCitiesWithData = async (
 
     return response.data;
   } catch (error: any) {
-    throw {
-      code: "",
-      message: error.response.data.message,
+    return {
+      citiesWithData: [],
+      totalPlaceCnt: 0,
     };
   }
 };
