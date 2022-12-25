@@ -2,40 +2,36 @@ import { GetStaticProps } from "next";
 import React, { Fragment, useEffect, useState } from "react";
 import styled from "styled-components";
 import { callFetchCitiesWithData } from "../calls/placeCalls";
+import { callFetchContributersArea } from "../calls/userCalls";
 import { CitiesSection } from "../components/cities/CitiesSection";
 import HeadSetter from "../components/commons/HeadSetter";
 import { Layout } from "../components/commons/Layout";
 import { Contributers } from "../components/top-page/search-result/Contributers";
 import {
-  CONTAINER_WIDTH_NARROW,
   APP_NAME,
   APP_URL,
   APP_SHORT_DESCRIPTION,
   CONTAINER_WIDTH_WIDE,
-  FONT_COLOR_LIGHT,
-  FONT_COLOR_LIGHTEST,
   FONT_COLOR_SUPER_LIGHT,
 } from "../constants";
 import { CityWithData, CITIES } from "../data/articles/cities";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { apiFetchContributersArea } from "../redux/slices/api/apiUserSlice";
-import { selectContributersArea } from "../redux/slices/contributerSlice";
+import { Contributer } from "../redux/slices/contributerSlice";
 import { forMobile } from "../styles/Responsive";
 
 interface Props {
   citiesWithData: CityWithData[];
   totalPlaceCnt: number;
+  contributers: Contributer[];
 }
 
 const Cities: React.FC<Props> = (props) => {
-  const dispatch = useAppDispatch();
-  const contributers = useAppSelector(selectContributersArea);
   const [_citiesWithData, setCitiesWithData] = useState<CityWithData[]>(
     props.citiesWithData || []
   );
-  const [totalPlaceCnt, setTotalPlaceCnt] = useState<number>(
-    props.totalPlaceCnt
+  const [_totalPlaceCnt, setTotalPlaceCnt] = useState<number>(
+    props.totalPlaceCnt || 0
   );
+  const [_contributers, setContributers] = useState(props.contributers || []);
 
   const generatePageDescription = () => {
     return `
@@ -51,15 +47,15 @@ const Cities: React.FC<Props> = (props) => {
       CITIES
     );
     setCitiesWithData(citiesWithData);
-    // const _totalPlaceCnt = citiesWithData.reduce(
-    //   (acc, city) => acc + city.spotCnt,
-    //   0
-    // );
     setTotalPlaceCnt(totalPlaceCnt);
   };
 
-  const fetchContributers = () => {
-    dispatch(apiFetchContributersArea({ placeIds: null, maxCnt: 10 }));
+  const fetchContributers = async () => {
+    const {
+      data: { contributers },
+    } = await callFetchContributersArea(null, 10);
+
+    setContributers(contributers);
   };
 
   useEffect(() => {
@@ -79,11 +75,11 @@ const Cities: React.FC<Props> = (props) => {
         <LeftWrapper>
           <CitiesSection
             citiesWithData={_citiesWithData}
-            totalPlaceCnt={totalPlaceCnt}
+            totalPlaceCnt={_totalPlaceCnt}
           />
         </LeftWrapper>
         <RightWrapper>
-          <Contributers contributers={contributers} />
+          <Contributers contributers={_contributers} />
         </RightWrapper>
       </PageWrapper>
     </Layout>
@@ -97,6 +93,10 @@ export const getStaticProps: GetStaticProps = async ({}) => {
     const { citiesWithData, totalPlaceCnt } = await callFetchCitiesWithData(
       CITIES
     );
+
+    const {
+      data: { contributers },
+    } = await callFetchContributersArea(null, 10);
     // const totalPlaceCnt = citiesWithData
     //   .filter((c) => c.boundary !== null)
     //   .reduce((total, city) => total + city.spotCnt, 0);
@@ -105,6 +105,7 @@ export const getStaticProps: GetStaticProps = async ({}) => {
       props: {
         citiesWithData,
         totalPlaceCnt,
+        contributers,
       },
       revalidate: 1, // regenerate the static page on the access after 1 second later from the previous access
     };
@@ -113,6 +114,7 @@ export const getStaticProps: GetStaticProps = async ({}) => {
       props: {
         citiesWithData: [],
         totalPlaceCnt: 0,
+        contributers: [],
       },
     };
   }

@@ -67,7 +67,7 @@ const Label = styled.div`
   margin-top: 2rem;
 `;
 const Card = styled.div`
-  border: 1px solid ${cons.FONT_COLOR_SUPER_LIGHT};
+  border: 1px solid ${cons.FONT_COLOR_LIGHTEST};
   border-radius: 0.8rem;
   padding: 0.8rem 1.5rem;
   position: relative;
