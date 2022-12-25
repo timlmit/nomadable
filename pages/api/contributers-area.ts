@@ -35,24 +35,27 @@ const makeContributers = (pointSums: any[], users: any): Contributer[] => {
  */
 
 handler.post(async (req: any, res: any) => {
-  const placeIds = req.body.placeIds;
+  const placeIds: string[] | null = req.body.placeIds;
+  const maxCnt: number | undefined = req.body.maxCnt;
 
   try {
     const User = req.mongoose.model("User");
     const Point = req.mongoose.model("Point");
 
-    if (!placeIds) {
+    if (placeIds && placeIds.length === 0) {
       return res.status(200).json({ contributers: [] });
     }
 
     const deletedUsers = await User.find({ deletedDate: { $ne: null } }).lean();
     const deletedUserIds = deletedUsers.map((u: any) => u._id.toString());
 
+    const condition = placeIds ? { $in: placeIds } : { $exists: true };
+
     // make contributers
     const pointSums = await Point.aggregate([
       {
         $match: {
-          placeId: { $in: placeIds },
+          placeId: condition,
           userId: { $nin: deletedUserIds },
         },
       },
@@ -70,7 +73,7 @@ handler.post(async (req: any, res: any) => {
         },
       },
       {
-        $limit: 5,
+        $limit: maxCnt || 5,
       },
     ]);
 

@@ -57,6 +57,18 @@ const CityItemWrapper = styled.a`
   display: block;
   margin-bottom: 1.5rem;
 
+  @media only screen and (max-width: 1200px) {
+    width: calc(33.3333% - 1rem);
+    margin-bottom: 1.6rem;
+    height: 11rem;
+  }
+
+  @media only screen and (max-width: 1000px) {
+    width: calc(50% - 0.8rem);
+    margin-bottom: 1.6rem;
+    height: 11rem;
+  }
+
   ${forMobile(`
     width: calc(50% - 0.35rem);
     margin-bottom: 1.6rem;

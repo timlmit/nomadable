@@ -31,7 +31,7 @@ export const Contributers: React.FC<Props> = ({ contributers }) => {
 
   return (
     <ContributersWrapper>
-      <Label>Top Contributers in the Area</Label>
+      <Label>Top Contributers</Label>
       <Card>
         <SectionLoader visible={apiStatus.status === cons.API_LOADING} />
         {contributers.map(({ userId, name, picture, title, point }) => {
@@ -45,7 +45,7 @@ export const Contributers: React.FC<Props> = ({ contributers }) => {
                 <Description>{title}</Description>
               </Info>
               <Point>
-                <PointNumber>{point}</PointNumber>pts
+                <PointNumber>{point}</PointNumber>
               </Point>
             </ItemWrapper>
           );
@@ -59,7 +59,6 @@ const ContributersWrapper = styled.div`
   margin-top: 1rem;
   position: relative;
   margin-bottom: 3rem;
-  border-top: 1px solid ${cons.FONT_COLOR_SUPER_LIGHT};
   color: ${cons.FONT_COLOR_NORMAL};
 `;
 
@@ -85,14 +84,15 @@ const ItemWrapper = styled.div`
 const Picture = styled.div``;
 
 const PictureImg = styled.img`
-  width: 3.2rem;
-  height: 3.2rem;
+  width: 3rem;
+  height: 3rem;
   border-radius: 100%;
 `;
 
 const Info = styled.div`
   width: 100%;
   padding-left: 1rem;
+  margin-right: 1rem;
 `;
 
 const Name = styled.div`
@@ -101,14 +101,14 @@ const Name = styled.div`
 `;
 
 const Description = styled.div`
-  ${fs.FontSizeSemiSmall};
+  ${fs.FontSizeSmall};
   margin-top: 0.1rem;
   font-weight: 400;
   color: ${cons.FONT_COLOR_LIGHT};
 `;
 
 const Point = styled.div`
-  ${fs.FontSizeSemiSmall};
+  ${fs.FontSizeSmall};
   font-weight: 400;
   color: ${cons.FONT_COLOR_LIGHT};
 `;

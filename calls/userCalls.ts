@@ -94,7 +94,8 @@ export const callLoginUser = async (
 // callFetchContributersArea
 
 export const callFetchContributersArea = async (
-  placeIds: string[]
+  placeIds: string[] | null,
+  maxCnt?: number
 ): Promise<{
   data: { contributers: Contributer[] };
 }> => {
@@ -102,7 +103,7 @@ export const callFetchContributersArea = async (
     const response = await axios({
       method: "post",
       url: `${APP_URL}/api/contributers-area`,
-      data: { placeIds },
+      data: { placeIds, maxCnt },
     });
 
     return { data: response.data };

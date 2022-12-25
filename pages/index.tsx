@@ -1,16 +1,26 @@
 import { GetStaticProps } from "next";
 import React, { Fragment, useEffect, useState } from "react";
+import styled from "styled-components";
 import { callFetchCitiesWithData } from "../calls/placeCalls";
 import { CitiesSection } from "../components/cities/CitiesSection";
 import HeadSetter from "../components/commons/HeadSetter";
 import { Layout } from "../components/commons/Layout";
+import { Contributers } from "../components/top-page/search-result/Contributers";
 import {
   CONTAINER_WIDTH_NARROW,
   APP_NAME,
   APP_URL,
   APP_SHORT_DESCRIPTION,
+  CONTAINER_WIDTH_WIDE,
+  FONT_COLOR_LIGHT,
+  FONT_COLOR_LIGHTEST,
+  FONT_COLOR_SUPER_LIGHT,
 } from "../constants";
 import { CityWithData, CITIES } from "../data/articles/cities";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { apiFetchContributersArea } from "../redux/slices/api/apiUserSlice";
+import { selectContributersArea } from "../redux/slices/contributerSlice";
+import { forMobile } from "../styles/Responsive";
 
 interface Props {
   citiesWithData: CityWithData[];
@@ -18,6 +28,8 @@ interface Props {
 }
 
 const Cities: React.FC<Props> = (props) => {
+  const dispatch = useAppDispatch();
+  const contributers = useAppSelector(selectContributersArea);
   const [_citiesWithData, setCitiesWithData] = useState<CityWithData[]>(
     props.citiesWithData || []
   );
@@ -46,22 +58,34 @@ const Cities: React.FC<Props> = (props) => {
     setTotalPlaceCnt(totalPlaceCnt);
   };
 
+  const fetchContributers = () => {
+    dispatch(apiFetchContributersArea({ placeIds: null, maxCnt: 10 }));
+  };
+
   useEffect(() => {
     fetchData();
+    fetchContributers();
   }, [null]);
 
   return (
-    <Layout width={CONTAINER_WIDTH_NARROW} fixed>
+    <Layout width={CONTAINER_WIDTH_WIDE} fixed>
       <HeadSetter
         pageTitle={`${APP_NAME}: ${APP_SHORT_DESCRIPTION}`}
         pageDescription={generatePageDescription()}
         pagePath={`${APP_URL}`}
       />
       {/* <Breadcrumb breadcrumbs={BREADCRUMBS} /> */}
-      <CitiesSection
-        citiesWithData={_citiesWithData}
-        totalPlaceCnt={totalPlaceCnt}
-      />
+      <PageWrapper>
+        <LeftWrapper>
+          <CitiesSection
+            citiesWithData={_citiesWithData}
+            totalPlaceCnt={totalPlaceCnt}
+          />
+        </LeftWrapper>
+        <RightWrapper>
+          <Contributers contributers={contributers} />
+        </RightWrapper>
+      </PageWrapper>
     </Layout>
   );
 };
@@ -93,3 +117,29 @@ export const getStaticProps: GetStaticProps = async ({}) => {
     };
   }
 };
+
+const PageWrapper = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+
+  ${forMobile(`
+    flex-direction: column;
+    gap:0;
+  `)}
+`;
+
+const LeftWrapper = styled.div``;
+
+const RightWrapper = styled.div`
+  width: 50rem;
+  padding-top: 10rem;
+  max-width: 100%;
+
+  ${forMobile(`
+    padding-top: 0rem;
+    margin-top: -13rem;
+    border-top: 1px solid ${FONT_COLOR_SUPER_LIGHT};
+    margin-top: 1rem;
+  `)}
+`;
