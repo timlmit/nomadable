@@ -142,6 +142,24 @@ export const callFetchPlaces = async (params: {
   }
 };
 
+// fetch places
+
+export const callFetchAllPlaces = async (): Promise<{
+  places: Place[];
+  totalPlaceCnt: number;
+}> => {
+  try {
+    const response = await axios({
+      method: "get",
+      url: `${APP_URL}/api/all-places`,
+    });
+
+    return response.data;
+  } catch (error: any) {
+    return { places: [], totalPlaceCnt: 0 };
+  }
+};
+
 // fetch recent checkins
 
 export const callRecentCheckIns = async (): Promise<{

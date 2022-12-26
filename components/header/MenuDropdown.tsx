@@ -67,12 +67,12 @@ export const MenuDropdown: React.FC<Props> = ({
             New Place
           </DropdownItem>
           <DropdownItem onClick={() => goToPage(cons.PATH_HOME)}>
-            <ItemIcon src="/icon/home-black.svg" />
+            <ItemIcon src="/icon/map-black.svg" />
             Home
           </DropdownItem>
-          <DropdownItem onClick={() => goToPage(cons.PATH_MAP)}>
-            <ItemIcon src="/icon/map-black.svg" />
-            Map
+          <DropdownItem onClick={() => goToPage(cons.PATH_CITIES)}>
+            <ItemIcon src="/icon/city-black.svg" />
+            Cities
           </DropdownItem>
           <DropdownItem onClick={() => goToPage(cons.PATH_ARTICLES)}>
             <ItemIcon src="/icon/article-black.svg" />

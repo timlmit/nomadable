@@ -16,6 +16,7 @@ const openUrls = [
   "/api/cities-with-data",
   "/api/articles-with-data",
   "/api/sitemap-links",
+  "/api/all-places",
 ];
 
 const withoutAuth = (url: string): boolean => {

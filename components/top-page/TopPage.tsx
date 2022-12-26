@@ -153,7 +153,7 @@ export const TopPage: React.FC<Props> = ({ places, searchResultTotalCnt }) => {
     const { latStart, lngStart, latEnd, lngEnd } = mapArea;
     router.push(
       {
-        pathname: cons.PATH_MAP,
+        pathname: cons.PATH_HOME,
         query: { latStart, lngStart, latEnd, lngEnd },
       },
       undefined,
