@@ -20,7 +20,7 @@ export const CityItem: React.FC<Props> = ({ cityWithData }) => {
   const ct = cityWithData;
 
   const makeQueryString = (boundary: Boundary | null): string => {
-    if (!boundary) return cons.PATH_MAP;
+    if (!boundary) return cons.PATH_HOME;
     const { latStart, lngStart, latEnd, lngEnd } = boundary;
     const queryString = `${cons.PATH_HOME}?latStart=${latStart}&lngStart=${lngStart}&latEnd=${latEnd}&lngEnd=${lngEnd}`;
     return queryString;
