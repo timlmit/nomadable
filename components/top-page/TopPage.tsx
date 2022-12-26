@@ -204,7 +204,7 @@ export const TopPage: React.FC<Props> = ({ places, searchResultTotalCnt }) => {
             visible={apiFetchPlacesStatus.status === cons.API_LOADING}
           />
           {apiFetchPlacesStatus.status !== cons.API_LOADING &&
-            `${searchResultTotalCnt} Places with WiFi`}
+            `${searchResultTotalCnt} Places to Work From`}
         </PullTabForMobile>
         <SearchResult
           places={places}
