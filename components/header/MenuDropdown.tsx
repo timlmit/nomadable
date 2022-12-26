@@ -102,7 +102,11 @@ export const MenuDropdown: React.FC<Props> = ({
       <Fragment>
         <DropdownItem onClick={() => goToPage(cons.PATH_MAP)}>
           <ItemIcon src="/icon/map-black.svg" />
-          Map
+          Home
+        </DropdownItem>
+        <DropdownItem onClick={() => goToPage(cons.PATH_CITIES)}>
+          <ItemIcon src="/icon/city-black.svg" />
+          Cities
         </DropdownItem>
         <DropdownItem onClick={() => goToPage(cons.PATH_ARTICLES)}>
           <ItemIcon src="/icon/article-black.svg" />
