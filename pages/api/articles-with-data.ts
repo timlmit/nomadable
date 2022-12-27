@@ -24,6 +24,7 @@ handler.post(async (req: any, res: any) => {
 
       const { places } = await fetchPlacesWithFilter(
         req.mongoose,
+        "",
         article.city.boundary,
         article.filterObj,
         0,
