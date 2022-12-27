@@ -44,6 +44,7 @@ export const PlacePage: React.FC<Props> = ({ placeWithData }) => {
   const pd = placeWithData;
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
+  const authenticated = useAppSelector(selectAuthenticated);
 
   const apiStatusCheckIn = useAppSelector(selectApiCheckInStatus);
   const apiStatusDelete = useAppSelector(selectApiDeletePlaceStatus);
@@ -88,7 +89,17 @@ export const PlacePage: React.FC<Props> = ({ placeWithData }) => {
   };
 
   const handleClickSave = () => {
-    dispatch(apiSavePlace({ placeId: pd.id, saved: !pd.savedByUser }));
+    if (authenticated) {
+      dispatch(apiSavePlace({ placeId: pd.id, saved: !pd.savedByUser }));
+    } else {
+      if (
+        window.confirm(
+          "You need to login to use the save feature. Do you want to signup?"
+        )
+      ) {
+        router.push(cons.PATH_SIGNUP);
+      }
+    }
   };
 
   /**
