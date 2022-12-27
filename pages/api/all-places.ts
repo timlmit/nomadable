@@ -1,10 +1,9 @@
-import { PLACE_TYPE_CAFE, STATUS_OPEN } from "./../../constants";
+import { STATUS_OPEN } from "./../../constants";
 import nextConnect from "next-connect";
 
 import { ERR_SOMETHING } from "../../modules/ErrorCode";
 import databaseMiddleware from "../../middleware/database";
 import authenticationMiddleware from "../../middleware/authentication";
-import { fetchPlacesWithFilter } from "../../modules/api/fetchPlacesWithFilter";
 
 const handler = nextConnect();
 

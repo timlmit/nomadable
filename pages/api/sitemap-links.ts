@@ -1,11 +1,8 @@
-import { fetchPlacesWithFilter } from "./../../modules/api/fetchPlacesWithFilter";
 import nextConnect from "next-connect";
 
 import { ERR_SOMETHING } from "../../modules/ErrorCode";
 import databaseMiddleware from "../../middleware/database";
 import authenticationMiddleware from "../../middleware/authentication";
-import { Article, ArticleWithData } from "../../data/articles/articles";
-import { makePlaceWithData } from "../../modules/api/makePlaceWithData";
 import { APP_URL, STATUS_PERM_CLOSE } from "../../constants";
 import { Place, SitemapLink } from "../../redux/slices/placeSlice";
 

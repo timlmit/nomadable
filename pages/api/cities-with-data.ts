@@ -20,6 +20,7 @@ handler.use(authenticationMiddleware);
 const getCityMetaData = async (boundary: Boundary | null, mongoose: any) => {
   const { places } = await fetchPlacesWithFilter(
     mongoose,
+    "",
     boundary,
     initialFilterObj,
     0,
