@@ -12,12 +12,13 @@ handler.use(databaseMiddleware);
 handler.use(authenticationMiddleware);
 
 handler.post(async (req: any, res: any) => {
-  //   const { userId } = req;
+  const { userId } = req;
   const { latStart, lngStart, latEnd, lngEnd, pageIndex, filterObj } = req.body;
 
   try {
     const { places, totalPlaceCnt } = await fetchPlacesWithFilter(
       req.mongoose,
+      userId,
       { latStart, lngStart, latEnd, lngEnd },
       filterObj,
       0,

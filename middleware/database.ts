@@ -11,6 +11,7 @@ import { EventSchema } from "../models/event.model";
 import { ReviewSchema } from "../models/review.model";
 import { AvailabilitySchema } from "../models/availability.model";
 import { NotificationSchema } from "../models/notification.model";
+import { SavedPlaceSchema } from "../models/savedplace.model";
 
 mongoose.connect(process.env.DB_URL);
 
@@ -25,6 +26,7 @@ async function database(req: any, res: any, next: any) {
   ReviewSchema(mongoose);
   AvailabilitySchema(mongoose);
   NotificationSchema(mongoose);
+  SavedPlaceSchema(mongoose);
   req.mongoose = mongoose;
   next();
 }

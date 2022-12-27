@@ -131,6 +131,9 @@ export const callFetchPlaces = async (params: {
         pageIndex: params.pageIndex,
         filterObj: params.filterObj,
       },
+      headers: {
+        Authorization: readCookie(COOKIE_ACCESS_TOKEN) || "",
+      },
     });
 
     return response.data;
@@ -335,5 +338,30 @@ export const callFetchPlaceLinks = async (): Promise<{
     return response.data;
   } catch (error: any) {
     return { placeLinks: [] };
+  }
+};
+
+// call save place
+
+export const callSavePlace = async (params: {
+  placeId: string;
+  saved: boolean;
+}): Promise<{}> => {
+  try {
+    const response = await axios({
+      method: "post",
+      url: `${APP_URL}/api/save-place`,
+      data: params,
+      headers: {
+        Authorization: readCookie(COOKIE_ACCESS_TOKEN) || "",
+      },
+    });
+
+    return response.data;
+  } catch (error: any) {
+    throw {
+      code: "",
+      message: error.response.data.message,
+    };
   }
 };

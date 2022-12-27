@@ -76,6 +76,7 @@ export const SearchResult: React.FC<Props> = ({
 
     if (filterObj.placeTypes.length > 0) filterCnt += 1;
     if (filterObj.availability.length > 0) filterCnt += 1;
+    if (filterObj.saved) filterCnt += 1;
 
     if (filterCnt < 1) return null;
     return <FilterCnt>{filterCnt}</FilterCnt>;

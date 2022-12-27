@@ -71,9 +71,11 @@ export const Header: React.FC<Props> = ({
           </a>
         </Link>
         <HeaderLeft>
-          <SubmitNewButton onClick={handleClickNewPlace}>
-            + New Place
-          </SubmitNewButton>
+          {router.pathname !== PATH_NEW_PLACE && (
+            <SubmitNewButton onClick={handleClickNewPlace}>
+              + New Place
+            </SubmitNewButton>
+          )}
           <MenuWrapper ref={wrapperRef}>
             <NotificationMark visible={notificationCnt > 0} />
             <Menu onClick={() => setDropdownVisible(!dropdownVisible)}>

@@ -16,6 +16,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
   apiCheckIn,
   apiDeletePlace,
+  apiSavePlace,
   apiUpdateImages,
   initApiDeletePlaceState,
   selectApiCheckInStatus,
@@ -32,6 +33,7 @@ import {
   ButtonText,
 } from "../../styles/styled-components/Buttons";
 import Router, { useRouter } from "next/router";
+import { ClickableStyle } from "../../styles/styled-components/Interactions";
 
 interface Props {
   placeWithData: PlaceWithData;
@@ -85,6 +87,10 @@ export const PlacePage: React.FC<Props> = ({ placeWithData }) => {
     }
   };
 
+  const handleClickSave = () => {
+    dispatch(apiSavePlace({ placeId: pd.id, saved: !pd.savedByUser }));
+  };
+
   /**
    * Effect
    */
@@ -119,19 +125,33 @@ export const PlacePage: React.FC<Props> = ({ placeWithData }) => {
     <PlacePageWrapper>
       <SpotName>{pd.spotName}</SpotName>
       <ReviewInfo>
-        <PlaceType>
-          {cons.PLACE_TYPE_LIST[pd.placeType].icon}
-          {` `}
-          {cons.PLACE_TYPE_LIST[pd.placeType].text}
-        </PlaceType>
-        {pd.reviewStars > 0 && (
-          <ReviewStars>
-            <Dot>&#x2022;</Dot>
-            <StarIcon src="/icon/star-black.svg" />
-            {getStarValue(pd.reviewStars)}
-            <ReviewCnt>({pd.reviewsWithData.length})</ReviewCnt>
-          </ReviewStars>
-        )}
+        <ReviewLeftSection>
+          <PlaceType>
+            {cons.PLACE_TYPE_LIST[pd.placeType].icon}
+            {` `}
+            {cons.PLACE_TYPE_LIST[pd.placeType].text}
+          </PlaceType>
+          {pd.reviewStars > 0 && (
+            <ReviewStars>
+              <Dot>&#x2022;</Dot>
+              <StarIcon src="/icon/star-black.svg" />
+              {getStarValue(pd.reviewStars)}
+              <ReviewCnt>({pd.reviewsWithData.length})</ReviewCnt>
+            </ReviewStars>
+          )}
+        </ReviewLeftSection>
+        <ReviewRightSection>
+          <SaveButton saved={pd.savedByUser} onClick={handleClickSave}>
+            <SaveButtonIcon
+              src={
+                pd.savedByUser
+                  ? "/icon/save-black.svg"
+                  : "/icon/save-skeleton.svg"
+              }
+            />{" "}
+            {pd.savedByUser ? "Saved" : "Save"}
+          </SaveButton>
+        </ReviewRightSection>
       </ReviewInfo>
       <ImageWrapper>
         <SpotImages images={pd.images} />
@@ -141,6 +161,7 @@ export const PlacePage: React.FC<Props> = ({ placeWithData }) => {
           </UpdateImageButton>
         )}
       </ImageWrapper>
+
       <InfoWrapper>
         <RightSection>
           <LocationInfo
@@ -215,7 +236,36 @@ const SpotName = styled.div`
 const ReviewInfo = styled.div`
   margin-top: 0.8rem;
   display: flex;
+  justify-content: space-between;
   align-items: center;
+`;
+
+const ReviewLeftSection = styled.div`
+  display: flex;
+`;
+
+const ReviewRightSection = styled.div``;
+
+const SaveButton = styled.button<{ saved: boolean }>`
+  ${ButtonText}
+  ${ClickableStyle}
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  color: black;
+  opacity: 0.7;
+  padding: 0 0.8rem;
+
+  ${(props) =>
+    props.saved &&
+    `
+      opacity: 1;
+  `}
+`;
+
+const SaveButtonIcon = styled.img`
+  width: 1.4rem;
+  margin-right: 0.3rem;
 `;
 
 const ImageWrapper = styled.div`

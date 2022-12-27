@@ -4,6 +4,7 @@ import { FilterObj, Place } from "../../redux/slices/placeSlice";
 
 export const fetchPlacesWithFilter = async (
   mongoose: any,
+  userId: string,
   boundary: Boundary | null,
   filterObj: FilterObj,
   skip: number,
@@ -11,6 +12,7 @@ export const fetchPlacesWithFilter = async (
 ): Promise<{ places: Place[]; totalPlaceCnt: number }> => {
   try {
     const Place = mongoose.model("Place");
+    const SavedPlace = mongoose.model("SavedPlace");
 
     const placeTypeFilter =
       filterObj.placeTypes.length > 0
@@ -29,15 +31,22 @@ export const fetchPlacesWithFilter = async (
         }
       : { spotLat: { $exists: true } };
 
+    let savedPlaceIds = [];
+    if (filterObj.saved) {
+      const savedPlaces = await SavedPlace.find({ userId }).lean();
+      savedPlaceIds = savedPlaces.map((p: any) => p.placeId);
+    }
+
     const condition = {
       ...boundaryCondition,
       placeType: placeTypeFilter,
       availability: availabilityFilter,
       status: STATUS_OPEN,
+      id: filterObj.saved ? { $in: savedPlaceIds } : { $exists: true },
     };
 
     // get place
-    const places = await Place.find(condition)
+    let places = await Place.find(condition)
       .sort({ reviewStars: -1, testCnt: -1 })
       .skip(skip)
       .limit(limit)

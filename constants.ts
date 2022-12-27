@@ -213,6 +213,15 @@ export const AVL_ALL_LIST: any = {
 export const AVL_OTHER_LIST: any = {};
 
 /**
+ * Others
+ */
+
+export const OTHERS_SAVED = "Saved";
+export const OTHERS_LIST: any = {
+  [OTHERS_SAVED]: { text: "Saved", icon: "🏷️" },
+};
+
+/**
  * Place Status
  */
 

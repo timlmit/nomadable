@@ -7,6 +7,7 @@ import {
   callDeletePlace,
   callFetchDiscoveredPlaces,
   callFetchPlaces,
+  callSavePlace,
   callUpdateImages,
   callVoteAvailability,
 } from "./../../../calls/placeCalls";
@@ -401,6 +402,23 @@ export const apiUpdateImages = createAsyncThunk<
 >("place/UpdateImages", async (params, thunkApi) => {
   try {
     await callUpdateImages(params);
+    return;
+  } catch (error: any) {
+    return thunkApi.rejectWithValue(error as CallError);
+  }
+});
+
+// apiSavePlace
+
+export const apiSavePlace = createAsyncThunk<
+  {}, // Return type of the payload creator
+  { placeId: string; saved: boolean }, // First argument to the payload creator
+  {
+    rejectValue: CallError;
+  } // Types for ThunkAPI
+>("place/SavePlace", async (params, thunkApi) => {
+  try {
+    await callSavePlace(params);
     return;
   } catch (error: any) {
     return thunkApi.rejectWithValue(error as CallError);

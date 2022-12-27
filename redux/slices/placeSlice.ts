@@ -7,6 +7,7 @@ import {
   apiCheckIn,
   apiFetchPlaceForPage,
   apiFetchPlaces,
+  apiSavePlace,
   // apiFetchRecentCheckIns,
   apiVoteAvailability,
 } from "./api/apiPlaceSlice";
@@ -61,6 +62,8 @@ export interface PlaceWithData extends Place, PlaceUserData {
   checkedInByUser: boolean;
   // reviews
   reviewsWithData: ReviewWithData[];
+  // saved
+  savedByUser: boolean;
 }
 
 export interface MapArea {
@@ -73,6 +76,7 @@ export interface MapArea {
 export interface FilterObj {
   placeTypes: string[];
   availability: string[];
+  saved: boolean;
 }
 
 export interface Review {
@@ -126,6 +130,7 @@ interface PlaceState {
 export const initialFilterObj: FilterObj = {
   placeTypes: [],
   availability: [],
+  saved: false,
 };
 
 export const initialPlace: Place = {
@@ -159,6 +164,7 @@ export const initialPlaceWithData: PlaceWithData = {
   recentCheckInCnt: 0,
   checkedInByUser: false,
   reviewsWithData: [],
+  savedByUser: false,
 };
 
 const initialState: PlaceState = {
@@ -257,6 +263,9 @@ const placeSlice = createSlice({
           if (review._id !== action.payload.reviewWithData._id) return review;
           return action.payload.reviewWithData;
         });
+    });
+    builder.addCase(apiSavePlace.pending, (state, action) => {
+      state.placeForPage.savedByUser = action.meta.arg.saved;
     });
   },
 });

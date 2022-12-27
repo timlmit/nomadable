@@ -51,6 +51,13 @@ export const FilterModal: React.FC<Props> = ({
     setFilterObj({ ...localFilterObj, availability });
   };
 
+  const onChangeOthers = (others: string[]) => {
+    setFilterObj({
+      ...localFilterObj,
+      saved: others.includes(cons.OTHERS_SAVED),
+    });
+  };
+
   const onClickClear = () => {
     setFilterObj(initialFilterObj);
   };
@@ -137,6 +144,16 @@ export const FilterModal: React.FC<Props> = ({
               />
             </SpecificForms>
           )}
+
+        <SpecificForms>
+          <Label>Others</Label>
+          <FilterComponent
+            onChangeFilterItems={onChangeOthers}
+            filterItems={localFilterObj.saved ? [cons.OTHERS_SAVED] : []}
+            typeDict={cons.OTHERS_LIST}
+            allowAllSelect
+          />
+        </SpecificForms>
       </ModalBody>
       <Footer>
         <CancelButton onClick={onClickClear}>Clear Filter</CancelButton>

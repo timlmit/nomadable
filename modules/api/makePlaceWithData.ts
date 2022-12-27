@@ -10,6 +10,7 @@ export const makePlaceWithData = async (
     const User = mongoose.model("User");
     const CheckIn = mongoose.model("CheckIn");
     const Review = mongoose.model("Review");
+    const SavedPlace = mongoose.model("SavedPlace");
 
     // get user
     const discoverUser = await User.findOne({ _id: place.discoveredBy });
@@ -46,6 +47,8 @@ export const makePlaceWithData = async (
       userId
     );
 
+    const savedByUser = await SavedPlace.exists({ userId, placeId: place.id });
+
     // make
     const placeWithData: PlaceWithData = {
       ...place,
@@ -55,6 +58,7 @@ export const makePlaceWithData = async (
       userTitle: discoverUser ? discoverUser.title : "",
       recentCheckInCnt: recentCheckIns.length,
       checkedInByUser: recentCheckInByUser ? true : false,
+      savedByUser,
       reviewsWithData,
     };
 

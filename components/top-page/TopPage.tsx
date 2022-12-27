@@ -190,6 +190,7 @@ export const TopPage: React.FC<Props> = ({ places, searchResultTotalCnt }) => {
 
     if (filterObj.placeTypes.length > 0) filterCnt += 1;
     if (filterObj.availability.length > 0) filterCnt += 1;
+    if (filterObj.saved) filterCnt += 1;
 
     if (filterCnt < 1) return null;
     return <FilterCnt>{filterCnt}</FilterCnt>;
