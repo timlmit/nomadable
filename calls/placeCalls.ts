@@ -1,3 +1,4 @@
+import { initialPlaceWithData } from "./../redux/slices/placeSlice";
 import { APP_URL, COOKIE_ACCESS_TOKEN } from "../constants";
 import axios from "axios";
 import {
@@ -74,10 +75,11 @@ export const callFetchPlace = async (
 
     return response.data;
   } catch (error: any) {
-    throw {
-      code: "",
-      message: error.response.data.message,
-    };
+    return { placeWithData: initialPlaceWithData };
+    // throw {
+    //   code: "",
+    //   message: error.response.data.message,
+    // };
   }
 };
 
