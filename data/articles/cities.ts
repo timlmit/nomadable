@@ -199,6 +199,18 @@ export const SOUTH_AFRICA_JOHANNESBURG: City = {
   },
 };
 
+export const TURKEY_ISTANBUL: City = {
+  slug: "turkey-istanbul",
+  country: "Turkey",
+  city: "Istanbul",
+  boundary: {
+    latStart: 40.903394793472074,
+    lngStart: 28.755207808988303,
+    latEnd: 41.19181317353488,
+    lngEnd: 29.185512741521393,
+  },
+};
+
 export const CITIES: City[] = [
   /**
    * Eeast Asia
@@ -229,6 +241,7 @@ export const CITIES: City[] = [
    * East Europe
    */
   ITALY_ROME,
+  TURKEY_ISTANBUL,
   /**
    * Oceanian
    */
