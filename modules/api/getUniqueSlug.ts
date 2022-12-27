@@ -20,7 +20,7 @@ export const getUniqueSlug = async (
     }).lean();
 
     if (!existing) {
-      finalCandidate = candidate;
+      finalCandidate = candidateWithCount;
     } else {
       count += 1;
     }

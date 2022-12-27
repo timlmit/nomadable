@@ -47,6 +47,10 @@ handler.post(async (req: any, res: any) => {
 
     // const placeId = await getNextSequence(req.mongoose, PLACE_ID);
     const placeId = await getUniqueSlug(Place, place.spotName, "id");
+    console.log(
+      "🚀 ~ file: create-place.ts:50 ~ handler.post ~ placeId",
+      placeId
+    );
 
     /**
      * Update Photos
@@ -87,6 +91,7 @@ handler.post(async (req: any, res: any) => {
       .status(200)
       .json({ placeId: newPlace.id, addingPoint, totalPoint });
   } catch (error: any) {
+    console.log("🚀 ~ file: create-place.ts:90 ~ handler.post ~ error", error);
     return res.status(500).json({ message: ERR_SOMETHING, placeId: "" });
   }
 });
