@@ -30,6 +30,7 @@ const BANGKOK_CORWORKING: Article = {
   filterObj: {
     placeTypes: [cons.PLACE_TYPE_WORKSPACE],
     availability: [cons.AVL_DROP_IN],
+    saved: false,
   },
   placeCnt: 10,
   omitPlaceIds: [],
@@ -43,6 +44,7 @@ const BANGKOK_CAFE: Article = {
   filterObj: {
     placeTypes: [cons.PLACE_TYPE_CAFE],
     availability: [],
+    saved: false,
   },
   placeCnt: 10,
   omitPlaceIds: [],
