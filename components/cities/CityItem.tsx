@@ -30,19 +30,27 @@ export const CityItem: React.FC<Props> = ({ cityWithData }) => {
     <Link href={makeQueryString(ct.boundary)} passHref>
       <CityItemWrapper>
         <CityCard imgUrl={ct.thumbnail || ""}>
-          <AvgSpeed>
-            <AvgSpeedIcon src="/icon/wifi-white.svg" />
-            <AvgSpeedNum>
-              {Math.round(ct.avgSpeed)}
-              <AvgSpeedUnit>mbps</AvgSpeedUnit>
-            </AvgSpeedNum>
-          </AvgSpeed>
-          <CityName>{ct.city}</CityName>
-          <CountryName>{ct.country}</CountryName>
+          <CityTitle>
+            <CityName>{ct.city}</CityName>
+            <CountryName>{ct.country}</CountryName>
+          </CityTitle>
         </CityCard>
-        <Label>
-          <Bold>{ct.spotCnt}</Bold> places to work from
-        </Label>
+        <LabelSection>
+          {/* <LabelUpper>
+            <Bold>
+              {ct.city}, {ct.country}
+            </Bold>
+          </LabelUpper> */}
+          <LabelLower>
+            <PlaceCnt>
+              <Bold>{ct.spotCnt}</Bold> places
+            </PlaceCnt>
+            <Dot>&#x2022;</Dot>
+            <InternetSpeed>
+              <Bold>{Math.round(ct.avgSpeed)}</Bold> mbps
+            </InternetSpeed>
+          </LabelLower>
+        </LabelSection>
       </CityItemWrapper>
     </Link>
   );
@@ -51,28 +59,21 @@ export const CityItem: React.FC<Props> = ({ cityWithData }) => {
 const CityItemWrapper = styled.a`
   color: white;
   ${ClickableStyle}
-  height: 13rem;
+  ${AnimationFadeIn} 
   width: calc(25% - 1.13rem);
-  ${AnimationFadeIn}
-  display: block;
-  margin-bottom: 1.5rem;
 
   @media only screen and (max-width: 1200px) {
     width: calc(33.3333% - 1rem);
-    margin-bottom: 1.6rem;
-    height: 11rem;
+    margin-bottom: 3rem;
+    margin-bottom: auto;
   }
 
   @media only screen and (max-width: 1000px) {
     width: calc(50% - 0.8rem);
-    margin-bottom: 1.6rem;
-    height: 11rem;
   }
 
   ${forMobile(`
     width: calc(50% - 0.35rem);
-    margin-bottom: 1.6rem;
-    height: 11rem;
   `)}
 `;
 
@@ -80,69 +81,77 @@ const CityCard = styled.div<{ imgUrl: string }>`
   position: relative;
   height: 100%;
   border-radius: 0.8rem;
-  background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)),
-    url(${(props) => props.imgUrl});
+  background: url(${(props) => props.imgUrl});
   background-size: cover;
+  height: 10rem;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  background-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.25),
+      rgba(0, 0, 0, 0.25)
+    ),
+    url(${(props) => props.imgUrl});
 
-  & div {
-    text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.1), 1px -1px 0 rgba(0, 0, 0, 0.1),
-      -1px 1px 0 rgba(0, 0, 0, 0.1), 1px 1px 0 rgba(0, 0, 0, 0.1);
+  @media only screen and (max-width: 1200px) {
+    height: 8rem;
   }
-`;
-
-const AvgSpeed = styled.div`
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  display: flex;
-  align-items: flex-start;
-`;
-
-const AvgSpeedIcon = styled.img`
-  width: 1.3rem;
-  margin-right: 0.4rem;
-  transform: translateY(0.05rem);
-`;
-
-const AvgSpeedNum = styled.div`
-  ${fs.FontSizeSemiLarge}
-  font-weight:bold;
-`;
-
-const AvgSpeedUnit = styled.div`
-  ${fs.FontSizeSmall}
-`;
-
-const CityName = styled.div`
-  ${fs.FontSizeExLarge}
-  font-weight: bold;
-  text-align: center;
-
-  ${forMobile(`
-      font-size: 1.6rem;
-  `)}
-`;
-
-const CountryName = styled.div`
-  ${fs.FontSizeNormal}
-  font-weight: bold;
-  margin-top: 0.4rem;
 `;
 
 const Label = styled.div`
   color: ${cons.FONT_COLOR_NORMAL};
-  margin-top: 0.6rem;
+`;
+
+const LabelUpper = styled(Label)`
+  margin-top: 0.5rem;
 
   ${forMobile(`
-  margin-top: 0.2rem;
-  `)}
+  margin-top: 0.3rem;
+  `)};
+
+  ${fs.FontSizeNormal}
+`;
+
+const LabelLower = styled(Label)`
+  margin-top: 0.3rem;
+  display: flex;
+  gap: 0.2rem;
+  align-items: center;
+  ${fs.FontSizeSemiSmall}
+  color: ${cons.FONT_COLOR_LIGHT};
+  font-weight: 500;
 `;
 
 const Bold = styled.span`
   font-weight: bold;
+  color: ${cons.FONT_COLOR_NORMAL};
+`;
+
+const LabelSection = styled.div``;
+
+const Dot = styled.div`
+  color: ${cons.FONT_COLOR_LIGHT};
+`;
+
+const PlaceCnt = styled.div``;
+
+const InternetSpeed = styled.div``;
+
+const CityTitle = styled.div`
+  position: absolute;
+  bottom: 1rem;
+  font-weight: bold;
+  width: 100%;
+  padding: 0 1rem;
+
+  text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.8);
+  box-sizing: border-box;
+`;
+
+const CityName = styled.div`
+  font-size: 1.5rem;
+  word-wrap: break-word;
+`;
+
+const CountryName = styled.div`
+  margin-top: 0.1rem;
 `;

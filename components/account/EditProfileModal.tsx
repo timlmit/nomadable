@@ -214,9 +214,9 @@ const PictureWrapper = styled.div`
   ${ClickableStyle}
   border: 2px dashed ${cons.FONT_COLOR_LIGHTEST};
   border-radius: 100%;
+  margin-bottom: 2rem;
   height: 6rem;
   width: 6rem;
-  margin-bottom: 2rem;
 `;
 
 const Picture = styled.img`

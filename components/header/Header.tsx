@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import {
@@ -7,6 +8,8 @@ import {
   FONT_COLOR_LIGHT,
   FONT_COLOR_LIGHTEST,
   FONT_COLOR_SUPER_LIGHT,
+  PATH_NEW_PLACE,
+  PATH_SIGNUP,
   SHADOW_0,
   SHADOW_1,
 } from "../../constants";
@@ -15,6 +18,7 @@ import { useAppSelector } from "../../redux/hooks";
 import { selectUnseenNotificationCnt } from "../../redux/slices/notificationSlice";
 import { User } from "../../redux/slices/userSlice";
 import { forMobile } from "../../styles/Responsive";
+import { ButtonPrimarySmallest } from "../../styles/styled-components/Buttons";
 import { ClickableStyle } from "../../styles/styled-components/Interactions";
 import { ContainerStyle } from "../../styles/styled-components/Layouts";
 import { NotificationMarkCss } from "../../styles/styled-components/UIs";
@@ -33,12 +37,27 @@ export const Header: React.FC<Props> = ({
   authenticated,
   fixed,
 }) => {
+  const router = useRouter();
   const wrapperRef = useRef(null);
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const notificationCnt = useAppSelector(selectUnseenNotificationCnt);
 
   const hideDropdown = () => {
     setDropdownVisible(false);
+  };
+
+  const handleClickNewPlace = () => {
+    if (authenticated) {
+      router.push(PATH_NEW_PLACE);
+    } else {
+      if (
+        window.confirm(
+          "You need to login to submit a new place. Do you want to signup?"
+        )
+      ) {
+        router.push(PATH_SIGNUP);
+      }
+    }
   };
 
   useClickOutsideEffect(wrapperRef, hideDropdown);
@@ -51,19 +70,24 @@ export const Header: React.FC<Props> = ({
             <Brandlogo src="/img/brand/brandlogo.svg" />
           </a>
         </Link>
-        <MenuWrapper ref={wrapperRef}>
-          <NotificationMark visible={notificationCnt > 0} />
-          <Menu onClick={() => setDropdownVisible(!dropdownVisible)}>
-            <MenuIcon src="/icon/menu-black.png" />
-            <UserIcon src={user.picture || "/icon/user-gray.png"} />
-          </Menu>
-          <MenuDropdown
-            visible={dropdownVisible}
-            authenticated={authenticated}
-            hideDropdown={hideDropdown}
-            notificaitonExist={notificationCnt > 0}
-          />
-        </MenuWrapper>
+        <HeaderLeft>
+          <SubmitNewButton onClick={handleClickNewPlace}>
+            + New Place
+          </SubmitNewButton>
+          <MenuWrapper ref={wrapperRef}>
+            <NotificationMark visible={notificationCnt > 0} />
+            <Menu onClick={() => setDropdownVisible(!dropdownVisible)}>
+              <MenuIcon src="/icon/menu-black.png" />
+              <UserIcon src={user.picture || "/icon/user-gray.png"} />
+            </Menu>
+            <MenuDropdown
+              visible={dropdownVisible}
+              authenticated={authenticated}
+              hideDropdown={hideDropdown}
+              notificaitonExist={notificationCnt > 0}
+            />
+          </MenuWrapper>
+        </HeaderLeft>
       </PageContainer>
     </HeaderWrapper>
   );
@@ -110,6 +134,20 @@ const MenuWrapper = styled.div`
   position: relative;
 `;
 
+const HeaderLeft = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const SubmitNewButton = styled.button`
+  ${ButtonPrimarySmallest};
+  margin-right: 1.4rem;
+
+  ${forMobile(`
+    display:none;
+  `)}
+`;
+
 const Menu = styled.div`
   ${ClickableStyle}
 
@@ -130,6 +168,7 @@ const MenuIcon = styled.img`
 
 const UserIcon = styled.img`
   width: 1.7rem;
+  height: 1.7rem;
   border-radius: 50%;
   object-fit: cover;
 `;

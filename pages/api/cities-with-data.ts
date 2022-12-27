@@ -47,17 +47,17 @@ handler.post(async (req: any, res: any) => {
     let loopCnt = 0;
 
     // add world
-    const { spotCnt, avgSpeed } = await getCityMetaData(null, req.mongoose);
-    const world: CityWithData = {
-      avgSpeed,
-      boundary: null,
-      city: "World",
-      country: "",
-      spotCnt,
-      slug: "world",
-      thumbnail: `${APP_URL}/img/img/world/world1.jpg`,
-    };
-    citiesWithData.push(world);
+    // const { spotCnt, avgSpeed } = await getCityMetaData(null, req.mongoose);
+    // const world: CityWithData = {
+    //   avgSpeed,
+    //   boundary: null,
+    //   city: "World",
+    //   country: "",
+    //   spotCnt,
+    //   slug: "world",
+    //   thumbnail: `${APP_URL}/img/img/world/world1.jpg`,
+    // };
+    // citiesWithData.push(world);
 
     // add cities
     while (citiesWithData.length < cities.length) {

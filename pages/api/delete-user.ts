@@ -1,4 +1,4 @@
-import { removeImage } from "./../../modules/ImageStorage";
+import { removeImages } from "./../../modules/ImageStorage";
 import { ERR_LOGIN_FAIL } from "./../../modules/ErrorCode";
 import nextConnect from "next-connect";
 import databaseMiddleware from "../../middleware/database";
@@ -24,7 +24,7 @@ handler.post(async (req: any, res: any) => {
     }
 
     // delete image
-    await removeImage(user.picture);
+    await removeImages([user.picture]);
 
     // clear user info
     user.name = "Deleted User";

@@ -38,9 +38,8 @@ export const SignupPage: React.FC<Props> = ({}) => {
           <CatchCopy>
             <Title>Join the Nomadable Community</Title>
             <Subtitle>
-              Nomadable is maintained by digital nomads around the world. Please
-              contribute by adding your favorite cafes, coworking spaces,
-              libraries, etc.
+              Nomadable is powered by digital nomads around the world. Submit
+              your favorite places and make your own map.
             </Subtitle>
           </CatchCopy>
 
@@ -79,6 +78,7 @@ const ContentsWrapper = styled.div`
   display: flex;
   min-height: calc(100vh - 5rem);
   justify-content: center;
+  align-items: center;
   width: 100%;
 
   ${DottedBackground}
@@ -92,7 +92,6 @@ const HeroSection = styled.div`
   ${ContainerStyle}
   display: flex;
   justify-content: space-between;
-  margin-top: 6rem;
 
   ${forMobile(`
     margin-top: 3rem;
@@ -114,6 +113,8 @@ const CatchCopy = styled.div`
     margin-top: 0rem;
     margin-right:0;
   `)}
+
+  text-shadow: 0px 0px 10px rgba(0,0,0,0.5);
 `;
 
 const Title = styled.div`
@@ -151,6 +152,8 @@ const Label = styled.div`
   ${FontSizeSemiLarge}
   margin-bottom: 1rem;
   color: white;
+
+  text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 `;
 
 const FormBox = styled.div`

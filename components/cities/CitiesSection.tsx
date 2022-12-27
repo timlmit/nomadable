@@ -56,7 +56,7 @@ const Title = styled.h1`
 
 const Container = styled.div`
   display: flex;
-  gap: 1.5rem;
+  gap: 1.4rem;
   flex-wrap: wrap;
 
   ${forMobile(`

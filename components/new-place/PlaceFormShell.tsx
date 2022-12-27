@@ -2,6 +2,7 @@ import React, { ReactNode } from "react";
 import styled from "styled-components";
 
 import * as cons from "../../constants";
+import { forMobile } from "../../styles/Responsive";
 import { AnimationSlideLeft } from "../../styles/styled-components/Animations";
 import {
   ButtonBlackLarge,
@@ -65,6 +66,11 @@ const Title = styled.div`
   font-weight: bold;
   color: ${cons.FONT_COLOR_NORMAL};
   margin-top: 3rem;
+
+  ${forMobile(`
+    margin-top: 2rem;
+    ${fs.FontSizeSemiLarge}
+  `)}
 `;
 
 const PageIndicator = styled.div`
@@ -93,6 +99,10 @@ const PageLabel = styled.div`
   ${fs.FontSizeSemiLarge}
   color: ${cons.FONT_COLOR_LIGHT};
   color: ${cons.FONT_COLOR_NORMAL};
+
+  ${forMobile(`
+    margin-top: 2.7rem;
+  `)}
 `;
 
 const FormCard = styled.div`

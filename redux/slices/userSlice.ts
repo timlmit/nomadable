@@ -142,6 +142,10 @@ const userSlice = createSlice({
         ...state.userWithStatsMine,
         ...action.payload.editableUser,
       };
+      state.user = {
+        ...state.user,
+        ...action.payload.editableUser,
+      };
     });
     builder.addCase(apiFetchDiscoveredPlaces.fulfilled, (state, action) => {
       const existingPlaceIds = state.discoveredPlaces.map((pl) => pl.id);

@@ -25,27 +25,28 @@ export const generateImageUrl = (fileName: string) => {
  * Functions
  */
 
-export const removeImage = async (url: string) => {
-  console.log("🚀 ~ file: ImageStorage.ts ~ line 29 ~ removeImage ~ url", url);
-  if (!url) return;
-  try {
-    const fileName = url.replace(STORAGE_URI, "").replace("/", "");
-    const params = {
-      Bucket: BUCKET_NAME,
-      Key: fileName,
-    };
+// export const removeImage = async (url: string) => {
+//   if (!url) return;
+//   try {
+//     const fileName = url.replace(STORAGE_URI, "").replace("/", "");
+//     const params = {
+//       Bucket: BUCKET_NAME,
+//       Key: fileName,
+//     };
 
-    await s3.deleteObject(params).promise();
-    return;
-  } catch (err) {
-    throw Error;
-  }
-};
+//     await s3.deleteObject(params).promise();
+//     return;
+//   } catch (err) {
+//     throw Error;
+//   }
+// };
 
 export const removeImages = async (urls: string[]) => {
   if (urls.length < 1) return;
   try {
-    const objects = urls.map((url) => ({ Key: url.replace(STORAGE_URI, "") }));
+    const objects = urls.map((url) => ({
+      Key: url.replace(STORAGE_URI, "").replace("/", ""),
+    }));
     const params = {
       Bucket: BUCKET_NAME,
       Delete: { Objects: objects },

@@ -45,11 +45,10 @@ const SizeSmall = css`
 `;
 
 const SizeSmallest = css`
-  ${FontSizeSemiSmall}
-
   border-radius: 0.3rem;
   min-width: 5rem;
   font-size: 0.9rem;
+  ${FontSizeSmall}
   height: 2.3rem;
   padding: 0rem 1rem;
 `;
@@ -162,9 +161,21 @@ export const ButtonPrimarySmall = css`
   ${ColorPrimary}
 `;
 
+export const ButtonPrimarySmallest = css`
+  ${ButtonBase}
+  ${SizeSmallest}
+  ${ColorPrimary}
+`;
+
 export const ButtonBlackSmall = css`
   ${ButtonBase}
   ${SizeSmall}
+  ${ColorBlack}
+`;
+
+export const ButtonBlackSmallest = css`
+  ${ButtonBase}
+  ${SizeSmallest}
   ${ColorBlack}
 `;
 

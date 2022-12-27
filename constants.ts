@@ -266,6 +266,7 @@ export const PATH_MAP = "/map";
 export const PATH_SIGNUP = "/signup";
 export const PATH_ARTICLES = "/articles";
 export const PATH_CITIES = "/cities";
+export const PATH_NEW_PLACE = "/new-place";
 
 /**
  * Event name

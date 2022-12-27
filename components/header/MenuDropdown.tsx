@@ -18,6 +18,7 @@ import {
 } from "../../redux/slices/api/apiUserSlice";
 import { updateVisibleModal } from "../../redux/slices/uiSlice";
 import { NotificationMarkCss } from "../../styles/styled-components/UIs";
+import { forMobile } from "../../styles/Responsive";
 
 interface Props {
   visible: boolean;
@@ -62,7 +63,7 @@ export const MenuDropdown: React.FC<Props> = ({
     if (authenticated) {
       return (
         <Fragment>
-          <DropdownItem onClick={() => goToPage("/new-place")}>
+          <DropdownItem onClick={() => goToPage("/new-place")} hidePC>
             <ItemIcon src="/icon/plus-black2.svg" />
             New Place
           </DropdownItem>
@@ -100,7 +101,7 @@ export const MenuDropdown: React.FC<Props> = ({
     }
     return (
       <Fragment>
-        <DropdownItem onClick={() => goToPage(cons.PATH_MAP)}>
+        <DropdownItem onClick={() => goToPage(cons.PATH_HOME)}>
           <ItemIcon src="/icon/map-black.svg" />
           Home
         </DropdownItem>
@@ -136,9 +137,18 @@ const MenuDropdownWrapper = styled.div`
   z-index: 1;
 `;
 
-const DropdownItem = styled.div`
+const DropdownItem = styled.div<{ hidePC?: boolean }>`
   ${DropDownItemStyle};
   position: relative;
+
+  ${(props) =>
+    props.hidePC &&
+    `
+    display: none;
+    ${forMobile(`
+      display: block;
+    `)}
+  `}
 `;
 
 const ItemIcon = styled.img`

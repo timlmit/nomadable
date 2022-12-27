@@ -180,8 +180,10 @@ const NameAndDescription = styled.div`
 
 const Picture = styled.img`
   width: 7rem;
+  height: 7rem;
   border-radius: 100%;
   border: 1px solid ${cons.FONT_COLOR_SUPER_LIGHT};
+  object-fit: cover;
 `;
 
 const Name = styled.div`

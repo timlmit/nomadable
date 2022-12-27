@@ -81,6 +81,7 @@ export const PhotoUploader: React.FC<Props> = ({
 
 const PhotoUploaderWrapper = styled.div`
   width: 100%;
+  height: 100%;
   ${ClickableStyle};
 `;
 
@@ -88,4 +89,6 @@ const FileInput = styled.input``;
 
 const Container = styled.div`
   pointer-events: none;
+  height: 100%;
+  width: 100%;
 `;

@@ -1,5 +1,5 @@
-import { saveSingleImage } from "./../../modules/ImageStorage";
-import { EditableUser } from "./../../redux/slices/userSlice";
+import { removeImages, saveSingleImage } from "./../../modules/ImageStorage";
+import { EditableUser, User } from "./../../redux/slices/userSlice";
 import nextConnect from "next-connect";
 import databaseMiddleware from "../../middleware/database";
 import authenticationMiddleware from "../../middleware/authentication";
@@ -21,7 +21,11 @@ handler.post(async (req: any, res: any) => {
   let imageUrl = "";
 
   if (base64.length > 0) {
-    imageUrl = await saveSingleImage(`${userId}.jpg`, base64, 320);
+    imageUrl = await saveSingleImage(
+      `${userId}-${Date.now()}.jpg`,
+      base64,
+      320
+    );
   }
 
   try {
@@ -29,18 +33,20 @@ handler.post(async (req: any, res: any) => {
 
     const newId = await generateUserId(id, User, userId);
 
-    const user: any = await User.findOneAndUpdate(
-      { _id: userId },
-      {
-        picture: imageUrl || picture,
-        name,
-        id: newId,
-        title,
-        description,
-        link,
-      },
-      { new: true }
-    );
+    const user = await User.findOne({ _id: userId });
+
+    if (imageUrl) {
+      await removeImages([user.picture]);
+    }
+
+    user.picture = imageUrl || picture;
+    user.name = name;
+    user.id = newId;
+    user.title = title;
+    user.description = description;
+    user.link = link;
+
+    await user.save();
 
     const updatedEditableUser = {
       picture: user.picture,
