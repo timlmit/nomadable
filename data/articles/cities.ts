@@ -211,12 +211,25 @@ export const TURKEY_ISTANBUL: City = {
   },
 };
 
+export const JAPAN_KARUIZAWA: City = {
+  slug: "japan-karuizawa",
+  country: "Japan",
+  city: "Karuizawa",
+  boundary: {
+    latStart: 36.30852732237699,
+    lngStart: 138.55645389526575,
+    latEnd: 36.384550226825894,
+    lngEnd: 138.65891795112032,
+  },
+};
+
 export const CITIES: City[] = [
   /**
    * Eeast Asia
    */
   SOUTH_KOREA_SEOUL,
   JAPAN_TOKYO,
+  JAPAN_KARUIZAWA,
   /**
    * South East Asia
    */
