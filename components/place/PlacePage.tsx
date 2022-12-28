@@ -262,7 +262,7 @@ const SaveButton = styled.button<{ saved: boolean }>`
   ${ClickableStyle}
   display: flex;
   align-items: center;
-  font-weight: 500;
+  font-weight: 600;
   color: black;
   opacity: 0.7;
   padding: 0 0.8rem;
@@ -271,6 +271,7 @@ const SaveButton = styled.button<{ saved: boolean }>`
     props.saved &&
     `
       opacity: 1;
+      // color: ${cons.COLOR_PRIMARY_0};
   `}
 `;
 

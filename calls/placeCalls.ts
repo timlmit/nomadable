@@ -1,4 +1,7 @@
-import { initialPlaceWithData } from "./../redux/slices/placeSlice";
+import {
+  initialPlaceWithData,
+  PlaceHeader,
+} from "./../redux/slices/placeSlice";
 import { APP_URL, COOKIE_ACCESS_TOKEN } from "../constants";
 import axios from "axios";
 import {
@@ -120,7 +123,7 @@ export const callFetchPlaces = async (params: {
   mapArea: MapArea;
   pageIndex: number;
   filterObj: FilterObj;
-}): Promise<{ places: Place[]; totalPlaceCnt: number }> => {
+}): Promise<{ places: PlaceHeader[]; totalPlaceCnt: number }> => {
   try {
     const response = await axios({
       method: "post",

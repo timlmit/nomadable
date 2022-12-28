@@ -71,7 +71,9 @@ export const LocationVerification: React.FC<Props> = (props) => {
       setRequestingLocation(false);
     } catch (error: any) {
       setRequestingLocation(false);
-      window.alert("Something went wrong. Please contact support.");
+      window.alert(
+        "Something went wrong. If you are using VPN, please turn it off and try again. If the problem pursists, please contact support."
+      );
     }
   };
 

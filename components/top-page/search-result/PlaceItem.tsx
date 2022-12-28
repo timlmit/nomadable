@@ -4,16 +4,21 @@ import styled from "styled-components";
 
 import * as cons from "../../../constants";
 import * as fs from "../../../styles/styled-components/FontSize";
-import { Place } from "../../../redux/slices/placeSlice";
+import { Place, PlaceHeader } from "../../../redux/slices/placeSlice";
 import { ClickableStyle } from "../../../styles/styled-components/Interactions";
 import { NetSpeedIndicator } from "../../commons/NetSpeedIndicator";
 import { AnimationSlideUp } from "../../../styles/styled-components/Animations";
 import { Bold } from "../../../styles/styled-components/Texts";
 import { getStarValue } from "../../place/components/review/ReviewScore";
+import { ButtonText } from "../../../styles/styled-components/Buttons";
+import { useAppSelector } from "../../../redux/hooks";
+import { selectAuthenticated } from "../../../redux/slices/userSlice";
+import { useRouter } from "next/router";
 
 interface Props {
-  place: Place;
+  place: PlaceHeader;
   selected: boolean | undefined;
+  onClickSave: (event: any, placeId: string, saved: boolean) => void;
 }
 
 export const getCity = (address: string) => {
@@ -25,7 +30,11 @@ export const getCity = (address: string) => {
   return countryCityArr.join(",");
 };
 
-export const PlaceItem: React.FC<Props> = ({ place, selected }) => {
+export const PlaceItem: React.FC<Props> = ({
+  place,
+  selected,
+  onClickSave,
+}) => {
   return (
     <Link href={`/place/${place.id}`} passHref>
       <a target="_blank" rel="noopener">
@@ -44,6 +53,20 @@ export const PlaceItem: React.FC<Props> = ({ place, selected }) => {
               {`  `}
               {place.placeType}
             </PlaceType>
+            <SaveButton
+              saved={place.savedByUser}
+              onClick={(event) =>
+                onClickSave(event, place.id, !place.savedByUser)
+              }
+            >
+              <SaveButtonIcon
+                src={
+                  place.savedByUser
+                    ? "/icon/tag-green.svg"
+                    : "/icon/tag-black.svg"
+                }
+              />
+            </SaveButton>
           </ImageWrapper>
           <Name>{place.spotName}</Name>
           <Address>{getCity(place.spotAddress)}</Address>
@@ -89,6 +112,25 @@ const PlaceItemWrapper = styled.div<{ selected: undefined | boolean }>`
 
 const ImageWrapper = styled.div`
   height: 15rem;
+  position: relative;
+`;
+
+const SaveButton = styled.div<{ saved: boolean }>`
+  ${ClickableStyle}
+  opacity: 0.5;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+
+  ${(props) =>
+    props.saved &&
+    `
+    opacity: 1;
+  `}
+`;
+
+const SaveButtonIcon = styled.img`
+  width: 1.3rem;
 `;
 
 const Image = styled.img`
@@ -100,7 +142,7 @@ const Image = styled.img`
 
 const SpeedWrapper = styled.div`
   position: absolute;
-  top: 0.8rem;
+  bottom: 0.8rem;
   right: 0.8rem;
 `;
 

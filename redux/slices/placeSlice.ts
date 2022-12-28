@@ -49,6 +49,10 @@ export interface Place extends Spot {
   created: Date | undefined;
 }
 
+export interface PlaceHeader extends Place {
+  savedByUser: boolean;
+}
+
 export interface PlaceUserData {
   userName: string;
   userPicture: string;
@@ -117,7 +121,7 @@ export interface Availability {
 
 interface PlaceState {
   totalPlaceCnt: number;
-  searchResult: Place[];
+  searchResult: PlaceHeader[];
   searchResultTotalCnt: number;
   recentCheckIns: Place[];
   placeForPage: PlaceWithData;
@@ -266,6 +270,11 @@ const placeSlice = createSlice({
     });
     builder.addCase(apiSavePlace.pending, (state, action) => {
       state.placeForPage.savedByUser = action.meta.arg.saved;
+      state.searchResult = state.searchResult.map((place) => {
+        if (place.id !== action.meta.arg.placeId) return place;
+        place.savedByUser = action.meta.arg.saved;
+        return place;
+      });
     });
   },
 });
@@ -279,7 +288,7 @@ export const { initPlaceForPage } = placeSlice.actions;
 export const selectPlaceForPage = (state: RootState): PlaceWithData =>
   state.place.placeForPage;
 
-export const selectPlaceSearchResult = (state: RootState): Place[] =>
+export const selectPlaceSearchResult = (state: RootState): PlaceHeader[] =>
   state.place.searchResult;
 
 export const selectRecentCheckIns = (state: RootState): Place[] =>

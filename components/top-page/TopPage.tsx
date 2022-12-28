@@ -17,6 +17,7 @@ import {
   initialFilterObj,
   MapArea,
   Place,
+  PlaceHeader,
 } from "../../redux/slices/placeSlice";
 import { forMobile } from "../../styles/Responsive";
 import { AnimationSlideUp } from "../../styles/styled-components/Animations";
@@ -29,7 +30,7 @@ import { FilterModal } from "./search-result/FilterModal";
 import { SearchResult } from "./search-result/SearchResult";
 
 interface Props {
-  places: Place[];
+  places: PlaceHeader[];
   searchResultTotalCnt: number;
 }
 

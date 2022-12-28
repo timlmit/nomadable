@@ -31,11 +31,11 @@ export const fetchPlacesWithFilter = async (
         }
       : { spotLat: { $exists: true } };
 
-    let savedPlaceIds = [];
-    if (filterObj.saved) {
-      const savedPlaces = await SavedPlace.find({ userId }).lean();
-      savedPlaceIds = savedPlaces.map((p: any) => p.placeId);
-    }
+    // let savedPlaceIds: string[] = [];
+    // if (filterObj.saved) {
+    const savedPlaces = await SavedPlace.find({ userId }).lean();
+    const savedPlaceIds = savedPlaces.map((p: any) => p.placeId);
+    // }
 
     const condition = {
       ...boundaryCondition,
@@ -52,9 +52,16 @@ export const fetchPlacesWithFilter = async (
       .limit(limit)
       .lean();
 
+    const placeHeaders = places.map((p: any) => {
+      return {
+        ...p,
+        savedByUser: savedPlaceIds.includes(p.id),
+      };
+    });
+
     const totalPlaceCnt = await Place.countDocuments(condition);
 
-    return { places, totalPlaceCnt };
+    return { places: placeHeaders, totalPlaceCnt };
   } catch (err) {
     throw err;
   }

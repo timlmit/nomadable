@@ -3,7 +3,11 @@ import styled from "styled-components";
 
 import * as cons from "../../../constants";
 import * as fs from "../../../styles/styled-components/FontSize";
-import { FilterObj, Place } from "../../../redux/slices/placeSlice";
+import {
+  FilterObj,
+  Place,
+  PlaceHeader,
+} from "../../../redux/slices/placeSlice";
 import {
   ButtonSecondarySmall,
   ButtonSecondarySmallest,
@@ -15,16 +19,21 @@ import { HeaderSmall } from "../../../styles/styled-components/Texts";
 import { PlaceItem } from "./PlaceItem";
 import { AnimationSlideUp } from "../../../styles/styled-components/Animations";
 import { SectionLoader } from "../../commons/SectionLoader";
-import { useAppSelector } from "../../../redux/hooks";
-import { selectApiFetchPlacesStatus } from "../../../redux/slices/api/apiPlaceSlice";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+import {
+  apiSavePlace,
+  selectApiFetchPlacesStatus,
+} from "../../../redux/slices/api/apiPlaceSlice";
 import { Contributer } from "../../../redux/slices/contributerSlice";
 import { FilterModal } from "./FilterModal";
 import { forMobile } from "../../../styles/Responsive";
+import { selectAuthenticated } from "../../../redux/slices/userSlice";
+import { useRouter } from "next/router";
 
 const HEADER_HEIGHT = 5;
 
 interface Props {
-  places: Place[];
+  places: PlaceHeader[];
   onChangePageIndex: (pageIndex: number) => void;
   width: number;
   selectedPlace: string;
@@ -50,11 +59,31 @@ export const SearchResult: React.FC<Props> = ({
   searchResultTotalCnt,
   onHoverPlace,
 }) => {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
   const apiStatus = useAppSelector(selectApiFetchPlacesStatus);
+  const authenticated = useAppSelector(selectAuthenticated);
   // const [filterVisible, setFilterVisible] = useState(false);
 
   const onClickFilterButton = () => {
     onChangeFilterVisible(true);
+  };
+
+  const onClickSave = (event: any, placeId: string, saved: boolean) => {
+    if (authenticated) {
+      event.preventDefault();
+      event.stopPropagation();
+      event.nativeEvent.stopImmediatePropagation();
+      dispatch(apiSavePlace({ placeId, saved }));
+    } else {
+      if (
+        window.confirm(
+          "You need to login to use the save feature. Do you want to signup?"
+        )
+      ) {
+        router.push(cons.PATH_SIGNUP);
+      }
+    }
   };
 
   /**
@@ -114,6 +143,7 @@ export const SearchResult: React.FC<Props> = ({
                 selected={
                   selectedPlace === "" ? undefined : place.id === selectedPlace
                 }
+                onClickSave={onClickSave}
               />
             </PlaceWrapper>
           ))}

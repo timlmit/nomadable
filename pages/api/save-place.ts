@@ -19,9 +19,13 @@ handler.post(async (req: any, res: any) => {
     if (!userId || !placeId) throw Error;
 
     if (saved) {
-      await SavedPlace.create({ userId, placeId });
+      await SavedPlace.findOneAndUpdate(
+        { userId, placeId },
+        { userId, placeId },
+        { upsert: true }
+      );
     } else {
-      await SavedPlace.deleteOne({ userId, placeId });
+      await SavedPlace.deleteMany({ userId, placeId });
     }
 
     return res.status(200).json({ message: "success" });

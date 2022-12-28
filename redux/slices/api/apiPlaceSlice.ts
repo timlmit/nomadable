@@ -22,7 +22,14 @@ import {
   callFetchPlace,
 } from "../../../calls/placeCalls";
 import { ERR_SOMETHING } from "../../../modules/ErrorCode";
-import { FilterObj, MapArea, Place, PlaceWithData, Vote } from "../placeSlice";
+import {
+  FilterObj,
+  MapArea,
+  Place,
+  PlaceHeader,
+  PlaceWithData,
+  Vote,
+} from "../placeSlice";
 import { showPointEarned } from "../uiSlice";
 
 /**
@@ -315,7 +322,7 @@ export const apiCheckIn = createAsyncThunk<
 // callFetchPlaces
 
 export const apiFetchPlaces = createAsyncThunk<
-  { places: Place[]; totalPlaceCnt: number }, // Return type of the payload creator
+  { places: PlaceHeader[]; totalPlaceCnt: number }, // Return type of the payload creator
   { mapArea: MapArea; pageIndex: number; filterObj: FilterObj }, // First argument to the payload creator
   {
     rejectValue: CallError;
