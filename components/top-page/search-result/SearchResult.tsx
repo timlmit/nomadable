@@ -92,7 +92,7 @@ export const SearchResult: React.FC<Props> = ({
   useEffect(() => {
     const element = document.getElementById(`element_${selectedPlace}`);
     if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "center" });
+      element.scrollIntoView({ behavior: "auto", block: "center" });
     }
   }, [selectedPlace]);
 

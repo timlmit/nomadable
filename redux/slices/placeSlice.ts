@@ -54,6 +54,7 @@ export interface PlaceHeader extends Place {
 }
 
 export interface PlaceUserData {
+  userId: string;
   userName: string;
   userPicture: string;
   userDescription: string;
@@ -68,6 +69,7 @@ export interface PlaceWithData extends Place, PlaceUserData {
   reviewsWithData: ReviewWithData[];
   // saved
   savedByUser: boolean;
+  checkInUsers: PlaceUserData[];
 }
 
 export interface MapArea {
@@ -160,6 +162,7 @@ export const initialPlace: Place = {
 
 export const initialPlaceWithData: PlaceWithData = {
   ...initialPlace,
+  userId: "",
   userName: "",
   userPicture: "",
   userDescription: "",
@@ -169,6 +172,7 @@ export const initialPlaceWithData: PlaceWithData = {
   checkedInByUser: false,
   reviewsWithData: [],
   savedByUser: false,
+  checkInUsers: [],
 };
 
 const initialState: PlaceState = {

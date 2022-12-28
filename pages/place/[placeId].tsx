@@ -119,7 +119,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   } catch (err: any) {
     return {
       props: {
-        placeWithData: undefined,
+        placeWithData: initialPlaceWithData,
       },
     };
   }

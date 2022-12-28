@@ -79,6 +79,7 @@ handler.post(async (req: any, res: any) => {
       placeId,
       speedDown,
       speedUp,
+      isPublic,
       checkInTime: new Date(),
     });
 

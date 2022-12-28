@@ -3,7 +3,6 @@ import nextConnect from "next-connect";
 import { ERR_SOMETHING } from "../../modules/ErrorCode";
 import databaseMiddleware from "../../middleware/database";
 import authenticationMiddleware from "../../middleware/authentication";
-import { PlaceWithData } from "../../redux/slices/placeSlice";
 import { makePlaceWithData } from "../../modules/api/makePlaceWithData";
 
 const handler = nextConnect();

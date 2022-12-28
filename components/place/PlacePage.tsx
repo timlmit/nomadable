@@ -189,6 +189,7 @@ export const PlacePage: React.FC<Props> = ({ placeWithData }) => {
               checkedInByUser={pd.checkedInByUser}
               onClickSpeedTest={onClickSpeedTest}
               loading={apiStatusCheckIn.status === cons.API_LOADING}
+              checkInUsers={pd.checkInUsers}
             />
           </InfoItemWrapper>
           <InfoItemWrapper label="Basic Info">

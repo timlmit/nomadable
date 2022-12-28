@@ -1,5 +1,46 @@
-import { Place, PlaceWithData } from "../../redux/slices/placeSlice";
+import {
+  Place,
+  PlaceUserData,
+  PlaceWithData,
+} from "../../redux/slices/placeSlice";
+import { uniqueArray } from "../ArrayUtils";
 import { makeReviewsWithData } from "./makeReviewsWithData";
+
+export const getCheckInUsers = async (
+  recentCheckIns: any[],
+  User: any
+): Promise<PlaceUserData[]> => {
+  try {
+    const publicCheckIns = recentCheckIns.filter((c: any) => c.isPublic);
+
+    const recentCheckInUserIds = uniqueArray(
+      publicCheckIns.map((c: any) => c.userId)
+    );
+
+    const recentCheckInUsers = await User.find({
+      _id: { $in: recentCheckInUserIds },
+    }).lean();
+
+    const checkInUsers: PlaceUserData[] = recentCheckInUserIds.map(
+      (userId: any) => {
+        const user = recentCheckInUsers.find((u: any) => {
+          return u._id.toString() === userId;
+        });
+        return {
+          userId: user.id,
+          userName: user.name,
+          userPicture: user.picture,
+          userDescription: user.description,
+          userTitle: user.title,
+        };
+      }
+    );
+
+    return checkInUsers.slice(0, 4);
+  } catch (err) {
+    return [];
+  }
+};
 
 export const makePlaceWithData = async (
   mongoose: any,
@@ -25,14 +66,12 @@ export const makePlaceWithData = async (
       checkInTime: { $gt: ago },
     }).lean();
 
-    // get monthly check-in count
-    // const yearAgo = new Date();
-    // yearAgo.setDate(yearAgo.getDate() - 365);
-
     const recentCheckIns = await CheckIn.find({
       placeId: place.id,
       // checkInTime: { $gt: yearAgo },
-    }).lean();
+    })
+      .sort({ checkInTime: -1 })
+      .lean();
 
     // get reviews
     const reviews = await Review.find({ placeId: place.id })
@@ -49,15 +88,19 @@ export const makePlaceWithData = async (
 
     const savedByUser = await SavedPlace.exists({ userId, placeId: place.id });
 
+    const checkInUsers = await getCheckInUsers(recentCheckIns, User);
+
     // make
     const placeWithData: PlaceWithData = {
       ...place,
+      userId: discoverUser ? discoverUser.id : "",
       userName: discoverUser ? discoverUser.name : "",
       userPicture: discoverUser ? discoverUser.picture : "",
       userDescription: discoverUser ? discoverUser.description : "",
       userTitle: discoverUser ? discoverUser.title : "",
       recentCheckInCnt: recentCheckIns.length,
       checkedInByUser: recentCheckInByUser ? true : false,
+      checkInUsers,
       savedByUser,
       reviewsWithData,
     };

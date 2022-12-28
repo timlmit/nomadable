@@ -10,6 +10,7 @@ import {
 import { NetSpeedIndicator } from "../../commons/NetSpeedIndicator";
 import { SectionLoader } from "../../commons/SectionLoader";
 import { forMobile } from "../../../styles/Responsive";
+import { PlaceUserData } from "../../../redux/slices/placeSlice";
 
 interface Props {
   speedUp: number;
@@ -18,6 +19,7 @@ interface Props {
   onClickSpeedTest: () => void;
   loading: boolean;
   checkedInByUser: boolean;
+  checkInUsers: PlaceUserData[];
 }
 
 export const InternetSpeed: React.FC<Props> = ({
@@ -27,6 +29,7 @@ export const InternetSpeed: React.FC<Props> = ({
   onClickSpeedTest,
   loading,
   checkedInByUser,
+  checkInUsers,
 }) => {
   return (
     <InternetSpeedWrapper>
@@ -49,7 +52,14 @@ export const InternetSpeed: React.FC<Props> = ({
       <TestSection>
         <TestButtonWrapper>
           <CheckInInfo>
-            <CheckInNumber>{testCnt}</CheckInNumber> checked in
+            <CheckInNumber>{testCnt}</CheckInNumber> checked in{" "}
+            <UserPics>
+              {checkInUsers.map((user, index) => (
+                <UserPicWrapper key={user.userId} zIndex={0 - index}>
+                  <UserPic src={user.userPicture} />
+                </UserPicWrapper>
+              ))}
+            </UserPics>
           </CheckInInfo>
 
           <CheckInButton onClick={onClickSpeedTest} disabled={checkedInByUser}>
@@ -148,7 +158,7 @@ const CheckInInfo = styled.div`
   ${fs.FontSizeSemiSmall};
   color: ${cons.FONT_COLOR_LIGHT};
   display: flex;
-  align-items: flex-end;
+  align-items: center;
 `;
 
 const CheckInNumber = styled.span`
@@ -158,9 +168,27 @@ const CheckInNumber = styled.span`
   margin-right: 0.3rem;
 `;
 
+const UserPics = styled.div`
+  margin-left: 0.5rem;
+  display: flex;
+`;
+
+const UserPicWrapper = styled.div<{ zIndex: number }>`
+  width: 1.6rem;
+  z-index: ${(props) => props.zIndex};
+`;
+
+const UserPic = styled.img`
+  border: 0.1rem solid white;
+  width: 1.9rem;
+  height: 1.9rem;
+  object-fit: cover;
+  border-radius: 50%;
+`;
+
 const CheckInButton = styled.button`
   ${ButtonPrimaryMedium};
-  margin-top: 1rem;
+  margin-top: 0.6rem;
   height: 5rem;
   padding-left: 2rem;
   padding-right: 2rem;

@@ -74,6 +74,8 @@ export const WifiSpeedTest: React.FC<Props> = (props) => {
       },
       onError: () => {
         window.alert("Something went wrong. Please contact support.");
+        setTestFinished(false);
+        setTestStarted(false);
       },
       onCompleted: (download: number, upload: number) => {
         setResultSpeedDown(download);

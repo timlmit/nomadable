@@ -7,6 +7,7 @@ export const CheckInSchema = (mongoose: any) => {
     speedDown: { type: Number || null },
     speedUp: { type: Number || null },
     checkInTime: { type: Date, required: true },
+    isPublic: { type: Boolean, default: false },
   });
   try {
     CheckInSchema.index({
