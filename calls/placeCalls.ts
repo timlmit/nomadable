@@ -76,8 +76,8 @@ export const callFetchPlace = async (
       },
     });
 
-    // return response.data;
-    return { placeWithData: initialPlaceWithData };
+    return response.data;
+    // return { placeWithData: initialPlaceWithData };
   } catch (error: any) {
     return { placeWithData: initialPlaceWithData };
     // throw {
