@@ -126,6 +126,7 @@ export const fetchPlacesWithFilter = async (
       userLng,
       userLat
     );
+    console.log("🚀 ~ file: fetchPlacesWithFilter.ts:129 ~ pipeline", pipeline);
 
     const places = await Place.aggregate(
       pipeline.concat([{ $skip: skip }, { $limit: limit }])
@@ -147,6 +148,7 @@ export const fetchPlacesWithFilter = async (
       totalPlaceCnt: totalPlaceCnt.length > 0 ? totalPlaceCnt[0].cnt : 0,
     };
   } catch (err) {
+    console.log("🚀 ~ file: fetchPlacesWithFilter.ts:151 ~ err", err);
     throw err;
   }
 };
