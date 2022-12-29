@@ -95,6 +95,10 @@ export const WifiSpeedTest: React.FC<Props> = (props) => {
     initializeState();
   };
 
+  useEffect(() => {
+    onClickStart();
+  }, [null]);
+
   /**
    * Render
    */
