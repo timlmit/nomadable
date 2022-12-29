@@ -124,6 +124,8 @@ export const callFetchPlaces = async (params: {
   mapArea: MapArea;
   pageIndex: number;
   filterObj: FilterObj;
+  userLng?: number;
+  userLat?: number;
 }): Promise<{ places: PlaceHeader[]; totalPlaceCnt: number }> => {
   try {
     const response = await axios({
@@ -136,6 +138,8 @@ export const callFetchPlaces = async (params: {
         lngEnd: params.mapArea.lngEnd,
         pageIndex: params.pageIndex,
         filterObj: params.filterObj,
+        userLng: params.userLng,
+        userLat: params.userLat,
       },
       headers: {
         Authorization: readCookie(COOKIE_ACCESS_TOKEN) || "",

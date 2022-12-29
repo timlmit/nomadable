@@ -54,7 +54,8 @@ const GlobalStyles = createGlobalStyle`
 
   input:focus,
   button:focus,
-  textarea:focus {
+  textarea:focus,
+  select:focus {
     outline: none;
   }
 `;

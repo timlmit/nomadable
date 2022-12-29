@@ -29,6 +29,9 @@ import { SplashPage } from "../commons/SplashPage";
 import { FilterModal } from "./search-result/FilterModal";
 import { SearchResult } from "./search-result/SearchResult";
 import { getFilterCount } from "./search-result/filters/getFilterCount";
+import { getCurrentLocation } from "../../modules/Location";
+import { latest } from "immer/dist/internal";
+import { PageLoader } from "../commons/PageLoader";
 
 interface Props {
   places: PlaceHeader[];
@@ -54,6 +57,10 @@ export const TopPage: React.FC<Props> = ({ places, searchResultTotalCnt }) => {
   // custom hook
   const [viewHeight] = useViewHeight();
   const [scrollPosition] = useScrolllPosition();
+  const [userLocation, setUserLocation] = useState<
+    undefined | { lat: number; lng: number }
+  >(undefined);
+  const [loadingLocation, setLoadingLocation] = useState(false);
 
   /**
    * Modules
@@ -62,13 +69,17 @@ export const TopPage: React.FC<Props> = ({ places, searchResultTotalCnt }) => {
   const searchPlaces = (
     mapArea: MapArea,
     pageIndex: number,
-    _filterObj: FilterObj
+    _filterObj: FilterObj,
+    userLng?: number,
+    userLat?: number
   ) => {
     dispatch(
       apiFetchPlaces({
         mapArea,
         pageIndex,
         filterObj: _filterObj,
+        userLng,
+        userLat,
       })
     );
   };
@@ -146,6 +157,14 @@ export const TopPage: React.FC<Props> = ({ places, searchResultTotalCnt }) => {
     setHoveredPlace(placeId);
   };
 
+  const onLoadUserLocation = (userLocation: { lat: number; lng: number }) => {
+    setUserLocation(userLocation);
+  };
+
+  const setUserLocationLoading = (loading: boolean) => {
+    setLoadingLocation(loading);
+  };
+
   /**
    * Effect
    */
@@ -165,7 +184,13 @@ export const TopPage: React.FC<Props> = ({ places, searchResultTotalCnt }) => {
 
   useEffect(() => {
     if (!mapArea) return;
-    searchPlaces(mapArea, pageIndex, filterObj);
+    searchPlaces(
+      mapArea,
+      pageIndex,
+      filterObj,
+      userLocation && userLocation.lng,
+      userLocation && userLocation.lat
+    );
   }, [mapArea, pageIndex, filterObj]);
 
   useEffect(() => {
@@ -198,6 +223,7 @@ export const TopPage: React.FC<Props> = ({ places, searchResultTotalCnt }) => {
 
   return (
     <TopPageWrapper>
+      <PageLoader visible={loadingLocation} message="Loading..." />
       <SearchResultSection viewHeight={viewHeight}>
         <PullTabForMobile onClick={() => onClickToggle(false)}>
           <SectionLoader
@@ -249,6 +275,9 @@ export const TopPage: React.FC<Props> = ({ places, searchResultTotalCnt }) => {
         filterObj={filterObj}
         onClickFilterSave={onClickFilterSave}
         closeModal={closeFilterModal}
+        onLoadUserLocation={onLoadUserLocation}
+        userLocation={userLocation}
+        setUserLocationLoading={setUserLocationLoading}
       />
     </TopPageWrapper>
   );

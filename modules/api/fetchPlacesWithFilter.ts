@@ -6,7 +6,51 @@ import {
   STATUS_OPEN,
 } from "./../../constants";
 import { Boundary } from "../../data/articles/cities";
-import { FilterObj, Place, PlaceHeader } from "../../redux/slices/placeSlice";
+import { FilterObj, PlaceHeader } from "../../redux/slices/placeSlice";
+import places from "../../pages/api/places";
+import { pipeline } from "stream";
+
+const makeCondition = async (
+  mongoose: any,
+  filterObj: FilterObj,
+  boundary: Boundary | null,
+  savedPlaceIds: string[]
+) => {
+  const SavedPlace = mongoose.model("SavedPlace");
+
+  const placeTypeFilter =
+    filterObj.placeTypes.length > 0
+      ? { $in: filterObj.placeTypes }
+      : { $exists: true };
+
+  const availabilityFilter =
+    filterObj.availability.length > 0
+      ? { $all: filterObj.availability }
+      : { $exists: true };
+
+  const boundaryCondition = boundary
+    ? {
+        $geoWithin: {
+          $box: [
+            [boundary.lngStart, boundary.latStart],
+            [boundary.lngEnd, boundary.latEnd],
+          ],
+        },
+      }
+    : { $exists: true };
+
+  // }
+
+  const condition = {
+    placeType: placeTypeFilter,
+    availability: availabilityFilter,
+    status: STATUS_OPEN,
+    id: filterObj.saved ? { $in: savedPlaceIds } : { $exists: true },
+    location: boundaryCondition,
+  };
+
+  return condition;
+};
 
 const makeSortCondition = (sortBy: string) => {
   switch (sortBy) {
@@ -21,64 +65,71 @@ const makeSortCondition = (sortBy: string) => {
   }
 };
 
+const makePipeline = (
+  condition: any,
+  filterObj: FilterObj,
+  userLng: number | undefined,
+  userLat: number | undefined
+) => {
+  const pipeline: any[] = [];
+
+  if (userLng && userLat) {
+    pipeline.push({
+      $geoNear: {
+        near: { type: "Point", coordinates: [userLng, userLat] },
+        spherical: true,
+        maxDistance: filterObj.sortBy === SORT_BY_DISTANCE ? 100 * 1000 : null,
+        distanceField: "distance",
+      },
+    });
+  }
+
+  pipeline.push({ $match: condition });
+
+  if (filterObj.sortBy !== SORT_BY_DISTANCE) {
+    pipeline.push({
+      $sort: makeSortCondition(filterObj.sortBy),
+    });
+  }
+
+  return pipeline;
+};
+
 export const fetchPlacesWithFilter = async (
   mongoose: any,
   userId: string,
   boundary: Boundary | null,
   filterObj: FilterObj,
   skip: number,
-  limit: number
+  limit: number,
+  userLng?: number,
+  userLat?: number
 ): Promise<{ places: PlaceHeader[]; totalPlaceCnt: number }> => {
   try {
     const Place = mongoose.model("Place");
     const SavedPlace = mongoose.model("SavedPlace");
 
-    const placeTypeFilter =
-      filterObj.placeTypes.length > 0
-        ? { $in: filterObj.placeTypes }
-        : { $exists: true };
-
-    const availabilityFilter =
-      filterObj.availability.length > 0
-        ? { $all: filterObj.availability }
-        : { $exists: true };
-
-    const boundaryCondition = boundary
-      ? {
-          // spotLat: { $gte: boundary.latStart, $lte: boundary.latEnd },
-          // spotLng: { $gte: boundary.lngStart, $lte: boundary.lngEnd },
-
-          location: {
-            $geoWithin: {
-              $box: [
-                [boundary.lngStart, boundary.latStart],
-                [boundary.lngEnd, boundary.latEnd],
-              ],
-            },
-          },
-        }
-      : { location: { $exists: true } };
-
-    // let savedPlaceIds: string[] = [];
-    // if (filterObj.saved) {
     const savedPlaces = await SavedPlace.find({ userId }).lean();
     const savedPlaceIds = savedPlaces.map((p: any) => p.placeId);
-    // }
 
-    const condition = {
-      ...boundaryCondition,
-      placeType: placeTypeFilter,
-      availability: availabilityFilter,
-      status: STATUS_OPEN,
-      id: filterObj.saved ? { $in: savedPlaceIds } : { $exists: true },
-    };
+    const condition = await makeCondition(
+      mongoose,
+      filterObj,
+      boundary,
+      savedPlaceIds
+    );
 
     // get place
-    let places = await Place.find(condition)
-      .sort(makeSortCondition(filterObj.sortBy))
-      .skip(skip)
-      .limit(limit)
-      .lean();
+    const pipeline: any[] = makePipeline(
+      condition,
+      filterObj,
+      userLng,
+      userLat
+    );
+
+    const places = await Place.aggregate(
+      pipeline.concat([{ $skip: skip }, { $limit: limit }])
+    );
 
     const placeHeaders = places.map((p: any) => {
       return {
@@ -87,9 +138,14 @@ export const fetchPlacesWithFilter = async (
       };
     });
 
-    const totalPlaceCnt = await Place.countDocuments(condition);
+    const totalPlaceCnt = await Place.aggregate(
+      pipeline.concat([{ $count: "cnt" }])
+    );
 
-    return { places: placeHeaders, totalPlaceCnt };
+    return {
+      places: placeHeaders,
+      totalPlaceCnt: totalPlaceCnt.length > 0 ? totalPlaceCnt[0].cnt : 0,
+    };
   } catch (err) {
     throw err;
   }

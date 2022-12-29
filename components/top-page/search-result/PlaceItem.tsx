@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React from "react";
+import React, { Fragment } from "react";
 import styled from "styled-components";
 
 import * as cons from "../../../constants";
@@ -21,6 +21,12 @@ interface Props {
   onClickSave: (event: any, placeId: string, saved: boolean) => void;
 }
 
+const convertDistanceToKm = (distance: number | undefined) => {
+  if (distance === undefined) {
+    return "";
+  }
+};
+
 export const getCity = (address: string) => {
   const addressArr = address.split(",");
   const countryCityArr = addressArr.slice(
@@ -28,6 +34,25 @@ export const getCity = (address: string) => {
     addressArr.length
   );
   return countryCityArr.join(",");
+};
+
+/**
+ *  Render
+ */
+
+const renderDistance = (distance: number | undefined) => {
+  if (!distance) return;
+
+  const distanceInKm = Math.round(distance / 100) / 10;
+
+  return (
+    <Fragment>
+      <Dot>&#x2022;</Dot>
+      <Distance>
+        <DistanceNum>{distanceInKm}</DistanceNum> km
+      </Distance>
+    </Fragment>
+  );
 };
 
 export const PlaceItem: React.FC<Props> = ({
@@ -79,8 +104,10 @@ export const PlaceItem: React.FC<Props> = ({
               </ReviewStars>
             )}
             <CheckInCnt>
-              <CheckInNum>{place.testCnt}</CheckInNum> check-ins
+              <CheckInNum>{place.testCnt}</CheckInNum> chk-in
             </CheckInCnt>
+
+            {renderDistance(place.distance)}
           </ScoreInfo>
         </PlaceItemWrapper>
       </a>
@@ -207,4 +234,14 @@ const StarIcon = styled.img`
 const Dot = styled.div`
   color: ${cons.FONT_COLOR_LIGHT};
   margin-left: 0.2rem;
+`;
+
+const Distance = styled.div`
+  color: ${cons.FONT_COLOR_LIGHT};
+  ${fs.FontSizeSemiSmall};
+  margin-left: 0.2rem;
+`;
+
+const DistanceNum = styled.span`
+  font-weight: 700;
 `;

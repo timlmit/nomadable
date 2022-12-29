@@ -13,7 +13,16 @@ handler.use(authenticationMiddleware);
 
 handler.post(async (req: any, res: any) => {
   const { userId } = req;
-  const { latStart, lngStart, latEnd, lngEnd, pageIndex, filterObj } = req.body;
+  const {
+    latStart,
+    lngStart,
+    latEnd,
+    lngEnd,
+    pageIndex,
+    filterObj,
+    userLng,
+    userLat,
+  } = req.body;
 
   try {
     const { places, totalPlaceCnt } = await fetchPlacesWithFilter(
@@ -22,11 +31,14 @@ handler.post(async (req: any, res: any) => {
       { latStart, lngStart, latEnd, lngEnd },
       filterObj,
       0,
-      50
+      50,
+      userLng,
+      userLat
     );
 
     return res.status(200).json({ places, totalPlaceCnt });
   } catch (error: any) {
+    console.log("🚀 ~ file: places.ts:42 ~ handler.post ~ error", error);
     return res.status(500).json({ message: ERR_SOMETHING, placeId: "" });
   }
 });

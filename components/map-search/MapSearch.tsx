@@ -48,6 +48,7 @@ export const MapSearch: React.FC<Props> = (props) => {
   const markersRef = useRef<{ pin: Pin; marker: any }[]>([]);
   const [pins, setPins] = useState<Pin[]>([]);
   const [zoomLevel, setZoomLevel] = useState(0);
+  const [queryLoaded, setQueryLoaded] = useState(false);
   // const geoControlRef = useRef();
 
   /**
@@ -188,12 +189,15 @@ export const MapSearch: React.FC<Props> = (props) => {
   }, [pins]);
 
   useEffect(() => {
-    if (router.query.latStart) {
+    if (queryLoaded) return;
+
+    if (router.query.latStart && router.query.lngStart) {
       updateMapArea(router.query);
+      setQueryLoaded(true);
     } else {
       onViewportUpdate();
     }
-  }, [mapRef.current]);
+  }, [mapRef.current, router.query]);
 
   useEffect(() => {
     setPins(convertPlacesToPins(props.places));

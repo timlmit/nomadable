@@ -323,17 +323,19 @@ export const apiCheckIn = createAsyncThunk<
 
 export const apiFetchPlaces = createAsyncThunk<
   { places: PlaceHeader[]; totalPlaceCnt: number }, // Return type of the payload creator
-  { mapArea: MapArea; pageIndex: number; filterObj: FilterObj }, // First argument to the payload creator
+  {
+    mapArea: MapArea;
+    pageIndex: number;
+    filterObj: FilterObj;
+    userLng?: number;
+    userLat?: number;
+  }, // First argument to the payload creator
   {
     rejectValue: CallError;
   } // Types for ThunkAPI
->("place/FetchPlaces", async ({ mapArea, pageIndex, filterObj }, thunkApi) => {
+>("place/FetchPlaces", async (params, thunkApi) => {
   try {
-    const { places, totalPlaceCnt } = await callFetchPlaces({
-      mapArea,
-      pageIndex,
-      filterObj,
-    });
+    const { places, totalPlaceCnt } = await callFetchPlaces(params);
     return { places, totalPlaceCnt };
   } catch (error: any) {
     return thunkApi.rejectWithValue(error as CallError);

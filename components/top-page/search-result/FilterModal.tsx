@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import * as cons from "../../../constants";
+import { getCurrentLocation } from "../../../modules/Location";
 import newPlace from "../../../pages/new-place";
 import { FilterObj, initialFilterObj } from "../../../redux/slices/placeSlice";
 import { forMobile } from "../../../styles/Responsive";
@@ -25,6 +26,9 @@ interface Props {
   filterObj: FilterObj;
   onClickFilterSave: (filterObj: FilterObj) => void;
   closeModal: () => void;
+  onLoadUserLocation: (userLocation: { lat: number; lng: number }) => void;
+  userLocation: { lat: number; lng: number } | undefined;
+  setUserLocationLoading: (loading: boolean) => void;
 }
 
 export const FilterModal: React.FC<Props> = ({
@@ -32,6 +36,9 @@ export const FilterModal: React.FC<Props> = ({
   filterObj,
   onClickFilterSave,
   closeModal,
+  onLoadUserLocation,
+  userLocation,
+  setUserLocationLoading,
 }) => {
   const [localFilterObj, setFilterObj] = useState(filterObj);
 
@@ -59,7 +66,30 @@ export const FilterModal: React.FC<Props> = ({
     });
   };
 
+  const onDistanceSortSelected = async () => {
+    if (userLocation) return;
+    setUserLocationLoading(true);
+
+    try {
+      const location = await getCurrentLocation({ accurate: true });
+      if (!location) throw Error;
+
+      onLoadUserLocation(location);
+    } catch (error) {
+      setFilterObj({ ...filterObj, sortBy: cons.SORT_BY_REVIEW });
+      window.alert(
+        'Location is not available. Please allow "Location" in your browser settings.'
+      );
+    }
+
+    setUserLocationLoading(false);
+  };
+
   const handleChangeSortBy = (id: string) => {
+    if (id === cons.SORT_BY_DISTANCE) {
+      onDistanceSortSelected();
+    }
+
     setFilterObj({ ...localFilterObj, sortBy: id });
   };
 

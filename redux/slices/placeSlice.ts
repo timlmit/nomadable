@@ -51,6 +51,7 @@ export interface Place extends Spot {
 
 export interface PlaceHeader extends Place {
   savedByUser: boolean;
+  distance: number | undefined;
 }
 
 export interface PlaceUserData {
