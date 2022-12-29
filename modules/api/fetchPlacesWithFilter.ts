@@ -11,13 +11,13 @@ import { FilterObj, Place, PlaceHeader } from "../../redux/slices/placeSlice";
 const makeSortCondition = (sortBy: string) => {
   switch (sortBy) {
     case SORT_BY_REVIEW:
-      return { reviewStars: -1 };
+      return { reviewStars: -1, testCnt: -1 };
     case SORT_BY_CHECK_INS:
-      return { testCnt: -1 };
+      return { testCnt: -1, reviewStars: -1 };
     case SORT_BY_SPEED:
       return { speedDown: -1 };
     default:
-      return { reviewStars: -1 };
+      return { reviewStars: -1, testCnt: -1 };
   }
 };
 
