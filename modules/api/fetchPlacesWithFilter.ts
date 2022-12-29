@@ -74,11 +74,14 @@ const makePipeline = (
   const pipeline: any[] = [];
 
   if (userLng && userLat) {
+    const maxDistance =
+      filterObj.sortBy === SORT_BY_DISTANCE ? { maxDistance: 100 * 100 } : {};
+
     pipeline.push({
       $geoNear: {
         near: { type: "Point", coordinates: [userLng, userLat] },
         spherical: true,
-        maxDistance: filterObj.sortBy === SORT_BY_DISTANCE ? 100 * 1000 : null,
+        ...maxDistance,
         distanceField: "distance",
       },
     });
@@ -126,7 +129,6 @@ export const fetchPlacesWithFilter = async (
       userLng,
       userLat
     );
-    console.log("🚀 ~ file: fetchPlacesWithFilter.ts:129 ~ pipeline", pipeline);
 
     const places = await Place.aggregate(
       pipeline.concat([{ $skip: skip }, { $limit: limit }])
