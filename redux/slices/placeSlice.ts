@@ -83,6 +83,7 @@ export interface FilterObj {
   placeTypes: string[];
   availability: string[];
   saved: boolean;
+  sortBy: string;
 }
 
 export interface Review {
@@ -137,6 +138,7 @@ export const initialFilterObj: FilterObj = {
   placeTypes: [],
   availability: [],
   saved: false,
+  sortBy: cons.SORT_BY_REVIEW,
 };
 
 export const initialPlace: Place = {
@@ -196,13 +198,19 @@ const placeSlice = createSlice({
       state.placeForPage = action.payload.placeWithData;
     });
     builder.addCase(apiCheckIn.fulfilled, (state, action) => {
-      const { checkedInByUser, speedDown, speedUp, recentCheckInCnt } =
-        action.payload.placeWithData;
+      const {
+        checkedInByUser,
+        speedDown,
+        speedUp,
+        recentCheckInCnt,
+        checkInUsers,
+      } = action.payload.placeWithData;
 
       state.placeForPage.checkedInByUser = checkedInByUser;
       state.placeForPage.speedDown = speedDown;
       state.placeForPage.speedUp = speedUp;
       state.placeForPage.recentCheckInCnt = recentCheckInCnt;
+      state.placeForPage.checkInUsers = checkInUsers;
     });
     builder.addCase(apiFetchPlaces.fulfilled, (state, action) => {
       state.searchResult = action.payload.places;

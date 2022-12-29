@@ -1,6 +1,25 @@
-import { STATUS_OPEN } from "./../../constants";
+import {
+  SORT_BY_CHECK_INS,
+  SORT_BY_DISTANCE,
+  SORT_BY_REVIEW,
+  SORT_BY_SPEED,
+  STATUS_OPEN,
+} from "./../../constants";
 import { Boundary } from "../../data/articles/cities";
-import { FilterObj, Place } from "../../redux/slices/placeSlice";
+import { FilterObj, Place, PlaceHeader } from "../../redux/slices/placeSlice";
+
+const makeSortCondition = (sortBy: string) => {
+  switch (sortBy) {
+    case SORT_BY_REVIEW:
+      return { reviewStars: -1 };
+    case SORT_BY_CHECK_INS:
+      return { testCnt: -1 };
+    case SORT_BY_SPEED:
+      return { speedDown: -1 };
+    default:
+      return { reviewStars: -1 };
+  }
+};
 
 export const fetchPlacesWithFilter = async (
   mongoose: any,
@@ -9,7 +28,7 @@ export const fetchPlacesWithFilter = async (
   filterObj: FilterObj,
   skip: number,
   limit: number
-): Promise<{ places: Place[]; totalPlaceCnt: number }> => {
+): Promise<{ places: PlaceHeader[]; totalPlaceCnt: number }> => {
   try {
     const Place = mongoose.model("Place");
     const SavedPlace = mongoose.model("SavedPlace");
@@ -47,7 +66,7 @@ export const fetchPlacesWithFilter = async (
 
     // get place
     let places = await Place.find(condition)
-      .sort({ reviewStars: -1, testCnt: -1 })
+      .sort(makeSortCondition(filterObj.sortBy))
       .skip(skip)
       .limit(limit)
       .lean();

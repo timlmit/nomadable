@@ -15,6 +15,7 @@ import { ContainerStyleInside } from "../../../styles/styled-components/Layouts"
 import { HeaderSmall } from "../../../styles/styled-components/Texts";
 import { Modal } from "../../commons/Modal";
 import { ModalHeader } from "../../commons/ModalHeader";
+import { Selection } from "../../commons/Selection";
 import { ToggleForm } from "../../new-place/detail-form/ToggleForm";
 // import { FilterForCafe } from "./filters/FilterForCafe";
 import { FilterComponent } from "./filters/FilterComponent";
@@ -56,6 +57,10 @@ export const FilterModal: React.FC<Props> = ({
       ...localFilterObj,
       saved: others.includes(cons.OTHERS_SAVED),
     });
+  };
+
+  const handleChangeSortBy = (id: string) => {
+    setFilterObj({ ...localFilterObj, sortBy: id });
   };
 
   const onClickClear = () => {
@@ -152,6 +157,18 @@ export const FilterModal: React.FC<Props> = ({
             filterItems={localFilterObj.saved ? [cons.OTHERS_SAVED] : []}
             typeDict={cons.OTHERS_LIST}
             allowAllSelect
+          />
+        </SpecificForms>
+
+        <SpecificForms>
+          <Label>Sort By</Label>
+          <Selection
+            ids={Object.keys(cons.SORT_LIST)}
+            texts={Object.entries(cons.SORT_LIST).map(
+              (entry: any) => entry[1].text
+            )}
+            selectedId={localFilterObj.sortBy}
+            onChange={handleChangeSortBy}
           />
         </SpecificForms>
       </ModalBody>

@@ -28,6 +28,7 @@ import { SectionLoader } from "../commons/SectionLoader";
 import { SplashPage } from "../commons/SplashPage";
 import { FilterModal } from "./search-result/FilterModal";
 import { SearchResult } from "./search-result/SearchResult";
+import { getFilterCount } from "./search-result/filters/getFilterCount";
 
 interface Props {
   places: PlaceHeader[];
@@ -187,11 +188,7 @@ export const TopPage: React.FC<Props> = ({ places, searchResultTotalCnt }) => {
    */
 
   const renderFilterCount = () => {
-    let filterCnt = 0;
-
-    if (filterObj.placeTypes.length > 0) filterCnt += 1;
-    if (filterObj.availability.length > 0) filterCnt += 1;
-    if (filterObj.saved) filterCnt += 1;
+    const filterCnt = getFilterCount(filterObj);
 
     if (filterCnt < 1) return null;
     return <FilterCnt>{filterCnt}</FilterCnt>;

@@ -29,6 +29,7 @@ import { FilterModal } from "./FilterModal";
 import { forMobile } from "../../../styles/Responsive";
 import { selectAuthenticated } from "../../../redux/slices/userSlice";
 import { useRouter } from "next/router";
+import { getFilterCount } from "./filters/getFilterCount";
 
 const HEADER_HEIGHT = 5;
 
@@ -101,12 +102,7 @@ export const SearchResult: React.FC<Props> = ({
    */
 
   const renderFilterCount = () => {
-    let filterCnt = 0;
-
-    if (filterObj.placeTypes.length > 0) filterCnt += 1;
-    if (filterObj.availability.length > 0) filterCnt += 1;
-    if (filterObj.saved) filterCnt += 1;
-
+    const filterCnt = getFilterCount(filterObj);
     if (filterCnt < 1) return null;
     return <FilterCnt>{filterCnt}</FilterCnt>;
   };

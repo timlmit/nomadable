@@ -222,6 +222,22 @@ export const OTHERS_LIST: any = {
 };
 
 /**
+ * Sort
+ */
+
+export const SORT_BY_DISTANCE = "distance";
+export const SORT_BY_REVIEW = "review";
+export const SORT_BY_SPEED = "speed";
+export const SORT_BY_CHECK_INS = "check-ins";
+
+export const SORT_LIST: any = {
+  // [SORT_BY_DISTANCE]: { text: "Distance", value: SORT_BY_DISTANCE },
+  [SORT_BY_REVIEW]: { text: "⭐️ Review Stars" },
+  [SORT_BY_SPEED]: { text: "🌐 Internet Speed" },
+  [SORT_BY_CHECK_INS]: { text: "✅ Check-in Count" },
+};
+
+/**
  * Place Status
  */
 
