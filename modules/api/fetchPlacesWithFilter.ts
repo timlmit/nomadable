@@ -73,15 +73,12 @@ const makePipeline = (
 ) => {
   const pipeline: any[] = [];
 
-  if (userLng && userLat) {
-    const maxDistance =
-      filterObj.sortBy === SORT_BY_DISTANCE ? { maxDistance: 100 * 100 } : {};
-
+  if (userLng && userLat && filterObj.sortBy === SORT_BY_DISTANCE) {
     pipeline.push({
       $geoNear: {
         near: { type: "Point", coordinates: [userLng, userLat] },
         spherical: true,
-        ...maxDistance,
+        maxDistance: 100 * 1000,
         distanceField: "distance",
       },
     });
