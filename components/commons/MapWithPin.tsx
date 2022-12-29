@@ -45,10 +45,11 @@ export const MapWithPin: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const { lat, lng, interactive } = props;
+
     loadMapBox(lat, lng, interactive);
   }, [props.lat, props.lng, props.interactive]);
 
-  return <Map id={mapId}></Map>;
+  return <Map id={mapId} />;
 };
 
 const Map = styled.div`

@@ -20,13 +20,13 @@ export const Selection: React.FC<Props> = (props) => {
   };
 
   return (
-    <SelectionWrapper onChange={handleChange}>
+    <SelectionWrapper
+      onChange={handleChange}
+      defaultValue={props.selectedId}
+      value={props.selectedId}
+    >
       {props.ids.map((id, index) => {
-        return (
-          <Option key={id} value={id} selected={props.selectedId === id}>
-            {props.texts[index]}
-          </Option>
-        );
+        return <Option key={id}>{props.texts[index]}</Option>;
       })}
     </SelectionWrapper>
   );

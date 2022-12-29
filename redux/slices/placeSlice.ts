@@ -1,3 +1,4 @@
+import { initialCoordinates } from "./api/apiSpotSlice";
 import { STATUS_OPEN } from "./../../constants";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
@@ -29,9 +30,8 @@ export interface SitemapLink {
 export interface Spot {
   googlePlaceId: string;
   spotName: string;
-  spotLat: number;
-  spotLng: number;
   spotAddress: string;
+  location: { coordinates: [number, number] };
 }
 
 export interface Place extends Spot {
@@ -154,11 +154,9 @@ export const initialPlace: Place = {
   reviewStars: 0,
   status: STATUS_OPEN,
   created: undefined,
-
   googlePlaceId: "",
   spotName: "",
-  spotLat: 0,
-  spotLng: 0,
+  location: { coordinates: initialCoordinates },
   spotAddress: "",
 };
 

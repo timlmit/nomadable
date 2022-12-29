@@ -47,8 +47,8 @@ const makeIcon = (props: {
 const convertPlacesToPins = (places: Place[]): Pin[] => {
   return places.map((p) => ({
     id: p.id,
-    lat: p.spotLat,
-    lng: p.spotLng,
+    lat: p.location.coordinates[1],
+    lng: p.location.coordinates[0],
     color: getColorOfSpeed(p.speedDown),
     placeType: p.placeType,
     name: p.spotName,

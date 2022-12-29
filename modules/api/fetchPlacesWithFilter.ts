@@ -45,10 +45,19 @@ export const fetchPlacesWithFilter = async (
 
     const boundaryCondition = boundary
       ? {
-          spotLat: { $gte: boundary.latStart, $lte: boundary.latEnd },
-          spotLng: { $gte: boundary.lngStart, $lte: boundary.lngEnd },
+          // spotLat: { $gte: boundary.latStart, $lte: boundary.latEnd },
+          // spotLng: { $gte: boundary.lngStart, $lte: boundary.lngEnd },
+
+          location: {
+            $geoWithin: {
+              $box: [
+                [boundary.lngStart, boundary.latStart],
+                [boundary.lngEnd, boundary.latEnd],
+              ],
+            },
+          },
         }
-      : { spotLat: { $exists: true } };
+      : { location: { $exists: true } };
 
     // let savedPlaceIds: string[] = [];
     // if (filterObj.saved) {

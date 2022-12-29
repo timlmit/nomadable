@@ -1,6 +1,7 @@
 import {
   apiFetchSpotInfo,
   apiFetchSpotsByText,
+  initialCoordinates,
   SpotPrediction,
 } from "./api/apiSpotSlice";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
@@ -43,8 +44,7 @@ const placeSlice = createSlice({
     clearPlaceInfoOfNewPlace: (state) => {
       state.newPlace.googlePlaceId = "";
       state.newPlace.spotName = "";
-      state.newPlace.spotLat = 0;
-      state.newPlace.spotLng = 0;
+      state.newPlace.location = { coordinates: initialCoordinates };
       state.newPlace.spotAddress = "";
     },
 
@@ -73,8 +73,7 @@ const placeSlice = createSlice({
     builder.addCase(apiFetchSpotInfo.fulfilled, (state, action) => {
       state.newPlace = {
         ...state.newPlace,
-        spotLat: action.payload.spot.spotLat,
-        spotLng: action.payload.spot.spotLng,
+        location: action.payload.spot.location,
       };
     });
     builder.addCase(apiCreatePlace.fulfilled, (state, action) => {

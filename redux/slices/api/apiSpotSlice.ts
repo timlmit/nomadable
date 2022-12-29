@@ -39,12 +39,13 @@ const initialApiState = {
   error: "",
 };
 
+export const initialCoordinates: [number, number] = [0, 0];
+
 export const initialSpot: Spot = {
   googlePlaceId: "",
   spotName: "",
-  spotLat: 0,
-  spotLng: 0,
   spotAddress: "",
+  location: { coordinates: initialCoordinates },
 };
 
 const initialState: ApiState = {

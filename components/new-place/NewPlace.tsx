@@ -51,7 +51,10 @@ export const NewPlace: React.FC<Props> = ({}) => {
    */
 
   useEffect(() => {
-    if (router.query.page === "1" && newPlace.spotLat === null) {
+    if (
+      router.query.page === "1" &&
+      newPlace.location.coordinates[1] === null
+    ) {
       router.push({
         query: {},
       });

@@ -226,8 +226,8 @@ export const PlacePage: React.FC<Props> = ({ placeWithData }) => {
       <CheckInModal
         visible={checkInModalVisible}
         onClose={closeCheckInModal}
-        spotLat={pd.spotLat}
-        spotLng={pd.spotLng}
+        spotLat={pd.location.coordinates[1]}
+        spotLng={pd.location.coordinates[0]}
         onCheckIn={onCheckIn}
       />
     </PlacePageWrapper>

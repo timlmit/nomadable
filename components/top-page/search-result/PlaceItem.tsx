@@ -96,7 +96,7 @@ const PlaceItemWrapper = styled.div<{ selected: undefined | boolean }>`
   ${(props) =>
     props.selected === false &&
     `
-    // opacity: 0.5;
+    // opacity: 0.6;
   `};
 
   ${(props) =>

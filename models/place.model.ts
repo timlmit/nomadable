@@ -9,8 +9,13 @@ export const PlaceSchema = (mongoose: any) => {
     discoveredBy: { type: String, default: "" },
     googlePlaceId: { type: String, default: "" },
     spotName: { type: String, default: "" },
-    spotLat: { type: Number, default: null },
-    spotLng: { type: Number, default: null },
+    location: {
+      type: {
+        type: String,
+        default: "Point",
+      },
+      coordinates: { type: [Number], default: [0, 0] },
+    },
     spotAddress: { type: String, default: "" },
     thumbnail: { type: String, default: "" },
     images: { type: [String], default: [] },
@@ -26,6 +31,8 @@ export const PlaceSchema = (mongoose: any) => {
     },
   });
   try {
+    PlaceSchema.index({ location: "2dsphere" });
+
     mongoose.model("Place", PlaceSchema);
   } catch (error: any) {}
 };

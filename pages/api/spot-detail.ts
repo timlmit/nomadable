@@ -41,8 +41,12 @@ handler.get(async (req: any, res: any) => {
 
     const spot: Spot = {
       ...initialSpot,
-      spotLat: data.result.geometry.location.lat,
-      spotLng: data.result.geometry.location.lng,
+      location: {
+        coordinates: [
+          data.result.geometry.location.lng,
+          data.result.geometry.location.lat,
+        ],
+      },
     };
 
     return res.status(200).json({ spot });

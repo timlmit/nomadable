@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import {
   apiFetchSpotInfo,
   apiFetchSpotsByText,
+  initialCoordinates,
   selectApiFetchSpotInfoStatus,
   selectApiFetchSpotsByTextStatus,
   SpotPrediction,
@@ -56,7 +57,7 @@ export const PlaceForm: React.FC<Props> = ({
       pageIndex={pageIndex}
       pageLabel="1. What place are you adding?"
       buttonText="Next"
-      buttonDisabled={newPlace.spotLat === null}
+      buttonDisabled={newPlace.spotName === ""}
       onClickSubmit={onClickNext}
     >
       <SearchFormWrapper>
@@ -67,8 +68,7 @@ export const PlaceForm: React.FC<Props> = ({
           selectPlace={selectPlace}
           selectedPlace={{
             googlePlaceId: newPlace.googlePlaceId,
-            spotLat: newPlace.spotLat,
-            spotLng: newPlace.spotLng,
+            location: newPlace.location,
             spotName: newPlace.spotName,
             spotAddress: newPlace.spotAddress,
           }}
@@ -76,19 +76,14 @@ export const PlaceForm: React.FC<Props> = ({
           isSearching={apiStatusSearchSpot.status === cons.API_LOADING}
         />
       </SearchFormWrapper>
-      <MapWrapper
-        visible={
-          apiStatusFetchSpotInfo.status === cons.API_LOADING ||
-          newPlace.spotLat !== null
-        }
-      >
+      <MapWrapper visible>
         <SectionLoader
           visible={apiStatusFetchSpotInfo.status === cons.API_LOADING}
         />
         <MapWithPin
           interactive={false}
-          lat={newPlace.spotLat}
-          lng={newPlace.spotLng}
+          lat={newPlace.location.coordinates[1]}
+          lng={newPlace.location.coordinates[0]}
           mapId="create-place"
           withPin
         />

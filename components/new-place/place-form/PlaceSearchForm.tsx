@@ -143,7 +143,7 @@ const SearchResultWrapper = styled.div`
   border-radius: 0.3rem;
   padding: 0.5rem 0;
 
-  z-index: 1;
+  z-index: 3;
 `;
 
 const SearchResultItem = styled.div`
