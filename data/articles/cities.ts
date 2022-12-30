@@ -180,10 +180,10 @@ export const AUSTRALIA_MELBOURNE: City = {
   country: "Australia",
   city: "Melbourne",
   boundary: {
-    latStart: -38.041517889722535,
-    lngStart: 144.6610860211103,
-    latEnd: -37.60347224843642,
-    lngEnd: 145.2293761827463,
+    latStart: -37.88662402859139,
+    lngStart: 144.8600930460484,
+    latEnd: -37.759599725114406,
+    lngEnd: 145.06871027684593,
   },
 };
 
