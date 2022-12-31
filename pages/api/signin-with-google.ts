@@ -71,7 +71,7 @@ handler.post(async (req: any, res: any) => {
 
       userId = createdUser._id;
 
-      await addNewUserEvent(userId, req.mongoose);
+      await addNewUserEvent(req.mongoose, userId);
     }
     const token = generateToken(userId);
     return res.status(200).send({ token });
