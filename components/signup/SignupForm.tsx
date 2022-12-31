@@ -95,8 +95,8 @@ export const SignupForm: React.FC<Props> = ({}) => {
     dispatch(updateVisibleModal({ id: cons.MODAL_LOGIN }));
   };
 
-  const handleClickGoogleLogin = (code: string) => {
-    dispatch(apiSigninWithGoogle({ code }));
+  const loginWithGoogle = (idToken: string) => {
+    dispatch(apiSigninWithGoogle({ idToken, refresh: true }));
   };
 
   /**
@@ -183,12 +183,7 @@ export const SignupForm: React.FC<Props> = ({}) => {
       <OrLine />
 
       <GoogleLoginWrapper>
-        <GoogleLoginButton
-          handleClickGoogle={handleClickGoogleLogin}
-          loginForElectron={() => {}}
-          isElectron={false}
-          text="Signin with Google"
-        />
+        <GoogleLoginButton loginWithGoogle={loginWithGoogle} />
       </GoogleLoginWrapper>
 
       <TermsAndPrivacyStyle></TermsAndPrivacyStyle>

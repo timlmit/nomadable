@@ -10,6 +10,7 @@ import {
   selectApiFetchUserStatus,
   apiLoginUser,
   initLoginUserState,
+  apiSigninWithGoogle,
 } from "../../redux/slices/api/apiUserSlice";
 import {
   ButtonPrimaryLarge,
@@ -25,9 +26,11 @@ import {
   DividerStyle,
   FooterWrapperStyle,
 } from "../../styles/styled-components/Forms";
+import { GoogleLoginButton } from "../commons/GoogleLoginButton";
 
 import { Modal } from "../commons/Modal";
 import { ModalHeader } from "../commons/ModalHeader";
+import { OrLine } from "../commons/OrLine";
 
 interface Props {
   visible: boolean;
@@ -70,6 +73,15 @@ export const LoginModal: React.FC<Props> = ({ visible, closeModal }) => {
     setPassword(input);
   };
 
+  const loginWithGoogle = (idToken: string) => {
+    closeModal();
+    dispatch(apiSigninWithGoogle({ idToken }));
+  };
+
+  /**
+   * Effect
+   */
+
   useEffect(() => {
     if (
       apiLoginStatus.status === cons.API_SUCCEEDED &&
@@ -86,6 +98,10 @@ export const LoginModal: React.FC<Props> = ({ visible, closeModal }) => {
       }
     }
   }, [apiLoginStatus.status, apiFetchUserStatus.status]);
+
+  /**
+   * Render
+   */
 
   return (
     <Modal visible={visible} closeModal={closeModal} width="26rem">
@@ -129,6 +145,12 @@ export const LoginModal: React.FC<Props> = ({ visible, closeModal }) => {
         >
           Login
         </SubmitButton>
+        <OrLine />
+
+        <GoogleLoginWrapper>
+          <GoogleLoginButton loginWithGoogle={loginWithGoogle} />
+        </GoogleLoginWrapper>
+
         <TermsAndPrivacyStyle></TermsAndPrivacyStyle>
         {/* <DividerStyle /> */}
         <FooterWrapperStyle>
@@ -166,4 +188,9 @@ const SubmitButton = styled.button`
 
 const GoToLoginButton = styled.button`
   ${ButtonText}
+`;
+
+export const GoogleLoginWrapper = styled.div`
+  margin-top: 1.2rem;
+  margin-bottom: 0rem;
 `;

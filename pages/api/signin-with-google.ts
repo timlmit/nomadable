@@ -13,23 +13,17 @@ const handler = nextConnect();
 handler.use(databaseMiddleware);
 handler.use(authenticationMiddleware);
 
-const oAuth2Client = new OAuth2Client(
-  GAPI_CLIENT_ID,
-  process.env.GAPI_CLIENT_SECRET,
-  "postmessage"
-);
+const gapiClient = new OAuth2Client(GAPI_CLIENT_ID);
 
 async function getGoogleAccountInfo(
-  code: string
+  idToken: string
 ): Promise<{ email: string; googleId: string; picture: string; name: string }> {
   try {
-    const { tokens } = await oAuth2Client.getToken(code);
-
-    if (!tokens.id_token) throw Error;
-
-    const ticket = await oAuth2Client.verifyIdToken({
-      idToken: tokens.id_token,
-      audience: process.env.GAPI_CLIENT_ID,
+    const ticket = await gapiClient.verifyIdToken({
+      idToken: idToken,
+      audience: GAPI_CLIENT_ID, // Specify the CLIENT_ID of the app that accesses the backend
+      // Or, if multiple clients access the backend:
+      // [CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
     });
 
     const payload = ticket.getPayload();
@@ -43,6 +37,7 @@ async function getGoogleAccountInfo(
       name: payload.name,
     };
   } catch (error) {
+    console.log("🚀 ~ file: signin-with-google.ts:46 ~ error", error);
     throw Error;
   }
 }
@@ -50,10 +45,12 @@ async function getGoogleAccountInfo(
 handler.post(async (req: any, res: any) => {
   const User = req.mongoose.model("User");
 
-  const { code } = req.body;
+  const { idToken } = req.body;
 
   try {
-    const { email, googleId, name, picture } = await getGoogleAccountInfo(code);
+    const { email, googleId, name, picture } = await getGoogleAccountInfo(
+      idToken
+    );
     const user = await User.findOne({ email });
     let userId;
     if (user) {
@@ -79,6 +76,10 @@ handler.post(async (req: any, res: any) => {
     const token = generateToken(userId);
     return res.status(200).send({ token });
   } catch (err) {
+    console.log(
+      "🚀 ~ file: signin-with-google.ts:82 ~ handler.post ~ err",
+      err
+    );
     return res.status(500).send("Something went wrong.");
   }
 });

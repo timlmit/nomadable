@@ -1,71 +1,56 @@
-import React, { Fragment } from "react";
+declare var google: any;
+
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
-import { v4 as uuidv4 } from "uuid";
-import { useGoogleLogin } from "@react-oauth/google";
-import { APP_URL } from "../../constants";
-import { ButtonSecondaryLarge } from "../../styles/styled-components/Buttons";
+import { GAPI_CLIENT_ID } from "../../constants";
 
 interface Props {
-  handleClickGoogle: (code: string) => void;
-  loginForElectron: (authCode: string) => void;
-  isElectron: boolean;
-  text: string;
+  loginWithGoogle: (idToken: string) => void;
 }
 
 export const GoogleLoginButton: React.FC<Props> = (props) => {
-  const handleClickGoogleLogin = useGoogleLogin({
-    onSuccess: (codeResponse: any) => {
-      console.log(
-        "🚀 ~ file: GoogleLoginButton.tsx:18 ~ codeResponse",
-        codeResponse
-      );
-      props.handleClickGoogle(codeResponse.code);
-    },
-    onError: (error: any) => console.log(error),
-    flow: "auth-code",
-    ux_mode: "popup",
+  const buttonRef = useRef(null);
+  const buttonWrapperRef = useRef<HTMLDivElement | null>(null);
+
+  const handleGoogleLogin = (response: any) => {
+    if (response.credential) {
+      props.loginWithGoogle(response.credential);
+    }
+  };
+
+  const prepareGoogleButton = () => {
+    google.accounts.id.initialize({
+      client_id: GAPI_CLIENT_ID,
+      callback: handleGoogleLogin,
+    });
+
+    google.accounts.id.renderButton(buttonRef.current, {
+      theme: "outline",
+      size: "large",
+      width: buttonWrapperRef.current
+        ? buttonWrapperRef.current.offsetWidth
+        : 0,
+      height: buttonWrapperRef.current
+        ? buttonWrapperRef.current.offsetHeight
+        : 0,
+    });
+  };
+
+  useEffect(() => {
+    prepareGoogleButton();
   });
 
-  // const handleClickGoogleLoginElectron = () => {
-  //   const authCode = uuidv4();
-  //   window.open(`${APP_URL}/electron-google-login?authCode=${authCode}`);
-
-  //   let x = 0;
-  //   const _interval = setInterval(() => {
-  //     props.loginForElectron(authCode);
-  //     if (++x > 20) {
-  //       clearInterval(_interval);
-  //     }
-  //   }, 1000);
-  // };
-
-  // if (props.isElectron) {
-  //   return (
-  //     <WhiteButton onClick={handleClickGoogleLoginElectron}>
-  //       <GLogo src="/icons/g-logo.png" />
-  //       Login with Google
-  //     </WhiteButton>
-  //   );
-  // }
-
   return (
-    <WhiteButton onClick={handleClickGoogleLogin}>
-      <GLogo src="/icon/g-logo.png" />
-      {props.text}
-    </WhiteButton>
+    <LoginButtonWrapper ref={buttonWrapperRef}>
+      <LoginButton ref={buttonRef} />
+    </LoginButtonWrapper>
   );
 };
 
-const GLogo = styled.img`
-  width: 18px;
-  margin-right: 1rem;
-  /* opacity: 0.6; */
-`;
-
-const WhiteButton = styled.button`
-  ${ButtonSecondaryLarge};
+export const LoginButtonWrapper = styled.div`
   width: 100%;
   display: flex;
-  align-items: center;
   justify-content: center;
 `;
+
+export const LoginButton = styled.div``;

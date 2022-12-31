@@ -24,6 +24,7 @@ import { saveTokenToCookie } from "../../../modules/AuthUtils";
 import { Contributer } from "../contributerSlice";
 import { removeCookie } from "../../../modules/CookieHandler";
 import { apiFetchNotificationUnseenCnt } from "./apiNotificationSlice";
+import { showSpinner, hideSpinner } from "../uiSlice";
 
 /**
  * Types
@@ -299,22 +300,31 @@ export const apiSignupWithEmail = createAsyncThunk<
 
 export const apiSigninWithGoogle = createAsyncThunk<
   {}, // Return type of the payload creator
-  { code: string }, // First argument to the payload creator
+  { idToken: string; refresh?: boolean }, // First argument to the payload creator
   {
     rejectValue: CallError;
   } // Types for ThunkAPI
->("user/SigninWithGoogle", async ({ code }, thunkApi) => {
+>("user/SigninWithGoogle", async ({ idToken, refresh }, thunkApi) => {
   try {
-    const { token } = await callSigninWithGoogle(code);
+    thunkApi.dispatch(showSpinner({ message: "Signing in..." }));
+    const { token } = await callSigninWithGoogle(idToken);
 
     saveTokenToCookie(token);
 
-    setTimeout(() => {
-      window.location.href = "/";
-    }, 500);
+    if (refresh) {
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 500);
+    } else {
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
+    }
 
+    thunkApi.dispatch(hideSpinner());
     return;
   } catch (error: any) {
+    thunkApi.dispatch(hideSpinner());
     return thunkApi.rejectWithValue(error as CallError);
   }
 });

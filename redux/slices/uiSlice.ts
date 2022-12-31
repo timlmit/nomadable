@@ -26,6 +26,10 @@ interface UiState {
     addingPoint: number;
     totalPoint: number;
   };
+  spinner: {
+    visible: boolean;
+    message: string;
+  };
 }
 
 /**
@@ -49,6 +53,10 @@ const initialState: UiState = {
     updated: 0,
     addingPoint: 0,
     totalPoint: 0,
+  },
+  spinner: {
+    visible: false,
+    message: "",
   },
 };
 
@@ -89,6 +97,14 @@ const uiSlice = createSlice({
       state.pointEarned.addingPoint = action.payload.addingPoint;
       state.pointEarned.totalPoint = action.payload.totalPoint;
     },
+    showSpinner: (state, action: PayloadAction<{ message: string }>) => {
+      state.spinner.visible = true;
+      state.spinner.message = action.payload.message;
+    },
+    hideSpinner: (state) => {
+      state.spinner.visible = false;
+      state.spinner.message = "";
+    },
   },
 });
 
@@ -97,6 +113,8 @@ export const {
   updateVisibleModal,
   showPointEarned,
   closeModalGlobal,
+  showSpinner,
+  hideSpinner,
 } = uiSlice.actions;
 
 /**
@@ -114,6 +132,10 @@ export const selectPointEarned = (
   state: RootState
 ): { updated: number; addingPoint: number; totalPoint: number } =>
   state.ui.pointEarned;
+
+export const selectSpinner = (
+  state: RootState
+): { visible: boolean; message: string } => state.ui.spinner;
 
 /**
  * Export actions & reducer

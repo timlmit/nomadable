@@ -44,10 +44,6 @@ export const MenuDropdown: React.FC<Props> = ({
   const onClickLogin = () => {
     hideDropdown();
     dispatch(updateVisibleModal({ id: cons.MODAL_LOGIN }));
-    // router.push({
-    //   pathname: router.pathname,
-    //   query: { ...router.query, modal: cons.MODAL_LOGIN },
-    // });
   };
 
   const onClickLogout = () => {
@@ -57,6 +53,7 @@ export const MenuDropdown: React.FC<Props> = ({
     dispatch(initApiFetchUserState());
     dispatch(initLoginUserState());
     window.alert("Logged out");
+    window.location.reload();
   };
 
   const renderDropdownContent = () => {

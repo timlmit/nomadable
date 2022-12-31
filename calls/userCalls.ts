@@ -47,13 +47,13 @@ export const callSignupWithEmail = async (
 };
 
 export const callSigninWithGoogle = async (
-  code: string
+  idToken: string
 ): Promise<{ token: string }> => {
   try {
     const response = await axios({
       method: "post",
       url: `${APP_URL}/api/signin-with-google`,
-      data: { code },
+      data: { idToken },
     });
 
     return response.data;

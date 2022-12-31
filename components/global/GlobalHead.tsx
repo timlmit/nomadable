@@ -11,7 +11,7 @@ export const GlobalHead = () => (
       content="width=device-width, initial-scale=1, maximum-scale=1"
     />
     {/* <script src="https://apis.google.com/js/platform.js" async defer></script> */}
-
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     {/* Favicons */}
     <link
       rel="apple-touch-icon"

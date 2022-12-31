@@ -57,7 +57,11 @@ const App = ({ Component, pageProps }: AppProps) => {
   }, [apiFetchUserStatus.status]);
 
   return (
-    <GoogleOAuthProvider clientId={GAPI_CLIENT_ID}>
+    <GoogleOAuthProvider
+      clientId={
+        "397305107163-623um4m3q1uefhks3l87ph0sc5qaunf4.apps.googleusercontent.com"
+      }
+    >
       <Provider store={store}>
         <Head>
           <GlobalHead />
