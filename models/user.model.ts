@@ -3,6 +3,7 @@ export const UserSchema = (mongoose: any) => {
 
   const UserSchema = new Schema({
     id: { type: String, index: { unique: true } },
+    googleId: { type: String, default: "" },
     email: {
       type: String,
       default: "",

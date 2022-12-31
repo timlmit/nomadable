@@ -6,11 +6,23 @@ import { ERR_VERIFICATION_EXPIRED } from "./../../modules/ErrorCode";
 import databaseMiddleware from "../../middleware/database";
 import authenticationMiddleware from "../../middleware/authentication";
 import { generateToken } from "../../modules/AuthUtils";
+import user from "./user";
 
 const handler = nextConnect();
 
 handler.use(databaseMiddleware);
 handler.use(authenticationMiddleware);
+
+export const addNewUserEvent = async (mongoose: any, userId: string) => {
+  await addNewEvent(mongoose, {
+    userId,
+    title: "has just joined the community 🎉",
+    timestamp: Date.now(),
+    body: "",
+    isOfficial: false,
+    placeId: "",
+  });
+};
 
 handler.post(async (req: any, res: any) => {
   const { verificationCode } = req.body;
@@ -39,14 +51,7 @@ handler.post(async (req: any, res: any) => {
 
     const token = generateToken(user._id);
 
-    await addNewEvent(req.mongoose, {
-      userId: user._id.toString(),
-      title: "has just joined the community 🎉",
-      timestamp: Date.now(),
-      body: "",
-      isOfficial: false,
-      placeId: "",
-    });
+    await addNewUserEvent(req.mongoose, user._id.toString());
 
     return res.status(200).json({ token });
   } catch (error: any) {

@@ -8,6 +8,7 @@ import { ERR_SOMETHING, ERR_USER_EXISTS } from "../../modules/ErrorCode";
 import { createPassword } from "../../modules/AuthUtils";
 import { sendMailUserVerify } from "../../modules/Email";
 import { create } from "domain";
+import { addNewUserEvent } from "./verify-user";
 
 const handler = nextConnect();
 
@@ -55,8 +56,8 @@ handler.post(async (req: any, res: any) => {
 
     const { salt, hashedPassword } = createPassword(password);
 
-    // if there is an un-verified user, update password
     if (user) {
+      // when user exists but not verified, overwrite password
       user.password = hashedPassword;
       user.salt = salt;
       if (userName.length > 0) {
@@ -64,6 +65,7 @@ handler.post(async (req: any, res: any) => {
       }
       await user.save();
     } else {
+      // signup process
       const id = await generateUserId(userName, User);
 
       await User.create({
@@ -73,6 +75,8 @@ handler.post(async (req: any, res: any) => {
         name: userName.length > 0 ? userName : id,
         salt,
       });
+
+      await addNewUserEvent(req.mongoose, id);
     }
 
     await sendMailUserVerify(email, userName, req.mongoose);

@@ -25,7 +25,7 @@ const SizeLarge = css`
   border-radius: 0.2rem;
   height: 3.4rem;
   padding: 0 2.8rem;
-  font-size: 1.1rem;
+  font-size: 1rem;
 `;
 
 const SizeMedium = css`

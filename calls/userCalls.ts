@@ -46,6 +46,25 @@ export const callSignupWithEmail = async (
   }
 };
 
+export const callSigninWithGoogle = async (
+  code: string
+): Promise<{ token: string }> => {
+  try {
+    const response = await axios({
+      method: "post",
+      url: `${APP_URL}/api/signin-with-google`,
+      data: { code },
+    });
+
+    return response.data;
+  } catch (error: any) {
+    throw {
+      code: "",
+      message: error.response.data,
+    };
+  }
+};
+
 // callVerifyUser
 export const callVerifyUser = async (
   verificationCode: string

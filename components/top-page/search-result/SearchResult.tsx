@@ -71,10 +71,10 @@ export const SearchResult: React.FC<Props> = ({
   };
 
   const onClickSave = (event: any, placeId: string, saved: boolean) => {
+    event.preventDefault();
+    event.stopPropagation();
+    event.nativeEvent.stopImmediatePropagation();
     if (authenticated) {
-      event.preventDefault();
-      event.stopPropagation();
-      event.nativeEvent.stopImmediatePropagation();
       dispatch(apiSavePlace({ placeId, saved }));
     } else {
       if (

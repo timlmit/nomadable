@@ -12,6 +12,7 @@ import {
 
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
+  apiSigninWithGoogle,
   apiSignupWithEmail,
   initApiSignupWithEmailState,
   selectApiSignupWithEmailStatus,
@@ -34,6 +35,8 @@ import {
   SignupErrorStyle,
   TermsAndPrivacyStyle,
 } from "../../styles/styled-components/Forms";
+import { GoogleLoginButton } from "../commons/GoogleLoginButton";
+import { OrLine } from "../commons/OrLine";
 
 interface Props {}
 
@@ -91,6 +94,14 @@ export const SignupForm: React.FC<Props> = ({}) => {
   const onClickLogin = () => {
     dispatch(updateVisibleModal({ id: cons.MODAL_LOGIN }));
   };
+
+  const handleClickGoogleLogin = (code: string) => {
+    dispatch(apiSigninWithGoogle({ code }));
+  };
+
+  /**
+   * Effect
+   */
 
   useEffect(() => {
     if (apiSignupStatus.status === cons.API_SUCCEEDED) {
@@ -168,6 +179,18 @@ export const SignupForm: React.FC<Props> = ({}) => {
       >
         Sign Up
       </SignUpButton>
+
+      <OrLine />
+
+      <GoogleLoginWrapper>
+        <GoogleLoginButton
+          handleClickGoogle={handleClickGoogleLogin}
+          loginForElectron={() => {}}
+          isElectron={false}
+          text="Signin with Google"
+        />
+      </GoogleLoginWrapper>
+
       <TermsAndPrivacyStyle></TermsAndPrivacyStyle>
       <DividerStyle />
       <FooterWrapperStyle>
@@ -202,4 +225,8 @@ const SignUpButton = styled.button`
 
 const GoToLoginButton = styled.button`
   ${ButtonText}
+`;
+
+const GoogleLoginWrapper = styled.div`
+  margin-top: 18px;
 `;

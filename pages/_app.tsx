@@ -3,12 +3,13 @@ import { Provider } from "react-redux";
 import withRedux from "next-redux-wrapper";
 import Head from "next/head";
 import React, { useEffect } from "react";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 import { store } from "../redux/store";
 import GlobalStyles from "../styles/GlobalStyles";
 import { GlobalHead } from "../components/global/GlobalHead";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { API_IDLE } from "../constants";
+import { API_IDLE, GAPI_CLIENT_ID } from "../constants";
 import { GlobalModals } from "../components/global/GlobalModals";
 import {
   apiFetchUser,
@@ -17,6 +18,7 @@ import {
 import { Notification } from "../components/global/Notification";
 import Script from "next/script";
 import { GoogleTagManager } from "../components/global/GoogleTagManager";
+import { config } from "aws-sdk";
 // import { doFetchUser } from "../redux/actions/userAction";
 
 const App = ({ Component, pageProps }: AppProps) => {
@@ -55,17 +57,19 @@ const App = ({ Component, pageProps }: AppProps) => {
   }, [apiFetchUserStatus.status]);
 
   return (
-    <Provider store={store}>
-      <Head>
-        <GlobalHead />
-      </Head>
-      {/* Google tag (gtag.js) */}
-      <GoogleTagManager />
-      <GlobalStyles />
-      <Notification />
-      <Component {...pageProps} />
-      <GlobalModals />
-    </Provider>
+    <GoogleOAuthProvider clientId={GAPI_CLIENT_ID}>
+      <Provider store={store}>
+        <Head>
+          <GlobalHead />
+        </Head>
+        {/* Google tag (gtag.js) */}
+        <GoogleTagManager />
+        <GlobalStyles />
+        <Notification />
+        <Component {...pageProps} />
+        <GlobalModals />
+      </Provider>
+    </GoogleOAuthProvider>
   );
 };
 

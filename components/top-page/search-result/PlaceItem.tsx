@@ -21,12 +21,6 @@ interface Props {
   onClickSave: (event: any, placeId: string, saved: boolean) => void;
 }
 
-const convertDistanceToKm = (distance: number | undefined) => {
-  if (distance === undefined) {
-    return "";
-  }
-};
-
 export const getCity = (address: string) => {
   const addressArr = address.split(",");
   const countryCityArr = addressArr.slice(

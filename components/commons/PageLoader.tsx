@@ -40,7 +40,7 @@ const PageLoaderWrapper = styled.div<{ visible: boolean }>`
   flex-direction: column;
   /* background-color: rgba(255, 255, 255, 0.6); */
   background-color: rgba(0, 0, 0, 0.3);
-  z-index: 5;
+  z-index: 6;
   pointer-events: none;
   ${AnimationFadeIn}
 `;

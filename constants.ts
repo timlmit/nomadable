@@ -22,6 +22,9 @@ export const APP_LONG_DESCRIPTION =
 
 export const MSG_NOT_LOGIN = "Please login to use this feature.";
 
+export const GAPI_CLIENT_ID =
+  "397305107163-623um4m3q1uefhks3l87ph0sc5qaunf4.apps.googleusercontent.com";
+
 /**
  * Colors
  */

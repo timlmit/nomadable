@@ -1,3 +1,4 @@
+import { callSigninWithGoogle } from "./../../../calls/userCalls";
 import { logEventSignup } from "./../../../modules/EventLogger";
 
 // import { apiFetchRecentCheckIns } from "./apiPlaceSlice";
@@ -290,6 +291,30 @@ export const apiSignupWithEmail = createAsyncThunk<
     return;
   } catch (error: any) {
     window.alert(error.response.data);
+    return thunkApi.rejectWithValue(error as CallError);
+  }
+});
+
+// SignupWithGoogle
+
+export const apiSigninWithGoogle = createAsyncThunk<
+  {}, // Return type of the payload creator
+  { code: string }, // First argument to the payload creator
+  {
+    rejectValue: CallError;
+  } // Types for ThunkAPI
+>("user/SigninWithGoogle", async ({ code }, thunkApi) => {
+  try {
+    const { token } = await callSigninWithGoogle(code);
+
+    saveTokenToCookie(token);
+
+    setTimeout(() => {
+      window.location.href = "/";
+    }, 500);
+
+    return;
+  } catch (error: any) {
     return thunkApi.rejectWithValue(error as CallError);
   }
 });
