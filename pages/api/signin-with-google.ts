@@ -76,10 +76,6 @@ handler.post(async (req: any, res: any) => {
     const token = generateToken(userId);
     return res.status(200).send({ token });
   } catch (err) {
-    console.log(
-      "🚀 ~ file: signin-with-google.ts:82 ~ handler.post ~ err",
-      err
-    );
     return res.status(500).send("Something went wrong.");
   }
 });

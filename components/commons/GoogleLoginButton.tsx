@@ -19,21 +19,27 @@ export const GoogleLoginButton: React.FC<Props> = (props) => {
   };
 
   const prepareGoogleButton = () => {
-    google.accounts.id.initialize({
-      client_id: GAPI_CLIENT_ID,
-      callback: handleGoogleLogin,
-    });
+    try {
+      google.accounts.id.initialize({
+        client_id: GAPI_CLIENT_ID,
+        callback: handleGoogleLogin,
+      });
 
-    google.accounts.id.renderButton(buttonRef.current, {
-      theme: "outline",
-      size: "large",
-      width: buttonWrapperRef.current
-        ? buttonWrapperRef.current.offsetWidth
-        : 0,
-      height: buttonWrapperRef.current
-        ? buttonWrapperRef.current.offsetHeight
-        : 0,
-    });
+      google.accounts.id.renderButton(buttonRef.current, {
+        theme: "outline",
+        size: "large",
+        width: buttonWrapperRef.current
+          ? buttonWrapperRef.current.offsetWidth
+          : 0,
+        height: buttonWrapperRef.current
+          ? buttonWrapperRef.current.offsetHeight
+          : 0,
+      });
+    } catch (err) {
+      setTimeout(() => {
+        prepareGoogleButton();
+      }, 1000);
+    }
   };
 
   useEffect(() => {
