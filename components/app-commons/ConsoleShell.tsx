@@ -4,9 +4,16 @@ import React, { ReactNode, useEffect } from "react";
 import styled from "styled-components";
 
 import * as cons from "../../constants";
+import { useViewHeight } from "../../modules/hooks/useViewHeight";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { apiFetchContributersArea } from "../../redux/slices/api/apiUserSlice";
-import { selectContributersArea } from "../../redux/slices/contributerSlice";
+import {
+  apiFetchContributers,
+  apiFetchContributersArea,
+} from "../../redux/slices/api/apiUserSlice";
+import {
+  selectContributers,
+  selectContributersArea,
+} from "../../redux/slices/contributerSlice";
 import { selectAuthenticated } from "../../redux/slices/userSlice";
 import { forMobile } from "../../styles/Responsive";
 import {
@@ -40,12 +47,13 @@ export const ConsoleShell: React.FC<Props> = ({
 }) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const [viewHeight] = useViewHeight();
 
   const isAuthenticated = useAppSelector(selectAuthenticated);
-  const contributers = useAppSelector(selectContributersArea);
+  const contributers = useAppSelector(selectContributers);
 
   const fetchContributers = () => {
-    dispatch(apiFetchContributersArea({ placeIds: null, maxCnt: 10 }));
+    dispatch(apiFetchContributers({ maxCnt: 10 }));
   };
 
   useEffect(() => {
@@ -99,7 +107,7 @@ export const ConsoleShell: React.FC<Props> = ({
             {children}
           </Card>
         </LeftSection>
-        <RightSection>
+        <RightSection viewHeight={viewHeight}>
           <ContributersWrapper>
             <ContributersTitle>Top Contributers</ContributersTitle>
             <ContributersContainer>
@@ -161,16 +169,20 @@ const Navigation = styled.div`
   `)} */
 `;
 
-export const RightSection = styled.div`
+export const RightSection = styled.div<{ viewHeight: number }>`
   width: 28%;
   /* transform: translateY(-2rem); */
   max-width: 21rem;
+
+  position: sticky;
+  top: ${(props) => props.viewHeight - 850}px;
 
   @media screen and (max-width: ${cons.CONTAINER_WIDTH_NARROW}) {
     width: 40%;
   }
 
   ${forMobile(`
+  position: auto;
     width: 100%;
     max-width: 100%;
     margin-top: 2rem;

@@ -15,7 +15,11 @@ import {
 import { ContainerStyleInside } from "../../../styles/styled-components/Layouts";
 import { Contributers } from "./Contributers";
 import { Pagination } from "./Pagination";
-import { HeaderSmall } from "../../../styles/styled-components/Texts";
+import {
+  Header3,
+  Header4,
+  HeaderSmall,
+} from "../../../styles/styled-components/Texts";
 import { PlaceItem } from "./PlaceItem";
 import { AnimationSlideUp } from "../../../styles/styled-components/Animations";
 import { SectionLoader } from "../../commons/SectionLoader";
@@ -150,7 +154,10 @@ export const SearchResult: React.FC<Props> = ({
         </PaginationSection>
 
         <ContributersSection>
-          <Contributers contributers={contributers} />
+          <ContributersLabel>Top Contributers</ContributersLabel>
+          <ContributersCard>
+            <Contributers contributers={contributers} />
+          </ContributersCard>
         </ContributersSection>
       </NotFixed>
     </Wrapper>
@@ -260,3 +267,17 @@ const PlaceWrapper = styled.div`
 const PaginationSection = styled.div``;
 
 const ContributersSection = styled.div``;
+
+export const ContributersLabel = styled.div`
+  ${Header3}
+  margin-top: 2rem;
+  margin-bottom: 1.5rem;
+`;
+
+export const ContributersCard = styled.div`
+  border: 1px solid ${cons.FONT_COLOR_SUPER_LIGHT};
+  ${ContainerStyleInside}
+  padding-top: 0.9rem;
+  padding-bottom: 0.9rem;
+  border-radius: 0.7rem;
+`;

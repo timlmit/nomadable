@@ -1,4 +1,7 @@
-import { apiFetchContributersArea } from "./api/apiUserSlice";
+import {
+  apiFetchContributers,
+  apiFetchContributersArea,
+} from "./api/apiUserSlice";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
@@ -15,6 +18,7 @@ export interface Contributer {
 }
 
 interface ContributerState {
+  contributers: Contributer[];
   contributersArea: Contributer[];
 }
 
@@ -23,6 +27,7 @@ interface ContributerState {
  */
 
 const initialState: ContributerState = {
+  contributers: [],
   contributersArea: [],
 };
 
@@ -31,6 +36,9 @@ const contributerSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(apiFetchContributers.fulfilled, (state, action) => {
+      state.contributers = action.payload.contributers;
+    });
     builder.addCase(apiFetchContributersArea.fulfilled, (state, action) => {
       state.contributersArea = action.payload.contributers;
     });
@@ -42,6 +50,9 @@ export const {} = contributerSlice.actions;
 /**
  * Selectors
  */
+
+export const selectContributers = (state: RootState): Contributer[] =>
+  state.contributer.contributers;
 
 export const selectContributersArea = (state: RootState): Contributer[] =>
   state.contributer.contributersArea;

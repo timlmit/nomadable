@@ -380,6 +380,24 @@ export const apiLoginUser = createAsyncThunk<
 
 // FetchContributersArea
 
+export const apiFetchContributers = createAsyncThunk<
+  { contributers: Contributer[] }, // Return type of the payload creator
+  { maxCnt?: number }, // First argument to the payload creator
+  {
+    rejectValue: CallError;
+  } // Types for ThunkAPI
+>("users/FetchContributers", async ({ maxCnt }, thunkApi) => {
+  try {
+    const { data } = await callFetchContributersArea(null, maxCnt);
+    if (!data) throw unknownError;
+    return data;
+  } catch (error: any) {
+    return thunkApi.rejectWithValue(error as CallError);
+  }
+});
+
+// FetchContributersArea
+
 export const apiFetchContributersArea = createAsyncThunk<
   { contributers: Contributer[] }, // Return type of the payload creator
   { placeIds: string[] | null; maxCnt?: number }, // First argument to the payload creator
