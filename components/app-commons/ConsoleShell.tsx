@@ -4,16 +4,28 @@ import React, { ReactNode, useEffect } from "react";
 import styled from "styled-components";
 
 import * as cons from "../../constants";
-import { useAppSelector } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { apiFetchContributersArea } from "../../redux/slices/api/apiUserSlice";
+import { selectContributersArea } from "../../redux/slices/contributerSlice";
 import { selectAuthenticated } from "../../redux/slices/userSlice";
 import { forMobile } from "../../styles/Responsive";
 import {
   FontSizeNormal,
   FontSizeSemiLarge,
+  FontSizeSmall,
 } from "../../styles/styled-components/FontSize";
 import { ClickableStyle } from "../../styles/styled-components/Interactions";
-import { ContainerStyleInside } from "../../styles/styled-components/Layouts";
+import {
+  ContainerStyle,
+  ContainerStyleInside,
+} from "../../styles/styled-components/Layouts";
+import {
+  Header2,
+  Header3,
+  Header4,
+} from "../../styles/styled-components/Texts";
 import { Layout } from "../commons/Layout";
+import { Contributers } from "../top-page/search-result/Contributers";
 
 interface Props {
   pathname: string;
@@ -26,8 +38,15 @@ export const ConsoleShell: React.FC<Props> = ({
   children,
   headerLabel,
 }) => {
+  const dispatch = useAppDispatch();
   const router = useRouter();
+
   const isAuthenticated = useAppSelector(selectAuthenticated);
+  const contributers = useAppSelector(selectContributersArea);
+
+  const fetchContributers = () => {
+    dispatch(apiFetchContributersArea({ placeIds: null, maxCnt: 10 }));
+  };
 
   useEffect(() => {
     if (isAuthenticated === false) {
@@ -35,57 +54,95 @@ export const ConsoleShell: React.FC<Props> = ({
     }
   }, [isAuthenticated]);
 
+  useEffect(() => {
+    fetchContributers();
+  }, [null]);
+
   return (
     <Layout
-      width={cons.CONTAINER_WIDTH_SO_NARROW}
+      width={cons.CONTAINER_WIDTH_NORMAL}
       bgColor={cons.FONT_COLOR_SUPER_LIGHT}
       fixed
     >
-      <Wrapper>
-        <Navigation>
-          <Link href="/community">
-            <NavItem active={pathname === "/community"}>
-              <NavIcon src="/icon/group-black.svg" />
-              Community
-            </NavItem>
-          </Link>
-          <Link href="/notification">
-            <NavItem active={pathname === "/notification"}>
-              <NavIcon src="/icon/bell-black.svg" />
-              Notification
-            </NavItem>
-          </Link>
-          <Link href="/profile">
-            <NavItem active={pathname === "/profile"}>
-              <NavIcon src="/icon/user-black.svg" />
-              Profile
-            </NavItem>
-          </Link>
-          <Link href="/setting">
-            <NavItem active={pathname === "/setting"}>
-              <NavIcon src="/icon/gear-black.svg" />
-              Setting
-            </NavItem>
-          </Link>
-        </Navigation>
-        <Card>
-          <CardHeader>{headerLabel}</CardHeader>
-          {children}
-        </Card>
-      </Wrapper>
+      <FlexWrapper>
+        <LeftSection>
+          <Navigation>
+            <Link href="/community">
+              <NavItem active={pathname === "/community"}>
+                <NavIcon src="/icon/group-black.svg" />
+                Community
+              </NavItem>
+            </Link>
+            <Link href="/notification">
+              <NavItem active={pathname === "/notification"}>
+                <NavIcon src="/icon/bell-black.svg" />
+                Notification
+              </NavItem>
+            </Link>
+            <Link href="/profile">
+              <NavItem active={pathname === "/profile"}>
+                <NavIcon src="/icon/user-black.svg" />
+                Profile
+              </NavItem>
+            </Link>
+            <Link href="/setting">
+              <NavItem active={pathname === "/setting"}>
+                <NavIcon src="/icon/gear-black.svg" />
+                Setting
+              </NavItem>
+            </Link>
+          </Navigation>
+          <Card>
+            <CardHeader>{headerLabel}</CardHeader>
+            {children}
+          </Card>
+        </LeftSection>
+        <RightSection>
+          <ContributersWrapper>
+            <ContributersTitle>Top Contributers</ContributersTitle>
+            <ContributersContainer>
+              <Contributers contributers={contributers} />
+            </ContributersContainer>
+          </ContributersWrapper>
+        </RightSection>
+      </FlexWrapper>
     </Layout>
   );
 };
 
-const Wrapper = styled.div`
-  width: 100%;
+export const FlexWrapper = styled.div`
   display: flex;
   align-items: flex-start;
+  justify-content: space-between;
   padding-top: 9rem;
   padding-bottom: 4rem;
 
+  // media query for ipad
+  @media screen and (max-width: ${cons.CONTAINER_WIDTH_NARROW}) {
+    /* flex-direction: column; */
+  }
+
   ${forMobile(`
     padding-top: 6.5rem;
+    flex-direction: column;
+    padding-bottom: 0rem;
+  `)}
+`;
+
+const LeftSection = styled.div`
+  /* width: 100%; */
+  width: 72%;
+  margin-right: 3rem;
+  display: flex;
+  align-items: flex-start;
+  /* max-width: 52rem; */
+  @media screen and (max-width: ${cons.CONTAINER_WIDTH_NARROW}) {
+    margin-right: 2rem;
+    /* max-width: 100%; */
+  }
+
+  ${forMobile(`
+  width: 100%;
   `)}
 `;
 
@@ -93,8 +150,28 @@ const Navigation = styled.div`
   width: 20rem;
   position: fixed;
 
-  ${forMobile(`
+  @media screen and (max-width: ${cons.CONTAINER_WIDTH_NARROW}) {
+    display: none;
+  }
+
+  /* ${forMobile(`
     display:none;
+  `)} */
+`;
+
+export const RightSection = styled.div`
+  width: 28%;
+  /* transform: translateY(-2rem); */
+  max-width: 21rem;
+
+  @media screen and (max-width: ${cons.CONTAINER_WIDTH_NARROW}) {
+    width: 40%;
+  }
+
+  ${forMobile(`
+    width: 100%;
+    max-width: 100%;
+    margin-top: 2rem;
   `)}
 `;
 
@@ -136,14 +213,18 @@ const NavIcon = styled.img`
 `;
 
 const Card = styled.div`
-  width: 50rem;
+  /* width: 50rem; */
   /* min-height: 20rem; */
   background-color: white;
   border-radius: 1rem;
   margin-left: 15rem;
+  width: 100%;
+
+  @media screen and (max-width: ${cons.CONTAINER_WIDTH_NARROW}) {
+    margin-left: 0;
+  }
 
   ${forMobile(`
-    margin-left: 0;
     width: 100%;
   `)}
 `;
@@ -154,6 +235,34 @@ const CardHeader = styled.div`
   padding-top: 1rem;
   padding-bottom: 1rem;
   font-weight: bold;
-  color: ${cons.FONT_COLOR_NORMAL};
-  ${FontSizeNormal}
+  /* color: ${cons.FONT_COLOR_NORMAL}; */
+  color: ${cons.FONT_COLOR_LIGHT};
+  ${FontSizeSmall}
+  text-transform: uppercase;
+`;
+
+export const ContributersWrapper = styled.div`
+  background-color: white;
+  border-radius: 0.9rem;
+  /* padding-top: 1rem; */
+`;
+
+export const ContributersContainer = styled.div`
+  ${ContainerStyleInside}
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+`;
+
+export const ContributersTitle = styled.div`
+  text-transform: uppercase;
+  ${Header4}
+  /* padding-top: 1rem; */
+  ${ContainerStyleInside}
+  /* padding-bottom: 1rem; */
+  border-bottom: 1px solid ${cons.FONT_COLOR_SUPER_LIGHT};
+  height: 3.2rem;
+  display: flex;
+  align-items: center;
+  color: ${cons.FONT_COLOR_LIGHT};
+  ${FontSizeSmall}
 `;

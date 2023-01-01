@@ -44,7 +44,7 @@ const PlaceCardWrapper = styled.div`
 
   border-radius: 0.5rem;
   overflow: hidden;
-  width: 26rem;
+  /* width: 26rem; */
 
   ${forMobile(`
     width: 100%;

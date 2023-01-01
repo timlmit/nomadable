@@ -79,9 +79,9 @@ const Cities: React.FC<Props> = (props) => {
             totalPlaceCnt={_totalPlaceCnt}
           />
         </LeftWrapper>
-        <RightWrapper>
+        {/* <RightWrapper>
           <Contributers contributers={_contributers} />
-        </RightWrapper>
+        </RightWrapper> */}
       </PageWrapper>
     </Layout>
   );

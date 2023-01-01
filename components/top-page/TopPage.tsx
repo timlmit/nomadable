@@ -264,7 +264,7 @@ export const TopPage: React.FC<Props> = ({ places, searchResultTotalCnt }) => {
       </MapSection>
 
       <ScrollUpButton
-        onClick={() => onClickToggle(true)}
+        onClick={() => onClickToggle(false)}
         visible={scrollButtonVisible}
       >
         <ScrollUpIcon src="/icon/up-arrow-white.svg" />

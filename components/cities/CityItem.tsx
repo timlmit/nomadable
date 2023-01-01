@@ -60,9 +60,15 @@ const CityItemWrapper = styled.a`
   color: white;
   ${ClickableStyle}
   ${AnimationFadeIn} 
-  width: calc(25% - 1.13rem);
+  width: calc(20% - 1.12rem);
 
-  @media only screen and (max-width: 1200px) {
+  @media only screen and (max-width: 1280px) {
+    width: calc(25% - 1.3rem);
+    margin-bottom: 3rem;
+    margin-bottom: auto;
+  }
+
+  @media only screen and (max-width: 1120px) {
     width: calc(33.3333% - 1rem);
     margin-bottom: 3rem;
     margin-bottom: auto;
@@ -92,7 +98,7 @@ const CityCard = styled.div<{ imgUrl: string }>`
     ),
     url(${(props) => props.imgUrl});
 
-  @media only screen and (max-width: 1200px) {
+  @media only screen and (max-width: 1120px) {
     height: 8rem;
   }
 `;

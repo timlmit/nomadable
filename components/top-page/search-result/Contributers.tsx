@@ -31,8 +31,8 @@ export const Contributers: React.FC<Props> = ({ contributers }) => {
 
   return (
     <ContributersWrapper>
-      <Label>Top Contributers</Label>
-      <Card>
+      {/* <Label>Top Contributers</Label> */}
+      <ContributerContainer>
         <SectionLoader visible={apiStatus.status === cons.API_LOADING} />
         {contributers.map(({ userId, name, picture, title, point }) => {
           return (
@@ -45,31 +45,24 @@ export const Contributers: React.FC<Props> = ({ contributers }) => {
                 <Description>{title}</Description>
               </Info>
               <Point>
-                <PointNumber>{point}</PointNumber>
+                <PointNumber>{point} pts</PointNumber>
               </Point>
             </ItemWrapper>
           );
         })}
-      </Card>
+      </ContributerContainer>
     </ContributersWrapper>
   );
 };
 
 const ContributersWrapper = styled.div`
-  margin-top: 1rem;
   position: relative;
-  margin-bottom: 3rem;
   color: ${cons.FONT_COLOR_NORMAL};
 `;
 
-const Label = styled.div`
-  ${HeaderSmall};
-  margin-top: 2rem;
-`;
-const Card = styled.div`
-  border: 1px solid ${cons.FONT_COLOR_SUPER_LIGHT};
+const ContributerContainer = styled.div`
   border-radius: 0.8rem;
-  padding: 0.8rem 1.5rem;
+  /* padding: 0.8rem 1.5rem; */
   position: relative;
 `;
 
@@ -84,8 +77,8 @@ const ItemWrapper = styled.div`
 const Picture = styled.div``;
 
 const PictureImg = styled.img`
-  width: 3rem;
-  height: 3rem;
+  width: 2.8rem;
+  height: 2.8rem;
   border-radius: 100%;
   object-fit: cover;
 `;
@@ -97,7 +90,7 @@ const Info = styled.div`
 `;
 
 const Name = styled.div`
-  ${fs.FontSizeNormal};
+  ${fs.FontSizeSemiSmall};
   font-weight: bold;
 `;
 
@@ -112,6 +105,8 @@ const Point = styled.div`
   ${fs.FontSizeSmall};
   font-weight: 400;
   color: ${cons.FONT_COLOR_LIGHT};
+  min-width: 4rem;
+  text-align: right;
 `;
 
 const PointNumber = styled.span`
