@@ -14,6 +14,7 @@ import {
   APP_URL,
   FONT_COLOR_SUPER_LIGHT,
   PATH_CITIES,
+  CONTAINER_WIDTH_NORMAL,
 } from "../../constants";
 import { CityWithData, CITIES } from "../../data/articles/cities";
 import { Contributer } from "../../redux/slices/contributerSlice";
@@ -65,7 +66,7 @@ const Cities: React.FC<Props> = (props) => {
   }, [null]);
 
   return (
-    <Layout width={CONTAINER_WIDTH_WIDE} fixed>
+    <Layout width={CONTAINER_WIDTH_NORMAL} fixed>
       <HeadSetter
         pageTitle={`Cities | ${APP_NAME}`}
         pageDescription={generatePageDescription()}
