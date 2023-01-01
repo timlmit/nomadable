@@ -76,7 +76,7 @@ handler.post(async (req: any, res: any) => {
         salt,
       });
 
-      await addNewUserEvent(req.mongoose, id);
+      // await addNewUserEvent(req.mongoose, id);
     }
 
     await sendMailUserVerify(email, userName, req.mongoose);

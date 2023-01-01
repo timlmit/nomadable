@@ -42,10 +42,7 @@ const placeSlice = createSlice({
     },
 
     clearPlaceInfoOfNewPlace: (state) => {
-      state.newPlace.googlePlaceId = "";
-      state.newPlace.spotName = "";
-      state.newPlace.location = { coordinates: initialCoordinates };
-      state.newPlace.spotAddress = "";
+      state.newPlace = initialPlace;
     },
 
     toggleAvailabilityOfPlace: (
