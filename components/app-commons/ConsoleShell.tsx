@@ -55,8 +55,10 @@ export const ConsoleShell: React.FC<Props> = ({
   }, [isAuthenticated]);
 
   useEffect(() => {
-    fetchContributers();
-  }, [null]);
+    if (contributers.length === 0) {
+      fetchContributers();
+    }
+  }, [contributers]);
 
   return (
     <Layout
