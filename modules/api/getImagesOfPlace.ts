@@ -27,9 +27,9 @@ export const getImagesOfPlace = async (
   try {
     const data = await getPlaceDetail(googlePlaceId);
 
-    const photoReferences = data.result.photos.map(
-      (p: any) => p.photo_reference
-    );
+    const photoReferences = data.result.photos.map((p: any) => {
+      return p.photo_reference;
+    });
 
     const imageUrls = await getPlacePhotos(
       photoReferences.slice(0, maxImageCnt)

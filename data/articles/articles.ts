@@ -53,6 +53,22 @@ const BANGKOK_CAFE: Article = {
   omitReviewIds: [],
 };
 
+const CHANGMAI_PLACE: Article = {
+  slug: `places-to-work-from-in-${ct.THAILAND_BANGKOK.slug}`,
+  city: ct.THAILAND_CHIANGMAI,
+  title:
+    "10 Best Work-friendly Cafes & Coworking Spaces in Chiang Mai, Thailand",
+  filterObj: {
+    placeTypes: [],
+    availability: [],
+    saved: false,
+    sortBy: cons.SORT_BY_REVIEW,
+  },
+  placeCnt: 10,
+  omitPlaceIds: [],
+  omitReviewIds: [],
+};
+
 /**
  * Export
  */
@@ -61,6 +77,7 @@ export const ARTICLES: Article[] = [
   // South East Asia
   BANGKOK_CORWORKING,
   BANGKOK_CAFE,
+  CHANGMAI_PLACE,
   // East Europe
 ];
 
