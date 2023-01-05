@@ -223,6 +223,18 @@ export const JAPAN_KARUIZAWA: City = {
   },
 };
 
+export const BELGIUM_BRUSSELS: City = {
+  slug: "belgium-brussels",
+  country: "Belgium",
+  city: "Brussels",
+  boundary: {
+    latStart: 50.759490945527716,
+    lngStart: 4.219263416483102,
+    latEnd: 50.91968049513471,
+    lngEnd: 4.5002442643828715,
+  },
+};
+
 export const CITIES: City[] = [
   /**
    * Eeast Asia
@@ -255,6 +267,10 @@ export const CITIES: City[] = [
    */
   ITALY_ROME,
   TURKEY_ISTANBUL,
+  /**
+   * West Europe
+   */
+  BELGIUM_BRUSSELS,
   /**
    * Oceanian
    */
