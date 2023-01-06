@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { Fragment, ReactNode, useEffect, useState } from "react";
 import styled from "styled-components";
 
 import * as cons from "../../constants";
@@ -14,6 +14,7 @@ import { CheckInModal } from "./check-in-modal/CheckInModal";
 import { SectionLoader } from "../commons/SectionLoader";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
+  apiChangeStatusOfPlace,
   apiCheckIn,
   apiDeletePlace,
   apiSavePlace,
@@ -34,6 +35,7 @@ import {
 } from "../../styles/styled-components/Buttons";
 import Router, { useRouter } from "next/router";
 import { ClickableStyle } from "../../styles/styled-components/Interactions";
+import { Selection } from "../commons/Selection";
 
 interface Props {
   placeWithData: PlaceWithData;
@@ -102,6 +104,11 @@ export const PlacePage: React.FC<Props> = ({ placeWithData }) => {
     }
   };
 
+  const onChangeStatus = (status: string) => {
+    console.log(status);
+    dispatch(apiChangeStatusOfPlace({ placeId: pd.id, status: status }));
+  };
+
   /**
    * Effect
    */
@@ -143,12 +150,24 @@ export const PlacePage: React.FC<Props> = ({ placeWithData }) => {
             {cons.PLACE_TYPE_LIST[pd.placeType].text}
           </PlaceType>
           {pd.reviewStars > 0 && (
-            <ReviewStars>
+            <Fragment>
               <Dot>&#x2022;</Dot>
-              <StarIcon src="/icon/star-black.svg" />
-              {getStarValue(pd.reviewStars)}
-              <ReviewCnt>({pd.reviewsWithData.length})</ReviewCnt>
-            </ReviewStars>
+              <ReviewStars>
+                <StarIcon src="/icon/star-black.svg" />
+                {getStarValue(pd.reviewStars)}
+                <ReviewCnt>({pd.reviewsWithData.length})</ReviewCnt>
+              </ReviewStars>
+            </Fragment>
+          )}
+          {[cons.STATUS_TEMP_CLOSE, cons.STATUS_PERM_CLOSE].includes(
+            pd.status
+          ) && (
+            <Fragment>
+              <Dot>&#x2022;</Dot>
+              <StatusWrapper>
+                <Status>{cons.STATUS_LIST[pd.status].text}</Status>
+              </StatusWrapper>
+            </Fragment>
           )}
         </ReviewLeftSection>
         <ReviewRightSection>
@@ -215,11 +234,21 @@ export const PlacePage: React.FC<Props> = ({ placeWithData }) => {
             />
           </DiscoveredByWrapper>
           {user.admin && (
-            <DeletePlaceWrapper>
+            <AdminConsole>
               <DeletePlaceButton onClick={deletePlace}>
                 Delete this place
               </DeletePlaceButton>
-            </DeletePlaceWrapper>
+
+              <Selection
+                onChange={onChangeStatus}
+                ids={Object.keys(cons.STATUS_LIST)}
+                texts={Object.entries(cons.STATUS_LIST).map(
+                  (entry: any) => entry[1].text
+                )}
+                selectedId={pd.status}
+                small
+              />
+            </AdminConsole>
           )}
         </LeftSection>
       </InfoWrapper>
@@ -254,6 +283,9 @@ const ReviewInfo = styled.div`
 
 const ReviewLeftSection = styled.div`
   display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 `;
 
 const ReviewRightSection = styled.div``;
@@ -355,10 +387,18 @@ const ReviewCnt = styled.div`
   color: ${cons.FONT_COLOR_LIGHT};
 `;
 
+export const StatusWrapper = styled.div`
+  font-weight: 600;
+  color: ${cons.FONT_COLOR_SECONDARY};
+  display: flex;
+  align-items: center;
+`;
+
+export const Status = styled.div``;
+
 const Dot = styled.div`
   color: ${cons.FONT_COLOR_LIGHT};
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
+  font-weight: bold;
 `;
 
 const PlaceType = styled.div`
@@ -376,10 +416,13 @@ const UpdateImageButton = styled.button`
   left: 1rem;
 `;
 
-const DeletePlaceWrapper = styled.div`
-  border-top: 1px solid ${cons.FONT_COLOR_LIGHTEST};
+export const AdminConsole = styled.div`
+  display: flex;
+  gap: 1.5rem;
   margin-top: 3rem;
   padding-top: 2rem;
+  border-top: 1px solid ${cons.FONT_COLOR_LIGHTEST};
+  flex-wrap: wrap;
 `;
 
 const DeletePlaceButton = styled.button`

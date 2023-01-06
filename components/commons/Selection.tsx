@@ -12,6 +12,7 @@ interface Props {
   texts: string[];
   selectedId: string;
   onChange: (id: string) => void;
+  small?: boolean;
 }
 
 export const Selection: React.FC<Props> = (props) => {
@@ -20,7 +21,11 @@ export const Selection: React.FC<Props> = (props) => {
   };
 
   return (
-    <SelectionWrapper onChange={handleChange} defaultValue={props.selectedId}>
+    <SelectionWrapper
+      onChange={handleChange}
+      defaultValue={props.selectedId}
+      small={props.small}
+    >
       {props.ids.map((id, index) => {
         return (
           <Option key={id} value={id}>
@@ -32,12 +37,21 @@ export const Selection: React.FC<Props> = (props) => {
   );
 };
 
-const SelectionWrapper = styled.select`
+const SelectionWrapper = styled.select<{ small?: boolean }>`
   ${ClickableStyle}
   ${FormStyle}
-  width: 12rem;
+  width: auto;
   /* height: 3rem; */
   padding: 0.7rem 0.7rem;
+
+  ${(props) =>
+    props.small &&
+    `
+    padding: 0rem 0.8rem;
+    height: 2.3rem;
+    font-weight: bold;
+     ${fs.FontSizeSmall};
+  `}
 `;
 
 const Option = styled.option``;

@@ -4,6 +4,7 @@ import {
 } from "./../../../modules/EventLogger";
 
 import {
+  callChangeStatusOfPlace,
   callDeletePlace,
   callFetchDiscoveredPlaces,
   callFetchPlaces,
@@ -30,7 +31,7 @@ import {
   PlaceWithData,
   Vote,
 } from "../placeSlice";
-import { showPointEarned } from "../uiSlice";
+import { hideSpinner, showPointEarned, showSpinner } from "../uiSlice";
 
 /**
  * Types
@@ -430,6 +431,26 @@ export const apiSavePlace = createAsyncThunk<
     await callSavePlace(params);
     return;
   } catch (error: any) {
+    return thunkApi.rejectWithValue(error as CallError);
+  }
+});
+
+// apiSavePlace
+
+export const apiChangeStatusOfPlace = createAsyncThunk<
+  { status: string }, // Return type of the payload creator
+  { placeId: string; status: string }, // First argument to the payload creator
+  {
+    rejectValue: CallError;
+  } // Types for ThunkAPI
+>("place/ChangeStatusOfPlace", async (params, thunkApi) => {
+  thunkApi.dispatch(showSpinner({ message: "Saving..." }));
+  try {
+    const data = await callChangeStatusOfPlace(params);
+    thunkApi.dispatch(hideSpinner());
+    return data;
+  } catch (error: any) {
+    thunkApi.dispatch(hideSpinner());
     return thunkApi.rejectWithValue(error as CallError);
   }
 });

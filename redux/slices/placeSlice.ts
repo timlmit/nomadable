@@ -1,10 +1,11 @@
 import { initialCoordinates } from "./api/apiSpotSlice";
 import { STATUS_OPEN } from "./../../constants";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 import { RootState } from "../store";
 import * as cons from "../../constants";
 import {
+  apiChangeStatusOfPlace,
   apiCheckIn,
   apiFetchPlaceForPage,
   apiFetchPlaces,
@@ -126,6 +127,7 @@ export interface Availability {
 interface PlaceState {
   totalPlaceCnt: number;
   searchResult: PlaceHeader[];
+  searchResultHistory: PlaceHeader[];
   searchResultTotalCnt: number;
   recentCheckIns: Place[];
   placeForPage: PlaceWithData;
@@ -179,6 +181,7 @@ export const initialPlaceWithData: PlaceWithData = {
 const initialState: PlaceState = {
   totalPlaceCnt: 0,
   searchResult: [],
+  searchResultHistory: [],
   searchResultTotalCnt: 0,
   recentCheckIns: [],
   placeForPage: initialPlaceWithData,
@@ -212,6 +215,16 @@ const placeSlice = createSlice({
       state.placeForPage.checkInUsers = checkInUsers;
     });
     builder.addCase(apiFetchPlaces.fulfilled, (state, action) => {
+      const existingIds = state.searchResultHistory.map((place) => place.id);
+      const newPlaces = action.payload.places.filter(
+        (place) => !existingIds.includes(place.id)
+      );
+
+      state.searchResultHistory = [
+        ...newPlaces,
+        ...state.searchResultHistory,
+      ].slice(0, 500);
+
       state.searchResult = action.payload.places;
       state.searchResultTotalCnt = action.payload.totalPlaceCnt;
     });
@@ -287,6 +300,9 @@ const placeSlice = createSlice({
         return place;
       });
     });
+    builder.addCase(apiChangeStatusOfPlace.fulfilled, (state, action) => {
+      state.placeForPage.status = action.payload.status;
+    });
   },
 });
 
@@ -301,6 +317,10 @@ export const selectPlaceForPage = (state: RootState): PlaceWithData =>
 
 export const selectPlaceSearchResult = (state: RootState): PlaceHeader[] =>
   state.place.searchResult;
+
+export const selectPlaceSearchResultHistory = (
+  state: RootState
+): PlaceHeader[] => state.place.searchResultHistory;
 
 export const selectRecentCheckIns = (state: RootState): Place[] =>
   state.place.recentCheckIns;

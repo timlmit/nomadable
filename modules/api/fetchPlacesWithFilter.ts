@@ -4,6 +4,7 @@ import {
   SORT_BY_REVIEW,
   SORT_BY_SPEED,
   STATUS_OPEN,
+  STATUS_TEMP_CLOSE,
 } from "./../../constants";
 import { Boundary } from "../../data/articles/cities";
 import { FilterObj, PlaceHeader } from "../../redux/slices/placeSlice";
@@ -44,7 +45,7 @@ const makeCondition = async (
   const condition = {
     placeType: placeTypeFilter,
     availability: availabilityFilter,
-    status: STATUS_OPEN,
+    status: { $in: [STATUS_OPEN, STATUS_TEMP_CLOSE] },
     id: filterObj.saved ? { $in: savedPlaceIds } : { $exists: true },
     location: boundaryCondition,
   };

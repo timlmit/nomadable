@@ -16,7 +16,7 @@ import { readCookie } from "../modules/CookieHandler";
 import { City, CityWithData } from "../data/articles/cities";
 import { Article, ArticleWithData } from "../data/articles/articles";
 
-export const callCreatePlace = async (
+const callCreatePlace = async (
   place: Place
 ): Promise<{ placeId: string; addingPoint: number; totalPoint: number }> => {
   try {
@@ -39,7 +39,7 @@ export const callCreatePlace = async (
   }
 };
 
-export const callDeletePlace = async (placeId: string) => {
+const callDeletePlace = async (placeId: string) => {
   try {
     await axios({
       method: "post",
@@ -62,7 +62,7 @@ export const callDeletePlace = async (placeId: string) => {
 
 // callFetchPlace
 
-export const callFetchPlace = async (
+const callFetchPlace = async (
   placeId: string,
   forSSR?: boolean
 ): Promise<{ placeWithData: PlaceWithData }> => {
@@ -89,7 +89,7 @@ export const callFetchPlace = async (
 
 // check In
 
-export const callCheckIn = async (data: {
+const callCheckIn = async (data: {
   placeId: string;
   speedDown: number;
   speedUp: number;
@@ -120,7 +120,7 @@ export const callCheckIn = async (data: {
 
 // fetch places
 
-export const callFetchPlaces = async (params: {
+const callFetchPlaces = async (params: {
   mapArea: MapArea;
   pageIndex: number;
   filterObj: FilterObj;
@@ -157,7 +157,7 @@ export const callFetchPlaces = async (params: {
 
 // fetch places
 
-export const callFetchAllPlaces = async (): Promise<{
+const callFetchAllPlaces = async (): Promise<{
   places: Place[];
   totalPlaceCnt: number;
 }> => {
@@ -175,7 +175,7 @@ export const callFetchAllPlaces = async (): Promise<{
 
 // fetch recent checkins
 
-export const callRecentCheckIns = async (): Promise<{
+const callRecentCheckIns = async (): Promise<{
   recentCheckIns: Place[];
 }> => {
   try {
@@ -198,7 +198,7 @@ export const callRecentCheckIns = async (): Promise<{
 
 // callFetchAllPlaceIds
 
-export const callFetchAllPlaceIds = async (): Promise<{
+const callFetchAllPlaceIds = async (): Promise<{
   placeIds: string[];
 }> => {
   try {
@@ -218,7 +218,7 @@ export const callFetchAllPlaceIds = async (): Promise<{
 
 // callFetchAllPlaceIds
 
-export const callFetchDiscoveredPlaces = async (
+const callFetchDiscoveredPlaces = async (
   userId: string,
   loadedCnt: number,
   loadingCnt: number
@@ -243,7 +243,7 @@ export const callFetchDiscoveredPlaces = async (
 
 // callVoteAvailability
 
-export const callVoteAvailability = async (params: {
+const callVoteAvailability = async (params: {
   placeId: string;
   vote: Vote;
 }): Promise<{
@@ -272,7 +272,7 @@ export const callVoteAvailability = async (params: {
 
 //
 
-export const callFetchCitiesWithData = async (
+const callFetchCitiesWithData = async (
   params: City[]
 ): Promise<{ citiesWithData: CityWithData[]; totalPlaceCnt: number }> => {
   try {
@@ -293,7 +293,7 @@ export const callFetchCitiesWithData = async (
 
 // callFetchArticlesWithData
 
-export const callFetchArticlesWithData = async (
+const callFetchArticlesWithData = async (
   params: Article[]
 ): Promise<{ articlesWithData: ArticleWithData[] }> => {
   try {
@@ -314,7 +314,7 @@ export const callFetchArticlesWithData = async (
 
 // callUpdateImages
 
-export const callUpdateImages = async (params: { placeId: string }) => {
+const callUpdateImages = async (params: { placeId: string }) => {
   try {
     await axios({
       method: "post",
@@ -336,7 +336,7 @@ export const callUpdateImages = async (params: { placeId: string }) => {
 
 // fetch places links
 
-export const callFetchPlaceLinks = async (): Promise<{
+const callFetchPlaceLinks = async (): Promise<{
   placeLinks: SitemapLink[];
 }> => {
   try {
@@ -353,7 +353,7 @@ export const callFetchPlaceLinks = async (): Promise<{
 
 // call save place
 
-export const callSavePlace = async (params: {
+const callSavePlace = async (params: {
   placeId: string;
   saved: boolean;
 }): Promise<{}> => {
@@ -374,4 +374,49 @@ export const callSavePlace = async (params: {
       message: error.response.data.message,
     };
   }
+};
+
+const callChangeStatusOfPlace = async (params: {
+  placeId: string;
+  status: string;
+}): Promise<{ status: string }> => {
+  try {
+    const response = await axios({
+      method: "post",
+      url: `${APP_URL}/api/change-status-of-place`,
+      data: params,
+      headers: {
+        Authorization: readCookie(COOKIE_ACCESS_TOKEN) || "",
+      },
+    });
+
+    return response.data;
+  } catch (error: any) {
+    throw {
+      code: "",
+      message: error.response.data.message,
+    };
+  }
+};
+
+/**
+ * Exports
+ */
+
+export {
+  callFetchPlace,
+  callFetchPlaces,
+  callFetchAllPlaceIds,
+  callFetchDiscoveredPlaces,
+  callVoteAvailability,
+  callFetchCitiesWithData,
+  callFetchArticlesWithData,
+  callUpdateImages,
+  callFetchPlaceLinks,
+  callSavePlace,
+  callChangeStatusOfPlace,
+  callDeletePlace,
+  callCheckIn,
+  callCreatePlace,
+  callFetchAllPlaces,
 };

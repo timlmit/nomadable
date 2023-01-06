@@ -18,10 +18,14 @@ import {
   MapArea,
   Place,
   PlaceHeader,
+  selectPlaceSearchResultHistory,
 } from "../../redux/slices/placeSlice";
 import { forMobile } from "../../styles/Responsive";
 import { AnimationSlideUp } from "../../styles/styled-components/Animations";
-import { FontSizeSemiSmall } from "../../styles/styled-components/FontSize";
+import {
+  FontSizeSemiSmall,
+  FontSizeSmall,
+} from "../../styles/styled-components/FontSize";
 import { ClickableStyle } from "../../styles/styled-components/Interactions";
 import { MapSearch } from "../map-search/MapSearch";
 import { SectionLoader } from "../commons/SectionLoader";
@@ -44,6 +48,7 @@ export const TopPage: React.FC<Props> = ({ places, searchResultTotalCnt }) => {
   // store
   const contributers = useAppSelector(selectContributersArea);
   const apiFetchPlacesStatus = useAppSelector(selectApiFetchPlacesStatus);
+  const searchResultHistory = useAppSelector(selectPlaceSearchResultHistory);
   // ref
   const fetchTimeoutRef = useRef<any>(0);
   // local state
@@ -91,7 +96,9 @@ export const TopPage: React.FC<Props> = ({ places, searchResultTotalCnt }) => {
     }, 1000);
   };
 
-  const changeFilterVisible = (visible: boolean) => {
+  const changeFilterVisible = (ev: any, visible: boolean) => {
+    ev.preventDefault();
+    ev.stopPropagation();
     setFilterVisible(visible);
   };
 
@@ -229,8 +236,16 @@ export const TopPage: React.FC<Props> = ({ places, searchResultTotalCnt }) => {
           <SectionLoader
             visible={apiFetchPlacesStatus.status === cons.API_LOADING}
           />
-          {apiFetchPlacesStatus.status !== cons.API_LOADING &&
-            `${searchResultTotalCnt} Places to Work From`}
+          <TabTitle>
+            {apiFetchPlacesStatus.status !== cons.API_LOADING &&
+              `${searchResultTotalCnt} Places to Work From`}
+          </TabTitle>
+          <FilterButtonForMobile
+            onClick={(ev: any) => changeFilterVisible(ev, true)}
+          >
+            {renderFilterCount()}
+            <FilterIcon src="/icon/filter-black3.svg" />
+          </FilterButtonForMobile>
         </PullTabForMobile>
         <SearchResult
           places={places}
@@ -248,13 +263,10 @@ export const TopPage: React.FC<Props> = ({ places, searchResultTotalCnt }) => {
       </SearchResultSection>
       <MapSection viewHeight={viewHeight}>
         {/* <RecentCheckIns /> */}
-        <FilterButtonForMobile onClick={() => changeFilterVisible(true)}>
-          {renderFilterCount()}
-          <FilterIcon src="/icon/filter-black3.svg" />
-        </FilterButtonForMobile>
+
         <MapSearch
           mapId="search-places"
-          places={places}
+          places={searchResultHistory}
           onChange={onChangeMapArea}
           onClickMarker={onClickMarker}
           selectedPlace={selectedPlace}
@@ -337,6 +349,8 @@ const PullTabForMobile = styled.div`
  `)}
 `;
 
+export const TabTitle = styled.div``;
+
 const MapSection = styled.div<{ viewHeight: number }>`
   width: calc(100% - ${RESULT_WIDTH}rem);
   height: calc(100vh - ${HEADER_HEIGHT}rem);
@@ -389,17 +403,14 @@ const FilterButtonForMobile = styled.button`
   ${ClickableStyle}
   display: none;
   position: absolute;
-  top: 1.2rem;
-  left: 1.2rem;
-  background-color: white;
+  /* top: 1.2rem; */
+  right: 1.2rem;
   z-index: 10;
-  height: 3.3rem;
-  width: 3.3rem;
-  border-radius: 100%;
+  border-radius: 0.2rem;
   justify-content: center;
   align-items: center;
-  box-shadow: ${cons.SHADOW_3};
   border: none;
+  background: none;
 
   ${forMobile(`
       display: flex;  
@@ -407,21 +418,21 @@ const FilterButtonForMobile = styled.button`
 `;
 
 const FilterIcon = styled.img`
-  width: 1.3rem;
+  width: 1.2rem;
   opacity: 0.5;
 `;
 
 const FilterCnt = styled.div`
   position: absolute;
-  top: -0.4rem;
-  right: -0.4rem;
+  top: -0.5rem;
+  right: -0.9rem;
   margin-left: 0.4rem;
   background-color: ${cons.COLOR_RED_3};
   background-color: ${cons.FONT_COLOR_SECONDARY};
   color: white;
-  width: 1.5rem;
-  height: 1.5rem;
-  ${FontSizeSemiSmall}
+  width: 1.4rem;
+  height: 1.4rem;
+  ${FontSizeSmall}
   display: flex;
   align-items: center;
   justify-content: center;

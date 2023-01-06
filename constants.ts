@@ -249,6 +249,12 @@ export const STATUS_OPEN = "Open";
 export const STATUS_TEMP_CLOSE = "Temporary Closed";
 export const STATUS_PERM_CLOSE = "Parmanently Closed";
 
+export const STATUS_LIST: any = {
+  [STATUS_OPEN]: { text: "🟢 Open" },
+  [STATUS_TEMP_CLOSE]: { text: "🟡 Temporary Closed" },
+  [STATUS_PERM_CLOSE]: { text: "🔴 Parmanently Closed" },
+};
+
 /**
  * Point Rules
  */

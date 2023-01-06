@@ -15,9 +15,7 @@ handler.get(async (req: any, res: any) => {
   try {
     const Place = req.mongoose.model("Place");
 
-    const places = await Place.find({
-      status: { $ne: STATUS_PERM_CLOSE },
-    })
+    const places = await Place.find({})
       .select("id spotName")
       .sort({ testCnt: -1 })
       .lean();
