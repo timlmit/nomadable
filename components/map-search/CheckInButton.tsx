@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 import styled from "styled-components";
 import { callFetchNearbyPlaces } from "../../calls/placeCalls";
@@ -26,6 +27,7 @@ import { SectionLoader } from "../commons/SectionLoader";
 interface Props {}
 
 export const CheckInButton: React.FC<Props> = ({}) => {
+  const router = useRouter();
   const authenticated = useAppSelector(selectAuthenticated);
   const [placeModalVisible, setPlaceModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -84,7 +86,8 @@ export const CheckInButton: React.FC<Props> = ({}) => {
   };
 
   const openPlacePageWithCheckIn = (placeId: string) => {
-    window.open(`${cons.APP_URL}/place/${placeId}?checkin=true`, "_blank");
+    // window.open(`${cons.APP_URL}/place/${placeId}?checkin=true`, "_blank");
+    router.push(`/place/${placeId}?checkin=true`);
   };
 
   return (
