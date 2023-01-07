@@ -98,7 +98,7 @@ export const CheckInButton: React.FC<Props> = ({}) => {
         width="28rem"
       >
         <ModalHeader
-          title="Where are you at?"
+          title="Where are you now?"
           onClickClose={handleCloseModal}
         />
         <ModalBody>

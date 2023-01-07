@@ -84,14 +84,14 @@ export const LocationVerification: React.FC<Props> = (props) => {
       onClickVerify();
 
       // remove query params
-      router.push(
-        {
-          pathname: `/place/${router.query.placeId}`,
-          query: {},
-        },
-        undefined,
-        { shallow: true }
-      );
+      // router.push(
+      //   {
+      //     pathname: `/place/${router.query.placeId}`,
+      //     query: {},
+      //   },
+      //   undefined,
+      //   { shallow: true }
+      // );
     }
   }, [router.query]);
 
