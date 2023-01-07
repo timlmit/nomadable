@@ -102,6 +102,12 @@ const HeaderWrapper = styled.div<{ fixed?: boolean }>`
   height: 5rem;
   box-sizing: border-box;
   background-color: white;
+  z-index: 2;
+
+  ${forMobile(`
+      z-index: 3;
+      width: calc(100%);
+    `)}
 
   ${(props) =>
     props.fixed &&
@@ -110,13 +116,6 @@ const HeaderWrapper = styled.div<{ fixed?: boolean }>`
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 2;
-
-    ${forMobile(`
-      z-index: 3;
-      width: calc(100%);
-    `)}
-
   `};
 `;
 

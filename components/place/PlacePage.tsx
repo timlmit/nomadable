@@ -20,8 +20,10 @@ import {
   apiSavePlace,
   apiUpdateImages,
   initApiDeletePlaceState,
+  initapiFetchPlaceForPageState,
   selectApiCheckInStatus,
   selectApiDeletePlaceStatus,
+  selectApiFetchPlaceForPageStatus,
 } from "../../redux/slices/api/apiPlaceSlice";
 import { selectAuthenticated, selectUser } from "../../redux/slices/userSlice";
 import { forMobile } from "../../styles/Responsive";
@@ -36,6 +38,7 @@ import {
 import Router, { useRouter } from "next/router";
 import { ClickableStyle } from "../../styles/styled-components/Interactions";
 import { Selection } from "../commons/Selection";
+import router from "next/router";
 
 interface Props {
   placeWithData: PlaceWithData;
@@ -50,6 +53,7 @@ export const PlacePage: React.FC<Props> = ({ placeWithData }) => {
 
   const apiStatusCheckIn = useAppSelector(selectApiCheckInStatus);
   const apiStatusDelete = useAppSelector(selectApiDeletePlaceStatus);
+  const apiStatusFetchPlace = useAppSelector(selectApiFetchPlaceForPageStatus);
   const isAuthenticated = useAppSelector(selectAuthenticated);
 
   const [checkInModalVisible, setCheckInModalVisible] = useState(false);
@@ -109,6 +113,22 @@ export const PlacePage: React.FC<Props> = ({ placeWithData }) => {
     dispatch(apiChangeStatusOfPlace({ placeId: pd.id, status: status }));
   };
 
+  const oneClickCheckIn = () => {
+    if (
+      router.query &&
+      authenticated &&
+      router.query.placeId === pd.id &&
+      apiStatusFetchPlace.status === cons.API_SUCCEEDED &&
+      router.query.checkin === "true"
+    ) {
+      if (pd.checkedInByUser === false) {
+        setCheckInModalVisible(true);
+      } else {
+        window.alert("You already have checked in this place.");
+      }
+    }
+  };
+
   /**
    * Effect
    */
@@ -121,15 +141,14 @@ export const PlacePage: React.FC<Props> = ({ placeWithData }) => {
   }, [apiStatusDelete]);
 
   useEffect(() => {
-    if (
-      router.query &&
-      router.query.checkin === "true" &&
-      authenticated &&
-      pd.checkedInByUser === false
-    ) {
-      setCheckInModalVisible(true);
-    }
-  }, [router.query]);
+    oneClickCheckIn();
+  }, [apiStatusFetchPlace.status]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(initapiFetchPlaceForPageState());
+    };
+  }, [null]);
 
   /**
    * Render

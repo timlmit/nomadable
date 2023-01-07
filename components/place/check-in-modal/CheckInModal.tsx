@@ -45,8 +45,8 @@ export const CheckInModal: React.FC<Props> = (props) => {
    * Render
    */
 
-  const renderModalContents = () => {
-    if (props.spotLat === null || props.spotLng === null) return;
+  const renderModalContents = (_visible: boolean) => {
+    if (props.spotLat === null || props.spotLng === null || !_visible) return;
 
     if (pageIndex === 1) {
       return (
@@ -66,7 +66,7 @@ export const CheckInModal: React.FC<Props> = (props) => {
         title={`Check In & Test WiFi (${pageIndex}/2)`}
         onClickClose={props.onClose}
       />
-      <ModalContainer>{renderModalContents()}</ModalContainer>
+      <ModalContainer>{renderModalContents(props.visible)}</ModalContainer>
     </Modal>
   );
 };
