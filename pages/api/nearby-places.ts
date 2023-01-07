@@ -1,4 +1,5 @@
-import { PLACE_TYPE_CAFE } from "./../../constants";
+import { SORT_BY_DISTANCE } from "./../../constants";
+import { initialFilterObj } from "./../../redux/slices/placeSlice";
 import nextConnect from "next-connect";
 
 import { ERR_SOMETHING } from "../../modules/ErrorCode";
@@ -13,30 +14,22 @@ handler.use(authenticationMiddleware);
 
 handler.post(async (req: any, res: any) => {
   const { userId } = req;
-  const {
-    latStart,
-    lngStart,
-    latEnd,
-    lngEnd,
-    pageIndex,
-    filterObj,
-    userLng,
-    userLat,
-  } = req.body;
+  const { userLng, userLat, maxDistance, maxPlaces } = req.body;
 
   try {
-    const { places, totalPlaceCnt } = await fetchPlacesWithFilter(
+    const { places } = await fetchPlacesWithFilter(
       req.mongoose,
       userId,
-      { latStart, lngStart, latEnd, lngEnd },
-      filterObj,
+      null,
+      { ...initialFilterObj, sortBy: SORT_BY_DISTANCE },
       0,
-      50,
+      maxPlaces,
       userLng,
-      userLat
+      userLat,
+      maxDistance
     );
 
-    return res.status(200).json({ places, totalPlaceCnt });
+    return res.status(200).json({ places });
   } catch (error: any) {
     return res.status(500).json({ message: ERR_SOMETHING, placeId: "" });
   }

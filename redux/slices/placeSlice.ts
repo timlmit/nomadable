@@ -199,6 +199,11 @@ const placeSlice = createSlice({
     builder.addCase(apiFetchPlaceForPage.fulfilled, (state, action) => {
       state.placeForPage = action.payload.placeWithData;
     });
+    builder.addCase(apiFetchPlaces.pending, (state, action) => {
+      if (action.meta.arg.filterChanged) {
+        state.searchResultHistory = [];
+      }
+    });
     builder.addCase(apiCheckIn.fulfilled, (state, action) => {
       const {
         checkedInByUser,

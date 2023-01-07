@@ -120,6 +120,17 @@ export const PlacePage: React.FC<Props> = ({ placeWithData }) => {
     }
   }, [apiStatusDelete]);
 
+  useEffect(() => {
+    if (
+      router.query &&
+      router.query.checkin === "true" &&
+      authenticated &&
+      pd.checkedInByUser === false
+    ) {
+      setCheckInModalVisible(true);
+    }
+  }, [router.query]);
+
   /**
    * Render
    */

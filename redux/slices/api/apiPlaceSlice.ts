@@ -328,6 +328,7 @@ export const apiFetchPlaces = createAsyncThunk<
     mapArea: MapArea;
     pageIndex: number;
     filterObj: FilterObj;
+    filterChanged: boolean;
     userLng?: number;
     userLat?: number;
   }, // First argument to the payload creator

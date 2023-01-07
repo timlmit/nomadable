@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import {
   getCurrentLocation,
@@ -19,6 +20,7 @@ interface Props {
 }
 
 export const LocationVerification: React.FC<Props> = (props) => {
+  const router = useRouter();
   const [requestingLocation, setRequestingLocation] = useState(false);
   const [latLng, setLatLng] = useState<undefined | [lat: number, lng: number]>(
     undefined
@@ -76,6 +78,22 @@ export const LocationVerification: React.FC<Props> = (props) => {
       );
     }
   };
+
+  useEffect(() => {
+    if (router.query && router.query.checkin === "true") {
+      onClickVerify();
+
+      // remove query params
+      router.push(
+        {
+          pathname: `/place/${router.query.placeId}`,
+          query: {},
+        },
+        undefined,
+        { shallow: true }
+      );
+    }
+  }, [router.query]);
 
   /**
    * Render

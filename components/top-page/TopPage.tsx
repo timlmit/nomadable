@@ -36,6 +36,7 @@ import { getFilterCount } from "./search-result/filters/getFilterCount";
 import { getCurrentLocation } from "../../modules/Location";
 import { latest } from "immer/dist/internal";
 import { PageLoader } from "../commons/PageLoader";
+import { CheckInButton } from "../map-search/CheckInButton";
 
 interface Props {
   places: PlaceHeader[];
@@ -66,6 +67,7 @@ export const TopPage: React.FC<Props> = ({ places, searchResultTotalCnt }) => {
     undefined | { lat: number; lng: number }
   >(undefined);
   const [loadingLocation, setLoadingLocation] = useState(false);
+  const lastFilterRef = useRef<FilterObj>(initialFilterObj);
 
   /**
    * Modules
@@ -75,6 +77,7 @@ export const TopPage: React.FC<Props> = ({ places, searchResultTotalCnt }) => {
     mapArea: MapArea,
     pageIndex: number,
     _filterObj: FilterObj,
+    filterChanged: boolean,
     userLng?: number,
     userLat?: number
   ) => {
@@ -83,6 +86,7 @@ export const TopPage: React.FC<Props> = ({ places, searchResultTotalCnt }) => {
         mapArea,
         pageIndex,
         filterObj: _filterObj,
+        filterChanged,
         userLng,
         userLat,
       })
@@ -195,9 +199,11 @@ export const TopPage: React.FC<Props> = ({ places, searchResultTotalCnt }) => {
       mapArea,
       pageIndex,
       filterObj,
+      lastFilterRef.current !== filterObj,
       userLocation && userLocation.lng,
       userLocation && userLocation.lat
     );
+    lastFilterRef.current = filterObj;
   }, [mapArea, pageIndex, filterObj]);
 
   useEffect(() => {
@@ -262,7 +268,9 @@ export const TopPage: React.FC<Props> = ({ places, searchResultTotalCnt }) => {
         />
       </SearchResultSection>
       <MapSection viewHeight={viewHeight}>
-        {/* <RecentCheckIns /> */}
+        <MapButtons>
+          <CheckInButton />
+        </MapButtons>
 
         <MapSearch
           mapId="search-places"
@@ -357,6 +365,7 @@ const MapSection = styled.div<{ viewHeight: number }>`
   position: fixed;
   top: ${HEADER_HEIGHT}rem;
   right: 0;
+  z-index: 1;
 
   @media only screen and (max-width: ${cons.WIDTH_TABLET}px) {
     position: fixed;
@@ -366,6 +375,13 @@ const MapSection = styled.div<{ viewHeight: number }>`
     z-index: 1;
     height: calc(${(props) => props.viewHeight}px - 15rem);
   }
+`;
+
+export const MapButtons = styled.div`
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  z-index: 2;
 `;
 
 const ScrollUpButton = styled.button<{ visible: boolean }>`

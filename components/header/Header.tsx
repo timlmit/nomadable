@@ -113,7 +113,7 @@ const HeaderWrapper = styled.div<{ fixed?: boolean }>`
     z-index: 1;
 
     ${forMobile(`
-      z-index: 3;
+      z-index: 1;
       width: calc(100%);
     `)}
 

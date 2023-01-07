@@ -399,6 +399,33 @@ const callChangeStatusOfPlace = async (params: {
   }
 };
 
+// fetch places
+
+const callFetchNearbyPlaces = async (params: {
+  userLng: number;
+  userLat: number;
+  maxDistance: number;
+  maxPlaces: number;
+}): Promise<{ places: PlaceHeader[] }> => {
+  try {
+    const response = await axios({
+      method: "post",
+      url: `${APP_URL}/api/nearby-places`,
+      data: params,
+      headers: {
+        Authorization: readCookie(COOKIE_ACCESS_TOKEN) || "",
+      },
+    });
+
+    return response.data;
+  } catch (error: any) {
+    throw {
+      code: "",
+      message: error.response.data.message,
+    };
+  }
+};
+
 /**
  * Exports
  */
@@ -419,4 +446,5 @@ export {
   callCheckIn,
   callCreatePlace,
   callFetchAllPlaces,
+  callFetchNearbyPlaces,
 };

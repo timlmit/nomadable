@@ -246,6 +246,7 @@ const ItemContainer = styled.div`
   justify-content: space-between;
   position: relative;
   min-height: 100%;
+  z-index: 0;
 
   /* gap: 0.5rem; */
 `;

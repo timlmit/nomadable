@@ -70,7 +70,8 @@ const makePipeline = (
   condition: any,
   filterObj: FilterObj,
   userLng: number | undefined,
-  userLat: number | undefined
+  userLat: number | undefined,
+  maxDistance?: number
 ) => {
   const pipeline: any[] = [];
 
@@ -79,7 +80,7 @@ const makePipeline = (
       $geoNear: {
         near: { type: "Point", coordinates: [userLng, userLat] },
         spherical: true,
-        maxDistance: 100 * 1000,
+        maxDistance: maxDistance || 100 * 1000,
         distanceField: "distance",
       },
     });
@@ -104,7 +105,8 @@ export const fetchPlacesWithFilter = async (
   skip: number,
   limit: number,
   userLng?: number,
-  userLat?: number
+  userLat?: number,
+  maxDistance?: number
 ): Promise<{ places: PlaceHeader[]; totalPlaceCnt: number }> => {
   try {
     const Place = mongoose.model("Place");
@@ -125,7 +127,8 @@ export const fetchPlacesWithFilter = async (
       condition,
       filterObj,
       userLng,
-      userLat
+      userLat,
+      maxDistance
     );
 
     const places = await Place.aggregate(
