@@ -30,10 +30,6 @@ export const getCurrentLocation = async ({
         resolve({ lat: crd.latitude, lng: crd.longitude });
       },
       (error) => {
-        console.log(
-          "🚀 ~ file: Location.ts ~ line 33 ~ returnnewPromise ~ error",
-          error
-        );
         if (error.code === 3) {
           reject(error);
         } else {

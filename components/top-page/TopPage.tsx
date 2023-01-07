@@ -268,10 +268,6 @@ export const TopPage: React.FC<Props> = ({ places, searchResultTotalCnt }) => {
         />
       </SearchResultSection>
       <MapSection viewHeight={viewHeight}>
-        <MapButtons>
-          <CheckInButton />
-        </MapButtons>
-
         <MapSearch
           mapId="search-places"
           places={searchResultHistory}
@@ -299,6 +295,10 @@ export const TopPage: React.FC<Props> = ({ places, searchResultTotalCnt }) => {
         userLocation={userLocation}
         setUserLocationLoading={setUserLocationLoading}
       />
+
+      <MapButtons mobileHidden={scrollButtonVisible}>
+        <CheckInButton />
+      </MapButtons>
     </TopPageWrapper>
   );
 };
@@ -377,11 +377,27 @@ const MapSection = styled.div<{ viewHeight: number }>`
   }
 `;
 
-export const MapButtons = styled.div`
-  position: absolute;
-  top: 1.5rem;
-  left: 1.5rem;
+export const MapButtons = styled.div<{ mobileHidden: boolean }>`
+  ${AnimationSlideUp}
+  position: fixed;
+  top: 6.5rem;
+  left: 38rem;
   z-index: 2;
+
+  ${forMobile(`
+    top: 6rem;
+    left: 1rem;
+    z-index: 3;
+    `)}
+
+  ${(props) =>
+    props.mobileHidden &&
+    `
+    display: block;
+    ${forMobile(`
+      display: none;
+    `)}
+    `}
 `;
 
 const ScrollUpButton = styled.button<{ visible: boolean }>`

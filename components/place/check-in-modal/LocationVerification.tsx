@@ -62,10 +62,7 @@ export const LocationVerification: React.FC<Props> = (props) => {
       );
 
       if (distanceKm > 0.5) {
-        window.alert(
-          "The location is not correct. Please check if you are actually inside the place."
-        );
-        return;
+        throw "The location is not correct. Please check if you are actually inside the place.";
       }
 
       // location verified
@@ -74,7 +71,8 @@ export const LocationVerification: React.FC<Props> = (props) => {
     } catch (error: any) {
       setRequestingLocation(false);
       window.alert(
-        "Something went wrong. If you are using VPN, please turn it off and try again. If the problem pursists, please contact support."
+        error ||
+          "Something went wrong. If you are using VPN, please turn it off and try again. If the problem pursists, please contact support."
       );
     }
   };

@@ -131,7 +131,6 @@ export const MenuDropdown: React.FC<Props> = ({
 
 const MenuDropdownWrapper = styled.div`
   ${DropdownWindowStyle};
-  z-index: 1;
 `;
 
 const DropdownItem = styled.div<{ hidePC?: boolean }>`
