@@ -105,6 +105,7 @@ const ProfilePic = styled.img`
 
 const MainSection = styled.div`
   margin-left: 1.2rem;
+  width: 100%;
 `;
 
 const MainSectionInner = styled.div`

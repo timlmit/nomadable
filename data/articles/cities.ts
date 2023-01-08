@@ -235,6 +235,18 @@ export const BELGIUM_BRUSSELS: City = {
   },
 };
 
+export const AUSTRALIA_SYDNEY: City = {
+  slug: "australia-sydney",
+  country: "Australia",
+  city: "Sydney",
+  boundary: {
+    latStart: -33.982142239207725,
+    lngStart: 151.05374860268017,
+    latEnd: -33.76793128621469,
+    lngEnd: 151.34270355731297,
+  },
+};
+
 export const CITIES: City[] = [
   /**
    * Eeast Asia
@@ -274,6 +286,7 @@ export const CITIES: City[] = [
   /**
    * Oceanian
    */
+  AUSTRALIA_SYDNEY,
   AUSTRALIA_MELBOURNE,
   /**
    * Africa

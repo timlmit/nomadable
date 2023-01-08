@@ -9,6 +9,7 @@ import { getCurrentLocation } from "../../modules/Location";
 import { useAppSelector } from "../../redux/hooks";
 import { PlaceHeader, Spot } from "../../redux/slices/placeSlice";
 import { selectAuthenticated } from "../../redux/slices/userSlice";
+import { forMobile } from "../../styles/Responsive";
 import {
   ButtonPrimaryLarge,
   ButtonPrimaryMedium,
@@ -93,7 +94,7 @@ export const CheckInButton: React.FC<Props> = ({}) => {
   return (
     <CheckInButtonWrapper>
       <Button onClick={onClickCheckIn}>
-        <Icon src="/icon/location-white.svg" /> Check In
+        <Icon src="/icon/location-white.svg" /> <span>Check In</span>
       </Button>
       <Modal
         visible={placeModalVisible}
@@ -101,7 +102,7 @@ export const CheckInButton: React.FC<Props> = ({}) => {
         width="28rem"
       >
         <ModalHeader
-          title="Where are you now?"
+          title="Checking in to..."
           onClickClose={handleCloseModal}
         />
         <ModalBody>
@@ -148,6 +149,24 @@ export const Button = styled.button`
   padding-left: 1.5rem;
   padding-right: 1.6rem;
   box-shadow: ${cons.SHADOW_2};
+
+  ${forMobile(`
+      width: 3.3rem;
+      min-width: 3.3rem;
+      height: 3.3rem;
+      justify-content: center;
+      padding: 0;
+
+      & span {
+        display: none;
+      }
+
+      & img {
+        margin-right: 0;
+        width: 1.3rem;
+        height: 1.3rem;
+      }
+  `)}
 `;
 
 export const Icon = styled.img`

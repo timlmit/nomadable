@@ -16,6 +16,7 @@ interface Props {
   children: ReactNode;
   alignTop?: boolean;
   coverAllMobile?: boolean;
+  disableOverlayClick?: boolean;
 }
 
 export const Modal: React.FC<Props> = ({
@@ -25,6 +26,7 @@ export const Modal: React.FC<Props> = ({
   children,
   alignTop,
   coverAllMobile,
+  disableOverlayClick,
 }) => {
   const overlayRef = useRef<HTMLDivElement>(null);
   const [viewHeight, setViewHeight] = useState(0);
@@ -49,7 +51,7 @@ export const Modal: React.FC<Props> = ({
   return (
     <Overlay
       visible={visible}
-      onMouseDown={closeModal}
+      onMouseDown={disableOverlayClick ? () => {} : closeModal}
       alignTop={alignTop}
       ref={overlayRef}
       coverAllMobile={coverAllMobile}

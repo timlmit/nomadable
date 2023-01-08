@@ -41,6 +41,11 @@ export const CheckInModal: React.FC<Props> = (props) => {
     }, 1000);
   };
 
+  const handleCloseModal = () => {
+    props.onClose();
+    setPageIndex(1);
+  };
+
   /**
    * Render
    */
@@ -57,14 +62,21 @@ export const CheckInModal: React.FC<Props> = (props) => {
         />
       );
     }
-    return <WifiSpeedTest onFinishTest={onFinishTest} />;
+    return (
+      <WifiSpeedTest onFinishTest={onFinishTest} modalVisible={props.visible} />
+    );
   };
 
   return (
-    <Modal visible={props.visible} closeModal={props.onClose} width="28rem">
+    <Modal
+      visible={props.visible}
+      closeModal={handleCloseModal}
+      width="28rem"
+      disableOverlayClick
+    >
       <ModalHeader
         title={`Check In & Test WiFi (${pageIndex}/2)`}
-        onClickClose={props.onClose}
+        onClickClose={handleCloseModal}
       />
       <ModalContainer>{renderModalContents(props.visible)}</ModalContainer>
     </Modal>

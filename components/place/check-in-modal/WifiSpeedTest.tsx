@@ -18,6 +18,7 @@ import { ClickableStyle } from "../../../styles/styled-components/Interactions";
 import { InfoTip } from "../../commons/InfoTip";
 
 interface Props {
+  modalVisible: boolean;
   onFinishTest: (speedDown: number, speedUp: number, isPublic: boolean) => void;
 }
 
@@ -98,6 +99,12 @@ export const WifiSpeedTest: React.FC<Props> = (props) => {
   useEffect(() => {
     onClickStart();
   }, [null]);
+
+  useEffect(() => {
+    if (!props.modalVisible) {
+      initializeState();
+    }
+  }, [props.modalVisible]);
 
   /**
    * Render
