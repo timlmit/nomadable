@@ -88,6 +88,7 @@ export const CheckInButton: React.FC<Props> = ({}) => {
 
   const openPlacePageWithCheckIn = (placeId: string) => {
     // window.open(`${cons.APP_URL}/place/${placeId}?checkin=true`, "_blank");
+    setPlaceModalVisible(false);
     router.push(`/place/${placeId}?checkin=true`);
   };
 
