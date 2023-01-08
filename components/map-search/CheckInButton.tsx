@@ -115,13 +115,16 @@ export const CheckInButton: React.FC<Props> = ({}) => {
                   key={place.id}
                   onClick={() => openPlacePageWithCheckIn(place.id)}
                 >
-                  <PlaceName>{place.spotName}</PlaceName>
-                  <PlaceDistance>
-                    {place.distance
-                      ? Math.round(place.distance / 100) / 10
-                      : "--"}{" "}
-                    km
-                  </PlaceDistance>
+                  <PinIcon src="/icon/pin-black.png" />
+                  <PlaceInfo>
+                    <PlaceName>{place.spotName}</PlaceName>
+                    <PlaceDistance>
+                      {place.distance
+                        ? Math.round(place.distance / 100) / 10
+                        : "--"}{" "}
+                      km
+                    </PlaceDistance>
+                  </PlaceInfo>
                 </PlaceItem>
               );
             })}
@@ -181,21 +184,36 @@ export const ModalBody = styled.div`
   min-height: 3rem;
 `;
 export const PlaceOptions = styled.div``;
+
 export const PlaceItem = styled.div`
   ${ClickableStyle};
   ${ContainerStyleInside};
   padding-top: 0.8rem;
   padding-bottom: 0.8rem;
+  display: flex;
+  align-items: flex-start;
 
   &:hover {
     background-color: ${cons.FONT_COLOR_SUPER_LIGHT};
   }
 `;
+
+export const PinIcon = styled.img`
+  width: 1rem;
+  opacity: 0.4;
+  transform: translateY(0.52rem);
+  margin-right: 0.7rem;
+`;
+
+export const PlaceInfo = styled.div``;
+
 export const PlaceName = styled.div`
-  ${Header4}
+  ${fs.FontSizeNormal}
+  font-weight: 600;
+  color: ${cons.FONT_COLOR_NORMAL};
 `;
 export const PlaceDistance = styled.div`
-  margin-top: 0.2rem;
+  margin-top: 0.1rem;
   color: ${cons.FONT_COLOR_LIGHTEST};
   ${fs.FontSizeSemiSmall};
   font-weight: 500;

@@ -94,8 +94,11 @@ export const PlaceSearchForm: React.FC<Props> = ({
                 key={place.placeId}
                 onClick={() => onClickPlace(place)}
               >
-                <SpotName>{place.mainText}</SpotName>
-                <SpotAddress>{place.secondaryText}</SpotAddress>
+                <PinIcon src="/icon/pin-black.png" />
+                <SpotInfo>
+                  <SpotName>{place.mainText}</SpotName>
+                  <SpotAddress>{place.secondaryText}</SpotAddress>
+                </SpotInfo>
               </SearchResultItem>
             );
           })}
@@ -150,6 +153,8 @@ const SearchResultItem = styled.div`
   cursor: pointer;
   padding: 0.8rem 1rem;
   box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
 
   &:hover {
     background-color: ${cons.FONT_COLOR_SUPER_LIGHT};
@@ -158,9 +163,18 @@ const SearchResultItem = styled.div`
   /* transition: 0.1s all ease-out; */
 `;
 
+export const PinIcon = styled.img`
+  width: 1rem;
+  opacity: 0.4;
+  transform: translateY(0.52rem);
+  margin-right: 0.8rem;
+`;
+
+export const SpotInfo = styled.div``;
+
 const SpotName = styled.div`
   ${fs.FontSizeNormal}
-  font-weight: 500;
+  font-weight: 600;
   color: ${cons.FONT_COLOR_NORMAL};
 `;
 
