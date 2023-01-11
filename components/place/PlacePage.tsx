@@ -263,7 +263,9 @@ export const PlacePage: React.FC<Props> = ({ placeWithData }) => {
               userPicture={pd.userPicture}
             />
           </DiscoveredByWrapper>
-          {user.admin && (
+          {(user.admin ||
+            (user._id.toString() === pd.discoveredBy &&
+              pd.checkInUsers.length < 1)) && (
             <AdminConsole>
               <DeletePlaceButton onClick={deletePlace}>
                 Delete this place

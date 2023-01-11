@@ -26,8 +26,10 @@ handler.post(async (req: any, res: any) => {
     if (!placeId || !userId) throw Error;
 
     const user = await User.findOne({ _id: userId });
+    const place = await Place.findOne({ id: placeId });
+    if (!user || !place) throw Error;
 
-    if (!user || !user.admin) throw Error;
+    if (!user.admin && user._id.toString() !== place.discoveredBy) throw Error;
 
     await Place.remove({ id: placeId });
     await Availability.deleteMany({ placeId });

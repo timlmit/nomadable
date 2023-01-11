@@ -54,7 +54,7 @@ export const ModalOverlayCss = css<{
 
   ${forMobile(`
     align-items: flex-start;
-    padding: 0 0.5rem 2rem 0.5rem;
+    padding: 0 0.5rem 3rem 0.5rem;
   `)}
 `;
 

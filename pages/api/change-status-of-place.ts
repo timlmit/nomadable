@@ -18,10 +18,11 @@ handler.post(async (req: any, res: any) => {
 
   try {
     const user = await User.findOne({ _id: userId });
-    if (!user || !user.admin) throw Error;
-
     const place = await Place.findOne({ id: placeId });
+
+    if (!user) throw Error;
     if (!place) throw Error;
+    if (!user.admin && userId !== place.discoveredBy) throw Error;
 
     place.status = status;
     await place.save();

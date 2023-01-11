@@ -296,7 +296,7 @@ export const TopPage: React.FC<Props> = ({ places, searchResultTotalCnt }) => {
         setUserLocationLoading={setUserLocationLoading}
       />
 
-      <MapButtons mobileHidden={scrollButtonVisible}>
+      <MapButtons mobileHidden={scrollButtonVisible || filterVisible}>
         <CheckInButton />
       </MapButtons>
     </TopPageWrapper>
