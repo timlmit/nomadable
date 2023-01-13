@@ -55,57 +55,49 @@ export const PlaceItem: React.FC<Props> = ({
   onClickSave,
 }) => {
   return (
-    <Link href={`/place/${place.id}`} passHref>
-      <LinkA target="_blank" rel="noopener noreferrer">
-        <PlaceItemWrapper selected={selected}>
-          <ImageWrapper>
-            <Image
-              className="place_image"
-              src={place.thumbnail}
-              alt="place image"
-            />
-            <SpeedWrapper>
-              <NetSpeedIndicator speed={place.speedDown} bgWhite />
-            </SpeedWrapper>
-            <PlaceType>
-              {cons.PLACE_TYPE_LIST[place.placeType].icon}
-              {`  `}
-              {place.placeType}
-            </PlaceType>
-            <SaveButton
-              saved={place.savedByUser}
-              onClick={(event) =>
-                onClickSave(event, place.id, !place.savedByUser)
-              }
-            >
-              <SaveButtonIcon
-                src={
-                  place.savedByUser
-                    ? "/icon/tag-green.svg"
-                    : "/icon/tag-black.svg"
-                }
-              />
-            </SaveButton>
-          </ImageWrapper>
-          <Name>{place.spotName}</Name>
-          <Address>{getCity(place.spotAddress)}</Address>
-          <ScoreInfo>
-            {place.reviewStars > 0 && (
-              <ReviewStars>
-                <StarIcon src="/icon/star-black.svg" />
-                {getStarValue(place.reviewStars)}
-                <Dot>&#x2022;</Dot>
-              </ReviewStars>
-            )}
-            <CheckInCnt>
-              <CheckInNum>{place.testCnt}</CheckInNum> chk-in
-            </CheckInCnt>
+    <PlaceItemWrapper selected={selected}>
+      <ImageWrapper>
+        <Image
+          className="place_image"
+          src={place.thumbnail}
+          alt="place image"
+        />
+        <SpeedWrapper>
+          <NetSpeedIndicator speed={place.speedDown} bgWhite />
+        </SpeedWrapper>
+        <PlaceType>
+          {cons.PLACE_TYPE_LIST[place.placeType].icon}
+          {`  `}
+          {place.placeType}
+        </PlaceType>
+        <SaveButton
+          saved={place.savedByUser}
+          onClick={(event) => onClickSave(event, place.id, !place.savedByUser)}
+        >
+          <SaveButtonIcon
+            src={
+              place.savedByUser ? "/icon/tag-green.svg" : "/icon/tag-black.svg"
+            }
+          />
+        </SaveButton>
+      </ImageWrapper>
+      <Name>{place.spotName}</Name>
+      <Address>{getCity(place.spotAddress)}</Address>
+      <ScoreInfo>
+        {place.reviewStars > 0 && (
+          <ReviewStars>
+            <StarIcon src="/icon/star-black.svg" />
+            {getStarValue(place.reviewStars)}
+            <Dot>&#x2022;</Dot>
+          </ReviewStars>
+        )}
+        <CheckInCnt>
+          <CheckInNum>{place.testCnt}</CheckInNum> chk-in
+        </CheckInCnt>
 
-            {renderDistance(place.distance)}
-          </ScoreInfo>
-        </PlaceItemWrapper>
-      </LinkA>
-    </Link>
+        {renderDistance(place.distance)}
+      </ScoreInfo>
+    </PlaceItemWrapper>
   );
 };
 

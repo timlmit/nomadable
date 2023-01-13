@@ -34,6 +34,7 @@ import { forMobile } from "../../../styles/Responsive";
 import { selectAuthenticated } from "../../../redux/slices/userSlice";
 import { useRouter } from "next/router";
 import { getFilterCount } from "./filters/getFilterCount";
+import Link from "next/link";
 
 const HEADER_HEIGHT = 5;
 
@@ -128,24 +129,29 @@ export const SearchResult: React.FC<Props> = ({
             <NoResult>There is no search result in the area.</NoResult>
           )}
           {places.map((place) => (
-            <PlaceWrapper
-              key={place.id}
-              id={`element_${place.id}`}
-              onMouseEnter={() => {
-                onHoverPlace(place.id);
-              }}
-              onMouseLeave={() => {
-                onHoverPlace("");
-              }}
-            >
-              <PlaceItem
-                place={place}
-                selected={
-                  selectedPlace === "" ? undefined : place.id === selectedPlace
-                }
-                onClickSave={onClickSave}
-              />
-            </PlaceWrapper>
+            <Link href={`/place/${place.id}`} passHref key={place.id}>
+              <LinkA target="_blank" rel="noopener noreferrer">
+                <PlaceWrapper
+                  id={`element_${place.id}`}
+                  onMouseEnter={() => {
+                    onHoverPlace(place.id);
+                  }}
+                  onMouseLeave={() => {
+                    onHoverPlace("");
+                  }}
+                >
+                  <PlaceItem
+                    place={place}
+                    selected={
+                      selectedPlace === ""
+                        ? undefined
+                        : place.id === selectedPlace
+                    }
+                    onClickSave={onClickSave}
+                  />
+                </PlaceWrapper>
+              </LinkA>
+            </Link>
           ))}
         </ItemContainer>
 
@@ -282,3 +288,5 @@ export const ContributersCard = styled.div`
   padding-bottom: 0.9rem;
   border-radius: 0.7rem;
 `;
+
+export const LinkA = styled.a``;
