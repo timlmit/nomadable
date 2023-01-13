@@ -130,29 +130,30 @@ export const SearchResult: React.FC<Props> = ({
             <NoResult>There is no search result in the area.</NoResult>
           )}
           {places.map((place) => (
-            <Link href={`/place/${place.id}`} passHref key={place.id}>
-              <LinkA target="_blank" rel="noopener noreferrer">
-                <PlaceWrapper
-                  id={`element_${place.id}`}
-                  onMouseEnter={
-                    isMobile
-                      ? () => {
-                          return false;
-                        }
-                      : () => {
-                          onHoverPlace(place.id);
-                        }
-                  }
-                  onMouseLeave={
-                    isMobile
-                      ? () => {
-                          return false;
-                        }
-                      : () => {
-                          onHoverPlace("");
-                        }
-                  }
-                >
+            <PlaceWrapper
+              key={place.id}
+              id={`element_${place.id}`}
+              onMouseEnter={
+                isMobile
+                  ? () => {
+                      return false;
+                    }
+                  : () => {
+                      onHoverPlace(place.id);
+                    }
+              }
+              onMouseLeave={
+                isMobile
+                  ? () => {
+                      return false;
+                    }
+                  : () => {
+                      onHoverPlace("");
+                    }
+              }
+            >
+              <Link href={`/place/${place.id}`} passHref>
+                <LinkA target="_blank" rel="noopener noreferrer">
                   <PlaceItem
                     place={place}
                     selected={
@@ -162,9 +163,9 @@ export const SearchResult: React.FC<Props> = ({
                     }
                     onClickSave={onClickSave}
                   />
-                </PlaceWrapper>
-              </LinkA>
-            </Link>
+                </LinkA>
+              </Link>
+            </PlaceWrapper>
           ))}
         </ItemContainer>
 

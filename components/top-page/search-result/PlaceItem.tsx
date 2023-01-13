@@ -107,12 +107,6 @@ const PlaceItemWrapper = styled.div<{ selected: undefined | boolean }>`
   ${AnimationSlideUp}
 
   ${(props) =>
-    props.selected === false &&
-    `
-    // opacity: 0.6;
-  `};
-
-  ${(props) =>
     props.selected === true &&
     `
     & .place_image {
