@@ -133,12 +133,12 @@ export const SearchResult: React.FC<Props> = ({
               <LinkA target="_blank" rel="noopener noreferrer">
                 <PlaceWrapper
                   id={`element_${place.id}`}
-                  onMouseEnter={() => {
-                    onHoverPlace(place.id);
-                  }}
-                  onMouseLeave={() => {
-                    onHoverPlace("");
-                  }}
+                  // onMouseEnter={() => {
+                  //   onHoverPlace(place.id);
+                  // }}
+                  // onMouseLeave={() => {
+                  //   onHoverPlace("");
+                  // }}
                 >
                   <PlaceItem
                     place={place}
