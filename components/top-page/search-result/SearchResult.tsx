@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { isMobile } from "react-device-detect";
 
 import * as cons from "../../../constants";
 import * as fs from "../../../styles/styled-components/FontSize";
@@ -133,31 +134,34 @@ export const SearchResult: React.FC<Props> = ({
               <LinkA target="_blank" rel="noopener noreferrer">
                 <PlaceWrapper
                   id={`element_${place.id}`}
-                  // onMouseEnter={() => {
-                  //   onHoverPlace(place.id);
-                  // }}
-                  // onMouseLeave={() => {
-                  //   onHoverPlace("");
-                  // }}
+                  onMouseEnter={
+                    isMobile
+                      ? () => {
+                          return false;
+                        }
+                      : () => {
+                          onHoverPlace(place.id);
+                        }
+                  }
+                  onMouseLeave={
+                    isMobile
+                      ? () => {
+                          return false;
+                        }
+                      : () => {
+                          onHoverPlace("");
+                        }
+                  }
                 >
-                  <MouseOverHandler
-                    onMouseEnter={() => {
-                      onHoverPlace(place.id);
-                    }}
-                    onMouseLeave={() => {
-                      onHoverPlace("");
-                    }}
-                  >
-                    <PlaceItem
-                      place={place}
-                      selected={
-                        selectedPlace === ""
-                          ? undefined
-                          : place.id === selectedPlace
-                      }
-                      onClickSave={onClickSave}
-                    />
-                  </MouseOverHandler>
+                  <PlaceItem
+                    place={place}
+                    selected={
+                      selectedPlace === ""
+                        ? undefined
+                        : place.id === selectedPlace
+                    }
+                    onClickSave={onClickSave}
+                  />
                 </PlaceWrapper>
               </LinkA>
             </Link>
