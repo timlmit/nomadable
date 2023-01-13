@@ -140,15 +140,24 @@ export const SearchResult: React.FC<Props> = ({
                   //   onHoverPlace("");
                   // }}
                 >
-                  <PlaceItem
-                    place={place}
-                    selected={
-                      selectedPlace === ""
-                        ? undefined
-                        : place.id === selectedPlace
-                    }
-                    onClickSave={onClickSave}
-                  />
+                  <MouseOverHandler
+                    onMouseEnter={() => {
+                      onHoverPlace(place.id);
+                    }}
+                    onMouseLeave={() => {
+                      onHoverPlace("");
+                    }}
+                  >
+                    <PlaceItem
+                      place={place}
+                      selected={
+                        selectedPlace === ""
+                          ? undefined
+                          : place.id === selectedPlace
+                      }
+                      onClickSave={onClickSave}
+                    />
+                  </MouseOverHandler>
                 </PlaceWrapper>
               </LinkA>
             </Link>
@@ -290,3 +299,9 @@ export const ContributersCard = styled.div`
 `;
 
 export const LinkA = styled.a``;
+
+export const MouseOverHandler = styled.div`
+  ${forMobile(`
+    display:none;
+  `)}
+`;
