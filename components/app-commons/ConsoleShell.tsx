@@ -95,6 +95,12 @@ export const ConsoleShell: React.FC<Props> = ({
                 Profile
               </NavItem>
             </Link>
+            <Link href="/checkins">
+              <NavItem active={pathname === "/checkins"}>
+                <NavIcon src="/icon/history-black.svg" />
+                Check-ins
+              </NavItem>
+            </Link>
             <Link href="/setting">
               <NavItem active={pathname === "/setting"}>
                 <NavIcon src="/icon/gear-black.svg" />

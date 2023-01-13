@@ -8,12 +8,14 @@ import contributerReducer from "./slices/contributerSlice";
 import eventReducer from "./slices/eventSlice";
 import notificationReducer from "./slices/notificationSlice";
 import reviewFormReducer from "./slices/reviewFormSlice";
+import checkInReducer from "./slices/checkInSlice";
 import apiUserReducer from "./slices/api/apiUserSlice";
 import apiSpotReducer from "./slices/api/apiSpotSlice";
 import apiPlaceReducer from "./slices/api/apiPlaceSlice";
 import apiEventReducer from "./slices/api/apiEventSlice";
 import apiReviewReducer from "./slices/api/apiReviewSlice";
 import apiNotificationReducer from "./slices/api/apiNotificationSlice";
+import apiCheckInReducer from "./slices/api/apiCheckInSlice";
 
 export const store = configureStore({
   reducer: {
@@ -25,12 +27,14 @@ export const store = configureStore({
     event: eventReducer,
     notification: notificationReducer,
     reviewForm: reviewFormReducer,
+    checkIn: checkInReducer,
     apiUser: apiUserReducer,
     apiSpot: apiSpotReducer,
     apiPlace: apiPlaceReducer,
     apiEvent: apiEventReducer,
     apiReview: apiReviewReducer,
     apiNotification: apiNotificationReducer,
+    apiCheckIn: apiCheckInReducer,
   },
 });
 

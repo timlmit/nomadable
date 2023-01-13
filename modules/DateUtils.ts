@@ -275,3 +275,9 @@ export const convertTimestampToTimeAgo = (timestamp: number): string => {
     return "";
   }
 };
+
+export const toMonthDate = (date: Date): string => {
+  const month = date.getMonth();
+  const day = date.getDate();
+  return `${convertMonthToString(month)} ${day}`;
+};

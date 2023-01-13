@@ -19,6 +19,11 @@ export const CheckInSchema = (mongoose: any) => {
       placeId: 1,
     });
 
+    CheckInSchema.index({
+      userId: 1,
+      checkInTime: -1,
+    });
+
     mongoose.model("CheckIn", CheckInSchema);
   } catch (error: any) {}
 };
