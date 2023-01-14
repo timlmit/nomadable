@@ -17,6 +17,7 @@ export const PlaceSchema = (mongoose: any) => {
       coordinates: { type: [Number], default: [0, 0] },
     },
     spotAddress: { type: String, default: "" },
+    country: { type: String, default: "" },
     thumbnail: { type: String, default: "" },
     images: { type: [String], default: [] },
     speedDown: { type: Number, default: 0 },

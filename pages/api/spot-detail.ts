@@ -39,6 +39,10 @@ handler.get(async (req: any, res: any) => {
   try {
     const data = await getPlaceDetail(placeId);
 
+    const country = data.result.address_components.find(
+      (c: any) => c.types[0] === "country"
+    ).long_name;
+
     const spot: Spot = {
       ...initialSpot,
       location: {
@@ -47,6 +51,7 @@ handler.get(async (req: any, res: any) => {
           data.result.geometry.location.lat,
         ],
       },
+      country,
     };
 
     return res.status(200).json({ spot });

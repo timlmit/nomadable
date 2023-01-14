@@ -32,6 +32,7 @@ export interface Spot {
   googlePlaceId: string;
   spotName: string;
   spotAddress: string;
+  country?: string;
   location: { coordinates: [number, number] };
 }
 

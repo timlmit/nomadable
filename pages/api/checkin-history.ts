@@ -49,7 +49,8 @@ handler.get(async (req: any, res: any) => {
           placeId: checkInItem.placeId,
           checkInTime: checkInItem.checkInTime,
           placeImage: place.images[0],
-          placeCountry: place.spotAddress.split(",").pop()?.trim(),
+          placeCountry:
+            place.country || place.spotAddress.split(",").pop()?.trim(),
           placeName: place.spotName,
         };
       }

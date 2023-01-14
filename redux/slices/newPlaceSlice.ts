@@ -71,6 +71,7 @@ const placeSlice = createSlice({
       state.newPlace = {
         ...state.newPlace,
         location: action.payload.spot.location,
+        country: action.payload.spot.country,
       };
     });
     builder.addCase(apiCreatePlace.fulfilled, (state, action) => {
