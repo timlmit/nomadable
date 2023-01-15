@@ -9,7 +9,11 @@ import { forMobile } from "../../styles/Responsive";
 import { ButtonText } from "../../styles/styled-components/Buttons";
 import * as fs from "../../styles/styled-components/FontSize";
 import { ClickableStyle } from "../../styles/styled-components/Interactions";
-import { Header1, Header3 } from "../../styles/styled-components/Texts";
+import {
+  Header1,
+  Header2,
+  Header3,
+} from "../../styles/styled-components/Texts";
 import { CircleAndBorder } from "./CircleAndBorder";
 import { YearSection } from "./YearSection";
 
@@ -49,10 +53,7 @@ export const CheckInHistory: React.FC<Props> = ({ checkInHistory }) => {
     return _years;
   };
 
-  const years = useMemo(
-    () => cutIntoYears(checkInHistory),
-    [checkInHistory.length]
-  );
+  const years = cutIntoYears(checkInHistory);
 
   return (
     <Wrapper>
@@ -75,16 +76,16 @@ const Wrapper = styled.div``;
 const YearSectionWrapper = styled.div``;
 
 const YearLabel = styled.div`
-  ${Header1};
+  ${Header2};
   margin: 0;
   /* margin-bottom: 1rem; */
   position: relative;
   /* background-color: white; */
   z-index: 1;
-  padding-top: 1.5rem;
+  padding-top: 1rem;
   padding-bottom: 1rem;
 
-  position: -webkit-sticky;
+  /* position: -webkit-sticky;
   position: sticky;
   top: 4rem;
   background: linear-gradient(
@@ -93,7 +94,7 @@ const YearLabel = styled.div`
     rgba(255, 255, 255, 1) 10%,
     rgba(255, 255, 255, 1) 90%,
     rgba(255, 255, 255, 0) 100%
-  );
+  ); */
 
   ${forMobile(`
     margin: 0;

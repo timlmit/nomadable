@@ -51,7 +51,7 @@ export const CountrySectionWrapper = styled.div`
 const CheckInItems = styled.div<{ showAll: boolean }>`
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 0.9rem;
 
   max-height: 10rem;
   overflow: hidden;
@@ -68,7 +68,7 @@ const CheckInItems = styled.div<{ showAll: boolean }>`
 `;
 
 const CheckInItem = styled.div`
-  width: calc(20% - 1rem);
+  width: calc(20% - 0.8rem);
   ${ClickableStyle}
 
   ${forMobile(`
