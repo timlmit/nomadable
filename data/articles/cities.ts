@@ -247,6 +247,18 @@ export const AUSTRALIA_SYDNEY: City = {
   },
 };
 
+export const UZBEKISTAN_TASHKENT: City = {
+  slug: "uzbekistan-tashkent",
+  country: "Uzbekistan",
+  city: "Tashkent",
+  boundary: {
+    latStart: 41.15451243262166,
+    lngStart: 69.05687969272182,
+    latEnd: 41.44154507131711,
+    lngEnd: 69.50476252984421,
+  },
+};
+
 export const CITIES: City[] = [
   /**
    * Eeast Asia
@@ -274,6 +286,10 @@ export const CITIES: City[] = [
    * South America
    */
   PERU_LIMA,
+  /**
+   * Central Asia
+   */
+  UZBEKISTAN_TASHKENT,
   /**
    * East Europe
    */
