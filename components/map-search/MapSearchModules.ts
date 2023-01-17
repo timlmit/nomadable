@@ -28,7 +28,7 @@ const makeIcon = (props: {
         }rem; margin-bottom: ${props.fontSize * 0.2}rem;">${
     PLACE_TYPE_LIST[props.placeType].icon
   }</div>
-          <div style="position: absolute; left: 1.4rem; top: -0.1rem; height: 0.6rem; width: 0.6rem; border-radius: 50%; background-color: ${
+          <div style="position: absolute; left: 1.3rem; top: -0.1rem; height: 0.6rem; width: 0.6rem; border-radius: 50%; background-color: ${
             props.color
           };"></div>
 
