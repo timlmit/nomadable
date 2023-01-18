@@ -56,11 +56,11 @@ export const ConsoleShell: React.FC<Props> = ({
     dispatch(apiFetchContributers({ maxCnt: 10 }));
   };
 
-  useEffect(() => {
-    if (isAuthenticated === false) {
-      router.push("/");
-    }
-  }, [isAuthenticated]);
+  // useEffect(() => {
+  //   if (isAuthenticated === false) {
+  //     router.push("/");
+  //   }
+  // }, [isAuthenticated]);
 
   useEffect(() => {
     if (contributers.length === 0) {
