@@ -17,10 +17,12 @@ handler.post(async (req: any, res: any) => {
     const User = req.mongoose.model("User");
     const Event = req.mongoose.model("Event");
 
+    if (!userId || userId.length < 1) throw Error;
+
     const user = await User.findOne({ _id: userId });
 
     if (!user) {
-      return res.status(500).json(ERR_LOGIN_FAIL);
+      throw Error;
     }
 
     // delete image
