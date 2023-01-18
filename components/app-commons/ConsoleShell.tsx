@@ -59,7 +59,10 @@ export const ConsoleShell: React.FC<Props> = ({
   };
 
   useEffect(() => {
-    if (apiStatus.status !== cons.API_IDLE && !isAuthenticated) {
+    if (
+      [cons.API_SUCCEEDED, cons.API_FALIED].includes(apiStatus.status) &&
+      !isAuthenticated
+    ) {
       router.push("/");
     }
   }, [apiStatus, isAuthenticated]);
