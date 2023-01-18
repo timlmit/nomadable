@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
   apiFetchContributers,
   apiFetchContributersArea,
+  selectApiFetchUserStatus,
 } from "../../redux/slices/api/apiUserSlice";
 import {
   selectContributers,
@@ -49,6 +50,7 @@ export const ConsoleShell: React.FC<Props> = ({
   const router = useRouter();
   const [viewHeight] = useViewHeight();
 
+  const apiStatus = useAppSelector(selectApiFetchUserStatus);
   const isAuthenticated = useAppSelector(selectAuthenticated);
   const contributers = useAppSelector(selectContributers);
 
@@ -56,11 +58,11 @@ export const ConsoleShell: React.FC<Props> = ({
     dispatch(apiFetchContributers({ maxCnt: 10 }));
   };
 
-  // useEffect(() => {
-  //   if (isAuthenticated === false) {
-  //     router.push("/");
-  //   }
-  // }, [isAuthenticated]);
+  useEffect(() => {
+    if (apiStatus.status !== cons.API_IDLE && !isAuthenticated) {
+      router.push("/");
+    }
+  }, [apiStatus, isAuthenticated]);
 
   useEffect(() => {
     if (contributers.length === 0) {
