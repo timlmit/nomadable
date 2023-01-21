@@ -46,7 +46,7 @@ handler.get(async (req: any, res: any) => {
       return {
         id: place.id,
         placeType: place.placeType,
-        googlePlaceId: place.googlePlaceId,
+        // googlePlaceId: place.googlePlaceId,
         name: place.spotName,
         lng: place.location.coordinates[0],
         lat: place.location.coordinates[1],
