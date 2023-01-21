@@ -32,6 +32,7 @@ const GlobalStyles = createGlobalStyle`
   p,
   li {
     line-height: 1.6em;
+    color: #444;
   }
 
   h1,

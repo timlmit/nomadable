@@ -1,6 +1,7 @@
 import { GetStaticProps } from "next";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { callDownloadPlacesAsCsv } from "../../calls/downloadCalls";
 
 import { callFetchPlaceLinks } from "../../calls/placeCalls";
 import { Breadcrumb } from "../../components/app-commons/Breadcrumb";
@@ -9,17 +10,34 @@ import { Layout } from "../../components/commons/Layout";
 import { ListOfLinks } from "../../components/sitemap/ListOfLinks";
 import * as cons from "../../constants";
 import { ARTICLE_LINKS } from "../../data/articles/articles";
+import { useAppDispatch } from "../../redux/hooks";
+import { hideSpinner, showSpinner } from "../../redux/slices/uiSlice";
 import { forMobile } from "../../styles/Responsive";
+import { ButtonBlackSmall } from "../../styles/styled-components/Buttons";
 import {
   Header1,
   Header2,
-  Paragraph,
   ParagraphLarge,
 } from "../../styles/styled-components/Texts";
 
 interface Props {}
 
 const About: React.FC<Props> = ({}) => {
+  const dispatch = useAppDispatch();
+
+  const onClickDownloadCsv = async () => {
+    dispatch(showSpinner({ message: "Downloading..." }));
+    const result = await callDownloadPlacesAsCsv();
+    dispatch(hideSpinner());
+    if (!result) {
+      window.alert("Something went wrong.");
+    }
+  };
+
+  /*
+   * Render
+   */
+
   const renderPointTable = (pointTable: typeof cons.POINT_TABLE) => {
     return pointTable.map((point) => {
       return (
@@ -71,6 +89,19 @@ const About: React.FC<Props> = ({}) => {
             <ul>{renderPointTable(cons.POINT_TABLE)}</ul>
           </SectionBody>
         </SectionWrapper>
+
+        <SectionWrapper>
+          <SectionTitle>Download Place Data</SectionTitle>
+          <SectionBody>
+            <p>
+              All the place data in Nomadable is freely downloadable as CSV
+              format. Please click the button below and the download will start.
+            </p>
+            <DownloadLink onClick={onClickDownloadCsv}>
+              Place Data (CSV)
+            </DownloadLink>
+          </SectionBody>
+        </SectionWrapper>
       </ContentWrapper>
     </Layout>
   );
@@ -115,4 +146,9 @@ const PointPoint = styled.div`
   display: inline-block;
   width: 6rem;
   text-align: right;
+`;
+
+export const DownloadLink = styled.button`
+  ${ButtonBlackSmall};
+  margin-top: 1.5rem;
 `;
