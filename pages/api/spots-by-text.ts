@@ -16,6 +16,7 @@ const getPlaceCandidates = async (
   input: string,
   location: { lat: number; lng: number } | false
 ) => {
+  console.log("🚀 ~ file: spots-by-text.ts:19 ~ location", location);
   try {
     const URL = "https://maps.googleapis.com/maps/api/place/textsearch/json";
     const KEY = `key=${process.env.GAPI_KEY}`;
