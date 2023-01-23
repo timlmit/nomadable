@@ -29,12 +29,9 @@ import {
 import { ClickableStyle } from "../../styles/styled-components/Interactions";
 import { MapSearch } from "../map-search/MapSearch";
 import { SectionLoader } from "../commons/SectionLoader";
-import { SplashPage } from "../commons/SplashPage";
 import { FilterModal } from "./search-result/FilterModal";
 import { SearchResult } from "./search-result/SearchResult";
 import { getFilterCount } from "./search-result/filters/getFilterCount";
-import { getCurrentLocation } from "../../modules/Location";
-import { latest } from "immer/dist/internal";
 import { PageLoader } from "../commons/PageLoader";
 import { CheckInButton } from "../map-search/CheckInButton";
 

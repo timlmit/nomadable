@@ -2,26 +2,18 @@
  * getCurrentLocation
  */
 
-import next from "next";
-
-const accurateOption = {
-  enableHighAccuracy: true,
-  timeout: 5000,
-  maximumAge: 0,
-};
-
-const fastOption = {
-  enableHighAccuracy: false,
-  timeout: 1000,
-  maximumAge: 1000 * 60 * 3,
-};
-
 export const getCurrentLocation = async ({
   accurate,
+  useCache,
 }: {
   accurate: boolean;
+  useCache: boolean;
 }): Promise<{ lat: number; lng: number } | false> => {
-  const options = accurate ? accurateOption : fastOption;
+  const options = {
+    enebleHighAccuracy: accurate,
+    timeout: accurate ? 5000 : 1000,
+    maximumAge: useCache ? 1000 * 60 * 3 : 0,
+  };
 
   return new Promise((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(

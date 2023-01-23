@@ -46,7 +46,10 @@ export const CheckInButton: React.FC<Props> = ({}) => {
     let _placeHeaders: PlaceHeader[] = [];
 
     try {
-      const location = await getCurrentLocation({ accurate: true });
+      const location = await getCurrentLocation({
+        accurate: true,
+        useCache: false,
+      });
       if (!location) throw Error;
 
       const { places } = await callFetchNearbyPlaces({

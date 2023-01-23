@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import * as cons from "../../../constants";
@@ -39,16 +39,14 @@ export const PlaceForm: React.FC<Props> = ({
   const placeSearchResult = useAppSelector(selectPlaceSearchResult);
   const apiStatusSearchSpot = useAppSelector(selectApiFetchSpotsByTextStatus);
   const apiStatusFetchSpotInfo = useAppSelector(selectApiFetchSpotInfoStatus);
+  const [loadingSpots, setLoadingSpots] = useState(false);
 
   const searchPlace = async (text: string) => {
+    setLoadingSpots(true);
     let location: any = false;
     try {
-      location = await getCurrentLocation({ accurate: true });
+      location = await getCurrentLocation({ accurate: true, useCache: true });
     } catch (e) {}
-    console.log(
-      "🚀 ~ file: PlaceForm.tsx:47 ~ searchPlace ~ location",
-      location
-    );
     dispatch(apiFetchSpotsByText({ text, location }));
   };
 
@@ -60,6 +58,14 @@ export const PlaceForm: React.FC<Props> = ({
   const clearSelectedPlace = () => {
     dispatch(clearPlaceInfoOfNewPlace());
   };
+
+  useEffect(() => {
+    if (
+      [cons.API_FALIED, cons.API_SUCCEEDED].includes(apiStatusSearchSpot.status)
+    ) {
+      setLoadingSpots(false);
+    }
+  }, [apiStatusSearchSpot]);
 
   return (
     <PlaceFormShell
@@ -82,7 +88,7 @@ export const PlaceForm: React.FC<Props> = ({
             spotAddress: newPlace.spotAddress,
           }}
           clearSelectedPlace={clearSelectedPlace}
-          isSearching={apiStatusSearchSpot.status === cons.API_LOADING}
+          isSearching={loadingSpots}
         />
       </SearchFormWrapper>
       <MapWrapper visible>

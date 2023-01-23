@@ -39,7 +39,10 @@ export const LocationVerification: React.FC<Props> = (props) => {
 
       while (succeed === undefined) {
         try {
-          location = await getCurrentLocation({ accurate: true });
+          location = await getCurrentLocation({
+            accurate: true,
+            useCache: false,
+          });
           succeed = true;
         } catch (err: any) {
           if (err.code !== 3) {

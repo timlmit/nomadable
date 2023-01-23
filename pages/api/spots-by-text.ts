@@ -16,7 +16,6 @@ const getPlaceCandidates = async (
   input: string,
   location: { lat: number; lng: number } | false
 ) => {
-  console.log("🚀 ~ file: spots-by-text.ts:19 ~ location", location);
   try {
     const URL = "https://maps.googleapis.com/maps/api/place/textsearch/json";
     const KEY = `key=${process.env.GAPI_KEY}`;
@@ -24,7 +23,7 @@ const getPlaceCandidates = async (
     const LOCATION = location
       ? `&location=${location.lat},${location.lng}`
       : "";
-    console.log("🚀 ~ file: spots-by-text.ts:25 ~ LOCATION", LOCATION);
+
     // const INPUT_TYPE = "inputtype=textquery";
     // const LANG = "language=en";
     // const ITEMS = "fields=place_id,name,structured_formatting";

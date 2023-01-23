@@ -71,7 +71,10 @@ export const FilterModal: React.FC<Props> = ({
     setUserLocationLoading(true);
 
     try {
-      const location = await getCurrentLocation({ accurate: true });
+      const location = await getCurrentLocation({
+        accurate: true,
+        useCache: false,
+      });
       if (!location) throw Error;
 
       onLoadUserLocation(location);
