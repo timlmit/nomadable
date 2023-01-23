@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import * as cons from "../../../constants";
+import { getCurrentLocation } from "../../../modules/Location";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import {
   apiFetchSpotInfo,
@@ -39,8 +40,12 @@ export const PlaceForm: React.FC<Props> = ({
   const apiStatusSearchSpot = useAppSelector(selectApiFetchSpotsByTextStatus);
   const apiStatusFetchSpotInfo = useAppSelector(selectApiFetchSpotInfoStatus);
 
-  const searchPlace = (text: string) => {
-    dispatch(apiFetchSpotsByText({ text }));
+  const searchPlace = async (text: string) => {
+    let location: any = false;
+    try {
+      location = await getCurrentLocation({ accurate: true });
+    } catch (e) {}
+    dispatch(apiFetchSpotsByText({ text, location }));
   };
 
   const selectPlace = (spot: SpotPrediction) => {

@@ -6,7 +6,8 @@ import { SpotPrediction } from "../redux/slices/api/apiSpotSlice";
 import { Spot } from "../redux/slices/placeSlice";
 
 export const callFetchSpotsByText = async (
-  text: string
+  text: string,
+  location: { lat: number; lng: number } | false
 ): Promise<{
   data: { spotPredictions: SpotPrediction[] };
 }> => {
@@ -14,7 +15,7 @@ export const callFetchSpotsByText = async (
     const response = await axios({
       method: "get",
       url: `${APP_URL}/api/spots-by-text`,
-      params: { text },
+      params: { text, location },
       headers: {
         Authorization: readCookie(COOKIE_ACCESS_TOKEN) || "",
       },

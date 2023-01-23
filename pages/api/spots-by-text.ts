@@ -12,18 +12,24 @@ const handler = nextConnect();
 handler.use(databaseMiddleware);
 handler.use(authenticationMiddleware);
 
-const getPlaceCandidates = async (input: string) => {
+const getPlaceCandidates = async (
+  input: string,
+  location: { lat: number; lng: number } | false
+) => {
   try {
     const URL = "https://maps.googleapis.com/maps/api/place/textsearch/json";
     const KEY = `key=${process.env.GAPI_KEY}`;
     const INPUT = `query=${encodeURIComponent(input.trim())}`;
+    const LOCATION = location
+      ? `&location=${location.lat},${location.lng}`
+      : "";
     // const INPUT_TYPE = "inputtype=textquery";
     // const LANG = "language=en";
     // const ITEMS = "fields=place_id,name,structured_formatting";
 
     const response = await axios({
       method: "get",
-      url: `${URL}?${KEY}&${INPUT}`,
+      url: `${URL}?${KEY}&${INPUT}${LOCATION}`,
     });
 
     return response.data;
@@ -33,10 +39,10 @@ const getPlaceCandidates = async (input: string) => {
 };
 
 handler.get(async (req: any, res: any) => {
-  const { text } = req.query;
+  const { text, location } = req.query;
 
   try {
-    const { results } = await getPlaceCandidates(text);
+    const { results } = await getPlaceCandidates(text, location);
 
     const resultsFiltered = results.filter((p: any) => {
       return (

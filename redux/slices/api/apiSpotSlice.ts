@@ -111,13 +111,14 @@ export const apiFetchSpotsByText = createAsyncThunk<
   }, // Return type of the payload creator
   {
     text: string;
+    location: { lat: number; lng: number } | false;
   }, // First argument to the payload creator
   {
     rejectValue: CallError;
   } // Types for ThunkAPI
->("spot/FetchSpotsByText", async ({ text }, thunkApi) => {
+>("spot/FetchSpotsByText", async ({ text, location }, thunkApi) => {
   try {
-    const { data } = await callFetchSpotsByText(text);
+    const { data } = await callFetchSpotsByText(text, location);
     if (!data) throw unknownError;
     return data;
   } catch (error: any) {
