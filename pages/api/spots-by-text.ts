@@ -24,6 +24,7 @@ const getPlaceCandidates = async (
     const LOCATION = location
       ? `&location=${location.lat},${location.lng}`
       : "";
+    console.log("🚀 ~ file: spots-by-text.ts:25 ~ LOCATION", LOCATION);
     // const INPUT_TYPE = "inputtype=textquery";
     // const LANG = "language=en";
     // const ITEMS = "fields=place_id,name,structured_formatting";
@@ -40,7 +41,8 @@ const getPlaceCandidates = async (
 };
 
 handler.get(async (req: any, res: any) => {
-  const { text, location } = req.query;
+  const { text } = req.query;
+  const location = JSON.parse(req.query.location);
 
   try {
     const { results } = await getPlaceCandidates(text, location);
