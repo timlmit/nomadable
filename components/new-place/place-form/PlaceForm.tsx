@@ -45,6 +45,10 @@ export const PlaceForm: React.FC<Props> = ({
     try {
       location = await getCurrentLocation({ accurate: true });
     } catch (e) {}
+    console.log(
+      "🚀 ~ file: PlaceForm.tsx:47 ~ searchPlace ~ location",
+      location
+    );
     dispatch(apiFetchSpotsByText({ text, location }));
   };
 
