@@ -259,6 +259,18 @@ export const UZBEKISTAN_TASHKENT: City = {
   },
 };
 
+export const SINGAPORE_SINGAPORE: City = {
+  slug: "singapore-singapore",
+  country: "Singapore",
+  city: "Singapore",
+  boundary: {
+    latStart: 1.1715180023327036,
+    lngStart: 103.660650401407,
+    latEnd: 1.4705661093483968,
+    lngEnd: 103.98100026899175,
+  },
+};
+
 export const CITIES: City[] = [
   /**
    * Eeast Asia
@@ -273,6 +285,7 @@ export const CITIES: City[] = [
   THAILAND_CHIANGMAI,
   INDONESIA_CANGGU,
   MALAYSIA_KUALA_LUMPUR,
+  SINGAPORE_SINGAPORE,
   /**
    * South Asia
    */
