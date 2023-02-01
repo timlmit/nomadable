@@ -3,6 +3,8 @@ import styled from "styled-components";
 import mapboxgl from "mapbox-gl";
 
 import * as cons from "../../constants";
+import { useAppSelector } from "../../redux/hooks";
+import { selectMapboxAccessToken } from "../../redux/slices/envSlice";
 
 interface Props {
   mapId: string;
@@ -14,6 +16,7 @@ interface Props {
 
 export const MapWithPin: React.FC<Props> = (props) => {
   const mapId = `mapbox-${props.mapId}`;
+  const mapboxAccessToken = useAppSelector(selectMapboxAccessToken);
 
   /**
    * On Load
@@ -21,10 +24,10 @@ export const MapWithPin: React.FC<Props> = (props) => {
   const loadMapBox = (
     lat: number | null,
     lng: number | null,
-    interactive: boolean
+    interactive: boolean,
+    _mapboxAccessToken: string
   ) => {
-    mapboxgl.accessToken =
-      "pk.eyJ1IjoieXMwNTIwIiwiYSI6ImNsOHIzZTdhNDB5MGczcXJ1cW41bzJ4YmsifQ.mLHbDsXmbrmjxIIbkY4j1A";
+    mapboxgl.accessToken = _mapboxAccessToken;
 
     const map = new mapboxgl.Map({
       container: mapId,
@@ -45,9 +48,10 @@ export const MapWithPin: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const { lat, lng, interactive } = props;
+    if (mapboxAccessToken === "") return;
 
-    loadMapBox(lat, lng, interactive);
-  }, [props.lat, props.lng, props.interactive]);
+    loadMapBox(lat, lng, interactive, mapboxAccessToken);
+  }, [props.lat, props.lng, props.interactive, mapboxAccessToken]);
 
   return <Map id={mapId} />;
 };

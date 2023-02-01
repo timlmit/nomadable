@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import mapboxgl, { Marker } from "mapbox-gl";
+import mapboxgl from "mapbox-gl";
 
 import * as cons from "../../constants";
 import { Place } from "../../redux/slices/placeSlice";
-import { features } from "process";
-import { getColorOfSpeed } from "../commons/NetSpeedIndicator";
-import router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { convertPlacesToPins, makeIcon } from "./MapSearchModules";
+import { useAppSelector } from "../../redux/hooks";
+import { selectMapboxAccessToken } from "../../redux/slices/envSlice";
 
 interface Props {
   mapId: string;
@@ -50,6 +50,7 @@ export const MapSearch: React.FC<Props> = (props) => {
   const [zoomLevel, setZoomLevel] = useState(0);
   // const [queryLoaded, setQueryLoaded] = useState(false);
   // const geoControlRef = useRef();
+  const mapboxAccessToken = useAppSelector(selectMapboxAccessToken);
 
   /**
    * Modules
@@ -69,9 +70,8 @@ export const MapSearch: React.FC<Props> = (props) => {
   /**
    * Load Map Box
    */
-  const loadMapBox = () => {
-    mapboxgl.accessToken =
-      "pk.eyJ1IjoieXMwNTIwIiwiYSI6ImNsOHIzZTdhNDB5MGczcXJ1cW41bzJ4YmsifQ.mLHbDsXmbrmjxIIbkY4j1A";
+  const loadMapBox = (_mapboxAccessToken: string) => {
+    mapboxgl.accessToken = _mapboxAccessToken;
 
     mapRef.current = new mapboxgl.Map({
       container: mapId,
@@ -205,8 +205,10 @@ export const MapSearch: React.FC<Props> = (props) => {
 
   useEffect(() => {
     if (props.viewHeight < 1) return;
-    loadMapBox();
-  }, [props.viewHeight]);
+    if (mapboxAccessToken === "") return;
+
+    loadMapBox(mapboxAccessToken);
+  }, [props.viewHeight, mapboxAccessToken]);
 
   /**
    * Render
@@ -232,15 +234,4 @@ const MapWrapper = styled.div`
   width: 100%;
   height: 100%;
   position: relative;
-`;
-
-const IconWrapper = styled.div``;
-
-const Name = styled.div``;
-
-const MarkerIcon = styled.div<{ color: string }>`
-  background-color: ${(props) => props.color};
-  width: 1rem;
-  height: 1rem;
-  border-radius: 50%;
 `;

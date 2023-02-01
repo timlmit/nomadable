@@ -2,28 +2,28 @@ const jwt = require("jsonwebtoken");
 import nextConnect from "next-connect";
 const { env } = process;
 
-const openUrls = [
-  "/api/signup-with-email",
-  "/api/verify-user",
-  "/api/login-user",
-  "/api/place-with-data",
-  "/api/places",
-  "/api/contributers-area",
-  "/api/user-with-stats",
-  "/api/all-place-ids",
-  "/api/discovered-places",
-  "/api/reviews",
-  "/api/cities-with-data",
-  "/api/articles-with-data",
-  "/api/sitemap-links",
-  "/api/all-places",
-  "/api/signin-with-google",
-];
+// const openUrls = [
+//   "/api/signup-with-email",
+//   "/api/verify-user",
+//   "/api/login-user",
+//   "/api/place-with-data",
+//   "/api/places",
+//   "/api/contributers-area",
+//   "/api/user-with-stats",
+//   "/api/all-place-ids",
+//   "/api/discovered-places",
+//   "/api/reviews",
+//   "/api/cities-with-data",
+//   "/api/articles-with-data",
+//   "/api/sitemap-links",
+//   "/api/all-places",
+//   "/api/signin-with-google",
+// ];
 
-const withoutAuth = (url: string): boolean => {
-  const _url = url.split("?")[0];
-  return openUrls.includes(_url);
-};
+// const withoutAuth = (url: string): boolean => {
+//   const _url = url.split("?")[0];
+//   return openUrls.includes(_url);
+// };
 
 async function authentication(req: any, res: any, next: any) {
   const token = req.body.token || req.query.token || req.headers.authorization;
@@ -35,14 +35,16 @@ async function authentication(req: any, res: any, next: any) {
 
       req.userId = payload.userId;
       req.admin = payload.admin;
-      return next();
+      // return next();
     }
 
-    if (withoutAuth(req.url)) {
-      return next();
-    }
+    return next();
 
-    throw Error;
+    // if (withoutAuth(req.url)) {
+    //   return next();
+    // }
+
+    // throw Error;
   } catch (err) {
     return res.status(403).json({
       success: false,

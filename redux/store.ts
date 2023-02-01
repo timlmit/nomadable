@@ -9,6 +9,7 @@ import eventReducer from "./slices/eventSlice";
 import notificationReducer from "./slices/notificationSlice";
 import reviewFormReducer from "./slices/reviewFormSlice";
 import checkInReducer from "./slices/checkInSlice";
+import envReducer from "./slices/envSlice";
 import apiUserReducer from "./slices/api/apiUserSlice";
 import apiSpotReducer from "./slices/api/apiSpotSlice";
 import apiPlaceReducer from "./slices/api/apiPlaceSlice";
@@ -28,6 +29,7 @@ export const store = configureStore({
     notification: notificationReducer,
     reviewForm: reviewFormReducer,
     checkIn: checkInReducer,
+    env: envReducer,
     apiUser: apiUserReducer,
     apiSpot: apiSpotReducer,
     apiPlace: apiPlaceReducer,

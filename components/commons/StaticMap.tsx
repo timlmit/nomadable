@@ -2,6 +2,9 @@ import React from "react";
 import styled from "styled-components";
 
 import * as cons from "../../constants";
+import mapboxAccessToken from "../../pages/api/mapbox-access-token";
+import { useAppSelector } from "../../redux/hooks";
+import { selectMapboxAccessToken } from "../../redux/slices/envSlice";
 import * as fs from "../../styles/styled-components/FontSize";
 
 interface Props {
@@ -13,15 +16,16 @@ interface Props {
 }
 
 const BASE_URL = `https://api.mapbox.com/styles/v1/mapbox/light-v10/static/`;
-const ACCESS_TOKEN = `pk.eyJ1IjoieXMwNTIwIiwiYSI6ImNsOHIzZTdhNDB5MGczcXJ1cW41bzJ4YmsifQ.mLHbDsXmbrmjxIIbkY4j1A`;
 
 export const StaticMap: React.FC<Props> = (props) => {
+  const mapboxAccessToken = useAppSelector(selectMapboxAccessToken);
+
   return (
     <StaticMapWrapper>
       <MapImage
         src={`${BASE_URL}${props.lng},${props.lat},${props.zoom || 11},0/${
           props.width || 600
-        }x${props.height || 600}?access_token=${ACCESS_TOKEN}`}
+        }x${props.height || 600}?access_token=${mapboxAccessToken}`}
       />
     </StaticMapWrapper>
   );

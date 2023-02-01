@@ -16,10 +16,8 @@ import {
   selectApiFetchUserStatus,
 } from "../redux/slices/api/apiUserSlice";
 import { Notification } from "../components/global/Notification";
-import Script from "next/script";
 import { GoogleTagManager } from "../components/global/GoogleTagManager";
-import { config } from "aws-sdk";
-// import { doFetchUser } from "../redux/actions/userAction";
+import { apiFetchMapboxAccessToken } from "../redux/slices/envSlice";
 
 const App = ({ Component, pageProps }: AppProps) => {
   const apiFetchUserStatus = useAppSelector(selectApiFetchUserStatus);
@@ -53,6 +51,7 @@ const App = ({ Component, pageProps }: AppProps) => {
     if (apiFetchUserStatus.status === API_IDLE) {
       // doFetchUser(dispatch);
       dispatch(apiFetchUser({}));
+      dispatch(apiFetchMapboxAccessToken({}));
     }
   }, [apiFetchUserStatus.status]);
 
