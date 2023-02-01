@@ -3,7 +3,6 @@
 #scripts
 /scripts
 /push-live.sh
-/envs
 
 # dependencies
 /node_modules
