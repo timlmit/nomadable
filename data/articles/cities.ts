@@ -271,6 +271,18 @@ export const SINGAPORE_SINGAPORE: City = {
   },
 };
 
+export const UAE_DUBAI: City = {
+  slug: "united-arab-emirates-dubai",
+  country: "United Arab Emirates",
+  city: "Dubai",
+  boundary: {
+    latStart: 24.713733057703138,
+    lngStart: 54.750727640180145,
+    latEnd: 25.474976269895706,
+    lngEnd: 55.67418357569278,
+  },
+};
+
 export const CITIES: City[] = [
   /**
    * Eeast Asia
@@ -321,4 +333,8 @@ export const CITIES: City[] = [
    * Africa
    */
   SOUTH_AFRICA_JOHANNESBURG,
+  /**
+   * Middle East
+   */
+  UAE_DUBAI,
 ];
