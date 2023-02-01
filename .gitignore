@@ -3,6 +3,7 @@
 #scripts
 /scripts
 /push-live.sh
+/envs
 
 # dependencies
 /node_modules
@@ -30,7 +31,6 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # local env files
-/envs
 .env*.local
 
 # vercel
